@@ -1,0 +1,17 @@
+*.suo
+*.dll
+*.sdf
+*.opensdf
+*.ipch
+*.user
+*.opendb
+/Debug
+/packages
+GSharp/bin
+GSharp/obj
+GSharp.Compiler/bin
+GSharp.Compiler/obj
+GSharp.Runtime/bin
+GSharp.Runtime/obj
+GSharpSample/bin
+GSharpSample/obj
