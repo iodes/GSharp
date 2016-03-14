@@ -1,0 +1,24 @@
+﻿<local:BaseHole x:Class="GSharp.Graphic.Holes.NextConnectHole"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GSharp.Graphic.Holes"
+             mc:Ignorable="d" 
+             d:DesignWidth="300">
+    <StackPanel Orientation="Vertical" VerticalAlignment="top">
+        <Grid Height="10">
+            <DockPanel>
+                <Polygon Points="0,0 20,0 10,10 0,10" Fill="Red" />
+                <Polygon Points="0,0 10,0 10,10" Fill="Red" />
+                <Rectangle Fill="Red"></Rectangle>
+            </DockPanel>
+            <DockPanel>
+                <Polygon Points="0,9 10,9 19,0 20,0 10,10 0,10" Fill="DarkRed" />
+                <Polygon Points="0,0 1,0 10,9 10,10" Fill="DarkRed" />
+                <Rectangle Height="1" VerticalAlignment="Bottom" Fill="DarkRed"></Rectangle>
+            </DockPanel>
+        </Grid>
+        <Border x:Name="RealNextBlock" Margin="0,-10,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+    </StackPanel>
+</local:BaseHole>

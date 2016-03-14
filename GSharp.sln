@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Compiler", "GSharp.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Runtime", "GSharp.Runtime\GSharp.Runtime.csproj", "{E05EE7CB-7C1E-4425-87CE-9138131DB55D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Graphic", "GSharp.Graphic\GSharp.Graphic.csproj", "{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

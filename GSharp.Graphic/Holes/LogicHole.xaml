@@ -1,0 +1,18 @@
+﻿<local:BaseHole x:Class="GSharp.Graphic.Holes.LogicHole"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GSharp.Graphic.Holes"
+             xmlns:logic="clr-namespace:GSharp.Graphic.Logics"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="600" SnapsToDevicePixels="true" MinHeight="20">
+    <StackPanel Orientation="Horizontal">
+        <Polygon Points="0,10 10,0 10,20" Fill="DarkRed" Stretch="Fill" VerticalAlignment="Stretch" Width="10" />
+        <Grid Background="DarkRed" MinWidth="20" SizeChanged="RealLogicBlock_SizeChanged">
+            <Border x:Name="RealLogicBlock" Margin="0,10,0,10" SizeChanged="RealLogicBlock_SizeChanged">
+            </Border>
+        </Grid>
+        <Polygon Points="0,0 10,10 0,20" Fill="DarkRed" Stretch="Fill" VerticalAlignment="Stretch" Width="10" />
+    </StackPanel>
+</local:BaseHole>

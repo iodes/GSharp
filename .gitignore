@@ -11,6 +11,8 @@ GSharp/bin
 GSharp/obj
 GSharp.Compiler/bin
 GSharp.Compiler/obj
+GSharp.Graphic/bin
+GSharp.Graphic/obj
 GSharp.Runtime/bin
 GSharp.Runtime/obj
 GSharpSample/bin
