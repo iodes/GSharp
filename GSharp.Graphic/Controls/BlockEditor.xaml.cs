@@ -11,10 +11,6 @@ using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
-using GSharp.Graphic.Scopes;
-using GSharp.Graphic.Logics;
-using GSharp.Graphic.Objects;
-using GSharp.Graphic.Statements;
 
 namespace GSharp.Graphic.Controls
 {
@@ -59,16 +55,6 @@ namespace GSharp.Graphic.Controls
         public BlockEditor()
         {
             InitializeComponent();
-
-            AddBlock(new NumberBlock());
-            AddBlock(new NumberBlock());
-            AddBlock(new VariableBlock());
-            AddBlock(new VariableBlock());
-            AddBlock(new VoidBlock());
-            AddBlock(new IFBlock());
-            AddBlock(new PrintBlock());
-            AddBlock(new SetBlock());
-            AddBlock(new CompareBlock());
 
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
             BlockCanvas.Children.Add(Highlighter);
