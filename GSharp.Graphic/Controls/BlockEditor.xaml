@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Controls"
              mc:Ignorable="d" 
+             MouseMove="UserControl_MouseMove"
+             MouseRightButtonDown="UserControl_MouseRightButtonDown"
+             MouseUp="UserControl_MouseUp" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="BlockCanvas"/>

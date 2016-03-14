@@ -78,7 +78,6 @@ namespace GSharp.Graphic.Controls
         #region 이벤트
         private void Block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
             CaptureMouse();
 
             SelectedBlock = (BaseBlock)sender;
