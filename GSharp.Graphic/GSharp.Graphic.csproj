@@ -98,6 +98,9 @@
     <Compile Include="Scopes\VoidBlock.xaml.cs">
       <DependentUpon>VoidBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statements\ExtensionBlock.xaml.cs">
+      <DependentUpon>ExtensionBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statements\IFBlock.xaml.cs">
       <DependentUpon>IFBlock.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,10 @@
     <Page Include="Scopes\VoidBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statements\ExtensionBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Statements\IFBlock.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -10,6 +10,7 @@ using GSharp.Base.Methods;
 using GSharp.Base.Statements;
 using GSharp.Compile;
 using GSharp.Runtime;
+using GSharp.Manager;
 
 namespace GSharpSample
 {
