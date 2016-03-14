@@ -7,10 +7,10 @@
 *.opendb
 /Debug
 /packages
-GSharp/bin
-GSharp/obj
-GSharp.Compiler/bin
-GSharp.Compiler/obj
+GSharp.Base/bin
+GSharp.Base/obj
+GSharp.Compile/bin
+GSharp.Compile/obj
 GSharp.Graphic/bin
 GSharp.Graphic/obj
 GSharp.Runtime/bin

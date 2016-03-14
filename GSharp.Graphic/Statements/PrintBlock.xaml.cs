@@ -14,10 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
-using GSharp.Cores;
-using GSharp.Methods;
-using GSharp.Objects;
-using GSharp.Statements;
+using GSharp.Base.Cores;
+using GSharp.Base.Methods;
+using GSharp.Base.Objects;
+using GSharp.Base.Statements;
 
 namespace GSharp.Graphic.Statements
 {

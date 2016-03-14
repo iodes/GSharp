@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{730CDA8B-9911-4CBC-95F8-5D62CC838692}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{90E2619F-084D-483A-90D8-82ACFA733CD6}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GSharpSample</RootNamespace>
-    <AssemblyName>GSharpSample</AssemblyName>
+    <RootNamespace>GSharp.Compile</RootNamespace>
+    <AssemblyName>GSharp.Compile</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,24 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="GCompiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GSharp.Base\GSharp.Base.csproj">
       <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
       <Name>GSharp.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GSharp.Compile\GSharp.Compile.csproj">
-      <Project>{90e2619f-084d-483a-90d8-82acfa733cd6}</Project>
-      <Name>GSharp.Compile</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GSharp.Runtime\GSharp.Runtime.csproj">
-      <Project>{e05ee7cb-7c1e-4425-87ce-9138131db55d}</Project>
-      <Name>GSharp.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{730CDA8B-9911-4CBC-95F8-5D62CC838692}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{21886DE1-FEB9-43F7-AC71-ED118BDE30FC}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GSharpSample</RootNamespace>
-    <AssemblyName>GSharpSample</AssemblyName>
+    <RootNamespace>GSharp.Base</RootNamespace>
+    <AssemblyName>GSharp.Base</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,26 +40,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Cores\GBase.cs" />
+    <Compile Include="Cores\GLogic.cs" />
+    <Compile Include="Cores\GMethod.cs" />
+    <Compile Include="Cores\GObject.cs" />
+    <Compile Include="Cores\GScope.cs" />
+    <Compile Include="Cores\GSingle.cs" />
+    <Compile Include="Cores\GStatement.cs" />
+    <Compile Include="Logics\GCompare.cs" />
+    <Compile Include="Logics\GGate.cs" />
+    <Compile Include="Methods\GPrint.cs" />
+    <Compile Include="Objects\GCompute.cs" />
+    <Compile Include="Objects\GNumber.cs" />
+    <Compile Include="Objects\GString.cs" />
+    <Compile Include="Objects\GVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scopes\GBlank.cs" />
+    <Compile Include="Scopes\GVoid.cs" />
+    <Compile Include="Singles\GDefine.cs" />
+    <Compile Include="Statements\GCall.cs" />
+    <Compile Include="Statements\GIF.cs" />
+    <Compile Include="Statements\GLoop.cs" />
+    <Compile Include="Statements\GSet.cs" />
+    <Compile Include="Utilities\ConvertAssistant.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GSharp.Base\GSharp.Base.csproj">
-      <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
-      <Name>GSharp.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GSharp.Compile\GSharp.Compile.csproj">
-      <Project>{90e2619f-084d-483a-90d8-82acfa733cd6}</Project>
-      <Name>GSharp.Compile</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GSharp.Runtime\GSharp.Runtime.csproj">
-      <Project>{e05ee7cb-7c1e-4425-87ce-9138131db55d}</Project>
-      <Name>GSharp.Runtime</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

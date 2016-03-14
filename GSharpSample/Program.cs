@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.CodeDom.Compiler;
-using GSharp.Cores;
-using GSharp.Logics;
-using GSharp.Scopes;
-using GSharp.Singles;
-using GSharp.Objects;
-using GSharp.Methods;
-using GSharp.Statements;
-using GSharp.Compiler;
+using GSharp.Base.Cores;
+using GSharp.Base.Logics;
+using GSharp.Base.Scopes;
+using GSharp.Base.Singles;
+using GSharp.Base.Objects;
+using GSharp.Base.Methods;
+using GSharp.Base.Statements;
+using GSharp.Compile;
 using GSharp.Runtime;
 
 namespace GSharpSample
@@ -36,7 +36,7 @@ namespace GSharpSample
 
             // 생성된 코드 컴파일
             string resultFile = Path.GetTempFileName();
-            GCompile compile = new GCompile(root);
+            GCompiler compile = new GCompiler(root);
             CompilerResults result = compile.Build(resultFile);
 
             // 코드 컴파일 결과 분석

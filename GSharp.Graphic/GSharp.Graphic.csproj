@@ -173,9 +173,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GSharp\GSharp.csproj">
-      <Project>{5d6c8e1f-537c-4dc2-adbb-a2c3d2055a45}</Project>
-      <Name>GSharp</Name>
+    <ProjectReference Include="..\GSharp.Base\GSharp.Base.csproj">
+      <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
+      <Name>GSharp.Base</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

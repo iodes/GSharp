@@ -14,8 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
-using GSharp.Statements;
-using GSharp.Cores;
+using GSharp.Base.Statements;
+using GSharp.Base.Cores;
 
 namespace GSharp.Graphic.Statements
 {

@@ -1,4 +1,4 @@
-﻿using GSharp.Cores;
+﻿using GSharp.Base.Cores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
