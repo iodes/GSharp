@@ -80,8 +80,8 @@
     <Compile Include="Holes\VariableHole.xaml.cs">
       <DependentUpon>VariableHole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Logics\AddonLogicBlock.xaml.cs">
-      <DependentUpon>AddonLogicBlock.xaml</DependentUpon>
+    <Compile Include="Logics\ModuleLogicBlock.xaml.cs">
+      <DependentUpon>ModuleLogicBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
@@ -108,8 +108,8 @@
     <Compile Include="Scopes\VoidBlock.xaml.cs">
       <DependentUpon>VoidBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Statements\AddonStatementBlock.xaml.cs">
-      <DependentUpon>AddonStatementBlock.xaml</DependentUpon>
+    <Compile Include="Statements\ModuleStatementBlock.xaml.cs">
+      <DependentUpon>ModuleStatementBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\IFBlock.xaml.cs">
       <DependentUpon>IFBlock.xaml</DependentUpon>
@@ -160,7 +160,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Logics\AddonLogicBlock.xaml">
+    <Page Include="Logics\ModuleLogicBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -180,7 +180,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\AddonStatementBlock.xaml">
+    <Page Include="Statements\ModuleStatementBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

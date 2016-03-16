@@ -98,7 +98,7 @@ namespace GSharp.Manager
             
             foreach (KeyValuePair<string, string> command in target.Commands)
             {
-                AddonLogicBlock block = new AddonLogicBlock
+                ModuleLogicBlock block = new ModuleLogicBlock
                 {
                     Title = target.Title,
                     EXTName = command.Key,

@@ -25,7 +25,7 @@ namespace GSharp.Graphic.Statements
     /// <summary>
     /// ExtensionBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class AddonStatementBlock : PrevStatementBlock, IAddonBlock
+    public partial class ModuleStatementBlock : PrevStatementBlock, IAddonBlock
     {
         private List<BaseHole> holeList = new List<BaseHole>();
 
@@ -58,7 +58,7 @@ namespace GSharp.Graphic.Statements
 
         public string EXTMethod { get; set; }
 
-        public AddonStatementBlock()
+        public ModuleStatementBlock()
         {
             InitializeComponent();
         }

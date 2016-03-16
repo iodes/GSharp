@@ -26,7 +26,7 @@ namespace GSharp.Graphic.Logics
     /// <summary>
     /// CompareBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class AddonLogicBlock : LogicBlock, IAddonBlock
+    public partial class ModuleLogicBlock : LogicBlock, IAddonBlock
     {
         private List<BaseHole> holeList = new List<BaseHole>();
 
@@ -59,7 +59,7 @@ namespace GSharp.Graphic.Logics
 
         public string EXTMethod { get; set; }
 
-        public AddonLogicBlock()
+        public ModuleLogicBlock()
         {
             InitializeComponent();
         }
