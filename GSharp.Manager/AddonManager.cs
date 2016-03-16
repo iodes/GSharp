@@ -14,7 +14,7 @@ namespace GSharp.Manager
         #region 속성
         public string Path { get; set; }
 
-        public List<Addon> Addons { get; set; } = new List<Addon>();
+        public List<GModule> Addons { get; set; } = new List<GModule>();
         #endregion
 
         #region 객체
@@ -32,7 +32,7 @@ namespace GSharp.Manager
             {
                 INI ini = new INI(path);
 
-                Addon addon = LoadAddon(ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName));
+                GModule addon = LoadAddon(ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName));
                 addon.Title = ini.GetValue("General", "Title");
                 addon.Author = ini.GetValue("General", "Author");
                 addon.Summary = ini.GetValue("General", "Summary");
@@ -43,7 +43,7 @@ namespace GSharp.Manager
         #endregion
 
         #region 내부 함수
-        private Addon LoadAddon(string pathValue)
+        private GModule LoadAddon(string pathValue)
         {
             if (File.Exists(pathValue))
             {
@@ -59,7 +59,7 @@ namespace GSharp.Manager
                         targetType = value;
                         targetObject = Activator.CreateInstance(targetType);
 
-                        Addon target = (Addon)targetObject;
+                        GModule target = (GModule)targetObject;
                         target.Package = targetType.Assembly.FullName.Split(',')[0];
 
                         foreach (MethodInfo method in targetType.GetMethods())
@@ -92,7 +92,7 @@ namespace GSharp.Manager
         /// 애드온에 포함된 모든 함수를 블럭 배열로 변환합니다.
         /// </summary>
         /// <param name="target">블럭 배열로 변환할 애드온 객체입니다.</param>
-        public BaseBlock[] ConvertToBlocks(Addon target)
+        public BaseBlock[] ConvertToBlocks(GModule target)
         {
             List<BaseBlock> blockList = new List<BaseBlock>();
             

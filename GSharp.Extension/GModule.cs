@@ -2,7 +2,7 @@
 
 namespace GSharp.Extension
 {
-    public class Addon
+    public class GModule
     {
         public string Title { get; set; }
 

@@ -13,7 +13,7 @@ namespace GSharp.Extension
         {
             Call,
             Event,
-            Return
+            Logic
         }
 
         public CommandAttribute(string name, CommandType type)
