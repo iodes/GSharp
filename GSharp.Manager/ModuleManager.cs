@@ -3,18 +3,18 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
-using GSharp.Graphic.Statements;
-using GSharp.Graphic.Logics;
 using GSharp.Graphic.Core;
+using GSharp.Graphic.Logics;
+using GSharp.Graphic.Statements;
 
 namespace GSharp.Manager
 {
-    public class AddonManager
+    public class ModuleManager
     {
         #region 속성
         public string Path { get; set; }
 
-        public List<GModule> Addons { get; set; } = new List<GModule>();
+        public List<GModule> Modules { get; set; } = new List<GModule>();
         #endregion
 
         #region 객체
@@ -24,7 +24,7 @@ namespace GSharp.Manager
         #endregion
 
         #region 생성자
-        public AddonManager(string valuePath)
+        public ModuleManager(string valuePath)
         {
             Path = valuePath;
 
@@ -32,18 +32,18 @@ namespace GSharp.Manager
             {
                 INI ini = new INI(path);
 
-                GModule addon = LoadAddon(ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName));
-                addon.Title = ini.GetValue("General", "Title");
-                addon.Author = ini.GetValue("General", "Author");
-                addon.Summary = ini.GetValue("General", "Summary");
+                GModule module = LoadModule(ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName));
+                module.Title = ini.GetValue("General", "Title");
+                module.Author = ini.GetValue("General", "Author");
+                module.Summary = ini.GetValue("General", "Summary");
 
-                Addons.Add(addon);
+                Modules.Add(module);
             }
         }
         #endregion
 
         #region 내부 함수
-        private GModule LoadAddon(string pathValue)
+        private GModule LoadModule(string pathValue)
         {
             if (File.Exists(pathValue))
             {
@@ -72,7 +72,14 @@ namespace GSharp.Manager
                                     if (attribute.GetType() == typeof(CommandAttribute))
                                     {
                                         CommandAttribute command = attribute as CommandAttribute;
-                                        target.Commands.Add(new KeyValuePair<string, string>(command.Name, method.Name));
+                                        target.Commands.Add(
+                                            new GCommand
+                                            {
+                                                FriendlyName = command.Name,
+                                                MethodName = method.Name,
+                                                MethodType = command.Type
+                                            }
+                                        );
                                     }
                                 }
                             }
@@ -89,23 +96,41 @@ namespace GSharp.Manager
 
         #region 사용자 함수
         /// <summary>
-        /// 애드온에 포함된 모든 함수를 블럭 배열로 변환합니다.
+        /// 모듈에 포함된 모든 함수를 블럭 배열로 변환합니다.
         /// </summary>
-        /// <param name="target">블럭 배열로 변환할 애드온 객체입니다.</param>
+        /// <param name="target">블럭 배열로 변환할 모듈 객체입니다.</param>
         public BaseBlock[] ConvertToBlocks(GModule target)
         {
             List<BaseBlock> blockList = new List<BaseBlock>();
             
-            foreach (KeyValuePair<string, string> command in target.Commands)
+            foreach (GCommand command in target.Commands)
             {
-                ModuleLogicBlock block = new ModuleLogicBlock
+                switch (command.MethodType)
                 {
-                    Title = target.Title,
-                    EXTName = command.Key,
-                    EXTMethod = command.Value
-                };
+                    case CommandAttribute.CommandType.Call:
+                        blockList.Add(
+                            new ModuleStatementBlock
+                            {
+                                Title = target.Title,
+                                FriendlyName = command.FriendlyName,
+                                MethodName = command.MethodName
+                            }
+                        );
 
-                blockList.Add(block);
+                        break;
+
+                    case CommandAttribute.CommandType.Logic:
+                        blockList.Add(
+                            new ModuleLogicBlock
+                            {
+                                Title = target.Title,
+                                FriendlyName = command.FriendlyName,
+                                MethodName = command.MethodName
+                            }
+                        );
+
+                        break;
+                }
             }
 
             return blockList.ToArray();

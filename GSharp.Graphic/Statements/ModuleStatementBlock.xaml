@@ -11,7 +11,7 @@
     <StackPanel>
         <hole:PrevConnectHole />
         <Grid Background="Red">
-            <StackPanel x:Name="Content"  Margin="10" Orientation="Horizontal">
+            <StackPanel x:Name="StackContent"  Margin="10" Orientation="Horizontal">
             </StackPanel>
         </Grid>
         <hole:NextConnectHole x:Name="RealNextConnectHole" />

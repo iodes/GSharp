@@ -53,7 +53,7 @@
     </Compile>
     <Compile Include="Core\AddonBlock.cs" />
     <Compile Include="Core\BaseBlock.cs" />
-    <Compile Include="Core\IAddonBlock.cs" />
+    <Compile Include="Core\IModuleBlock.cs" />
     <Compile Include="Core\LogicBlock.cs" />
     <Compile Include="Core\ObjectBlock.cs" />
     <Compile Include="Core\ScopeBlock.cs" />

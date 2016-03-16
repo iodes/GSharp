@@ -13,7 +13,7 @@
         <StackPanel Orientation="Horizontal">
             <Polygon Points="0,10 10,0 10,20" Fill="Blue" Width="10" Stretch="Fill" />
             <Grid Background="Blue">
-                <StackPanel x:Name="Content" Orientation="Horizontal" Margin="5">
+                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="5">
                 </StackPanel>
             </Grid>
             <Polygon Points="0,0 10,10 0,20" Fill="Blue" Width="10" Stretch="Fill"/>

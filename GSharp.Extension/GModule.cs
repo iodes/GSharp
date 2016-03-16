@@ -12,6 +12,6 @@ namespace GSharp.Extension
 
         public string Package { get; set; }
 
-        public List<KeyValuePair<string, string>> Commands { get; set; } = new List<KeyValuePair<string, string>>();
+        public List<GCommand> Commands { get; set; } = new List<GCommand>();
     }
 }

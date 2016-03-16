@@ -26,38 +26,27 @@ namespace GSharp.Graphic.Logics
     /// <summary>
     /// CompareBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ModuleLogicBlock : LogicBlock, IAddonBlock
+    public partial class ModuleLogicBlock : LogicBlock, IModuleBlock
     {
         private List<BaseHole> holeList = new List<BaseHole>();
 
-        public string Title
+        public string Title { get; set; }
+
+        public string MethodName { get; set; }
+
+        public string FriendlyName
         {
             get
             {
-                return _Title;
+                return _FriendlyName;
             }
             set
             {
-                _Title = value;
+                _FriendlyName = value;
+                holeList = AddonBlock.SetContent(_FriendlyName, StackContent);
             }
         }
-        private string _Title;
-
-        public string EXTName
-        {
-            get
-            {
-                return _EXTName;
-            }
-            set
-            {
-                _EXTName = value;
-                holeList = AddonBlock.SetContent(_EXTName, Content);
-            }
-        }
-        private string _EXTName;
-
-        public string EXTMethod { get; set; }
+        private string _FriendlyName;
 
         public ModuleLogicBlock()
         {
@@ -75,8 +64,8 @@ namespace GSharp.Graphic.Logics
 
             GExtension extension = new GExtension
             {
-                Name = EXTName,
-                Method = EXTMethod
+                Name = FriendlyName,
+                Method = MethodName
             };
 
             List<GObject> objectList = new List<GObject>();
@@ -85,7 +74,7 @@ namespace GSharp.Graphic.Logics
             {
                 if (hole.Block == null)
                 {
-                    throw new ToObjectException(EXTName + "블럭이 완성되지 않았습니다.", this);
+                    throw new ToObjectException(FriendlyName + "블럭이 완성되지 않았습니다.", this);
                 }
 
                 if (hole is BaseObjectHole)
