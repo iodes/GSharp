@@ -25,7 +25,11 @@ namespace GSharp.Graphic.Core
             }
         }
 
-        public abstract List<BaseHole> GetHoleList();
+        public virtual List<BaseHole> GetHoleList()
+        {
+            return new List<BaseHole>();
+        }
+
         public abstract List<GBase> ToObject();
     }
 }

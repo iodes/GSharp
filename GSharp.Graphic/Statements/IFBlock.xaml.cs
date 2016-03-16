@@ -16,6 +16,7 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
+using GSharp.Base.Logics;
 
 namespace GSharp.Graphic.Statements
 {
@@ -46,7 +47,6 @@ namespace GSharp.Graphic.Statements
             List<BaseHole> baseHoleList = new List<BaseHole>();
 
             baseHoleList.Add(LogicHole);
-            baseHoleList.Add(PrevConnectHole);
             baseHoleList.Add(NextConnectHole);
             baseHoleList.Add(ChildConnectHole);
 
@@ -57,7 +57,7 @@ namespace GSharp.Graphic.Statements
         {
             List<GBase> baseList = new List<GBase>();
 
-            GLogic logic = (GLogic)LogicHole?.LogicBlock?.ToObject()[0];
+            GLogicCall logic = (GLogicCall)LogicHole?.LogicBlock?.ToObject()[0];
             if (logic == null)
             {
                 throw new ToObjectException("조건문 블럭이 완성되지 않았습니다.", this);

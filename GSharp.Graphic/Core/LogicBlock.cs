@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GSharp.Graphic.Core
 {
-    public abstract class LogicBlock : BaseBlock
+    public abstract class LogicBlock : ObjectBlock
     {
         public GLogic GLogic;
 

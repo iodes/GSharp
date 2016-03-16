@@ -1,4 +1,4 @@
-﻿<local:BaseHole x:Class="GSharp.Graphic.Holes.NextConnectHole"
+﻿<local:BaseStatementHole x:Class="GSharp.Graphic.Holes.NextConnectHole"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,4 +21,4 @@
         </Grid>
         <Border x:Name="RealNextBlock" Margin="0,-10,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
     </StackPanel>
-</local:BaseHole>
+</local:BaseStatementHole>

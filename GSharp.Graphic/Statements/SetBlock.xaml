@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical">
-        <hole:PrevConnectHole x:Name="PrevConnectHole" />
+        <hole:PrevConnectHole />
         <Grid Background="Red">
             <StackPanel Orientation="Horizontal" Margin="10">
                 <TextBlock Foreground="White" VerticalAlignment="Center">변수</TextBlock>

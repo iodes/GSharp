@@ -17,14 +17,18 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Methods;
+using GSharp.Graphic.Objects;
+using GSharp.Base.Objects;
 
 namespace GSharp.Graphic.Statements
 {
     /// <summary>
     /// ExtensionBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ExtensionBlock : PrevStatementBlock
+    public partial class AddonStatementBlock : PrevStatementBlock, IAddonBlock
     {
+        private List<BaseHole> holeList = new List<BaseHole>();
+
         public string Title
         {
             get
@@ -34,7 +38,6 @@ namespace GSharp.Graphic.Statements
             set
             {
                 _Title = value;
-                TextTitle.Text = value + ".";
             }
         }
         private string _Title;
@@ -48,14 +51,14 @@ namespace GSharp.Graphic.Statements
             set
             {
                 _EXTName = value;
-                TextContent.Text = value;
+                holeList = AddonBlock.SetContent(_EXTName, Content);
             }
         }
         private string _EXTName;
 
         public string EXTMethod { get; set; }
 
-        public ExtensionBlock()
+        public AddonStatementBlock()
         {
             InitializeComponent();
         }
@@ -81,10 +84,9 @@ namespace GSharp.Graphic.Statements
         public override List<BaseHole> GetHoleList()
         {
             List<BaseHole> baseHoleList = new List<BaseHole>();
-
-            baseHoleList.Add(ObjectHole);
-            baseHoleList.Add(PrevConnectHole);
+            
             baseHoleList.Add(NextConnectHole);
+            baseHoleList.AddRange(holeList);
 
             return baseHoleList;
         }
@@ -93,19 +95,28 @@ namespace GSharp.Graphic.Statements
         {
             List<GBase> baseList = new List<GBase>();
 
-            GObject obj = (GObject)ObjectHole?.ObjectBlock?.ToObject()[0];
-
-            if (obj == null)
-            {
-                throw new ToObjectException("Print 블럭이 완성되지 않았습니다.", this);
-            }
-
             GExtension extension = new GExtension
             {
                 Name = EXTName,
                 Method = EXTMethod
             };
-            GCall call = new GCall(extension, new GObject[] { obj });
+
+            List<GObject> objectList = new List<GObject>();
+
+            foreach (BaseHole hole in holeList)
+            {
+                if (hole.Block == null)
+                {
+                    throw new ToObjectException(EXTName + "블럭이 완성되지 않았습니다.", this);
+                }
+
+                if (hole is BaseObjectHole)
+                {
+                    objectList.Add((hole as BaseObjectHole).ObjBlock.ToObject()[0] as GObject);
+                }
+            }
+
+            GCall call = new GCall(extension, objectList.ToArray());
             baseList.Add(call);
 
             List<GBase> nextList = NextConnectHole?.StatementBlock?.ToObject();

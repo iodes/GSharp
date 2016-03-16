@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
 using GSharp.Graphic.Statements;
+using GSharp.Graphic.Logics;
+using GSharp.Graphic.Core;
 
 namespace GSharp.Manager
 {
@@ -90,13 +92,13 @@ namespace GSharp.Manager
         /// 애드온에 포함된 모든 함수를 블럭 배열로 변환합니다.
         /// </summary>
         /// <param name="target">블럭 배열로 변환할 애드온 객체입니다.</param>
-        public ExtensionBlock[] ConvertToBlocks(Addon target)
+        public BaseBlock[] ConvertToBlocks(Addon target)
         {
-            List<ExtensionBlock> blockList = new List<ExtensionBlock>();
+            List<BaseBlock> blockList = new List<BaseBlock>();
             
             foreach (KeyValuePair<string, string> command in target.Commands)
             {
-                ExtensionBlock block = new ExtensionBlock
+                AddonLogicBlock block = new AddonLogicBlock
                 {
                     Title = target.Title,
                     EXTName = command.Key,

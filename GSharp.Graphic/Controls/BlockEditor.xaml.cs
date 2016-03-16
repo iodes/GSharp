@@ -87,16 +87,7 @@ namespace GSharp.Graphic.Controls
                 // 부모가 캔버스가 아닐때만
                 if (SelectedBlock.Parent != this)
                 {
-                    // 부모에서 선택한 요소를 제거
-                    if (SelectedBlock.Parent is Panel)
-                    {
-                        ((Panel)SelectedBlock.Parent).Children.Remove(SelectedBlock);
-                    }
-                    else if (SelectedBlock.Parent is Border)
-                    {
-                        ((Border)SelectedBlock.Parent).Child = null;
-                    }
-
+                    RemoveFromParent(SelectedBlock);
                     BlockCanvas.Children.Add(SelectedBlock);
 
                     Point pos = e.GetPosition(this);
@@ -156,7 +147,7 @@ namespace GSharp.Graphic.Controls
             DefineList.Remove(varName);
         }
 
-        public List<string> GetVariableList()
+        public List<string> GetVariableNameList()
         {
             return DefineList.Keys.ToList();
         }
@@ -167,7 +158,8 @@ namespace GSharp.Graphic.Controls
         }
         #endregion
 
-        #region 블럭 자석
+        #region 블럭 자석 효과
+        // 각자 맞는 블럭으로 오버로딩
         private void MargnetBlock(BaseBlock block, MouseEventArgs e)
         {
             MargnetTarget = null;
@@ -188,6 +180,7 @@ namespace GSharp.Graphic.Controls
             }
         }
 
+        // StatementBlock일때
         private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
             foreach (BaseHole hole in HoleList)
@@ -213,6 +206,7 @@ namespace GSharp.Graphic.Controls
             }
         }
 
+        // LogicBlock일때
         private void MargnetBlock(LogicBlock block, MouseEventArgs e)
         {
             foreach (BaseHole hole in HoleList)
@@ -223,6 +217,7 @@ namespace GSharp.Graphic.Controls
                 }
 
                 LogicHole logicHole = (LogicHole)hole;
+
                 Point position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
 
                 double distance = GetDistance(position, block.Position);
@@ -238,6 +233,7 @@ namespace GSharp.Graphic.Controls
             }
         }
 
+        // ObjectBlock일때
         private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
         {
             foreach (BaseHole hole in HoleList)
@@ -265,6 +261,7 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 블럭 연결
+        // 각자 맞는 블럭으로 오버로딩
         private void ConnectBlock(BaseBlock block, MouseEventArgs e)
         {
             if (SelectedBlock is StatementBlock)
@@ -281,6 +278,7 @@ namespace GSharp.Graphic.Controls
             }
         }
 
+        // StatementBlock일때
         private void ConnectBlock(StatementBlock block, MouseEventArgs e)
         {
             if (!(MargnetTarget is NextConnectHole))
@@ -295,6 +293,7 @@ namespace GSharp.Graphic.Controls
             block.Position = new Point(0, 0);
         }
 
+        // LogicBlock일때
         private void ConnectBlock(LogicBlock block, MouseEventArgs e)
         {
             if (!(MargnetTarget is LogicHole))
@@ -303,12 +302,24 @@ namespace GSharp.Graphic.Controls
             }
 
             LogicHole logicHole = (LogicHole)MargnetTarget;
+
+            if (logicHole.LogicBlock != null)
+            {
+                LogicBlock beforeBlock = logicHole.LogicBlock;
+
+                RemoveFromParent(beforeBlock);
+                BlockCanvas.Children.Add(beforeBlock);
+
+                beforeBlock.Position = block.Position;
+            }
+
             BlockCanvas.Children.Remove(block);
 
             logicHole.LogicBlock = block;
             block.Position = new Point(0, 0);
         }
 
+        // ObjectBlock일때
         private void ConnectBlock(ObjectBlock block, MouseEventArgs e)
         {
             if (!(MargnetTarget is ObjectHole))
@@ -317,6 +328,17 @@ namespace GSharp.Graphic.Controls
             }
 
             ObjectHole objectHole = (ObjectHole)MargnetTarget;
+
+            if (objectHole.ObjectBlock != null)
+            {
+                ObjectBlock beforeBlock = objectHole.ObjectBlock;
+
+                RemoveFromParent(beforeBlock);
+                BlockCanvas.Children.Add(beforeBlock);
+
+                beforeBlock.Position = block.Position;
+            }
+
             BlockCanvas.Children.Remove(block);
 
             objectHole.ObjectBlock = block;
@@ -334,9 +356,23 @@ namespace GSharp.Graphic.Controls
         {
             return Math.Sqrt(GetDistance2(a, b));
         }
+
+        private void RemoveFromParent(BaseBlock block)
+        {
+            // 부모에서 선택한 요소를 제거
+            if (SelectedBlock.Parent is Panel)
+            {
+                ((Panel)SelectedBlock.Parent).Children.Remove(SelectedBlock);
+            }
+            else if (SelectedBlock.Parent is Border)
+            {
+                ((Border)SelectedBlock.Parent).Child = null;
+            }
+        }
         #endregion
 
-        #region 사용자 함수
+        #region 컨트롤 함수
+        // 블럭 추가
         public void AddBlock(BaseBlock block)
         {
             block.MouseLeftButtonDown += Block_MouseLeftButtonDown;
@@ -344,10 +380,30 @@ namespace GSharp.Graphic.Controls
 
             List<BaseHole> holeList = block.GetHoleList();
             HoleList.AddRange(holeList);
-        }
-        #endregion
 
-        public void Compile()
+            foreach(BaseHole hole in holeList)
+            {
+                if (hole is VariableHole)
+                {
+                    (hole as VariableHole).SetItemList(GetVariableNameList());
+                }
+            }
+        }
+
+        // 블럭 삭제
+        public void RemoveBlock(BaseBlock block)
+        {
+            RemoveFromParent(block);
+
+            List<BaseHole> holeList = block.GetHoleList();
+            foreach (BaseHole hole in holeList)
+            {
+                HoleList.Remove(hole);
+            }
+        }
+
+        // 컴파일
+        public string Compile()
         {
             try
             {
@@ -369,13 +425,19 @@ namespace GSharp.Graphic.Controls
                 }
 
                 MessageBox.Show(root.ToSource(), "컴파일 소스");
+
+                return root.ToSource();
             }
             catch (ToObjectException e)
             {
                 MessageBox.Show(e.Message, "오류");
             }
-        }
 
+            return null;
+        }
+        #endregion
+
+        // 테스트를 위한 컴파일
         private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             Compile();

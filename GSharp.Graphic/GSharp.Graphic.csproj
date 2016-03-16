@@ -51,7 +51,9 @@
     <Compile Include="Controls\BlockEditor.xaml.cs">
       <DependentUpon>BlockEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\AddonBlock.cs" />
     <Compile Include="Core\BaseBlock.cs" />
+    <Compile Include="Core\IAddonBlock.cs" />
     <Compile Include="Core\LogicBlock.cs" />
     <Compile Include="Core\ObjectBlock.cs" />
     <Compile Include="Core\ScopeBlock.cs" />
@@ -67,11 +69,19 @@
     <Compile Include="Holes\ObjectHole.xaml.cs">
       <DependentUpon>ObjectHole.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Holes\BaseObjectHole.cs" />
     <Compile Include="Holes\PrevConnectHole.xaml.cs">
       <DependentUpon>PrevConnectHole.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Holes\NumberHole.xaml.cs">
+      <DependentUpon>NumberHole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Holes\BaseStatementHole.cs" />
     <Compile Include="Holes\VariableHole.xaml.cs">
       <DependentUpon>VariableHole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logics\AddonLogicBlock.xaml.cs">
+      <DependentUpon>AddonLogicBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
@@ -98,8 +108,8 @@
     <Compile Include="Scopes\VoidBlock.xaml.cs">
       <DependentUpon>VoidBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Statements\ExtensionBlock.xaml.cs">
-      <DependentUpon>ExtensionBlock.xaml</DependentUpon>
+    <Compile Include="Statements\AddonStatementBlock.xaml.cs">
+      <DependentUpon>AddonStatementBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\IFBlock.xaml.cs">
       <DependentUpon>IFBlock.xaml</DependentUpon>
@@ -142,7 +152,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Holes\NumberHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Holes\VariableHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Logics\AddonLogicBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -162,7 +180,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\ExtensionBlock.xaml">
+    <Page Include="Statements\AddonStatementBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

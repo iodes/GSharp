@@ -20,13 +20,13 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// VariableHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class VariableHole : BaseObjectHole
+    public partial class NumberHole : BaseObjectHole
     {
         public override BaseBlock Block
         {
             get
             {
-                return VariableBlock;
+                return NumberBlock;
             }
         }
 
@@ -34,44 +34,26 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return VariableBlock;
+                return NumberBlock;
             }
         }
 
-        public VariableBlock VariableBlock
+        public NumberBlock NumberBlock
         {
             get
             {
-                return new VariableBlock
+                return new NumberBlock
                 {
-                    VariableName = Variable.Text
+                    Number = Number
                 };
             }
         }
 
-        public VariableHole()
+        public long Number { get; set; } = 0;
+
+        public NumberHole()
         {
             InitializeComponent();
-        }
-
-        public void SetItemList(List<string> variableList)
-        {
-            Variable.Items.Clear();
-
-            foreach (string variableName in variableList)
-            {
-                Variable.Items.Add(variableName);
-            }
-        }
-
-        public void AddItem(string variableName)
-        {
-            Variable.Items.Add(variableName);
-        }
-
-        public void RemoveItem(string variableName)
-        {
-            Variable.Items.Remove(variableName);
         }
     }
 }

@@ -20,9 +20,17 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// NextConnectHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class NextConnectHole : BaseHole
+    public partial class NextConnectHole : BaseStatementHole
     {
         public Brush Fill { get; set;}
+
+        public override BaseBlock Block
+        {
+            get
+            {
+                return StatementBlock;
+            }
+        }
 
         public StatementBlock StatementBlock
         {

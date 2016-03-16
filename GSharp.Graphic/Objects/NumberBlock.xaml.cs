@@ -24,24 +24,47 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class NumberBlock : ObjectBlock
     {
+        private long number;
+        public long Number
+        {
+            get
+            {
+                return number;
+            }
+            set
+            {
+                number = value;
+                NumberText.Text = value.ToString();
+            }
+        }
+
         public NumberBlock()
         {
             InitializeComponent();
-        }
-
-        public override List<BaseHole> GetHoleList()
-        {
-            return new List<BaseHole>();
         }
 
         public override List<GBase> ToObject()
         {
             List<GBase> baseList = new List<GBase>();
 
-            long number = long.Parse(NumberValue.Text);
+            long number = long.Parse(NumberText.Text);
             baseList.Add(new GNumber(number));
 
             return baseList;
+        }
+
+        private void NumberText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            long number;
+
+            if (long.TryParse(NumberText.Text, out number))
+            {
+                Number = number;
+            }
+            else
+            {
+                Number = Number;
+            }
         }
     }
 }

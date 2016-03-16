@@ -24,16 +24,11 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class VariableBlock : ObjectBlock
     {
-        public string VariableName { get; set; } = "test1";
+        public string VariableName { get; set; }
 
         public VariableBlock()
         {
             InitializeComponent();
-        }
-
-        public override List<BaseHole> GetHoleList()
-        {
-            return new List<BaseHole>();
         }
 
         public override List<GBase> ToObject()

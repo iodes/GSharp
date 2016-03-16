@@ -1,4 +1,4 @@
-﻿<local:BaseHole x:Class="GSharp.Graphic.Holes.LogicHole"
+﻿<local:BaseObjectHole x:Class="GSharp.Graphic.Holes.LogicHole"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,4 +15,4 @@
         </Grid>
         <Polygon Points="0,0 10,10 0,20" Fill="DarkRed" Stretch="Fill" VerticalAlignment="Stretch" Width="10" />
     </StackPanel>
-</local:BaseHole>
+</local:BaseObjectHole>

@@ -1,6 +1,6 @@
 ﻿namespace GSharp.Base.Cores
 {
-    public abstract class GLogic : GBase
+    public abstract class GLogic : GObject
     {
 
     }

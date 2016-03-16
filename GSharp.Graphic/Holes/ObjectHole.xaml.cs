@@ -19,8 +19,24 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// ObjectHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ObjectHole : BaseHole
+    public partial class ObjectHole : BaseObjectHole
     {
+        public override BaseBlock Block
+        {
+            get
+            {
+                return ObjectBlock;
+            }
+        }
+        
+        public override ObjectBlock ObjBlock
+        {
+            get
+            {
+                return ObjectBlock;
+            }
+        }
+
         public ObjectBlock ObjectBlock
         {
             get

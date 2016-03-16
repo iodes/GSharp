@@ -54,7 +54,6 @@ namespace GSharp.Graphic.Statements
             List<BaseHole> baseHoleList = new List<BaseHole>();
 
             baseHoleList.Add(ObjectHole);
-            baseHoleList.Add(PrevConnectHole);
             baseHoleList.Add(NextConnectHole);
 
             return baseHoleList;

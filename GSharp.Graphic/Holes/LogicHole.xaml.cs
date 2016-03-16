@@ -20,9 +20,23 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// LogicHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class LogicHole : BaseHole
+    public partial class LogicHole : BaseObjectHole
     {
         public GLogic Logic;
+
+        public override BaseBlock Block {
+            get
+            {
+                return LogicBlock;
+            }
+        }
+
+        public override ObjectBlock ObjBlock {
+            get
+            {
+                return LogicBlock;
+            }
+        }
 
         public LogicBlock LogicBlock
         {

@@ -10,7 +10,7 @@
              d:DesignHeight="200" d:DesignWidth="300" SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical">
         <StackPanel>
-            <hole:PrevConnectHole x:Name="PrevConnectHole" />
+            <hole:PrevConnectHole />
             <Grid Background="Red">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="10,5">
                     <TextBlock Foreground="White" VerticalAlignment="Center">만약</TextBlock>
