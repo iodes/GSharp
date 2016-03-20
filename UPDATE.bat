@@ -1,6 +1,7 @@
 @echo off
 COLOR 3E
 TITLE DLL UPDATE
+MODE con:cols=42 lines=25
 
 rem ---------------------- SETTINGS ----------------------
 set BIN=bin\Debug
@@ -8,14 +9,15 @@ set GSHARP=%USERPROFILE%\Documents\SourceTree\gsharp
 set ENTRA_CORE=%USERPROFILE%\Documents\SourceTree\entra\DLL
 rem ---------------------- SETTINGS ----------------------
 
-echo 式式式式式式式式式式式式式式式式式式式式
-echo        _______   ____________  ___ 
-echo        / ____/ ^| / /_  __/__ ′/  ^|
-echo       / __/ /  ^|/ / / / / /_/ / /^| ^|
-echo      / /___/ /^|  / / / / _, _/ ___ ^|
-echo     /_____/_/ ^|_/ /_/ /_/ ^|_/_/  ^|_^|
+echo ------------------------------------------
+echo         _______   ____________  ____
+echo         / ____/ ^| / /_  __/__ ′/   ^|
+echo        / __/ /  ^|/ / / / / /_/ / /^| ^|
+echo       / /___/ /^|  / / / / _, _/ ___ ^|
+echo      /_____/_/ ^|_/ /_/ /_/ ^|_/_/  ^|_^|
 echo.
-echo 式式式式式式AUTO DLL UPDATER式式式式式式
+echo.
+echo -------------AUTO DLL UPDATER-------------
 echo.
 
 if not exist %ENTRA_CORE% mkdir %ENTRA_CORE%
@@ -30,4 +32,5 @@ echo.
 echo            DLL UPDATE COMPLETE!
 echo.
 
-SET /P P=式式式式式式式式式式式式式式式式式式式式
+echo.
+SET /P P=------------------------------------------
