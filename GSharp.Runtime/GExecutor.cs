@@ -30,22 +30,10 @@ namespace GSharp.Runtime
         #endregion
 
         #region 사용자 함수
-        public void Execute()
-        {
-            try
-            {
-                CallMethod("Main");
-            }
-            catch (TargetInvocationException e)
-            {
-                Console.WriteLine("런타임 오류 : " + e.Message);
-            }
-        }
-
         public void CallMethod(string method, object[] parameter = null)
         {
             MethodInfo targetMethod = targetType.GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            targetMethod.Invoke(targetObject, parameter == null ? null : parameter);
+            targetMethod.Invoke(targetObject, parameter == null ? new object[] { } : parameter);
         }
         #endregion
     }

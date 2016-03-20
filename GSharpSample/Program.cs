@@ -29,7 +29,7 @@ namespace GSharpSample
             GSet setValue = new GSet(ref valueVariable, new GNumber(5));
             main.Append(setValue);
 
-            GIF ifCheck = new GIF(new GCompare(valueVariable, new GString("asdsd"), GCompare.ConditionType.GREATER_THEN));
+            GIF ifCheck = new GIF(new GCompare(valueVariable, new GString("asdsd"), GCompare.ConditionType.EQUAL));
             ifCheck.Append(new GCall(new GPrint(), new GObject[] { new GString("값이 3보다 큽니다.") }));
             main.Append(ifCheck);
 
@@ -37,7 +37,10 @@ namespace GSharpSample
 
             // 생성된 코드 컴파일
             string resultFile = Path.GetTempFileName();
-            GCompiler compile = new GCompiler(root);
+
+            GCompiler compile = new GCompiler(root.ToSource());
+            compile.LoadReference(@"C:\Users\SEOP\Documents\SourceTree\entra\ENTRA.Modules.Verification\bin\Debug\ENTRA.Modules.Verification.dll");
+
             CompilerResults result = compile.Build(resultFile);
 
             // 코드 컴파일 결과 분석
@@ -53,10 +56,9 @@ namespace GSharpSample
             else
             {
                 // 컴파일 성공
-                // 컴파일된 라이브러리 실행
+                // 컴파일된 시나리오 실행
                 Console.WriteLine("컴파일 성공");
-                GExecutor executor = new GExecutor(resultFile, "MyNamespace.Program");
-                executor.Execute();
+                new GExecutor(resultFile, "GSharp.Scenario.Default").CallMethod("Main");
             }
 
             Console.ReadLine();
