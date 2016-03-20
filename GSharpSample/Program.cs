@@ -10,7 +10,6 @@ using GSharp.Base.Methods;
 using GSharp.Base.Statements;
 using GSharp.Compile;
 using GSharp.Runtime;
-using GSharp.Manager;
 
 namespace GSharpSample
 {
@@ -29,19 +28,19 @@ namespace GSharpSample
             GSet setValue = new GSet(ref valueVariable, new GNumber(5));
             main.Append(setValue);
 
-            GIF ifCheck = new GIF(new GCompare(valueVariable, new GString("asdsd"), GCompare.ConditionType.EQUAL));
+            GIF ifCheck = new GIF(new GCompare(valueVariable, new GNumber(3), GCompare.ConditionType.GREATER_THEN));
             ifCheck.Append(new GCall(new GPrint(), new GObject[] { new GString("값이 3보다 큽니다.") }));
             main.Append(ifCheck);
 
             root.Append(main);
 
             // 생성된 코드 컴파일
+            string source = root.ToSource();
             string resultFile = Path.GetTempFileName();
 
             GCompiler compile = new GCompiler(root.ToSource());
-            compile.LoadReference(@"C:\Users\SEOP\Documents\SourceTree\entra\ENTRA.Modules.Verification\bin\Debug\ENTRA.Modules.Verification.dll");
-
             CompilerResults result = compile.Build(resultFile);
+            Console.WriteLine(source);
 
             // 코드 컴파일 결과 분석
             if (result.Errors.Count > 0)

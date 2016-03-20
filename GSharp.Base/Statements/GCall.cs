@@ -13,39 +13,48 @@ namespace GSharp.Base.Statements
         #endregion
 
         #region 생성자
-        public GCall(GVoid valueVoid, GObject[] valueArguments)
+        public GCall(GVoid valueVoid)
         {
             targetVoid = valueVoid;
+        }
+
+        public GCall(GVoid valueVoid, GObject[] valueArguments) : this(valueVoid)
+        {
             targetArguments = valueArguments;
         }
 
-        public GCall(GMethod valueMethod, GObject[] valueArguments)
+        public GCall(GMethod valueMethod)
         {
             targetMethod = valueMethod;
+        }
+
+        public GCall(GMethod valueMethod, GObject[] valueArguments) : this(valueMethod)
+        {
             targetArguments = valueArguments;
         }
         #endregion
 
         public override string ToSource()
         {
-            var argumentStrings = targetArguments.Select(element => element.ToSource());
+            string valueTarget = targetVoid == null ? targetMethod.ToSource() : targetVoid.Name;
 
-            if (targetVoid != null)
+            if (targetArguments == null)
             {
                 return string.Format
                 (
-                    "{0}({1});",
-                    targetVoid.Name,
-                    string.Join(",", argumentStrings)
+                    "{0}();",
+                    valueTarget
                 );
             }
             else
             {
+                var argumentStrings = targetArguments.Select(element => element.ToSource());
+
                 return string.Format
                 (
                     "{0}({1});",
-                    targetMethod.ToSource(),
-                    string.Join(",", argumentStrings)
+                    valueTarget,
+                    string.Join(", ", argumentStrings)
                 );
             }
         }

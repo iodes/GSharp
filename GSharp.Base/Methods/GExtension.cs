@@ -8,11 +8,13 @@ namespace GSharp.Base.Methods
         public string Name { get; set; }
 
         public string Method { get; set; }
+
+        public string Namespace { get; set; }
         #endregion
 
         public override string ToSource()
         {
-            return Method;
+            return string.Format("{0}.{1}", Namespace, Method);
         }
     }
 }
