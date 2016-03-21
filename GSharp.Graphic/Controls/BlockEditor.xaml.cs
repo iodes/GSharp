@@ -403,7 +403,7 @@ namespace GSharp.Graphic.Controls
         }
 
         // 컴파일
-        public string Compile()
+        public string GetSource()
         {
             try
             {
@@ -424,8 +424,6 @@ namespace GSharp.Graphic.Controls
                     root.Append(scopeBlock.ToObject()[0]);
                 }
 
-                MessageBox.Show(root.ToSource(), "컴파일 소스");
-
                 return root.ToSource();
             }
             catch (ToObjectException e)
@@ -436,11 +434,5 @@ namespace GSharp.Graphic.Controls
             return null;
         }
         #endregion
-
-        // 테스트를 위한 컴파일
-        private void UserControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Compile();
-        }
     }
 }
