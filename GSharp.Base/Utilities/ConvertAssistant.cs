@@ -38,23 +38,30 @@ namespace GSharp.Base.Utilities
 
         public static string Indentation(string value, int step = 1)
         {
-            StringBuilder indent = new StringBuilder();
-            for (int i = 0; i < step * 4; i++)
+            if (value != null)
             {
-                indent.Append(" ");
-            }
-
-            StringBuilder valueResult = new StringBuilder();
-            string[] valueSplit = value.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None);
-            for (int i = 0; i < valueSplit.Length; i++)
-            {
-                if (valueSplit[i].Trim().Length > 0)
+                StringBuilder indent = new StringBuilder();
+                for (int i = 0; i < step * 4; i++)
                 {
-                    valueResult.AppendLine(indent.ToString() + valueSplit[i]);
+                    indent.Append(" ");
                 }
-            }
 
-            return valueResult.ToString();
+                StringBuilder valueResult = new StringBuilder();
+                string[] valueSplit = value.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.None);
+                for (int i = 0; i < valueSplit.Length; i++)
+                {
+                    if (valueSplit[i].Trim().Length > 0)
+                    {
+                        valueResult.AppendLine(indent.ToString() + valueSplit[i]);
+                    }
+                }
+
+                return valueResult.ToString();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
