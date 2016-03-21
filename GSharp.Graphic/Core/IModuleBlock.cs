@@ -7,5 +7,7 @@
         string MethodName { get; set; }
 
         string FriendlyName { get; set; }
+
+        string NamespaceName { get; set; }
     }
 }

@@ -77,7 +77,8 @@ namespace GSharp.Manager
                                             {
                                                 FriendlyName = command.Name,
                                                 MethodName = method.Name,
-                                                MethodType = command.Type
+                                                MethodType = command.Type,
+                                                NamespaceName = targetAssembly.GetName().Name
                                             }
                                         );
                                     }
@@ -113,7 +114,8 @@ namespace GSharp.Manager
                             {
                                 Title = target.Title,
                                 FriendlyName = command.FriendlyName,
-                                MethodName = command.MethodName
+                                MethodName = command.MethodName,
+                                NamespaceName = command.NamespaceName
                             }
                         );
 
@@ -125,7 +127,8 @@ namespace GSharp.Manager
                             {
                                 Title = target.Title,
                                 FriendlyName = command.FriendlyName,
-                                MethodName = command.MethodName
+                                MethodName = command.MethodName,
+                                NamespaceName = command.NamespaceName
                             }
                         );
 

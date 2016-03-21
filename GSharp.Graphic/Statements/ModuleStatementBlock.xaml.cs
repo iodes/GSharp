@@ -47,6 +47,8 @@ namespace GSharp.Graphic.Statements
         }
         private string _FriendlyName;
 
+        public string NamespaceName { get; set; }
+
         public ModuleStatementBlock()
         {
             InitializeComponent();
@@ -87,7 +89,8 @@ namespace GSharp.Graphic.Statements
             GExtension extension = new GExtension
             {
                 Name = FriendlyName,
-                Method = MethodName
+                Method = MethodName,
+                Namespace = NamespaceName
             };
 
             List<GObject> objectList = new List<GObject>();
