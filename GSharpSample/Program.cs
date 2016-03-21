@@ -39,25 +39,25 @@ namespace GSharpSample
             string resultFile = Path.GetTempFileName();
 
             GCompiler compile = new GCompiler(root.ToSource());
-            CompilerResults result = compile.Build(resultFile);
+            GCompilerResults result = compile.Build(resultFile);
             Console.WriteLine(source);
 
             // 코드 컴파일 결과 분석
-            if (result.Errors.Count > 0)
-            {
-                // 컴파일 실패
-                // 컴파일 오류 출력
-                foreach(CompilerError error in result.Errors)
-                {
-                    Console.WriteLine("컴파일 오류 : " + error.Line + " - " + error.ErrorNumber + ":" + error.ErrorText);
-                }
-            }
-            else
+            if (result.IsSuccess)
             {
                 // 컴파일 성공
                 // 컴파일된 시나리오 실행
                 Console.WriteLine("컴파일 성공");
                 new GExecutor(resultFile, "GSharp.Scenario.Default").CallMethod("Main");
+            }
+            else
+            {
+                // 컴파일 실패
+                // 컴파일 오류 출력
+                foreach (CompilerError error in result.Results.Errors)
+                {
+                    Console.WriteLine("컴파일 오류 : " + error.Line + " - " + error.ErrorNumber + ":" + error.ErrorText);
+                }
             }
 
             Console.ReadLine();

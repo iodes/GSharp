@@ -101,11 +101,18 @@ namespace GSharp.Compile
         /// 소스를 빌드하여 컴파일된 파일을 생성합니다.
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
-        public CompilerResults Build(string path)
+        public GCompilerResults Build(string path)
         {
             parameters.OutputAssembly = path;
+            string fullSource = ConvertToFullSource(Source);
 
-            return provider.CompileAssemblyFromSource(parameters, ConvertToFullSource(Source));
+            GCompilerResults results = new GCompilerResults
+            {
+                Source = fullSource,
+                Results = provider.CompileAssemblyFromSource(parameters, fullSource)
+            };
+
+            return results;
         }
         #endregion
     }
