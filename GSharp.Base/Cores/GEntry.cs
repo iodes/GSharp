@@ -1,5 +1,6 @@
 ﻿using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
+using GSharp.Base.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace GSharp.Base.Cores
         private List<GEvent> eventList = new List<GEvent>();
         private List<GFunction> functionList = new List<GFunction>();
 
-        public void Append(GDefine def)
-        {
-            defineList.Add(def);
-        }
-
         public void Append(GEvent evt)
         {
             eventList.Add(evt);
+        }
+
+        public void Append(GDefine def)
+        {
+            defineList.Add(def);
         }
 
         public void Append(GFunction func)
@@ -46,11 +47,10 @@ namespace GSharp.Base.Cores
 
             foreach (GEvent evt in eventList)
             {
-                source.AppendLine(evt.ToSource());
+                source.AppendLine(ConvertAssistant.Indentation(evt.ToSource()));
             }
 
-            source.AppendLine("Loaded();");
-
+            source.AppendLine(ConvertAssistant.Indentation("Loaded();").TrimEnd());
             source.AppendLine("}");
 
             foreach (GFunction func in functionList)

@@ -56,7 +56,7 @@ namespace GSharp.Base.Utilities
                     }
                 }
 
-                return valueResult.ToString();
+                return valueResult?.ToString();
             }
             else
             {

@@ -30,13 +30,12 @@ namespace GSharp.Base.Scopes
         public override string ToSource()
         {
             StringBuilder source = new StringBuilder();
-            source.AppendFormat("{0}.{1} += () => {{\n", Command.NamespaceName, Command.MethodName);
+            source.AppendFormat("{0}.{1} += () => \n{{\n", Command.NamespaceName, Command.MethodName);
 
             foreach(GStatement statement in content)
             {
-                source.AppendLine(statement.ToSource());
+                source.AppendLine(ConvertAssistant.Indentation(statement.ToSource()));
             }
-
             source.AppendLine("};");
 
             return source.ToString();

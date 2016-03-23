@@ -24,13 +24,26 @@ namespace GSharpSample
             GVariable var = def.GetVariable();
             entry.Append(def);
 
-            GEvent main = new GEvent(new GCommand("this", "Loaded"));
+            GEvent main = new GEvent
+            (
+                new GCommand
+                {
+                    MethodName = "Loaded",
+                    NamespaceName = "this"
+                }
+            );
 
             GSet setValue = new GSet(ref var, new GNumber(5));
             main.Append(setValue);
 
             GIF ifCheck = new GIF(new GCompare(var, GCompare.ConditionType.GREATER_THEN, new GNumber(3)));
-            GCommand printCommand = new GCommand("Console", "WriteLine");
+
+            GCommand printCommand = new GCommand
+            {
+                MethodName = "WriteLine",
+                NamespaceName = "Console"
+            };
+
             ifCheck.Append(new GCall(printCommand, new GObject[] { new GString("값이 3보다 큽니다.") }));
             main.Append(ifCheck);
 
