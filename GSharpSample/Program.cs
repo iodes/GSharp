@@ -19,7 +19,7 @@ namespace GSharpSample
         static void Main(string[] args)
         {
             // 모듈 로드
-            //ModuleManager module = new ModuleManager(@"C:\Users\SEOP\AppData\Roaming\ENTRA Studio\Modules");
+            ModuleManager module = new ModuleManager(@"C:\Users\SEOP\AppData\Roaming\ENTRA Studio\Modules");
 
             // 코드 생성
             GEntry entry = new GEntry();

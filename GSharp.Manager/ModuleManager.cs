@@ -7,6 +7,7 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Logics;
 using GSharp.Graphic.Statements;
 using GSharp.Graphic.Scopes;
+using System.Linq;
 
 namespace GSharp.Manager
 {
@@ -70,6 +71,7 @@ namespace GSharp.Manager
                             CommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
                             {
+                                // 커멘드 목록 추가
                                 target.Commands.Add(
                                     new GCommand
                                     (
@@ -77,7 +79,8 @@ namespace GSharp.Manager
                                         targetAssembly.GetName().Name,
                                         info.Name,
                                         command.Name,
-                                        info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic
+                                        info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic,
+                                        (from parameter in info.GetParameters() select parameter.ParameterType).ToArray()
                                     )
                                 );
                             }
@@ -89,6 +92,7 @@ namespace GSharp.Manager
                             CommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
                             {
+                                // 커멘드 목록 추가
                                 target.Commands.Add(
                                     new GCommand
                                     (
