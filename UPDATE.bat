@@ -5,9 +5,9 @@ MODE con:cols=42 lines=30
 
 rem ---------------------- SETTINGS ----------------------
 set BIN=bin\Debug
-set GSHARP=%USERPROFILE%\Documents\SourceTree\gsharp
-set ENTRA_CORE=%USERPROFILE%\Documents\SourceTree\entra\DLL
-set ENTRA_STUDIO="C:\Users\Jo Tae Sang\Desktop\Bitbucket Repository\EntraStudio\DLL"
+set GSHARP=.
+set ENTRA_CORE=..\entra\DLL
+set ENTRA_STUDIO=..\entrastudio\DLL
 rem ---------------------- SETTINGS ----------------------
 
 echo ------------------------------------------
