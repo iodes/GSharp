@@ -92,6 +92,22 @@ namespace GSharp.Manager
                             CommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
                             {
+                                // 대리자 검색
+                                Type eventDelegate = null;
+                                MethodInfo eventDelegateMethod = null;
+                                foreach (Type typeDelegate in targetType.GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+                                {
+                                    if (typeDelegate == info.EventHandlerType)
+                                    {
+                                        eventDelegate = typeDelegate;
+                                        break;
+                                    }
+                                }
+                                if (eventDelegate != null)
+                                {
+                                    eventDelegateMethod = eventDelegate.GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                                }
+
                                 // 커멘드 목록 추가
                                 target.Commands.Add(
                                     new GCommand
@@ -100,7 +116,8 @@ namespace GSharp.Manager
                                         targetAssembly.GetName().Name,
                                         info.Name,
                                         command.Name,
-                                        GCommand.CommandType.Event
+                                        GCommand.CommandType.Event,
+                                        eventDelegateMethod != null ? (from parameter in eventDelegateMethod.GetParameters() select parameter.ParameterType).ToArray() : null
                                     )
                                 );
                             }
