@@ -30,7 +30,7 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public override ObjectBlock ObjBlock
+        public override ObjectBlock BaseObjectBlock
         {
             get
             {

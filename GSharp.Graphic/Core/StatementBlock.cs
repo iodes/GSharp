@@ -9,11 +9,7 @@ namespace GSharp.Graphic.Core
 {
     public abstract class StatementBlock : BaseBlock
     {
-        public GStatement GStatement;
-
-        public StatementBlock()
-        {
-        }
+        public abstract GStatement GStatement { get; }
 
         public abstract StatementBlock GetLastBlock();
     }

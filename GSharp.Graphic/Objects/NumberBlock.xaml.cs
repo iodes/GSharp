@@ -38,19 +38,34 @@ namespace GSharp.Graphic.Objects
             }
         }
 
+        public GNumber GNumber
+        {
+            get
+            {
+                long number = long.Parse(NumberText.Text);
+                return new GNumber(number);
+            }
+        }
+
+        public override GObject GObject
+        {
+            get
+            {
+                return GNumber;
+            }
+        }
+
+        public override List<GBase> GObjectList
+        {
+            get
+            {
+                return new List<GBase> { GObject };
+            }
+        }
+
         public NumberBlock()
         {
             InitializeComponent();
-        }
-
-        public override List<GBase> ToObject()
-        {
-            List<GBase> baseList = new List<GBase>();
-
-            long number = long.Parse(NumberText.Text);
-            baseList.Add(new GNumber(number));
-
-            return baseList;
         }
 
         private void NumberText_TextChanged(object sender, TextChangedEventArgs e)

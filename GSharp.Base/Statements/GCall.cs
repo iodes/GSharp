@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using GSharp.Base.Cores;
+using GSharp.Base;
+using GSharp.Extension;
 using GSharp.Base.Scopes;
 
 namespace GSharp.Base.Statements
@@ -7,28 +9,28 @@ namespace GSharp.Base.Statements
     public class GCall : GStatement
     {
         #region 객체
-        private GVoid targetVoid;
-        private GMethod targetMethod;
+        private GFunction targetFunction;
+        private GCommand targetCommand;
         private GObject[] targetArguments;
         #endregion
 
         #region 생성자
-        public GCall(GVoid valueVoid)
+        public GCall(GFunction valueFunction)
         {
-            targetVoid = valueVoid;
+            targetFunction = valueFunction;
         }
 
-        public GCall(GVoid valueVoid, GObject[] valueArguments) : this(valueVoid)
+        public GCall(GFunction valueFunction, GObject[] valueArguments) : this(valueFunction)
         {
             targetArguments = valueArguments;
         }
 
-        public GCall(GMethod valueMethod)
+        public GCall(GCommand valueCommand)
         {
-            targetMethod = valueMethod;
+            targetCommand = valueCommand;
         }
 
-        public GCall(GMethod valueMethod, GObject[] valueArguments) : this(valueMethod)
+        public GCall(GCommand valueCommand, GObject[] valueArguments) : this(valueCommand)
         {
             targetArguments = valueArguments;
         }
@@ -36,7 +38,7 @@ namespace GSharp.Base.Statements
 
         public override string ToSource()
         {
-            string valueTarget = targetVoid == null ? targetMethod.ToSource() : targetVoid.Name;
+            string valueTarget = targetFunction == null ? targetCommand.FullName : targetFunction.Name;
 
             if (targetArguments == null)
             {

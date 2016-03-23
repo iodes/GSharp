@@ -31,13 +31,6 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public override ObjectBlock ObjBlock {
-            get
-            {
-                return LogicBlock;
-            }
-        }
-
         public LogicBlock LogicBlock
         {
             get
@@ -54,6 +47,13 @@ namespace GSharp.Graphic.Holes
                 }
 
                 RealLogicBlock.Child = value;
+            }
+        }
+
+        public override ObjectBlock BaseObjectBlock {
+            get
+            {
+                return LogicBlock;
             }
         }
 

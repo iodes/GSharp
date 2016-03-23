@@ -5,9 +5,9 @@ namespace GSharp.Base.Logics
     public class GGate : GLogic
     {
         #region 속성
-        public GCompare FirstPart { get; set; }
+        public GLogic FirstPart { get; set; }
 
-        public GCompare SecondPart { get; set; }
+        public GLogic SecondPart { get; set; }
 
         public GateType Gate { get; set; }
         #endregion
@@ -21,7 +21,7 @@ namespace GSharp.Base.Logics
         #endregion
 
         #region 생성자
-        public GGate(GCompare firstPart, GCompare secondPart, GateType gateType)
+        public GGate(GLogic firstPart, GateType gateType, GLogic secondPart)
         {
             FirstPart = firstPart;
             SecondPart = secondPart;

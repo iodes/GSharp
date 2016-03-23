@@ -1,4 +1,5 @@
-﻿using GSharp.Graphic.Core;
+﻿using GSharp.Base.Cores;
+using GSharp.Graphic.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,14 @@ namespace GSharp.Graphic.Holes
 {
     public abstract class BaseObjectHole : BaseHole
     {
-        public abstract ObjectBlock ObjBlock { get; }
+        public abstract ObjectBlock BaseObjectBlock { get; }
+
+        public override BaseBlock Block
+        {
+            get
+            {
+                return BaseObjectBlock;
+            }
+        }
     }
 }

@@ -26,11 +26,11 @@ namespace GSharp.Base.Logics
         #endregion
 
         #region 생성자
-        public GCompare(GObject firstPart, GObject secondPart, ConditionType conditionType)
+        public GCompare(GObject firstPart, ConditionType conditionType, GObject secondPart)
         {
             FirstPart = firstPart;
-            SecondPart = secondPart;
             Condition = conditionType;
+            SecondPart = secondPart;
         }
         #endregion
 

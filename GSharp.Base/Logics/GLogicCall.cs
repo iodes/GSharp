@@ -1,5 +1,6 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Base.Scopes;
+using GSharp.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,45 +12,42 @@ namespace GSharp.Base.Logics
     public class GLogicCall : GLogic
     {
         #region 객체
-        private GVoid targetVoid;
-        private GMethod targetMethod;
+        private GCommand targetCommand;
         private GObject[] targetArguments;
         #endregion
 
         #region 생성자
-        public GLogicCall(GVoid valueVoid, GObject[] valueArguments)
+        public GLogicCall(GCommand valueMethod)
         {
-            targetVoid = valueVoid;
-            targetArguments = valueArguments;
+            targetCommand = valueMethod;
         }
 
-        public GLogicCall(GMethod valueMethod, GObject[] valueArguments)
+        public GLogicCall(GCommand valueMethod, GObject[] valueArguments)
         {
-            targetMethod = valueMethod;
+            targetCommand = valueMethod;
             targetArguments = valueArguments;
         }
         #endregion
 
         public override string ToSource()
         {
-            var argumentStrings = targetArguments.Select(element => element.ToSource());
-
-            if (targetVoid != null)
+            if (targetArguments == null)
             {
                 return string.Format
                 (
-                    "{0}({1})",
-                    targetVoid.Name,
-                    string.Join(",", argumentStrings)
+                    "{0}()",
+                    targetCommand.FullName
                 );
             }
             else
             {
+                var argumentStrings = targetArguments.Select(element => element.ToSource());
+            
                 return string.Format
                 (
                     "{0}({1})",
-                    targetMethod.ToSource(),
-                    string.Join(",", argumentStrings)
+                    targetCommand.FullName,
+                    string.Join(", ", argumentStrings)
                 );
             }
         }

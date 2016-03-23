@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GSharp.Base.Cores;
 
 namespace GSharp.Graphic.Holes
 {
@@ -30,7 +31,7 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public override ObjectBlock ObjBlock
+        public override ObjectBlock BaseObjectBlock
         {
             get
             {
@@ -42,10 +43,7 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return new VariableBlock
-                {
-                    VariableName = Variable.Text
-                };
+                return new VariableBlock(Variable.Text);
             }
         }
 

@@ -7,7 +7,7 @@ rem ---------------------- SETTINGS ----------------------
 set BIN=bin\Debug
 set GSHARP=%USERPROFILE%\Documents\SourceTree\gsharp
 set ENTRA_CORE=%USERPROFILE%\Documents\SourceTree\entra\DLL
-set ENTRA_STUDIO=%USERPROFILE%\Documents\SourceTree\entrastudio\DLL
+set ENTRA_STUDIO="C:\Users\Jo Tae Sang\Desktop\Bitbucket Repository\EntraStudio\DLL"
 rem ---------------------- SETTINGS ----------------------
 
 echo ------------------------------------------

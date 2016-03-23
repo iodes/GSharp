@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace GSharp.Graphic.Core
 {
-    public abstract class AddonBlock
+    public abstract class ModuleBlock
     {
         public static List<BaseHole> SetContent(String name, StackPanel Content)
         {

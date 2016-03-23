@@ -9,7 +9,7 @@ namespace GSharp.Graphic.Core
 {
     public abstract class ObjectBlock : BaseBlock
     {
-        public GObject GObject;
+        public abstract GObject GObject { get; }
 
         public ObjectBlock()
         {

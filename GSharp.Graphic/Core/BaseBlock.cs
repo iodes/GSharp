@@ -12,6 +12,18 @@ namespace GSharp.Graphic.Core
 {
     public abstract class BaseBlock : UserControl
     {
+        // 블럭을 끼울 수 있는 구멍 목록
+        public virtual List<BaseHole> HoleList
+        {
+            get
+            {
+                return new List<BaseHole>();
+            }
+        }
+
+        // GSharp Object로 변환된 블럭
+        public abstract List<GBase> GObjectList { get; }
+
         // 블럭 위치
         public Point Position
         {
@@ -24,12 +36,5 @@ namespace GSharp.Graphic.Core
                 Margin = new Thickness(value.X, value.Y, 0, 0);
             }
         }
-
-        public virtual List<BaseHole> GetHoleList()
-        {
-            return new List<BaseHole>();
-        }
-
-        public abstract List<GBase> ToObject();
     }
 }

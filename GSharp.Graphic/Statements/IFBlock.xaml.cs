@@ -23,15 +23,72 @@ namespace GSharp.Graphic.Statements
     /// <summary>
     /// IFBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class IFBlock : PrevStatementBlock
+    public partial class IfBlock : PrevStatementBlock
     {
         public List<StatementBlock> Children = new List<StatementBlock>();
 
-        public IFBlock()
+        public IfBlock()
         {
             InitializeComponent();
+        }
 
-            GStatement = new GIF(null);
+        public GIF GIF
+        {
+            get
+            {
+                GLogic logic = LogicHole?.LogicBlock?.GLogic;
+                if (logic == null)
+                {
+                    throw new ToObjectException("조건문 블럭이 완성되지 않았습니다.", this);
+                }
+
+                return new GIF(logic);
+            }
+        }
+
+        public override List<GBase> GObjectList
+        {
+            get
+            {
+                List<GBase> baseList = new List<GBase>();
+
+                GIF gif = GIF;
+
+                List<GBase> childList = ChildConnectHole?.StatementBlock?.GObjectList;
+                if (childList != null)
+                {
+                    foreach (GBase child in childList)
+                    {
+                        gif.Append((GStatement)child);
+                    }
+                }
+
+                baseList.Add(gif);
+
+                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
+                if (nextList != null)
+                {
+                    baseList.AddRange(nextList);
+                }
+
+                return baseList;
+            }
+        }
+
+        public override GStatement GStatement
+        {
+            get
+            {
+                return GIF;
+            }
+        }
+
+        public override List<BaseHole> HoleList
+        {
+            get
+            {
+                return new List<BaseHole> { LogicHole, NextConnectHole, ChildConnectHole };
+            }
         }
 
         public override NextConnectHole NextConnectHole
@@ -40,48 +97,6 @@ namespace GSharp.Graphic.Statements
             {
                 return RealNextConnectHole;
             }
-        }
-
-        public override List<BaseHole> GetHoleList()
-        {
-            List<BaseHole> baseHoleList = new List<BaseHole>();
-
-            baseHoleList.Add(LogicHole);
-            baseHoleList.Add(NextConnectHole);
-            baseHoleList.Add(ChildConnectHole);
-
-            return baseHoleList;
-        }
-
-        public override List<GBase> ToObject()
-        {
-            List<GBase> baseList = new List<GBase>();
-
-            GLogicCall logic = (GLogicCall)LogicHole?.LogicBlock?.ToObject()[0];
-            if (logic == null)
-            {
-                throw new ToObjectException("조건문 블럭이 완성되지 않았습니다.", this);
-            }
-
-            GIF gIF = new GIF(logic);
-
-            List<GBase> childList = ChildConnectHole?.StatementBlock?.ToObject();
-            if (childList != null)
-            { 
-                foreach(GBase child in childList)
-                {
-                    gIF.Append((GStatement)child);
-                }
-            }
-            baseList.Add(gIF);
-            
-            List<GBase> nextList = NextConnectHole?.StatementBlock?.ToObject();
-            if (nextList != null)
-            {
-                baseList.AddRange(nextList);
-            }
-
-            return baseList;
         }
     }
 }

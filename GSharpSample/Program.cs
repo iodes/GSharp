@@ -6,10 +6,10 @@ using GSharp.Base.Logics;
 using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Base.Objects;
-using GSharp.Base.Methods;
 using GSharp.Base.Statements;
 using GSharp.Compile;
 using GSharp.Runtime;
+using GSharp.Extension;
 
 namespace GSharpSample
 {
@@ -18,27 +18,29 @@ namespace GSharpSample
         static void Main(string[] args)
         {
             // 코드 생성
-            GBlank root = new GBlank();
-            GVoid main = new GVoid("Main");
+            GEntry entry = new GEntry();
 
-            GDefine value = new GDefine("valueA");
-            GVariable valueVariable = value.GetVariable();
-            root.Append(value);
+            GDefine def = new GDefine("valueA");
+            GVariable var = def.GetVariable();
+            entry.Append(def);
 
-            GSet setValue = new GSet(ref valueVariable, new GNumber(5));
+            GEvent main = new GEvent(new GCommand("this", "Loaded"));
+
+            GSet setValue = new GSet(ref var, new GNumber(5));
             main.Append(setValue);
 
-            GIF ifCheck = new GIF(new GCompare(valueVariable, new GNumber(3), GCompare.ConditionType.GREATER_THEN));
-            ifCheck.Append(new GCall(new GPrint(), new GObject[] { new GString("값이 3보다 큽니다.") }));
+            GIF ifCheck = new GIF(new GCompare(var, GCompare.ConditionType.GREATER_THEN, new GNumber(3)));
+            GCommand printCommand = new GCommand("Console", "WriteLine");
+            ifCheck.Append(new GCall(printCommand, new GObject[] { new GString("값이 3보다 큽니다.") }));
             main.Append(ifCheck);
 
-            root.Append(main);
+            entry.Append(main);
 
             // 생성된 코드 컴파일
-            string source = root.ToSource();
+            string source = entry.ToSource();
             string resultFile = Path.GetTempFileName();
 
-            GCompiler compile = new GCompiler(root.ToSource());
+            GCompiler compile = new GCompiler(source);
             GCompilerResults result = compile.Build(resultFile);
             Console.WriteLine(source);
 

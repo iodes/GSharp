@@ -6,6 +6,7 @@ using GSharp.Extension;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Logics;
 using GSharp.Graphic.Statements;
+using GSharp.Graphic.Scopes;
 
 namespace GSharp.Manager
 {
@@ -75,6 +76,7 @@ namespace GSharp.Manager
                                         target.Commands.Add(
                                             new GCommand
                                             {
+                                                Parent = target,
                                                 FriendlyName = command.Name,
                                                 MethodName = method.Name,
                                                 MethodType = command.Type,
@@ -109,29 +111,15 @@ namespace GSharp.Manager
                 switch (command.MethodType)
                 {
                     case CommandAttribute.CommandType.Call:
-                        blockList.Add(
-                            new ModuleStatementBlock
-                            {
-                                Title = target.Title,
-                                FriendlyName = command.FriendlyName,
-                                MethodName = command.MethodName,
-                                NamespaceName = command.NamespaceName
-                            }
-                        );
-
+                        blockList.Add(new CallBlock(command));
                         break;
 
                     case CommandAttribute.CommandType.Logic:
-                        blockList.Add(
-                            new ModuleLogicBlock
-                            {
-                                Title = target.Title,
-                                FriendlyName = command.FriendlyName,
-                                MethodName = command.MethodName,
-                                NamespaceName = command.NamespaceName
-                            }
-                        );
+                        blockList.Add(new LogicCallBlock(command));
+                        break;
 
+                    case CommandAttribute.CommandType.Event:
+                        blockList.Add(new EventBlock(command));
                         break;
                 }
             }

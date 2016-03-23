@@ -1,19 +1,19 @@
-﻿<local:PrevStatementBlock x:Class="GSharp.Graphic.Statements.ModuleStatementBlock"
+﻿<core:ScopeBlock x:Class="GSharp.Graphic.Scopes.EventBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GSharp.Graphic.Statements"
+             xmlns:local="clr-namespace:GSharp.Graphic.Scopes"
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel>
-        <hole:PrevConnectHole />
+    <StackPanel Orientation="Vertical">
         <Grid Background="Red">
-            <StackPanel x:Name="StackContent"  Margin="10" Orientation="Horizontal">
+            <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="10,15,10,10">
+                <TextBlock x:Name="StackContentText"></TextBlock>
             </StackPanel>
         </Grid>
-        <hole:NextConnectHole x:Name="RealNextConnectHole" />
+        <hole:NextConnectHole x:Name="NextConnectHole" />
     </StackPanel>
-</local:PrevStatementBlock>
+</core:ScopeBlock>

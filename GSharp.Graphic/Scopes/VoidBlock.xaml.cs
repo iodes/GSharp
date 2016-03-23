@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
-using GSharp.Base.Scopes;
+using GSharp.Base;
 
 namespace GSharp.Graphic.Scopes
 {
@@ -24,40 +24,25 @@ namespace GSharp.Graphic.Scopes
     /// </summary>
     public partial class VoidBlock : ScopeBlock
     {
-        public string MethodName { get; set; } = "Main";
-
         public VoidBlock()
         {
             InitializeComponent();
         }
 
-        public override List<BaseHole> GetHoleList()
+        public override List<GBase> GObjectList
         {
-            List<BaseHole> baseHoleList = new List<BaseHole>();
-
-            baseHoleList.Add(NextConnectHole);
-
-            return baseHoleList;
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        public override List<GBase> ToObject()
+        public override GScope GScope
         {
-            List<GBase> baseList = new List<GBase>();
-            GVoid gVoid = new GVoid(MethodName);
-
-            List<GBase> nextList = NextConnectHole?.StatementBlock?.ToObject();
-            if (nextList != null)
+            get
             {
-                foreach (GBase next in nextList)
-                {
-                    GStatement nextStatement = (GStatement)next;
-                    gVoid.Append(nextStatement);
-                }
+                throw new NotImplementedException();
             }
-
-            baseList.Add(gVoid);
-
-            return baseList;
         }
     }
 }

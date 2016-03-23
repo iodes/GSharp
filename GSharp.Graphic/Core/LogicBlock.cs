@@ -9,7 +9,15 @@ namespace GSharp.Graphic.Core
 {
     public abstract class LogicBlock : ObjectBlock
     {
-        public GLogic GLogic;
+        public override GObject GObject
+        {
+            get
+            {
+                return GLogic;
+            }
+        }
+
+        public abstract GLogic GLogic { get; }
 
         public LogicBlock()
         {

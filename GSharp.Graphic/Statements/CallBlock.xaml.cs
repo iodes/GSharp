@@ -12,22 +12,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using GSharp.Base.Cores;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
-using GSharp.Base.Cores;
-using GSharp.Base.Objects;
 using GSharp.Base.Statements;
+using GSharp.Graphic.Objects;
+using GSharp.Base.Objects;
+using GSharp.Extension;
 
 namespace GSharp.Graphic.Statements
 {
     /// <summary>
-    /// SetBlock.xaml에 대한 상호 작용 논리
+    /// ExtensionBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class SetBlock : PrevStatementBlock
+    public partial class CallBlock : PrevStatementBlock, IModuleBlock
     {
-        public SetBlock()
+        private List<BaseHole> holeList;
+
+        public GCommand Command { get; set; }
+
+        public CallBlock(GCommand command)
         {
             InitializeComponent();
+            Command = command;
+            holeList = ModuleBlock.SetContent(command.FriendlyName, StackContent);
+            holeList.Add(NextConnectHole);
         }
 
         public override NextConnectHole NextConnectHole
@@ -48,21 +57,26 @@ namespace GSharp.Graphic.Statements
             return NextConnectHole.StatementBlock.GetLastBlock();
         }
 
-        public GSet GSet
+        public GCall GCall
         {
             get
             {
-                String variableName = VariableSelect.Text;
-                GVariable variable = new GVariable(variableName);
+                List<GObject> objectList = new List<GObject>();
 
-                GObject obj = ObjectHole?.ObjectBlock?.GObject;
-
-                if (obj == null)
+                foreach (BaseHole hole in holeList)
                 {
-                    throw new ToObjectException("변수 설정 블럭이 완성되지 않았습니다.", this);
+                    if (hole.Block == null)
+                    {
+                        throw new ToObjectException(Command.FriendlyName + "블럭이 완성되지 않았습니다.", this);
+                    }
+
+                    if (hole is BaseObjectHole)
+                    {
+                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.GObjectList[0] as GObject);
+                    }
                 }
 
-                return new GSet(ref variable, obj);
+                return new GCall(Command, objectList.ToArray());
             }
         }
 
@@ -70,15 +84,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return GSet;
-            }
-        }
-
-        public override List<BaseHole> HoleList
-        {
-            get
-            {
-                return new List<BaseHole> { ObjectHole, NextConnectHole };
+                return GCall;
             }
         }
 
@@ -86,16 +92,15 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                List<GBase> baseList = new List<GBase>();
-                baseList.Add(GSet);
+                return new List<GBase> { GStatement };
+            }
+        }
 
-                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
-                if (nextList != null)
-                {
-                    baseList.AddRange(nextList);
-                }
-
-                return baseList;
+        public override List<BaseHole> HoleList
+        {
+            get
+            {
+                return holeList;
             }
         }
     }

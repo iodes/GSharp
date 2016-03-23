@@ -24,69 +24,85 @@ namespace GSharp.Graphic.Logics
     /// </summary>
     public partial class CompareBlock : LogicBlock
     {
+        private List<BaseHole> holeList;
+        public override List<BaseHole> HoleList
+        {
+            get
+            {
+                return holeList;
+            }
+        }
+
+        public GCompare GCompare
+        {
+            get
+            {
+                GObject obj1 = ObjectHole1?.ObjectBlock?.GObject;
+                GObject obj2 = ObjectHole2?.ObjectBlock?.GObject;
+
+                if (obj1 == null || obj2 == null)
+                {
+                    throw new ToObjectException("블럭이 완성되지 않았습니다.", this);
+                }
+
+                GCompare.ConditionType op = GetConditionType();
+
+                return new GCompare(obj1, op, obj2);
+            }
+        }
+
+        public override GLogic GLogic
+        {
+            get
+            {
+                return GCompare;
+            }
+        }
+
+        public override List<GBase> GObjectList
+        {
+            get
+            {
+                return new List<GBase> { GLogic };
+            }
+        }
+
         public CompareBlock()
         {
             InitializeComponent();
-        }
 
-        public override List<BaseHole> GetHoleList()
-        {
-            List<BaseHole> baseHoleList = new List<BaseHole>();
-
-            baseHoleList.Add(ObjectHole1);
-            baseHoleList.Add(ObjectHole2);
-
-            return baseHoleList;
-        }
-
-        public override List<GBase> ToObject()
-        {
-            List<GBase> baseList = new List<GBase>();
-
-            GObject obj1 = (GObject)ObjectHole1?.ObjectBlock?.ToObject()[0];
-            GObject obj2 = (GObject)ObjectHole2?.ObjectBlock?.ToObject()[0];
-
-            if (obj1 == null || obj2 == null)
+            holeList = new List<BaseHole>()
             {
-                throw new ToObjectException("비교 블럭이 완성되지 않았습니다.", this);
-            }
+                ObjectHole1,
+                ObjectHole2
+            };
+        }
 
-            GCompare.ConditionType op;
-
+        private GCompare.ConditionType GetConditionType()
+        {
             switch (Operator.Text)
             {
                 case "=":
-                    op = GCompare.ConditionType.EQUAL;
-                    break;
+                    return GCompare.ConditionType.EQUAL;
 
                 case "!=":
-                    op = GCompare.ConditionType.NOT_EQUAL;
-                    break;
+                    return GCompare.ConditionType.NOT_EQUAL;
 
                 case "≤":
-                    op = GCompare.ConditionType.LESS_THEN_OR_EQUAL;
-                    break;
+                    return GCompare.ConditionType.LESS_THEN_OR_EQUAL;
 
                 case "≥":
-                    op = GCompare.ConditionType.GREATER_THEN_OR_EQUAL;
-                    break;
+                    return GCompare.ConditionType.GREATER_THEN_OR_EQUAL;
 
                 case "<":
-                    op = GCompare.ConditionType.LESS_THEN;
-                    break;
+                    return GCompare.ConditionType.LESS_THEN;
 
                 case ">":
-                    op = GCompare.ConditionType.GREATER_THEN;
-                    break;
+                    return GCompare.ConditionType.GREATER_THEN;
 
                 default:
-                    op = GCompare.ConditionType.EQUAL;
-                    break;
+                    return GCompare.ConditionType.EQUAL;
             }
-
-            baseList.Add(new GCompare(obj1, obj2, op));
-
-            return baseList;
         }
     }
 }

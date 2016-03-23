@@ -9,7 +9,7 @@ namespace GSharp.Graphic.Core
 {
     public abstract class ScopeBlock : BaseBlock
     {
-        public GScope GScope;
+        public abstract GScope GScope { get; }
 
         public ScopeBlock()
         {

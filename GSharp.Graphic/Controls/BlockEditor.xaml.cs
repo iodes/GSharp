@@ -7,10 +7,12 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using GSharp.Base.Cores;
-using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
+using GSharp.Base;
+using GSharp.Base.Scopes;
+using GSharp.Graphic.Scopes;
 
 namespace GSharp.Graphic.Controls
 {
@@ -378,7 +380,7 @@ namespace GSharp.Graphic.Controls
             block.MouseLeftButtonDown += Block_MouseLeftButtonDown;
             BlockCanvas.Children.Add(block);
 
-            List<BaseHole> holeList = block.GetHoleList();
+            List<BaseHole> holeList = block.HoleList;
             HoleList.AddRange(holeList);
 
             foreach(BaseHole hole in holeList)
@@ -395,7 +397,7 @@ namespace GSharp.Graphic.Controls
         {
             RemoveFromParent(block);
 
-            List<BaseHole> holeList = block.GetHoleList();
+            List<BaseHole> holeList = block.HoleList;
             foreach (BaseHole hole in holeList)
             {
                 HoleList.Remove(hole);
@@ -407,24 +409,25 @@ namespace GSharp.Graphic.Controls
         {
             try
             {
-                GBlank root = new GBlank();
+                GEntry entry = new GEntry();
                 List<GBase> list = new List<GBase>();
 
                 foreach (GDefine define in DefineList.Values)
                 {
-                    root.Append(define);
+                    entry.Append(define);
                 }
 
                 foreach (var block in BlockCanvas.Children)
                 {
-                    if (!(block is ScopeBlock)) continue;
-
-                    ScopeBlock scopeBlock = (ScopeBlock)block;
-
-                    root.Append(scopeBlock.ToObject()[0]);
+                    if (block is EventBlock)
+                    {
+                        EventBlock scopeBlock = block as EventBlock;
+                        entry.Append(scopeBlock.GEvent);
+                    }
+                    //else if (block is )
                 }
 
-                return root.ToSource();
+                return entry.ToSource();
             }
             catch (ToObjectException e)
             {

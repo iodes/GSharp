@@ -1,13 +1,9 @@
-﻿namespace GSharp.Graphic.Core
+﻿using GSharp.Extension;
+
+namespace GSharp.Graphic.Core
 {
     public interface IModuleBlock
     {
-        string Title { get; set; }
-
-        string MethodName { get; set; }
-
-        string FriendlyName { get; set; }
-
-        string NamespaceName { get; set; }
+        GCommand Command { get; set; }
     }
 }

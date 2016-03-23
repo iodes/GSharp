@@ -26,18 +26,35 @@ namespace GSharp.Graphic.Objects
     {
         public string VariableName { get; set; }
 
-        public VariableBlock()
+        // 생성자
+        public VariableBlock(String variableName)
         {
             InitializeComponent();
+            VariableName = variableName;
+        }
+        
+        public GVariable GVariable
+        {
+            get
+            {
+                return new GVariable(VariableName);
+            }
         }
 
-        public override List<GBase> ToObject()
+        public override GObject GObject
         {
-            List<GBase> baseList = new List<GBase>();
+            get
+            {
+                return GVariable;
+            }
+        }
 
-            baseList.Add(new GVariable(VariableName));
-
-            return baseList;
+        public override List<GBase> GObjectList
+        {
+            get
+            {
+                return new List<GBase> { GObject };
+            }
         }
     }
 }

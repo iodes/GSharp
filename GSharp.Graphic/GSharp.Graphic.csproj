@@ -51,7 +51,7 @@
     <Compile Include="Controls\BlockEditor.xaml.cs">
       <DependentUpon>BlockEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\AddonBlock.cs" />
+    <Compile Include="Core\ModuleBlock.cs" />
     <Compile Include="Core\BaseBlock.cs" />
     <Compile Include="Core\IModuleBlock.cs" />
     <Compile Include="Core\LogicBlock.cs" />
@@ -80,8 +80,11 @@
     <Compile Include="Holes\VariableHole.xaml.cs">
       <DependentUpon>VariableHole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Logics\ModuleLogicBlock.xaml.cs">
-      <DependentUpon>ModuleLogicBlock.xaml</DependentUpon>
+    <Compile Include="Logics\GateBlock.xaml.cs">
+      <DependentUpon>GateBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logics\LogicCallBlock.xaml.cs">
+      <DependentUpon>LogicCallBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
@@ -105,19 +108,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Scopes\EventBlock.xaml.cs">
+      <DependentUpon>EventBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Scopes\VoidBlock.xaml.cs">
       <DependentUpon>VoidBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Statements\ModuleStatementBlock.xaml.cs">
-      <DependentUpon>ModuleStatementBlock.xaml</DependentUpon>
+    <Compile Include="Statements\CallBlock.xaml.cs">
+      <DependentUpon>CallBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\IFBlock.xaml.cs">
       <DependentUpon>IFBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\PrevStatementBlock.cs" />
-    <Compile Include="Statements\PrintBlock.xaml.cs">
-      <DependentUpon>PrintBlock.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Statements\SetBlock.xaml.cs">
       <DependentUpon>SetBlock.xaml</DependentUpon>
     </Compile>
@@ -160,7 +163,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Logics\ModuleLogicBlock.xaml">
+    <Page Include="Logics\GateBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Logics\LogicCallBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -176,19 +183,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Scopes\EventBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Scopes\VoidBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\ModuleStatementBlock.xaml">
+    <Page Include="Statements\CallBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Statements\IFBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Statements\PrintBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -201,6 +208,10 @@
     <ProjectReference Include="..\GSharp.Base\GSharp.Base.csproj">
       <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
       <Name>GSharp.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">
+      <Project>{e9a37265-4972-42b8-a144-7dbe3cdab526}</Project>
+      <Name>GSharp.Extension</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

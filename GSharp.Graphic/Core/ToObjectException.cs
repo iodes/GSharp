@@ -9,6 +9,7 @@ namespace GSharp.Graphic.Core
     class ToObjectException : Exception
     {
         private BaseBlock where;
+
         public BaseBlock Where
         {
             get

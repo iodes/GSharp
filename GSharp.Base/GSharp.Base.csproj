@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cores\GBase.cs" />
+    <Compile Include="Cores\GEntry.cs" />
     <Compile Include="Cores\GLogic.cs" />
-    <Compile Include="Cores\GMethod.cs" />
     <Compile Include="Cores\GObject.cs" />
     <Compile Include="Cores\GScope.cs" />
     <Compile Include="Cores\GSingle.cs" />
@@ -50,15 +50,14 @@
     <Compile Include="Logics\GCompare.cs" />
     <Compile Include="Logics\GGate.cs" />
     <Compile Include="Logics\GLogicCall.cs" />
-    <Compile Include="Methods\GExtension.cs" />
-    <Compile Include="Methods\GPrint.cs" />
     <Compile Include="Objects\GCompute.cs" />
     <Compile Include="Objects\GNumber.cs" />
     <Compile Include="Objects\GString.cs" />
     <Compile Include="Objects\GVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scopes\GBlank.cs" />
-    <Compile Include="Scopes\GVoid.cs" />
+    <Compile Include="Scopes\GFunction.cs" />
+    <Compile Include="Scopes\GEvent.cs" />
     <Compile Include="Singles\GDefine.cs" />
     <Compile Include="Statements\GCall.cs" />
     <Compile Include="Statements\GIF.cs" />
@@ -66,7 +65,12 @@
     <Compile Include="Statements\GSet.cs" />
     <Compile Include="Utilities\ConvertAssistant.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">
+      <Project>{e9a37265-4972-42b8-a144-7dbe3cdab526}</Project>
+      <Name>GSharp.Extension</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
