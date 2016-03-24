@@ -28,14 +28,17 @@ namespace GSharp.Compile
         #endregion
 
         #region 생성자
-        public GCompiler(string value)
+        public GCompiler()
         {
-            Source = value;
-
             foreach (string reference in GetDefaultReference())
             {
                 References.Add(reference);
             }
+        }
+
+        public GCompiler(string value) : this()
+        {
+            Source = value;
         }
         #endregion
 
