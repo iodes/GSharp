@@ -7,20 +7,30 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
+             d:DesignHeight="80" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical">
-        <hole:PrevConnectHole />
-        <Grid Background="Red">
+        <Grid>
+            <Border BorderBrush="#D5404D" BorderThickness="2,2,0,0" Margin="0,8,0,0" Width="5" Height="5" Background="White" CornerRadius="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Border BorderBrush="White" BorderThickness="0,0,0,3" Margin="5,0" VerticalAlignment="Top">
+                <hole:PrevConnectHole />
+            </Border>
+            <Border BorderBrush="#D5404D" BorderThickness="0,2,2,0" Margin="0,8,0,0" Width="5" Height="5" Background="White" CornerRadius="0,2,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+        </Grid>
+        <Border Background="white" BorderBrush="#D5404D" BorderThickness="2,0">
             <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBlock Foreground="White" VerticalAlignment="Center">변수</TextBlock>
+                <TextBlock VerticalAlignment="Center">변수</TextBlock>
                 <ComboBox x:Name="VariableSelect" SelectedIndex="0" Margin="5,0" VerticalAlignment="Center">
                     <ComboBoxItem>test1</ComboBoxItem>
                 </ComboBox>
-                <TextBlock Foreground="White" VerticalAlignment="Center">을(를)</TextBlock>
+                <TextBlock VerticalAlignment="Center">을(를)</TextBlock>
                 <hole:ObjectHole x:Name="ObjectHole" Margin="5,0" VerticalAlignment="Center" />
-                <TextBlock Foreground="White" VerticalAlignment="Center">로 설정</TextBlock>
+                <TextBlock VerticalAlignment="Center">로 설정</TextBlock>
             </StackPanel>
+        </Border>
+        <Grid>
+            <Border BorderBrush="#D5404D" BorderThickness="2,0,0,2" CornerRadius="0,0,0,2" Height="10" Width="5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" />
+            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+            <Border BorderBrush="#D5404D" BorderThickness="0,0,2,2" Height="10" Width="5" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="0,0,2,0" Background="White" />
         </Grid>
-        <hole:NextConnectHole x:Name="RealNextConnectHole" />
     </StackPanel>
 </local:PrevStatementBlock>

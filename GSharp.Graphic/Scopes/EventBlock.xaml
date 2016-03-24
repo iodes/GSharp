@@ -7,13 +7,22 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <StackPanel Orientation="Vertical">
-        <Grid Background="Red">
-            <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="10,15,10,10">
-                <TextBlock x:Name="StackContentText"></TextBlock>
-            </StackPanel>
-        </Grid>
-        <hole:NextConnectHole x:Name="NextConnectHole" />
-    </StackPanel>
+             d:DesignHeight="51" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="5,0">
+            <Border BorderThickness="2,2,2,0" HorizontalAlignment="Stretch" BorderBrush="#D5404D" Height="5" Background="White" CornerRadius="2,2,0,0" />
+            <Border Background="white" BorderThickness="2,0,2,0" BorderBrush="#D5404D">
+                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="10,10,10,10">
+                    <TextBlock x:Name="StackContentText"></TextBlock>
+                </StackPanel>
+            </Border>
+            <Grid>
+                <Border BorderThickness="2,0,0,2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,0,2" />
+                <hole:NextConnectHole x:Name="NextConnectHole" Margin="5,0" VerticalAlignment="Bottom" />
+                <Border BorderThickness="0,0,2,2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,2,0" />
+            </Grid>
+        </StackPanel>
+        <!--<Border BorderThickness="2,2,0,2" BorderBrush="#D5404D" Width="5" HorizontalAlignment="Left" Background="White" CornerRadius="2,0,0,2" />
+        <Border BorderThickness="0,2,2,2" BorderBrush="#D5404D" Width="5" HorizontalAlignment="Right" Background="White" CornerRadius="0,2,2,0" />-->
+    </Grid>
 </core:ScopeBlock>

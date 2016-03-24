@@ -5,20 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignWidth="300">
+             d:DesignWidth="300"
+             d:DesignHeight="10"
+             SnapsToDevicePixels="True">
     <StackPanel Orientation="Vertical" VerticalAlignment="top">
         <Grid Height="10">
-            <DockPanel>
-                <Polygon Points="0,0 20,0 10,10 0,10" Fill="Red" />
-                <Polygon Points="0,0 10,0 10,10" Fill="Red" />
-                <Rectangle Fill="Red"></Rectangle>
-            </DockPanel>
-            <DockPanel>
-                <Polygon Points="0,9 10,9 19,0 20,0 10,10 0,10" Fill="DarkRed" />
-                <Polygon Points="0,0 1,0 10,9 10,10" Fill="DarkRed" />
-                <Rectangle Height="1" VerticalAlignment="Bottom" Fill="DarkRed"></Rectangle>
+            <DockPanel ClipToBounds="True">
+                <Path Data="M -2,-2 -2,9 L 10,9 18,2 26,9 28,9 28,-2 Z" StrokeThickness="2" StrokeLineJoin="Round" Margin="0,0,-2,0" Stroke="#D5404D" Fill="White" />
+                <!--<Path Data="M -2,-2 10,11 L 12,11 12,-2 Z" Width="10" StrokeThickness="2" StrokeLineJoin="Round" Stroke="#D5404D" Fill="White" />-->
+                <Border Background="White" BorderBrush="#D5404D" BorderThickness="0,0,0,2" />
             </DockPanel>
         </Grid>
-        <Border x:Name="RealNextBlock" Margin="0,-10,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <Border x:Name="RealNextBlock" Margin="-5,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </StackPanel>
 </local:BaseStatementHole>
