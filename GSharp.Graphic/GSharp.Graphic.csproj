@@ -95,6 +95,9 @@
     <Compile Include="Objects\NumberBlock.xaml.cs">
       <DependentUpon>NumberBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\MemberBlock.xaml.cs">
+      <DependentUpon>MemberBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\VariableBlock.xaml.cs">
       <DependentUpon>VariableBlock.xaml</DependentUpon>
     </Compile>
@@ -180,6 +183,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\NumberBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\MemberBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

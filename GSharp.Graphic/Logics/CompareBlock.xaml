@@ -8,7 +8,8 @@
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d"
              d:DesignHeight="200"
-             d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+             d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top"
+             SnapsToDevicePixels="True">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <Path Panel.ZIndex="1" Data="M 0,10 10,0 13,0 L 13,20 10, 20 Z" StrokeThickness="2" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#D5404D" Fill="White" />

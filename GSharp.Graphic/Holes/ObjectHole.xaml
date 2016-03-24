@@ -5,6 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="30">
-    <Border x:Name="RealObjectBlock" Background="#C8C8C8" CornerRadius="10" MinHeight="30" MinWidth="30"></Border>
+             d:DesignHeight="30" d:DesignWidth="26">
+    <Border x:Name="RealObjectBlock" Background="#C8C8C8" CornerRadius="10" MinHeight="30" MinWidth="26"></Border>
 </local:BaseObjectHole>

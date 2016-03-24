@@ -7,7 +7,7 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="51" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
+             d:DesignHeight="51" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
     <Grid>
         <StackPanel Orientation="Vertical" Margin="5,0">
             <Border BorderThickness="2,2,2,0" HorizontalAlignment="Stretch" BorderBrush="#D5404D" Height="5" Background="White" CornerRadius="2,2,0,0" />

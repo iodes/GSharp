@@ -34,12 +34,14 @@ namespace GSharp.Graphic.Core
                     string holeName = name.Substring(start + 1, i - start - 1);
 
                     BaseHole hole = BaseHole.CreateHole(holeName);
+                    hole.VerticalAlignment = System.Windows.VerticalAlignment.Center;
 
                     if (hole != null)
                     {
                         Content.Children.Add(new TextBlock
                         {
-                            Text = text
+                            Text = text,
+                            VerticalAlignment = System.Windows.VerticalAlignment.Center
                         });
                         Content.Children.Add(hole);
                         holeList.Add(hole);
@@ -53,7 +55,8 @@ namespace GSharp.Graphic.Core
             string lastText = name.Substring(last);
             Content.Children.Add(new TextBlock
             {
-                Text = lastText
+                Text = lastText,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center
             });
 
             return holeList;
