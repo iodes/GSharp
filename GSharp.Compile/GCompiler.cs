@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.CodeDom.Compiler;
@@ -45,6 +46,19 @@ namespace GSharp.Compile
         #endregion
 
         #region 내부 함수
+        private string GetPublicKeyToken(AssemblyName assembly)
+        {
+            StringBuilder builder = new StringBuilder();
+            byte[] token = assembly.GetPublicKeyToken();
+
+            for (int i = 0; i < token.GetLength(0); i++)
+            {
+                builder.AppendFormat("{0:x2}", token[i]);
+            }
+
+            return builder.ToString();
+        }
+
         private List<string> GetDefaultReference()
         {
             List<string> result = new List<string>();
@@ -95,27 +109,49 @@ namespace GSharp.Compile
             References.Add(path);
             foreach (AssemblyName assembly in Assembly.LoadFrom(path).GetReferencedAssemblies())
             {
+                // 중복 참조 검사
+                if (assembly.Name == "mscorlib" ||
+                    GetDefaultReference().Where(dll => assembly.Name == Path.GetFileNameWithoutExtension(dll)).Count() > 0)
+                {
+                    continue;
+                }
+
+                // 참조 종속성 검사
                 string referencesName = null;
                 string dllPath = string.Format(@"{0}\{1}.dll", Path.GetDirectoryName(path), assembly.Name);
                 if (File.Exists(dllPath))
                 {
+                    // 동일 경로에 존재
                     referencesName = dllPath;
                 }
                 else
                 {
+                    // 동일 경로에 존재하지 않음
+                    // 글로벌 캐시에서 존재 여부 검사
                     string[] dllGAC =
                         Directory.GetFiles
                         (
                             Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\assembly", assembly.Name + ".dll",
                             SearchOption.AllDirectories
                         );
+                    dllGAC = dllGAC.Where(dll => dll.IndexOf(GetPublicKeyToken(assembly)) != -1).ToArray();
 
                     if (dllGAC.Length > 0)
                     {
-                        referencesName = assembly.Name + ".dll";
+                        // 글로벌 캐시에 존재
+                        // 시스템에 맞는 파일 검색
+                        if (dllGAC.Length == 1)
+                        {
+                            referencesName = dllGAC.First();
+                        }
+                        else
+                        {
+                            referencesName = dllGAC.Where(dll => dll.IndexOf(Environment.Is64BitOperatingSystem ? "GAC_64" : "GAC_32") != -1).First();
+                        }
                     }
                 }
 
+                // 참조 목록에 추가
                 if (!References.Contains(referencesName))
                 {
                     References.Add(referencesName);
