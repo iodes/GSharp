@@ -33,8 +33,10 @@ namespace GSharp.Manager
             foreach (string path in Directory.GetFiles(valuePath, "*.ini", SearchOption.AllDirectories))
             {
                 INI ini = new INI(path);
+                string modulePath = ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName);
 
-                GModule module = LoadModule(ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName));
+                GModule module = LoadModule(modulePath);
+                module.Path = modulePath;
                 module.Title = ini.GetValue("General", "Title");
                 module.Author = ini.GetValue("General", "Author");
                 module.Summary = ini.GetValue("General", "Summary");
@@ -63,7 +65,7 @@ namespace GSharp.Manager
                         targetObject = Activator.CreateInstance(targetType);
 
                         GModule target = (GModule)targetObject;
-                        target.Package = targetType.Assembly.FullName.Split(',')[0];
+                        target.Namespace = targetType.Assembly.FullName.Split(',')[0];
 
                         // 메소드 분석
                         foreach (MethodInfo info in targetType.GetMethods())
