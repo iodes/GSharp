@@ -92,7 +92,14 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return new List<GBase> { GStatement };
+                List<GBase> baseList = new List<GBase> { GStatement };
+                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
+                if (nextList != null)
+                {
+                    baseList.AddRange(nextList);
+                }
+
+                return baseList;
             }
         }
 
