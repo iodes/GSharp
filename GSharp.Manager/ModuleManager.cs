@@ -115,7 +115,7 @@ namespace GSharp.Manager
                                     new GCommand
                                     (
                                         target,
-                                        targetAssembly.GetName().Name,
+                                        value.FullName,
                                         info.Name,
                                         command.Name,
                                         GCommand.CommandType.Event,
