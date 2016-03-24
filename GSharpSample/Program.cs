@@ -45,6 +45,8 @@ namespace GSharpSample
             string resultFile = Path.GetTempFileName();
 
             GCompiler compile = new GCompiler(source);
+            compile.LoadReference(@"C:\Users\SEOP\AppData\Roaming\ENTRA Studio\Modules\Live2D\ENTRA.Modules.Live2D.dll");
+
             GCompilerResults result = compile.Build(resultFile);
             Console.WriteLine(source);
 

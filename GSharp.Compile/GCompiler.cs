@@ -46,6 +46,14 @@ namespace GSharp.Compile
         #endregion
 
         #region 내부 함수
+        private bool IsNameContains(StringCollection references, string name)
+        {
+            return (from string dll
+                    in references
+                    where Path.GetFileName(dll) == Path.GetFileName(name)
+                    select dll).ToArray().Count() > 0;
+        }
+
         private string GetPublicKeyToken(AssemblyName assembly)
         {
             StringBuilder builder = new StringBuilder();
@@ -106,16 +114,15 @@ namespace GSharp.Compile
         /// <param name="path">외부 참조 파일의 경로입니다.</param>
         public void LoadReference(string path)
         {
-            References.Add(path);
+            // 참조 추가
+            if (!IsNameContains(References, path))
+            {
+                References.Add(path);
+            }
+
+            // 참조의 종속성 검사
             foreach (AssemblyName assembly in Assembly.LoadFrom(path).GetReferencedAssemblies())
             {
-                // 중복 참조 검사
-                if (assembly.Name == "mscorlib" ||
-                    GetDefaultReference().Where(dll => assembly.Name == Path.GetFileNameWithoutExtension(dll)).Count() > 0)
-                {
-                    continue;
-                }
-
                 // 참조 종속성 검사
                 string referencesName = null;
                 string dllPath = string.Format(@"{0}\{1}.dll", Path.GetDirectoryName(path), assembly.Name);
@@ -126,8 +133,16 @@ namespace GSharp.Compile
                 }
                 else
                 {
-                    // 동일 경로에 존재하지 않음
-                    // 글로벌 캐시에서 존재 여부 검사
+                    // 동일 경로에 없음
+                    // 외부 종속성 중복 검사
+                    if ((from callingAssembly
+                         in Assembly.GetCallingAssembly().GetReferencedAssemblies()
+                         select callingAssembly.Name).Contains(assembly.Name))
+                    {
+                        continue;
+                    }
+
+                    // 글로벌 캐시에 존재 여부 검사
                     string[] dllGAC =
                         Directory.GetFiles
                         (
@@ -151,8 +166,8 @@ namespace GSharp.Compile
                     }
                 }
 
-                // 참조 목록에 추가
-                if (!References.Contains(referencesName))
+                // 참조의 종속성을 추가
+                if (!IsNameContains(References, referencesName))
                 {
                     References.Add(referencesName);
                 }
