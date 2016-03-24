@@ -89,6 +89,9 @@
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\StringBlock.xaml.cs">
+      <DependentUpon>StringBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\NumberBlock.xaml.cs">
       <DependentUpon>NumberBlock.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Logics\CompareBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\StringBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
