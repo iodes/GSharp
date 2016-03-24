@@ -11,12 +11,11 @@
              d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Polygon Points="0,10 10,0 10,20" Fill="Blue" Width="10" Stretch="Fill" />
-            <Grid Background="Blue">
-                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="5">
-                </StackPanel>
-            </Grid>
-            <Polygon Points="0,0 10,10 0,20" Fill="Blue" Width="10" Stretch="Fill"/>
+            <Path Panel.ZIndex="1" Data="M 0,10 10,0 13,0 L 13,20 10, 20 Z" StrokeThickness="2" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#D5404D" Fill="White" />
+            <Border Panel.ZIndex="2" Background="White" BorderBrush="#D5404D" BorderThickness="0,2" Margin="0,0,-2,0">
+                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="5"></StackPanel>
+            </Border>
+            <Path Panel.ZIndex="1" Data="M 0,0 3,0 13,10 L 3,20 0,20 Z" StrokeThickness="2" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#D5404D" Fill="White" />
         </StackPanel>
     </StackPanel>
 </core:LogicBlock>

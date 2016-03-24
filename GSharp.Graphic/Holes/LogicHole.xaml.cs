@@ -61,10 +61,5 @@ namespace GSharp.Graphic.Holes
         {
             InitializeComponent();
         }
-
-        private void RealLogicBlock_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Console.WriteLine(e.NewSize);
-        }
     }
 }
