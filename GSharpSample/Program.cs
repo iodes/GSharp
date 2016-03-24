@@ -18,8 +18,6 @@ namespace GSharpSample
     {
         static void Main(string[] args)
         {
-            ModuleManager atarashiManager = new ModuleManager(@"C:\Users\SEOP\AppData\Roaming\ENTRA Studio\Modules\");
-
             // 코드 생성
             GEntry entry = new GEntry();
 
@@ -38,8 +36,8 @@ namespace GSharpSample
                     new GObject[] { new GCompute(new GString("A"), new GNumber(5), GCompute.OperatorType.PLUS) }
                 )
             );
-            main.Append(ifCheck);
 
+            main.Append(ifCheck);
             entry.Append(main);
 
             // 생성된 코드 컴파일
