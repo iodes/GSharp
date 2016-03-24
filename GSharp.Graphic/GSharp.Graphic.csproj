@@ -111,9 +111,6 @@
     <Compile Include="Scopes\EventBlock.xaml.cs">
       <DependentUpon>EventBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Scopes\VoidBlock.xaml.cs">
-      <DependentUpon>VoidBlock.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Statements\CallBlock.xaml.cs">
       <DependentUpon>CallBlock.xaml</DependentUpon>
     </Compile>
@@ -184,10 +181,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Scopes\EventBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Scopes\VoidBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
