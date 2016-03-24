@@ -39,7 +39,8 @@ namespace GSharp.Base.Scopes
                 {
                     args.Add("a" + i);
                 }
-                string.Join(",", args.ToArray());
+
+                argStr = string.Join(",", args.ToArray());
             }
 
             source.AppendFormat("{0}.{1} += ({2}) => \n{{\n", Command.NamespaceName, Command.MethodName, argStr);
