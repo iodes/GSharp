@@ -40,7 +40,6 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                long number = long.Parse(StringText.Text);
                 return new GString(String);
             }
         }
