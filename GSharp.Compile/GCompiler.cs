@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.IO;
+using System.Text;
 using System.Reflection;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -93,9 +95,30 @@ namespace GSharp.Compile
             References.Add(path);
             foreach (AssemblyName assembly in Assembly.LoadFrom(path).GetReferencedAssemblies())
             {
-                if (!References.Contains(assembly.Name))
+                string referencesName = null;
+                string dllPath = string.Format(@"{0}\{1}.dll", Path.GetDirectoryName(path), assembly.Name);
+                if (File.Exists(dllPath))
                 {
-                    References.Add(assembly.Name + ".dll");
+                    referencesName = dllPath;
+                }
+                else
+                {
+                    string[] dllGAC =
+                        Directory.GetFiles
+                        (
+                            Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\assembly", assembly.Name + ".dll",
+                            SearchOption.AllDirectories
+                        );
+
+                    if (dllGAC.Length > 0)
+                    {
+                        referencesName = assembly.Name + ".dll";
+                    }
+                }
+
+                if (!References.Contains(referencesName))
+                {
+                    References.Add(referencesName);
                 }
             }
         }
