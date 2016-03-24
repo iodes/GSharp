@@ -164,6 +164,10 @@ namespace GSharp.Compile
                             referencesName = dllGAC.Where(dll => dll.IndexOf(Environment.Is64BitOperatingSystem ? "GAC_64" : "GAC_32") != -1).First();
                         }
                     }
+                    else
+                    {
+                        referencesName = assembly.Name + ".dll";
+                    }
                 }
 
                 // 참조의 종속성을 추가

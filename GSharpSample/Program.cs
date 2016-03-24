@@ -36,8 +36,8 @@ namespace GSharpSample
                     new GObject[] { new GCompute(new GString("A"), new GNumber(5), GCompute.OperatorType.PLUS) }
                 )
             );
-            main.Append(ifCheck);
 
+            main.Append(ifCheck);
             entry.Append(main);
 
             // 생성된 코드 컴파일
@@ -45,8 +45,6 @@ namespace GSharpSample
             string resultFile = Path.GetTempFileName();
 
             GCompiler compile = new GCompiler(source);
-            compile.LoadReference(@"C:\Users\SEOP\AppData\Roaming\ENTRA Studio\Modules\Live2D\ENTRA.Modules.Live2D.dll");
-
             GCompilerResults result = compile.Build(resultFile);
             Console.WriteLine(source);
 

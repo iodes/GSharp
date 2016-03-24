@@ -30,7 +30,20 @@ namespace GSharp.Base.Scopes
         public override string ToSource()
         {
             StringBuilder source = new StringBuilder();
-            source.AppendFormat("{0}.{1} += () => \n{{\n", Command.NamespaceName, Command.MethodName);
+
+            List<string> args = new List<string>();
+            string argStr = "";
+            if (Command.Arguments != null)
+            {
+                for (int i = 0; i < Command.Arguments.Length; i++)
+                {
+                    args.Add("a" + i);
+                }
+
+                argStr = string.Join(",", args.ToArray());
+            }
+
+            source.AppendFormat("{0}.{1} += ({2}) => \n{{\n", Command.NamespaceName, Command.MethodName, argStr);
 
             foreach(GStatement statement in content)
             {
