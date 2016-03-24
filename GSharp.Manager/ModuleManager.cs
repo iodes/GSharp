@@ -7,6 +7,7 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Logics;
 using GSharp.Graphic.Statements;
 using GSharp.Graphic.Scopes;
+using System.Linq;
 
 namespace GSharp.Manager
 {
@@ -53,6 +54,7 @@ namespace GSharp.Manager
                 targetAssembly = Assembly.LoadFrom(Path);
                 AssemblyName[] name = targetAssembly.GetReferencedAssemblies();
 
+                // 클래스 분석
                 foreach (Type value in targetAssembly.GetExportedTypes())
                 {
                     if (value.Name == "Main")
@@ -63,32 +65,82 @@ namespace GSharp.Manager
                         GModule target = (GModule)targetObject;
                         target.Package = targetType.Assembly.FullName.Split(',')[0];
 
-                        foreach (MethodInfo method in targetType.GetMethods())
+                        // 메소드 분석
+                        foreach (MethodInfo info in targetType.GetMethods())
                         {
-                            object[] attributes = method.GetCustomAttributes(true);
-                            if (attributes.Length > 0)
+                            CommandAttribute command = GetCommandAttribute(info);
+                            if (command != null)
                             {
-                                foreach (object attribute in attributes)
+                                // 커멘드 목록 추가
+                                target.Commands.Add(
+                                    new GCommand
+                                    (
+                                        target,
+                                        targetAssembly.GetName().Name,
+                                        info.Name,
+                                        command.Name,
+                                        info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic,
+                                        (from parameter in info.GetParameters() select parameter.ParameterType).ToArray()
+                                    )
+                                );
+                            }
+                        }
+
+                        // 이벤트 분석
+                        foreach (EventInfo info in targetType.GetEvents())
+                        {
+                            CommandAttribute command = GetCommandAttribute(info);
+                            if (command != null)
+                            {
+                                // 대리자 검색
+                                Type eventDelegate = null;
+                                MethodInfo eventDelegateMethod = null;
+                                foreach (Type typeDelegate in targetType.GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
                                 {
-                                    if (attribute.GetType() == typeof(CommandAttribute))
+                                    if (typeDelegate == info.EventHandlerType)
                                     {
-                                        CommandAttribute command = attribute as CommandAttribute;
-                                        target.Commands.Add(
-                                            new GCommand
-                                            {
-                                                Parent = target,
-                                                FriendlyName = command.Name,
-                                                MethodName = method.Name,
-                                                MethodType = command.Type,
-                                                NamespaceName = targetAssembly.GetName().Name
-                                            }
-                                        );
+                                        eventDelegate = typeDelegate;
+                                        break;
                                     }
                                 }
+                                if (eventDelegate != null)
+                                {
+                                    eventDelegateMethod = eventDelegate.GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                                }
+
+                                // 커멘드 목록 추가
+                                target.Commands.Add(
+                                    new GCommand
+                                    (
+                                        target,
+                                        targetAssembly.GetName().Name,
+                                        info.Name,
+                                        command.Name,
+                                        GCommand.CommandType.Event,
+                                        eventDelegateMethod != null ? (from parameter in eventDelegateMethod.GetParameters() select parameter.ParameterType).ToArray() : null
+                                    )
+                                );
                             }
                         }
 
                         return target;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private CommandAttribute GetCommandAttribute(MemberInfo info)
+        {
+            object[] attributes = info.GetCustomAttributes(true);
+            if (attributes.Length > 0)
+            {
+                foreach (object attribute in attributes)
+                {
+                    if (attribute.GetType() == typeof(CommandAttribute))
+                    {
+                        return attribute as CommandAttribute;
                     }
                 }
             }
@@ -110,15 +162,15 @@ namespace GSharp.Manager
             {
                 switch (command.MethodType)
                 {
-                    case CommandAttribute.CommandType.Call:
+                    case GCommand.CommandType.Call:
                         blockList.Add(new CallBlock(command));
                         break;
 
-                    case CommandAttribute.CommandType.Logic:
+                    case GCommand.CommandType.Logic:
                         blockList.Add(new LogicCallBlock(command));
                         break;
 
-                    case CommandAttribute.CommandType.Event:
+                    case GCommand.CommandType.Event:
                         blockList.Add(new EventBlock(command));
                         break;
                 }

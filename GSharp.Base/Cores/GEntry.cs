@@ -39,8 +39,8 @@ namespace GSharp.Base.Cores
                 source.AppendLine(def.ToSource());
             }
 
-            source.AppendLine("public delegate void LoadedHandler();");
-            source.AppendLine("public event LoadedHandler Loaded;");
+            source.AppendLine("\npublic delegate void LoadedHandler();");
+            source.AppendLine("public event LoadedHandler Loaded;\n");
 
             source.AppendLine("public void Main()");
             source.AppendLine("{");

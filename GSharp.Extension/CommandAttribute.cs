@@ -6,20 +6,9 @@ namespace GSharp.Extension
     {
         public string Name { get; set; }
 
-        public CommandType Type { get; set; }
-
-
-        public enum CommandType
-        {
-            Call,
-            Event,
-            Logic
-        }
-
-        public CommandAttribute(string name, CommandType type)
+        public CommandAttribute(string name)
         {
             Name = name;
-            Type = type;
         }
     }
 }
