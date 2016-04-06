@@ -182,9 +182,12 @@ namespace GSharp.Compile
         /// 소스를 빌드하여 컴파일된 파일을 생성합니다.
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
-        public GCompilerResults Build(string path)
+        /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
+        /// <returns></returns>
+        public GCompilerResults Build(string path, bool isExecutable = false)
         {
             parameters.OutputAssembly = path;
+            parameters.GenerateExecutable = isExecutable;
             string fullSource = ConvertToFullSource(Source);
 
             GCompilerResults results = new GCompilerResults
