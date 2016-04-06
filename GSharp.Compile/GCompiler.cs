@@ -97,7 +97,7 @@ namespace GSharp.Compile
             result.AppendLine();
             result.AppendLine("namespace GSharp.Scenario");
             result.AppendLine("{");
-            result.AppendLine("    class Default");
+            result.AppendLine("    public class Default");
             result.AppendLine("    {");
             result.Append(ConvertAssistant.Indentation(source, 2));
             result.AppendLine("    }");
