@@ -42,7 +42,7 @@ namespace GSharp.Base.Cores
             source.AppendLine("\npublic delegate void LoadedHandler();");
             source.AppendLine("public event LoadedHandler Loaded;\n");
 
-            source.AppendLine("public void Main()");
+            source.AppendLine("public void Initialize()");
             source.AppendLine("{");
 
             foreach (GEvent evt in eventList)

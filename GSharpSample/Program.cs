@@ -8,9 +8,7 @@ using GSharp.Base.Singles;
 using GSharp.Base.Objects;
 using GSharp.Base.Statements;
 using GSharp.Compile;
-using GSharp.Runtime;
 using GSharp.Extension;
-using GSharp.Manager;
 
 namespace GSharpSample
 {
@@ -46,7 +44,7 @@ namespace GSharpSample
 
             GCompiler compile = new GCompiler(source);
             GCompilerResults result = compile.Build(resultFile);
-            Console.WriteLine(source);
+            Console.WriteLine(result.Source);
 
             // 코드 컴파일 결과 분석
             if (result.IsSuccess)
@@ -54,7 +52,6 @@ namespace GSharpSample
                 // 컴파일 성공
                 // 컴파일된 시나리오 실행
                 Console.WriteLine("컴파일 성공");
-                new GExecutor(resultFile, "GSharp.Scenario.Default").CallMethod("Main");
             }
             else
             {
