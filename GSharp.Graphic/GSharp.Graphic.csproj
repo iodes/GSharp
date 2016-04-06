@@ -114,11 +114,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Scopes\FunctionBlock.xaml.cs">
+      <DependentUpon>FunctionBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Scopes\EventBlock.xaml.cs">
       <DependentUpon>EventBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\CallBlock.xaml.cs">
       <DependentUpon>CallBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statements\LoopInfinityBlock.xaml.cs">
+      <DependentUpon>LoopInfinityBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statements\LoopNBlock.xaml.cs">
+      <DependentUpon>LoopNBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\IFBlock.xaml.cs">
       <DependentUpon>IFBlock.xaml</DependentUpon>
@@ -194,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Scopes\FunctionBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Scopes\EventBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -201,6 +214,14 @@
     <Page Include="Statements\CallBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Statements\LoopInfinityBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statements\LoopNBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Statements\IFBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
