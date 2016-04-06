@@ -1,0 +1,44 @@
+﻿<local:PrevStatementBlock x:Class="GSharp.Graphic.Statements.LoopNBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GSharp.Graphic.Statements"
+             xmlns:core="clr-namespace:GSharp.Graphic.Core"
+             xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
+             mc:Ignorable="d" 
+             d:DesignHeight="90" d:DesignWidth="200" SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Border BorderBrush="#D5404D" BorderThickness="2,2,0,0" Margin="0,8,0,0" Width="5" Height="5" Background="White" CornerRadius="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Border BorderBrush="White" BorderThickness="0,0,0,3" Margin="5,0" VerticalAlignment="Top">
+                <hole:PrevConnectHole />
+            </Border>
+            <Border BorderBrush="#D5404D" BorderThickness="0,2,2,0" Margin="0,8,0,0" Width="5" Height="5" Background="White" CornerRadius="0,2,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+        </Grid>
+        <Border BorderThickness="2,0" BorderBrush="#D5404D" Background="white">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="5,5">
+                <hole:ObjectHole x:Name="ObjectHole" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBlock VerticalAlignment="Center">번 반복</TextBlock>
+            </StackPanel>
+        </Border>
+        <Grid>
+            <Border BorderBrush="#D5404D" BorderThickness="2,0,0,0" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="17" Height="10" Margin="0,0,0,0"/>
+            <Border BorderBrush="#D5404D" BorderThickness="2,0,2,0" Background="White" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="17" Margin="0,10,0,0"/>
+            <Border BorderBrush="#D5404D" Margin="15,0,0,0" BorderThickness="0,0,0,2" Background="White" HorizontalAlignment="Left" Width="5" Height="10" />
+            <hole:NextConnectHole x:Name="ChildConnectHole" Margin="20,0,5,0" VerticalAlignment="Top" />
+            <Border BorderBrush="#D5404D" BorderThickness="0,0,2,2" Width="5" Height="10" Background="White" CornerRadius="0,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+        </Grid>
+        <Border BorderBrush="#D5404D" BorderThickness="2,0,2,0" Background="White" HorizontalAlignment="Left" Width="17" Height="10" />
+        <Grid>
+            <Border BorderBrush="#D5404D" BorderThickness="2,0,0,0" Height="5" Width="15" HorizontalAlignment="Left" Background="White" />
+            <Border BorderBrush="#D5404D" BorderThickness="0,2,0,0" Margin="15,0,5,0" Height="5" HorizontalAlignment="Stretch" Background="White" />
+            <Border BorderBrush="#D5404D" BorderThickness="0,2,2,0" Height="5" Width="5" HorizontalAlignment="Right" CornerRadius="0,2,0,0" Background="White" />
+        </Grid>
+        <Grid>
+            <Border BorderBrush="#D5404D" BorderThickness="2,0,0,2" CornerRadius="0,0,0,2" Height="10" Width="5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" />
+            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+            <Border BorderBrush="#D5404D" BorderThickness="0,0,2,2" Height="10" Width="5" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="0,0,2,0" Background="White" />
+        </Grid>
+    </StackPanel>
+</local:PrevStatementBlock>
