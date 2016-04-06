@@ -67,12 +67,6 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                if (FunctionName != null)
-                {
-                    return new GCall(FunctionName, new GObject[] { });
-                }
-
-
                 List<GObject> objectList = new List<GObject>();
 
                 foreach (BaseHole hole in holeList)

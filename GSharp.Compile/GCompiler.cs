@@ -99,6 +99,7 @@ namespace GSharp.Compile
             result.AppendLine("{");
             result.AppendLine("    class Default");
             result.AppendLine("    {");
+            result.AppendLine("        [STAThread]");
             result.AppendLine("        static void Main(string[] args)");
             result.AppendLine("        {");
             result.AppendLine("            new Default().Initialize();");
