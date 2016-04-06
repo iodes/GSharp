@@ -10,7 +10,7 @@ namespace GSharp.Base.Scopes
     public class GEvent : GScope
     {
         public GCommand Command { get; set; }
-        public List<GStatement> content = new List<GStatement>();
+        public List<GStatement> Content = new List<GStatement>();
 
         public GEvent(GCommand command)
         {
@@ -19,12 +19,12 @@ namespace GSharp.Base.Scopes
 
         public GEvent(GCommand command, List<GStatement> content) : this(command)
         {
-            this.content = content;
+            Content = content;
         }
 
         public void Append(GStatement statement)
         {
-            content.Add(statement);
+            Content.Add(statement);
         }
 
         public override string ToSource()
@@ -45,7 +45,7 @@ namespace GSharp.Base.Scopes
 
             source.AppendFormat("{0}.{1} += ({2}) => \n{{\n", Command.NamespaceName, Command.MethodName, argStr);
 
-            foreach(GStatement statement in content)
+            foreach(GStatement statement in Content)
             {
                 source.AppendLine(ConvertAssistant.Indentation(statement.ToSource()));
             }
