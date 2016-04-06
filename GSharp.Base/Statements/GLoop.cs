@@ -38,7 +38,7 @@ namespace GSharp.Base.Statements
 
             if (Object != null)
             {
-                String varName = "i";
+                String varName = "_" + GetHashCode();
 
                 builderCode.AppendFormat("for (int {0} = 0; {0} < {1}; {0}++)\n{{\n", varName, Object.ToSource());
             }
