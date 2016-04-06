@@ -17,7 +17,10 @@ namespace GSharp.Base.Statements
         #endregion
 
         #region 생성자
-        public GLoop(){}
+        public GLoop()
+        {
+
+        }
 
         public GLoop(GObject obj)
         {
@@ -38,8 +41,7 @@ namespace GSharp.Base.Statements
 
             if (Object != null)
             {
-                String varName = "_" + GetHashCode();
-
+                string varName = "_" + GetHashCode();
                 builderCode.AppendFormat("for (int {0} = 0; {0} < {1}; {0}++)\n{{\n", varName, Object.ToSource());
             }
             else
