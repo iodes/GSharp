@@ -9,18 +9,18 @@ namespace GSharp.Base.Statements
     public class GCall : GStatement
     {
         #region 객체
-        private string targetFunction;
+        private GFunction targetFunction;
         private GCommand targetCommand;
         private GObject[] targetArguments;
         #endregion
 
         #region 생성자
-        public GCall(string valueFunction)
+        public GCall(GFunction valueFunction)
         {
             targetFunction = valueFunction;
         }
 
-        public GCall(string valueFunction, GObject[] valueArguments) : this(valueFunction)
+        public GCall(GFunction valueFunction, GObject[] valueArguments) : this(valueFunction)
         {
             targetArguments = valueArguments;
         }
@@ -38,7 +38,7 @@ namespace GSharp.Base.Statements
 
         public override string ToSource()
         {
-            string valueTarget = targetFunction == null ? targetCommand.FullName : targetFunction;
+            string valueTarget = targetFunction == null ? targetCommand.FullName : targetFunction.FunctionName;
 
             if (targetArguments == null)
             {
