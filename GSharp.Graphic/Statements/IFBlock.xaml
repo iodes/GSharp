@@ -1,4 +1,4 @@
-﻿<local:PrevStatementBlock x:Class="GSharp.Graphic.Statements.IfBlock"
+﻿<local:PrevStatementBlock x:Class="GSharp.Graphic.Statements.IFBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

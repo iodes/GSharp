@@ -23,11 +23,9 @@ namespace GSharp.Graphic.Statements
     /// <summary>
     /// IFBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class IfBlock : PrevStatementBlock
+    public partial class IFBlock : PrevStatementBlock
     {
-        public List<StatementBlock> Children = new List<StatementBlock>();
-
-        public IfBlock()
+        public IFBlock()
         {
             InitializeComponent();
         }
