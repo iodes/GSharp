@@ -194,6 +194,7 @@ namespace GSharp.Compile
         {
             parameters.OutputAssembly = path;
             parameters.GenerateExecutable = isExecutable;
+            parameters.CompilerOptions = "/platform:x86";
             string fullSource = ConvertToFullSource(Source);
 
             GCompilerResults results = new GCompilerResults
