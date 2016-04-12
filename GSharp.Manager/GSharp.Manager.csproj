@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GSharp.Base\GSharp.Base.csproj">
+      <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
+      <Name>GSharp.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">
       <Project>{e9a37265-4972-42b8-a144-7dbe3cdab526}</Project>
       <Name>GSharp.Extension</Name>
