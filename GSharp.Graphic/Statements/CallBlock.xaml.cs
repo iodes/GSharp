@@ -19,6 +19,7 @@ using GSharp.Base.Statements;
 using GSharp.Graphic.Objects;
 using GSharp.Base.Objects;
 using GSharp.Extension;
+using GSharp.Base.Scopes;
 
 namespace GSharp.Graphic.Statements
 {
@@ -30,7 +31,7 @@ namespace GSharp.Graphic.Statements
         private List<BaseHole> holeList;
 
         public GCommand Command { get; set; }
-        public string FunctionName { get; set; }
+        public GFunction GFunction { get; set; }
 
         public CallBlock(GCommand command)
         {
@@ -40,9 +41,9 @@ namespace GSharp.Graphic.Statements
             holeList.Add(NextConnectHole);
         }
 
-        public CallBlock(string functionName)
+        public CallBlock(GFunction function)
         {
-            FunctionName = functionName;
+            GFunction = function;
         }
 
         public override NextConnectHole NextConnectHole
@@ -67,9 +68,9 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                if (FunctionName != null)
+                if (GFunction != null)
                 {
-                    return new GCall(FunctionName, new GObject[] { });
+                    return new GCall(GFunction, new GObject[] { });
                 }
 
 
