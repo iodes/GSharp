@@ -31,7 +31,7 @@ namespace GSharpSample
             ifCheck.Append(
                 new GCall(
                     new GCommand("Console", "WriteLine", GCommand.CommandType.Call),
-                    new GObject[] { new GCompute(new GString("A"), new GNumber(5), GCompute.OperatorType.PLUS) }
+                    new GObject[] { new GCompute(new GString("A"), GCompute.OperatorType.PLUS, new GNumber(5)) }
                 )
             );
 
