@@ -89,6 +89,21 @@
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\MultiplyBlock.xaml.cs">
+      <DependentUpon>MultiplyBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\DivisionBlock.xaml.cs">
+      <DependentUpon>DivisionBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\ModuloBlock.xaml.cs">
+      <DependentUpon>ModuloBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\MinusBlock.xaml.cs">
+      <DependentUpon>MinusBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\PlusBlock.xaml.cs">
+      <DependentUpon>PlusBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\StringBlock.xaml.cs">
       <DependentUpon>StringBlock.xaml</DependentUpon>
     </Compile>
@@ -184,6 +199,26 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Logics\CompareBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\MultiplyBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\DivisionBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\ModuloBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\MinusBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\PlusBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

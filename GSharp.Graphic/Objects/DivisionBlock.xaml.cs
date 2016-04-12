@@ -24,6 +24,14 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class DivisionBlock : ObjectBlock
     {
+        public override List<BaseHole> HoleList
+        {
+            get
+            {
+                return new List<BaseHole> { ObjectHole1, ObjectHole2 };
+            }
+        }
+
         public GCompute GCompute
         {
             get
