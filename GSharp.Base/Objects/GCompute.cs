@@ -18,12 +18,13 @@ namespace GSharp.Base.Objects
             PLUS,
             MINUS,
             MULTIPLY,
-            DIVISION
+            DIVISION,
+            MODULO
         }
         #endregion
 
         #region 생성자
-        public GCompute(GObject firstPart, GObject secondPart, OperatorType operatorType)
+        public GCompute(GObject firstPart, OperatorType operatorType, GObject secondPart)
         {
             FirstPart = firstPart;
             SecondPart = secondPart;
@@ -50,6 +51,10 @@ namespace GSharp.Base.Objects
 
                 case OperatorType.DIVISION:
                     operatorText = "/";
+                    break;
+
+                case OperatorType.MODULO:
+                    operatorText = "%";
                     break;
             }
 
