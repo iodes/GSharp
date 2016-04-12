@@ -52,6 +52,7 @@
     <Compile Include="Logics\GLogicCall.cs" />
     <Compile Include="Objects\GCompute.cs" />
     <Compile Include="Objects\GNumber.cs" />
+    <Compile Include="Objects\GProperty.cs" />
     <Compile Include="Objects\GString.cs" />
     <Compile Include="Objects\GVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

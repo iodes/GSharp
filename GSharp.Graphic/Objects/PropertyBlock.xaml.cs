@@ -33,8 +33,18 @@ namespace GSharp.Graphic.Objects
             InitializeComponent();
 
             GProperty = new GProperty(command);
+
+            PropertyName.Text = command.FriendlyName;
         }
-        
+
+        public override GObject GObject
+        {
+            get
+            {
+                return GProperty;
+            }
+        }
+
         public override List<GBase> GObjectList
         {
             get
