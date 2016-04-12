@@ -47,10 +47,10 @@ namespace GSharp.Graphic.Controls
         // 선택된 대상이 움직였는지 체크
         private bool IsSelectedBlockMoved = false;
 
-        private Dictionary<string, GDefine> DefineList = new Dictionary<string, GDefine>
-        {
-            {"test1", new GDefine("test1") }
-        };
+        // 변수 목록
+        private Dictionary<string, GDefine> DefineList = new Dictionary<string, GDefine>();
+
+        private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
         #endregion
 
         #region 생성자
@@ -139,12 +139,12 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 변수 선언
-        public void DefineVariable(String varName)
+        public void DefineVariable(string varName)
         {
             DefineList[varName] = new GDefine(varName);
         }
 
-        public void UnDefineVariable(String varName)
+        public void UnDefineVariable(string varName)
         {
             DefineList.Remove(varName);
         }
@@ -157,6 +157,33 @@ namespace GSharp.Graphic.Controls
         public List<GDefine> GetDefineList()
         {
             return DefineList.Values.ToList();
+        }
+        #endregion
+
+        #region 함수 선언
+        public void DefineFunction(string funcName)
+        {
+            FunctionList[funcName] = new GFunction(funcName);
+        }
+
+        public void UnDefineFunction(string funcName)
+        {
+            FunctionList.Remove(funcName);
+        }
+
+        public List<string> GetFunctionNameList()
+        {
+            return FunctionList.Keys.ToList();
+        }
+
+        public List<GFunction> GetFunctionList()
+        {
+            return FunctionList.Values.ToList();
+        }
+
+        public GFunction GetFunction(string funcName)
+        {
+            return FunctionList[funcName];
         }
         #endregion
 
