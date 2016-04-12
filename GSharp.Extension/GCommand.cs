@@ -63,7 +63,8 @@ namespace GSharp.Extension
         {
             Call,
             Event,
-            Logic
+            Logic,
+            Property
         }
 
         public string FullName

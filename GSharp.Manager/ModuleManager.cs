@@ -67,6 +67,26 @@ namespace GSharp.Manager
                         GModule target = (GModule)targetObject;
                         target.Namespace = targetType.Assembly.FullName.Split(',')[0];
 
+                        // 속성 분석
+                        foreach (PropertyInfo property in targetType.GetProperties())
+                        {
+                            CommandAttribute command = GetCommandAttribute(property);
+                            if (command != null)
+                            {
+                                // 커멘드 목록 추가
+                                target.Commands.Add(
+                                    new GCommand
+                                    (
+                                        target,
+                                        value.FullName,
+                                        property.Name,
+                                        command.Name,
+                                        GCommand.CommandType.Property
+                                    )
+                                );
+                            }
+                        }
+
                         // 메소드 분석
                         foreach (MethodInfo info in targetType.GetMethods())
                         {
