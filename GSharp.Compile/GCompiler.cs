@@ -73,6 +73,7 @@ namespace GSharp.Compile
 
             result.Add("System.dll");
             result.Add("System.Linq.dll");
+            result.Add("System.Windows.Forms.dll");
 
             return result;
         }
@@ -86,6 +87,7 @@ namespace GSharp.Compile
             result.AppendLine("using System.Text;");
             result.AppendLine("using System.Threading.Tasks;");
             result.AppendLine("using System.Reflection;");
+            result.AppendLine("using System.Windows.Forms;");
             result.AppendLine();
             result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
             result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");
@@ -102,6 +104,9 @@ namespace GSharp.Compile
             result.AppendLine("        [STAThread]");
             result.AppendLine("        static void Main(string[] args)");
             result.AppendLine("        {");
+            result.AppendLine("            Application.EnableVisualStyles();");
+            result.AppendLine("            Application.SetCompatibleTextRenderingDefault(false);");
+            result.AppendLine("            Application.Run(new Form());");
             result.AppendLine("            new Default().Initialize();");
             result.AppendLine("        }");
             result.AppendLine();
@@ -194,7 +199,7 @@ namespace GSharp.Compile
         {
             parameters.OutputAssembly = path;
             parameters.GenerateExecutable = isExecutable;
-            parameters.CompilerOptions = "/platform:x86";
+            parameters.CompilerOptions = "/platform:x86 /target:winexe";
             string fullSource = ConvertToFullSource(Source);
 
             GCompilerResults results = new GCompilerResults
