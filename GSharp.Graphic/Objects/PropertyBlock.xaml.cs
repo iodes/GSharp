@@ -16,36 +16,25 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
+using GSharp.Extension;
 
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
     /// VariableBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MemberBlock : ObjectBlock
+    public partial class PropertyBlock : ObjectBlock
     {
+        private GProperty GProperty;
+
         // 생성자
-        public MemberBlock()
+        public PropertyBlock(GCommand command)
         {
             InitializeComponent();
+
+            GProperty = new GProperty(command);
         }
         
-        public GNumber GMember
-        {
-            get
-            {
-                return new GNumber(MemberCombo.SelectedIndex + 1);
-            }
-        }
-
-        public override GObject GObject
-        {
-            get
-            {
-                return GMember;
-            }
-        }
-
         public override List<GBase> GObjectList
         {
             get
