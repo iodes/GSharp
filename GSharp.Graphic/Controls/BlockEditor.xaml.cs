@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
@@ -42,7 +43,15 @@ namespace GSharp.Graphic.Controls
         };
 
         // 자석 효과 대상 목록
-        private List<BaseHole> HoleList = new List<BaseHole>();
+        //private List<BaseHole> HoleList = new List<BaseHole>();
+
+        // Hole 목록
+        private List<NextConnectHole> NextConnectHoleList = new List<NextConnectHole>();
+        private List<LogicHole> LogicHoleList = new List<LogicHole>();
+        private List<ObjectHole> ObjectHoleList = new List<ObjectHole>();
+        private List<VariableHole> VariableHoleList = new List<VariableHole>();
+
+        //private Dictionary<Type, List<BaseHole>> HoleList = new Dictionary<Type, List<BaseHole>>();
 
         // 선택된 대상이 움직였는지 체크
         private bool IsSelectedBlockMoved = false;
@@ -50,6 +59,7 @@ namespace GSharp.Graphic.Controls
         // 변수 목록
         private Dictionary<string, GDefine> DefineList = new Dictionary<string, GDefine>();
 
+        // 함수 목록
         private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
         #endregion
 
@@ -212,9 +222,9 @@ namespace GSharp.Graphic.Controls
         // StatementBlock일때
         private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
-            foreach (BaseHole hole in HoleList)
+            foreach (BaseHole hole in NextConnectHoleList)
             {
-                if (!(hole is NextConnectHole))
+                if (block.HoleList.Contains(hole))
                 {
                     continue;
                 }
@@ -238,14 +248,12 @@ namespace GSharp.Graphic.Controls
         // LogicBlock일때
         private void MargnetBlock(LogicBlock block, MouseEventArgs e)
         {
-            foreach (BaseHole hole in HoleList)
+            foreach (LogicHole hole in LogicHoleList)
             {
-                if (!(hole is LogicHole))
+                if (block.HoleList.Contains(hole))
                 {
                     continue;
                 }
-
-                LogicHole logicHole = (LogicHole)hole;
 
                 Point position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
 
@@ -256,7 +264,7 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                MargnetTarget = logicHole;
+                MargnetTarget = hole;
                 Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
                 Highlighter.Visibility = Visibility.Visible;
             }
@@ -265,14 +273,13 @@ namespace GSharp.Graphic.Controls
         // ObjectBlock일때
         private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
         {
-            foreach (BaseHole hole in HoleList)
+            foreach (ObjectHole hole in ObjectHoleList)
             {
-                if (!(hole is ObjectHole))
+                if (block.HoleList.Contains(hole))
                 {
                     continue;
                 }
 
-                ObjectHole objectHole = (ObjectHole)hole;
                 Point position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
 
                 double distance = GetDistance(position, block.Position);
@@ -282,7 +289,7 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                MargnetTarget = objectHole;
+                MargnetTarget = hole;
                 Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
                 Highlighter.Visibility = Visibility.Visible;
             }
@@ -389,13 +396,13 @@ namespace GSharp.Graphic.Controls
         private void RemoveFromParent(BaseBlock block)
         {
             // 부모에서 선택한 요소를 제거
-            if (SelectedBlock.Parent is Panel)
+            if (block.Parent is Panel)
             {
-                ((Panel)SelectedBlock.Parent).Children.Remove(SelectedBlock);
+                (block.Parent as Panel).Children.Remove(block);
             }
-            else if (SelectedBlock.Parent is Border)
+            else if (block.Parent is Border)
             {
-                ((Border)SelectedBlock.Parent).Child = null;
+                (block.Parent as Border).Child = null;
             }
         }
         #endregion
@@ -408,13 +415,27 @@ namespace GSharp.Graphic.Controls
             BlockCanvas.Children.Add(block);
 
             List<BaseHole> holeList = block.HoleList;
-            HoleList.AddRange(holeList);
-
             foreach(BaseHole hole in holeList)
             {
-                if (hole is VariableHole)
+                Type type = hole.GetType();
+
+                if (hole is NextConnectHole)
                 {
-                    (hole as VariableHole).SetItemList(GetVariableNameList());
+                    NextConnectHoleList.Add(hole as NextConnectHole);
+                }
+                else if (hole is LogicHole)
+                {
+                    LogicHoleList.Add(hole as LogicHole);
+                }
+                else if (hole is ObjectHole)
+                {
+                    ObjectHoleList.Add(hole as ObjectHole);
+                }
+                else if (hole is VariableHole)
+                {
+                    var vHole = hole as VariableHole;
+                    VariableHoleList.Add(vHole);
+                    vHole.SetItemList(GetVariableNameList());
                 }
             }
         }
@@ -427,7 +448,24 @@ namespace GSharp.Graphic.Controls
             List<BaseHole> holeList = block.HoleList;
             foreach (BaseHole hole in holeList)
             {
-                HoleList.Remove(hole);
+                Type type = hole.GetType();
+
+                if (hole is NextConnectHole)
+                {
+                    NextConnectHoleList.Remove(hole as NextConnectHole);
+                }
+                else if (hole is LogicHole)
+                {
+                    LogicHoleList.Remove(hole as LogicHole);
+                }
+                else if (hole is ObjectHole)
+                {
+                    ObjectHoleList.Remove(hole as ObjectHole);
+                }
+                else if (hole is VariableHole)
+                {
+                    VariableHoleList.Remove(hole as VariableHole);
+                }
             }
         }
 
