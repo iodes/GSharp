@@ -22,6 +22,8 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class NextConnectHole : BaseStatementHole
     {
+        public override event HoleEventArgs BlockChanged;
+
         public Brush Fill { get; set;}
 
         public override BaseBlock Block
@@ -36,7 +38,7 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return (StatementBlock)RealNextBlock.Child;
+                return RealNextBlock.Child as StatementBlock;
             }
             set
             {
@@ -51,20 +53,21 @@ namespace GSharp.Graphic.Holes
                         throw new Exception("끝 블럭이 중간에 들어갈 수 없습니다.");
                     }
 
-                    PrevStatementBlock prevStatementBlock = (PrevStatementBlock)lastBlock;
+                    PrevStatementBlock prevStatementBlock = lastBlock as PrevStatementBlock;
                     prevStatementBlock.NextConnectHole.StatementBlock = StatementBlock;
                 }
 
-                UIElement element = VisualTreeHelper.GetParent(value) as UIElement;
+                var element = VisualTreeHelper.GetParent(value);
                 if (element is Panel)
                 {
-                    ((Panel)element).Children.Remove(value);
+                    (element as Panel).Children.Remove(value);
                 }
                 else if (element is Border)
                 {
-                    ((Border)element).Child = null;
+                    (element as Border).Child = null;
                 }
 
+                BlockChanged?.Invoke(Block, value);
                 RealNextBlock.Child = value;
             }
         }

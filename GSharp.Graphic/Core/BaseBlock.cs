@@ -1,10 +1,6 @@
 ﻿using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -34,6 +30,41 @@ namespace GSharp.Graphic.Core
             set
             {
                 Margin = new Thickness(value.X, value.Y, 0, 0);
+            }
+        }
+
+        public BaseBlock()
+        {
+        }
+
+        protected void Init()
+        {
+            if (HoleList == null) return;
+
+            foreach (BaseHole hole in HoleList)
+            {
+                if (hole == null) continue;
+                hole.BlockChanged += ObjectHole_HoleChanged;
+            }
+        }
+
+        private void ObjectHole_HoleChanged(BaseBlock oldBlock, BaseBlock newBlock)
+        {
+            if (oldBlock != null)
+            {
+                foreach (BaseHole hole in oldBlock.HoleList)
+                {
+                    HoleList.Remove(hole);
+                }
+
+            }
+
+            if (newBlock != null)
+            {
+                foreach (BaseHole hole in newBlock.HoleList)
+                {
+                    HoleList.Add(hole);
+                }
             }
         }
     }

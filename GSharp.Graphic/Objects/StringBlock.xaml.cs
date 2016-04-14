@@ -63,6 +63,7 @@ namespace GSharp.Graphic.Objects
         public StringBlock()
         {
             InitializeComponent();
+            Init();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace GSharp.Graphic.Statements
             Command = command;
             holeList = ModuleBlock.SetContent(command.FriendlyName, StackContent);
             holeList.Add(NextConnectHole);
+            Init();
         }
 
         public CallBlock(GFunction function)

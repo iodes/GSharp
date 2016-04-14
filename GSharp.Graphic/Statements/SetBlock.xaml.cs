@@ -28,6 +28,7 @@ namespace GSharp.Graphic.Statements
         public SetBlock()
         {
             InitializeComponent();
+            Init();
         }
 
         public override NextConnectHole NextConnectHole

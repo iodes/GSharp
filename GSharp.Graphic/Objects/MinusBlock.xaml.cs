@@ -61,6 +61,7 @@ namespace GSharp.Graphic.Objects
         public MinusBlock()
         {
             InitializeComponent();
+            Init();
         }
     }
 }

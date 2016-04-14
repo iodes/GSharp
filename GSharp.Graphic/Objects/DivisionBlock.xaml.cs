@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Collections.Generic;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
@@ -38,6 +25,7 @@ namespace GSharp.Graphic.Objects
             {
                 GObject obj1 = ObjectHole1.ObjectBlock.GObject;
                 GObject obj2 = ObjectHole2.ObjectBlock.GObject;
+
                 return new GCompute(obj1, GCompute.OperatorType.DIVISION, obj2);
             }
         }
@@ -61,6 +49,7 @@ namespace GSharp.Graphic.Objects
         public DivisionBlock()
         {
             InitializeComponent();
+            Init();
         }
     }
 }

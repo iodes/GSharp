@@ -28,6 +28,7 @@ namespace GSharp.Graphic.Statements
         public LoopInfinityBlock()
         {
             InitializeComponent();
+            Init();
         }
 
         public GLoop GLoop

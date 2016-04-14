@@ -32,6 +32,7 @@ namespace GSharp.Graphic.Scopes
             InitializeComponent();
             FunctionName = name;
             StackContentText.Text = name;
+            Init();
         }
 
         public GFunction GFunction

@@ -66,6 +66,7 @@ namespace GSharp.Graphic.Objects
         public NumberBlock()
         {
             InitializeComponent();
+            Init();
         }
 
         private void NumberText_TextChanged(object sender, TextChangedEventArgs e)

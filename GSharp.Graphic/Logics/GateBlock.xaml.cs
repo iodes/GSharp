@@ -34,10 +34,18 @@ namespace GSharp.Graphic.Logics
         {
             get
             {
-                List<BaseHole> holeList = new List<BaseHole>();
-
-
-                return holeList;
+                if (holeList != null)
+                {
+                    return holeList;
+                }
+                else
+                {
+                    return holeList = new List<BaseHole>
+                    {
+                        LogicHole1,
+                        LogicHole2
+                    };
+                }
             }
         }
 
@@ -85,13 +93,7 @@ namespace GSharp.Graphic.Logics
         public GateBlock()
         {
             InitializeComponent();
-
-            // Init Hole List
-            holeList = new List<BaseHole>
-            {
-                LogicHole1,
-                LogicHole2
-            };
+            Init();
         }
     }
 }

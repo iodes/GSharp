@@ -35,6 +35,7 @@ namespace GSharp.Graphic.Objects
             GProperty = new GProperty(command);
 
             PropertyName.Text = command.FriendlyName;
+            Init();
         }
 
         public override GObject GObject

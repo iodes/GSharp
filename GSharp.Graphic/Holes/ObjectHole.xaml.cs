@@ -22,6 +22,8 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class ObjectHole : BaseObjectHole
     {
+        public override event HoleEventArgs BlockChanged;
+
         public override BaseBlock Block
         {
             get
@@ -53,6 +55,7 @@ namespace GSharp.Graphic.Holes
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
 
+                BlockChanged?.Invoke(Block, value);
                 RealObjectBlock.Child = value;
             }
         }

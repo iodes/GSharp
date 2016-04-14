@@ -1,19 +1,6 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Graphic.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GSharp.Graphic.Holes
 {
@@ -23,6 +10,8 @@ namespace GSharp.Graphic.Holes
     public partial class LogicHole : BaseObjectHole
     {
         public GLogic Logic;
+
+        public override event HoleEventArgs BlockChanged;
 
         public override BaseBlock Block {
             get
@@ -35,7 +24,7 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return (LogicBlock)RealLogicBlock.Child;
+                return RealLogicBlock.Child as LogicBlock;
             }
             set
             {
@@ -46,6 +35,7 @@ namespace GSharp.Graphic.Holes
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
 
+                BlockChanged?.Invoke(Block, value);
                 RealLogicBlock.Child = value;
             }
         }

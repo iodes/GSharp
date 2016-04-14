@@ -31,6 +31,7 @@ namespace GSharp.Graphic.Objects
         {
             InitializeComponent();
             VariableName = variableName;
+            Init();
         }
         
         public GVariable GVariable
