@@ -39,7 +39,9 @@ copy %GSHARP%\GSharp.Runtime\%BIN%\GSharp.Runtime.dll %ENTRA_STUDIO%\GSharp.Runt
 
 echo.
 echo            DLL UPDATE COMPLETE!
+echo    CLOSE AUTOMATICALLY AFTER ONE SECOND
 echo.
 
 echo.
-SET /P P=------------------------------------------
+echo ------------------------------------------
+choice /d y /t 1 > nul
