@@ -514,7 +514,7 @@ namespace GSharp.Graphic.Controls
                     }
                 }
 
-                return entry.ToSource();
+                return entry.ToSource().TrimStart();
             }
             catch (ToObjectException e)
             {
