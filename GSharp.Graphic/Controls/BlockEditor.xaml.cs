@@ -74,6 +74,9 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 이벤트
+        public event BlockChangedEventHandler BlockChanged;
+        public delegate void BlockChangedEventHandler();
+
         private void Block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             CaptureMouse();
@@ -145,6 +148,22 @@ namespace GSharp.Graphic.Controls
             MargnetTarget = null;
 
             ReleaseMouseCapture();
+
+            // 이벤트 발동
+            BlockChanged?.Invoke();
+        }
+
+        private void UserControl_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BlockChanged?.Invoke();
+            }
+        }
+
+        private void UserControl_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            BlockChanged?.Invoke();
         }
         #endregion
 
@@ -438,6 +457,8 @@ namespace GSharp.Graphic.Controls
                     vHole.SetItemList(GetVariableNameList());
                 }
             }
+
+            BlockChanged?.Invoke();
         }
 
         // 블럭 삭제
@@ -467,6 +488,8 @@ namespace GSharp.Graphic.Controls
                     VariableHoleList.Remove(hole as VariableHole);
                 }
             }
+
+            BlockChanged?.Invoke();
         }
 
         // 컴파일
@@ -489,17 +512,14 @@ namespace GSharp.Graphic.Controls
                         EventBlock scopeBlock = block as EventBlock;
                         entry.Append(scopeBlock.GEvent);
                     }
-                    //else if (block is )
                 }
 
                 return entry.ToSource();
             }
             catch (ToObjectException e)
             {
-                MessageBox.Show(e.Message, "오류");
+                return e.Message;
             }
-
-            return null;
         }
         #endregion
     }

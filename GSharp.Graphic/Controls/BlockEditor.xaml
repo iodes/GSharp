@@ -7,6 +7,8 @@
              mc:Ignorable="d" 
              MouseMove="UserControl_MouseMove"
              MouseUp="UserControl_MouseUp" 
+             PreviewKeyUp="UserControl_PreviewKeyUp"
+             PreviewMouseUp="UserControl_PreviewMouseUp"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="BlockCanvas"/>
