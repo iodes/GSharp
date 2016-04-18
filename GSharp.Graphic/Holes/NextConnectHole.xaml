@@ -16,6 +16,6 @@
                 <Border Background="White" BorderBrush="#D5404D" BorderThickness="0,0,0,2" />
             </DockPanel>
         </Grid>
-        <Border x:Name="RealNextBlock" Margin="-5,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Border x:Name="BlockHole" Margin="-5,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </StackPanel>
 </local:BaseStatementHole>

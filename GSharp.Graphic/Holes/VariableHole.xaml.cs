@@ -23,7 +23,7 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class VariableHole : BaseObjectHole
     {
-        public override BaseBlock Block
+        public override BaseBlock AttachedBlock
         {
             get
             {

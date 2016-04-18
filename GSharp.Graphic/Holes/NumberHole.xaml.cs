@@ -22,7 +22,7 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class NumberHole : BaseObjectHole
     {
-        public override BaseBlock Block
+        public override BaseBlock AttachedBlock
         {
             get
             {

@@ -12,7 +12,7 @@ namespace GSharp.Graphic.Holes
     {
         public abstract ObjectBlock BaseObjectBlock { get; }
 
-        public override BaseBlock Block
+        public override BaseBlock AttachedBlock
         {
             get
             {

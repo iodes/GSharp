@@ -10,11 +10,25 @@ namespace GSharp.Graphic.Holes
 {
     public abstract class BaseHole : UserControl
     {
-        public abstract BaseBlock Block { get; }
+        // 부모 블럭
+        public BaseBlock ParentBlock { get; set; }
 
-        public delegate void HoleEventArgs(BaseBlock oldBlock, BaseBlock newBlock);
+        // 연결된 블럭
+        public abstract BaseBlock AttachedBlock { get; }
+        
+        public delegate void HoleEventArgs(BaseBlock block);
 
-        public virtual event HoleEventArgs BlockChanged;
+        // 블럭이 연결되었을 때 이벤트
+        public virtual event HoleEventArgs BlockAttached;
+
+        // 블럭이 제거되었을 때 이벤트
+        public virtual event HoleEventArgs BlockDetached;
+
+        // 블럭 연결을 해제
+        public virtual BaseBlock DetachBlock()
+        {
+            return null;
+        }
 
         public static BaseHole CreateHole(string holeName)
         {   

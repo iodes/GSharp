@@ -3,6 +3,7 @@ using GSharp.Base.Cores;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace GSharp.Graphic.Core
 {
@@ -33,10 +34,26 @@ namespace GSharp.Graphic.Core
             }
         }
 
+        // 블럭이 붙어 있는 Hole, null인 경우 BlockEditor
+        public BaseHole ParentHole
+        {
+            get
+            {
+                return _ParentHole;
+            }
+            set
+            {
+                _ParentHole = value;
+            }
+        }
+        private BaseHole _ParentHole = null;
+
+        // 생성자
         public BaseBlock()
         {
         }
 
+        // 블럭의 모든 Hole에 BlockChanged 이벤트 핸들러 추가
         protected void Init()
         {
             if (HoleList == null) return;
@@ -44,27 +61,38 @@ namespace GSharp.Graphic.Core
             foreach (BaseHole hole in HoleList)
             {
                 if (hole == null) continue;
-                hole.BlockChanged += ObjectHole_HoleChanged;
+
+                hole.ParentBlock = this;
+                hole.BlockAttached += BlockAttached;
+                hole.BlockDetached += BlockDetached;
             }
         }
 
-        private void ObjectHole_HoleChanged(BaseBlock oldBlock, BaseBlock newBlock)
+        // Hole의 블럭이 추가되면 그 블럭의 HoleList 추가
+        private void BlockAttached(BaseBlock block)
         {
-            if (oldBlock != null)
+            if (block != null)
             {
-                foreach (BaseHole hole in oldBlock.HoleList)
+                foreach (BaseHole hole in block.HoleList)
+                {
+                    HoleList.Add(hole);
+                }
+
+                ParentHole?.ParentBlock?.BlockAttached(block);
+            }
+        }
+
+        // Hole에 블럭이 삭제되면 그 블럭의 HoleList도 제거
+        private void BlockDetached(BaseBlock block)
+        {
+            if (block != null)
+            {
+                foreach (BaseHole hole in block.HoleList)
                 {
                     HoleList.Remove(hole);
                 }
 
-            }
-
-            if (newBlock != null)
-            {
-                foreach (BaseHole hole in newBlock.HoleList)
-                {
-                    HoleList.Add(hole);
-                }
+                ParentHole?.ParentBlock?.BlockDetached(block);
             }
         }
     }

@@ -53,7 +53,9 @@ namespace GSharp.Graphic.Logics
 
                 foreach (BaseHole hole in holeList)
                 {
-                    if (hole.Block == null)
+                    if (hole.ParentBlock != this) continue;
+
+                    if (hole.AttachedBlock == null)
                     {
                         throw new ToObjectException(Command.FriendlyName + "블럭이 완성되지 않았습니다.", this);
                     }

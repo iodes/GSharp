@@ -99,14 +99,17 @@ namespace GSharp.Graphic.Controls
 
             if (!IsSelectedBlockMoved)
             {
-                // 부모가 캔버스가 아닐때만
-                if (SelectedBlock.Parent != this)
+                // 부모가 캔버스가 아닐때만 (null -> canvas)
+                if (SelectedBlock.ParentHole != null)
                 {
-                    RemoveFromParent(SelectedBlock);
-                    BlockCanvas.Children.Add(SelectedBlock);
+                    // 선택 블럭을 부모와 연결 해제
+                    SelectedBlock.ParentHole.DetachBlock();
 
-                    Point pos = e.GetPosition(this);
-                    SelectedBlock.Position = new Point(pos.X - SelectedPosition.X, pos.Y - SelectedPosition.Y);
+                    // 선택 블럭을 캔버스에 추가
+                    AttachToCanvas(SelectedBlock);
+
+                    //Point pos = e.GetPosition(this);
+                    //SelectedBlock.Position = new Point(pos.X - SelectedPosition.X, pos.Y - SelectedPosition.Y);
                 }
 
                 IsSelectedBlockMoved = true;
@@ -144,8 +147,8 @@ namespace GSharp.Graphic.Controls
 
             // Selected 해제
             SelectedBlock = null;
-            Highlighter.Visibility = Visibility.Hidden;
             MargnetTarget = null;
+            Highlighter.Visibility = Visibility.Hidden;
 
             ReleaseMouseCapture();
 
@@ -168,21 +171,24 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 변수 선언
+        // 변수 선언
         public void DefineVariable(string varName)
         {
             DefineList[varName] = new GDefine(varName);
         }
 
+        // 변순 선언 해제
         public void UnDefineVariable(string varName)
         {
             DefineList.Remove(varName);
         }
 
+        // 변수 목록
         public List<string> GetVariableNameList()
         {
             return DefineList.Keys.ToList();
         }
-
+        
         public List<GDefine> GetDefineList()
         {
             return DefineList.Values.ToList();
@@ -190,26 +196,31 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 함수 선언
+        // 함수 선언
         public void DefineFunction(string funcName)
         {
             FunctionList[funcName] = new GFunction(funcName);
         }
 
+        // 함수 선언 해제
         public void UnDefineFunction(string funcName)
         {
             FunctionList.Remove(funcName);
         }
 
+        // 함수 이름 목록
         public List<string> GetFunctionNameList()
         {
             return FunctionList.Keys.ToList();
         }
 
+        // 함수 목록
         public List<GFunction> GetFunctionList()
         {
             return FunctionList.Values.ToList();
         }
 
+        // 함수 가져오기
         public GFunction GetFunction(string funcName)
         {
             return FunctionList[funcName];
@@ -241,24 +252,20 @@ namespace GSharp.Graphic.Controls
         // StatementBlock일때
         private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
-            foreach (BaseHole hole in NextConnectHoleList)
+            foreach (var hole in NextConnectHoleList)
             {
                 if (block.HoleList.Contains(hole))
                 {
                     continue;
                 }
 
-                NextConnectHole nextConnectHole = (NextConnectHole)hole;
-                Point position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
-
-                Double distance = GetDistance(position, block.Position);
-
-                if (distance > 20)
+                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+                if (GetDistance(position, block.Position) > 20)
                 {
                     continue;
                 }
 
-                MargnetTarget = nextConnectHole;
+                MargnetTarget = hole;
                 Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
                 Highlighter.Visibility = Visibility.Visible;
             }
@@ -274,11 +281,9 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                Point position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
 
-                double distance = GetDistance(position, block.Position);
-
-                if (distance > 20)
+                if (GetDistance(position, block.Position) > 20)
                 {
                     continue;
                 }
@@ -299,11 +304,9 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                Point position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
 
-                double distance = GetDistance(position, block.Position);
-
-                if (distance > 20)
+                if (GetDistance(position, block.Position) > 20)
                 {
                     continue;
                 }
@@ -321,82 +324,90 @@ namespace GSharp.Graphic.Controls
         {
             if (SelectedBlock is StatementBlock)
             {
-                ConnectBlock((StatementBlock)SelectedBlock, e);
+                ConnectBlock(SelectedBlock as StatementBlock, e);
             }
             else if (SelectedBlock is LogicBlock)
             {
-                ConnectBlock((LogicBlock)SelectedBlock, e);
+                ConnectBlock(SelectedBlock as LogicBlock, e);
             }
             else if (SelectedBlock is ObjectBlock)
             {
-                ConnectBlock((ObjectBlock)SelectedBlock, e);
+                ConnectBlock(SelectedBlock as ObjectBlock, e);
             }
         }
 
         // StatementBlock일때
         private void ConnectBlock(StatementBlock block, MouseEventArgs e)
         {
+            // NextConnectHole이 아니면 연결할 수 없음
             if (!(MargnetTarget is NextConnectHole))
             {
                 return;
             }
 
-            NextConnectHole nextConnectHole = (NextConnectHole)MargnetTarget;
-            BlockCanvas.Children.Remove(block);
+            // 블럭을 캔버스에서 연결 대상으로 이동
+            DetachFromCanvas(block);
+            (MargnetTarget as NextConnectHole).StatementBlock = block;
 
-            nextConnectHole.StatementBlock = block;
+            // 블럭 위치 재조정
             block.Position = new Point(0, 0);
         }
 
         // LogicBlock일때
         private void ConnectBlock(LogicBlock block, MouseEventArgs e)
         {
+            // LogicHole 아니면 연결할 수 없음
             if (!(MargnetTarget is LogicHole))
             {
                 return;
             }
+            
+            var logicHole = MargnetTarget as LogicHole;
 
-            LogicHole logicHole = (LogicHole)MargnetTarget;
-
+            // 연결 대상에 이미 블럭이 존재하는 경우
             if (logicHole.LogicBlock != null)
             {
-                LogicBlock beforeBlock = logicHole.LogicBlock;
+                // 기존 블럭을 캔버스로 이동
+                var detachedBlock = logicHole.DetachBlock();
+                AttachToCanvas(detachedBlock);
 
-                RemoveFromParent(beforeBlock);
-                BlockCanvas.Children.Add(beforeBlock);
-
-                beforeBlock.Position = block.Position;
+                detachedBlock.Position = block.Position;
             }
 
-            BlockCanvas.Children.Remove(block);
-
+            // 블럭을 캔버스에서 연결 대상으로 이동
+            DetachFromCanvas(block);
             logicHole.LogicBlock = block;
+
+            // 블럭 위치 재조정
             block.Position = new Point(0, 0);
         }
 
         // ObjectBlock일때
         private void ConnectBlock(ObjectBlock block, MouseEventArgs e)
         {
+            // ObjectHole 아니면 연결할 수 없음
             if (!(MargnetTarget is ObjectHole))
             {
                 return;
             }
 
-            ObjectHole objectHole = (ObjectHole)MargnetTarget;
+            var objectHole = MargnetTarget as ObjectHole;
 
+            // 연결 대상에 이미 블럭이 존재하는 경우
             if (objectHole.ObjectBlock != null)
             {
-                ObjectBlock beforeBlock = objectHole.ObjectBlock;
+                // 기존 블럭을 Canvas로 이동
+                var detachedBlock = objectHole.DetachBlock();
+                AttachToCanvas(detachedBlock);
 
-                RemoveFromParent(beforeBlock);
-                BlockCanvas.Children.Add(beforeBlock);
-
-                beforeBlock.Position = block.Position;
+                detachedBlock.Position = block.Position;
             }
 
-            BlockCanvas.Children.Remove(block);
-
+            // 블럭을 캔버스에서 연결 대상으로 이동
+            DetachFromCanvas(block);
             objectHole.ObjectBlock = block;
+
+            // 블럭 위치 재조정
             block.Position = new Point(0, 0);
         }
         #endregion
@@ -412,17 +423,16 @@ namespace GSharp.Graphic.Controls
             return Math.Sqrt(GetDistance2(a, b));
         }
 
-        private void RemoveFromParent(BaseBlock block)
+        // 부모에서 선택한 요소를 제거
+        private void DetachFromCanvas(BaseBlock block)
         {
-            // 부모에서 선택한 요소를 제거
-            if (block.Parent is Panel)
-            {
-                (block.Parent as Panel).Children.Remove(block);
-            }
-            else if (block.Parent is Border)
-            {
-                (block.Parent as Border).Child = null;
-            }
+            BlockCanvas.Children.Remove(block);
+        }
+
+        private void AttachToCanvas(BaseBlock block)
+        {
+            BlockCanvas.Children.Add(block);
+            block.ParentHole = null;
         }
         #endregion
 
@@ -430,9 +440,13 @@ namespace GSharp.Graphic.Controls
         // 블럭 추가
         public void AddBlock(BaseBlock block)
         {
+            // 블럭 클린 이벤트 추가
             block.MouseLeftButtonDown += Block_MouseLeftButtonDown;
-            BlockCanvas.Children.Add(block);
 
+            // 블럭을 캔버스에 추가
+            AttachToCanvas(block);
+
+            // 블럭의 HoleList를 가져와 BlockEditor에 추가
             List<BaseHole> holeList = block.HoleList;
             foreach(BaseHole hole in holeList)
             {
@@ -458,13 +472,21 @@ namespace GSharp.Graphic.Controls
                 }
             }
 
+            // 블럭 변경 이벤트 호출
             BlockChanged?.Invoke();
         }
 
         // 블럭 삭제
         public void RemoveBlock(BaseBlock block)
         {
-            RemoveFromParent(block);
+            if (block.ParentHole == null)
+            {
+                DetachFromCanvas(block);
+            }
+            else
+            { 
+                block.ParentHole.DetachBlock();
+            }
 
             List<BaseHole> holeList = block.HoleList;
             foreach (BaseHole hole in holeList)

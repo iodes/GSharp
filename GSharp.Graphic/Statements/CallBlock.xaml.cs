@@ -78,7 +78,9 @@ namespace GSharp.Graphic.Statements
 
                 foreach (BaseHole hole in holeList)
                 {
-                    if (!(hole is NextConnectHole) && hole.Block == null)
+                    if (hole.ParentBlock != this) continue;
+
+                    if (!(hole is NextConnectHole) && hole.AttachedBlock == null)
                     {
                         throw new ToObjectException(Command.FriendlyName + " / " + hole.ToString() + "블럭이 완성되지 않았습니다.", this);
                     }

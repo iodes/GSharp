@@ -22,11 +22,12 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class NextConnectHole : BaseStatementHole
     {
-        public override event HoleEventArgs BlockChanged;
+        public override event HoleEventArgs BlockAttached;
+        public override event HoleEventArgs BlockDetached;
 
         public Brush Fill { get; set;}
 
-        public override BaseBlock Block
+        public override BaseBlock AttachedBlock
         {
             get
             {
@@ -38,43 +39,58 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return RealNextBlock.Child as StatementBlock;
+                return BlockHole.Child as StatementBlock;
             }
             set
             {
-                if (value == RealNextBlock.Child) return;
+                var prevBlock = StatementBlock;
 
-                if (StatementBlock != null)
+                // 같은 블럭을 연결하려고 한 경우 무시
+                if (value == prevBlock) return;
+
+                // 기존 블럭이 존재할 경우
+                if (prevBlock != null)
                 {
-                    StatementBlock lastBlock = value.GetLastBlock();
-
+                    var lastBlock = value.GetLastBlock();
+                    
+                    // 연결하려는 블럭이 끝 블럭인 경우 중단
                     if (!(lastBlock is PrevStatementBlock))
                     {
                         throw new Exception("끝 블럭이 중간에 들어갈 수 없습니다.");
                     }
-
-                    PrevStatementBlock prevStatementBlock = lastBlock as PrevStatementBlock;
-                    prevStatementBlock.NextConnectHole.StatementBlock = StatementBlock;
+                    
+                    // 연결하려는 블럭 맨 뒤에 기존 블럭을 붙임
+                    // 자동으로 기존 부모와 떨어짐
+                    (lastBlock as PrevStatementBlock).NextConnectHole.StatementBlock = prevBlock;
                 }
 
-                var element = VisualTreeHelper.GetParent(value);
-                if (element is Panel)
-                {
-                    (element as Panel).Children.Remove(value);
-                }
-                else if (element is Border)
-                {
-                    (element as Border).Child = null;
-                }
+                // 연결하려는 블럭을 부모에서 제거
+                value?.ParentHole?.DetachBlock();
 
-                BlockChanged?.Invoke(Block, value);
-                RealNextBlock.Child = value;
+                // 블럭 연결
+                value.ParentHole = this;
+                BlockAttached?.Invoke(value);
+                BlockHole.Child = value;
             }
         }
 
         public NextConnectHole()
         {
             InitializeComponent();
+        }
+
+        // 연결된 블럭을 제거
+        public override BaseBlock DetachBlock()
+        {
+            var block = AttachedBlock;
+
+            // Detach 이벤트 호출
+            BlockDetached?.Invoke(block);
+
+            // 블럭 연결 해제
+            BlockHole.Child = null;
+
+            return block;
         }
     }
 }
