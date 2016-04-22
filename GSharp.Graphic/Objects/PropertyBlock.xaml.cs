@@ -21,9 +21,9 @@ using GSharp.Extension;
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// VariableBlock.xaml에 대한 상호 작용 논리
+    /// PropertyBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PropertyBlock : ObjectBlock
+    public partial class PropertyBlock : ObjectBlock, IModuleBlock
     {
         private GProperty GProperty;
 
