@@ -8,6 +8,7 @@ using GSharp.Graphic.Logics;
 using GSharp.Graphic.Statements;
 using GSharp.Graphic.Scopes;
 using System.Linq;
+using GSharp.Graphic.Objects;
 
 namespace GSharp.Manager
 {
@@ -194,6 +195,10 @@ namespace GSharp.Manager
 
                     case GCommand.CommandType.Event:
                         blockList.Add(new EventBlock(command));
+                        break;
+
+                    case GCommand.CommandType.Property:
+                        blockList.Add(new PropertyBlock(command));
                         break;
                 }
             }

@@ -27,10 +27,14 @@ namespace GSharp.Graphic.Objects
     {
         private GProperty GProperty;
 
+        public GCommand Command { get; set; }
+
         // 생성자
         public PropertyBlock(GCommand command)
         {
             InitializeComponent();
+
+            Command = command;
 
             GProperty = new GProperty(command);
 
