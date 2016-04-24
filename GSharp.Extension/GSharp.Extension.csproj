@@ -46,7 +46,6 @@
     <Compile Include="Abstracts\GModule.cs" />
     <Compile Include="Abstracts\GView.cs" />
     <Compile Include="Attributes\GCommandAttribute.cs" />
-    <Compile Include="Exceptions\ModuleTypeException.cs" />
     <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
