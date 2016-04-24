@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
 using GSharp.Graphic.Core;
 using GSharp.Graphic.Logics;
-using GSharp.Graphic.Statements;
 using GSharp.Graphic.Scopes;
-using System.Linq;
 using GSharp.Graphic.Objects;
+using GSharp.Graphic.Statements;
+using GSharp.Extension.Attributes;
 
 namespace GSharp.Manager
 {
@@ -63,7 +64,7 @@ namespace GSharp.Manager
                         // 속성 분석
                         foreach (PropertyInfo property in value.GetProperties())
                         {
-                            CommandAttribute command = GetCommandAttribute(property);
+                            GCommandAttribute command = GetCommandAttribute(property);
                             if (command != null)
                             {
                                 // 커멘드 목록 추가
@@ -83,7 +84,7 @@ namespace GSharp.Manager
                         // 메소드 분석
                         foreach (MethodInfo info in value.GetMethods())
                         {
-                            CommandAttribute command = GetCommandAttribute(info);
+                            GCommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
                             {
                                 // 커멘드 목록 추가
@@ -104,7 +105,7 @@ namespace GSharp.Manager
                         // 이벤트 분석
                         foreach (EventInfo info in value.GetEvents())
                         {
-                            CommandAttribute command = GetCommandAttribute(info);
+                            GCommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
                             {
                                 // 대리자 검색
@@ -146,16 +147,16 @@ namespace GSharp.Manager
             return null;
         }
 
-        private CommandAttribute GetCommandAttribute(MemberInfo info)
+        private GCommandAttribute GetCommandAttribute(MemberInfo info)
         {
             object[] attributes = info.GetCustomAttributes(true);
             if (attributes.Length > 0)
             {
                 foreach (object attribute in attributes)
                 {
-                    if (attribute.GetType() == typeof(CommandAttribute))
+                    if (attribute.GetType() == typeof(GCommandAttribute))
                     {
-                        return attribute as CommandAttribute;
+                        return attribute as GCommandAttribute;
                     }
                 }
             }

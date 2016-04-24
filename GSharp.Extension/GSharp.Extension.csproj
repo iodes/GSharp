@@ -40,8 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\GCommandAttribute.cs" />
+    <Compile Include="Attributes\GModuleAttribute.cs" />
+    <Compile Include="Attributes\GViewAttribute.cs" />
     <Compile Include="GModule.cs" />
-    <Compile Include="CommandAttribute.cs" />
     <Compile Include="GCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
