@@ -20,12 +20,6 @@ namespace GSharp.Manager
         public List<GModule> Modules { get; set; } = new List<GModule>();
         #endregion
 
-        #region 객체
-        private Type targetType;
-        private object targetObject;
-        private Assembly targetAssembly;
-        #endregion
-
         #region 생성자
         public ModuleManager(string valuePath)
         {
@@ -54,22 +48,20 @@ namespace GSharp.Manager
             {
                 Path = pathValue;
 
-                targetAssembly = Assembly.LoadFrom(Path);
+                Assembly targetAssembly = Assembly.LoadFrom(Path);
                 AssemblyName[] name = targetAssembly.GetReferencedAssemblies();
+
+                // 객체 생성
+                GModule target = new GModule();
+                target.Namespace = targetAssembly.GetName().Name;
 
                 // 클래스 분석
                 foreach (Type value in targetAssembly.GetExportedTypes())
                 {
                     if (value.Name == "Main")
                     {
-                        targetType = value;
-                        targetObject = Activator.CreateInstance(targetType);
-
-                        GModule target = (GModule)targetObject;
-                        target.Namespace = targetType.Assembly.FullName.Split(',')[0];
-
                         // 속성 분석
-                        foreach (PropertyInfo property in targetType.GetProperties())
+                        foreach (PropertyInfo property in value.GetProperties())
                         {
                             CommandAttribute command = GetCommandAttribute(property);
                             if (command != null)
@@ -89,7 +81,7 @@ namespace GSharp.Manager
                         }
 
                         // 메소드 분석
-                        foreach (MethodInfo info in targetType.GetMethods())
+                        foreach (MethodInfo info in value.GetMethods())
                         {
                             CommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
@@ -110,7 +102,7 @@ namespace GSharp.Manager
                         }
 
                         // 이벤트 분석
-                        foreach (EventInfo info in targetType.GetEvents())
+                        foreach (EventInfo info in value.GetEvents())
                         {
                             CommandAttribute command = GetCommandAttribute(info);
                             if (command != null)
@@ -118,7 +110,7 @@ namespace GSharp.Manager
                                 // 대리자 검색
                                 Type eventDelegate = null;
                                 MethodInfo eventDelegateMethod = null;
-                                foreach (Type typeDelegate in targetType.GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+                                foreach (Type typeDelegate in value.GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
                                 {
                                     if (typeDelegate == info.EventHandlerType)
                                     {
