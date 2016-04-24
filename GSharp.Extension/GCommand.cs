@@ -5,14 +5,14 @@ namespace GSharp.Extension
     public class GCommand
     {
         #region 속성
-        public GModule Parent
+        public GExtension Parent
         {
             get
             {
                 return _Parent;
             }
         }
-        private GModule _Parent;
+        private GExtension _Parent;
 
         public Type[] Arguments
         {
@@ -96,7 +96,7 @@ namespace GSharp.Extension
             _FriendlyName = friendlyName;
         }
 
-        public GCommand(GModule parent, string namespaceName, string methodName, string friendlyName, CommandType methodType, Type[] arguments = null)
+        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, CommandType methodType, Type[] arguments = null)
             : this(namespaceName, methodName, friendlyName, methodType, arguments)
         {
             _Parent = parent;

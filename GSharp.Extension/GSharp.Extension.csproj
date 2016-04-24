@@ -30,6 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -38,12 +40,14 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\GModule.cs" />
+    <Compile Include="Abstracts\GView.cs" />
     <Compile Include="Attributes\GCommandAttribute.cs" />
-    <Compile Include="Attributes\GModuleAttribute.cs" />
-    <Compile Include="Attributes\GViewAttribute.cs" />
-    <Compile Include="GModule.cs" />
+    <Compile Include="Exceptions\ModuleTypeException.cs" />
+    <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
