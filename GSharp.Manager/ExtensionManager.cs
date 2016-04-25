@@ -143,7 +143,7 @@ namespace GSharp.Manager
                 }
                 else if (value.BaseType == typeof(GView))
                 {
-                    Console.WriteLine("IsView");
+                    target.Controls.Add(new GControl(target, value, value.FullName));
                 }
             }
 

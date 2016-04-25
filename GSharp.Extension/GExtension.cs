@@ -15,5 +15,7 @@ namespace GSharp.Extension
         public string Namespace { get; set; }
 
         public List<GCommand> Commands { get; set; } = new List<GCommand>();
+
+        public List<GControl> Controls { get; set; } = new List<GControl>();
     }
 }
