@@ -59,20 +59,22 @@ namespace GSharp.Extension
         }
         private CommandType _MethodType;
 
-        public enum CommandType
-        {
-            Call,
-            Event,
-            Logic,
-            Property
-        }
-
         public string FullName
         {
             get
             {
                 return string.Format("{0}.{1}", NamespaceName, MethodName);
             }
+        }
+        #endregion
+
+        #region 열거형
+        public enum CommandType
+        {
+            Call,
+            Event,
+            Logic,
+            Property
         }
         #endregion
 
