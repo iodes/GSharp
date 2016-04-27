@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
@@ -14,6 +13,14 @@ using GSharp.Graphic.Holes;
 using GSharp.Base;
 using GSharp.Base.Scopes;
 using GSharp.Graphic.Scopes;
+using System.IO;
+using System.Xml;
+using System.Text;
+using GSharp.Graphic.Statements;
+using GSharp.Graphic.Logics;
+using System.Runtime.Serialization.Formatters.Binary;
+using GSharp.Extension;
+using System.Reflection;
 
 namespace GSharp.Graphic.Controls
 {
@@ -542,6 +549,145 @@ namespace GSharp.Graphic.Controls
             {
                 return e.Message;
             }
+        }
+
+        public void Save(string path)
+        {
+            FileStream stream = new FileStream(path, FileMode.Create);
+            XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8)
+            {
+                Formatting = Formatting.Indented,
+                Indentation = 4
+            };
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("Contents");
+            foreach (var target in BlockCanvas.Children)
+            {
+                if (target is BaseBlock)
+                {
+                    ResolveBlockToXML(writer, target as BaseBlock, path);
+                }
+            }
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+
+            stream.Close();
+        }
+
+        public void ResolveBlockToXML(XmlTextWriter writer, BaseBlock target, string path)
+        {
+            writer.WriteStartElement("Block");
+            writer.WriteAttributeString("Type", target.GetType().ToString());
+
+            if (target.Position.X != 0 && target.Position.Y != 0)
+            {
+                writer.WriteAttributeString("Position", target.Position.ToString());
+            }
+            if (target is CompareBlock)
+            {
+                writer.WriteAttributeString("Option", (target as CompareBlock).Operator.SelectedIndex.ToString());
+            }
+
+            if (target is ObjectBlock)
+            {
+                writer.WriteAttributeString("Content", target.GetHashCode().ToString());
+                Serialize(System.IO.Path.GetDirectoryName(path) + "\\" + target.GetHashCode().ToString(), (target as ObjectBlock).GObject);
+            }
+            else if (target is IModuleBlock)
+            {
+                writer.WriteAttributeString("Content", target.GetHashCode().ToString());
+                Serialize(System.IO.Path.GetDirectoryName(path) + "\\" + target.GetHashCode().ToString(), (target as IModuleBlock).Command);
+            }
+
+            NextConnectHole realNextConnectHole = null;
+            foreach (BaseHole hole in target.HoleList)
+            {
+                if (hole?.AttachedBlock != null)
+                {
+                    if (hole is NextConnectHole)
+                    {
+                        if (hole.Name == "RealNextConnectHole")
+                        {
+                            realNextConnectHole = hole as NextConnectHole;
+                        }
+                        else
+                        {
+                            ResolveBlockToXML(writer, hole.AttachedBlock, path);
+                        }
+                    }
+                    else
+                    {
+                        writer.WriteStartElement("Hole");
+                        writer.WriteAttributeString("Type", hole.GetType().ToString());
+                        ResolveBlockToXML(writer, hole.AttachedBlock, path);
+                        writer.WriteEndElement();
+                    }
+                }
+            }
+            writer.WriteEndElement();
+
+            if (realNextConnectHole != null)
+            {
+                ResolveBlockToXML(writer, realNextConnectHole.AttachedBlock, path);
+            }
+        }
+
+        public void Load(string path)
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load(path);
+
+            BaseBlock prevBlock = null;
+            foreach (XmlElement element in document.GetElementsByTagName("Block"))
+            {
+                Type blockType = Type.GetType(element.GetAttribute("Type"));
+                ParameterInfo[] blockParams = blockType.GetConstructors()[0].GetParameters();
+
+                BaseBlock block = null;
+                if (blockParams.Any())
+                {
+                    // 블럭 생성자에 인자가 필요함
+                    block = Activator.CreateInstance(blockType, Deserialize(System.IO.Path.GetDirectoryName(path) + "\\" + element.GetAttribute("Content"))) as BaseBlock;
+                }
+                else
+                {
+                    // 인자 없이 즉시 블럭 생성이 가능
+                    block = Activator.CreateInstance(blockType) as BaseBlock;
+                }
+                block.Position = new Point(50, 50);
+
+                if (prevBlock is EventBlock)
+                {
+                    (prevBlock as EventBlock).NextConnectHole.StatementBlock = block as StatementBlock;
+                    block.Position = new Point(0, 0);
+                    AddBlock(prevBlock);
+                }
+
+                prevBlock = block;
+            }
+        }
+
+        private void Serialize(string path, object target)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream stream = new FileStream(path, FileMode.Create))
+            {
+                formatter.Serialize(stream, target);
+            }
+        }
+
+        private object Deserialize(string path)
+        {
+            object result;
+
+            BinaryFormatter formatter = new BinaryFormatter(); ;
+            using (FileStream stream = new FileStream(path, FileMode.Open))
+            {
+                result = formatter.Deserialize(stream);
+            }
+            return result;
         }
         #endregion
     }
