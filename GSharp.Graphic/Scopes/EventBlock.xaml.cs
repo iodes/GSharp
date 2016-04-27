@@ -32,7 +32,7 @@ namespace GSharp.Graphic.Scopes
             InitializeComponent();
             Command = command;
             StackContentText.Text = command.FriendlyName;
-            Init();
+            InitializeBlock();
         }
 
         public GEvent GEvent
