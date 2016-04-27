@@ -2,6 +2,7 @@
 
 namespace GSharp.Extension
 {
+    [Serializable]
     public class GCommand
     {
         #region 속성

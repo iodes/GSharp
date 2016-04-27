@@ -1,11 +1,12 @@
 ﻿using System;
-using GSharp.Base.Cores;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
+using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
 
 namespace GSharp.Base.Statements
 {
+    [Serializable]
     public class GLoop : GStatement
     {
         #region 속성

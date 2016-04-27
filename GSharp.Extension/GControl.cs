@@ -3,6 +3,7 @@ using GSharp.Extension.Abstracts;
 
 namespace GSharp.Extension
 {
+    [Serializable]
     public class GControl
     {
         #region 속성

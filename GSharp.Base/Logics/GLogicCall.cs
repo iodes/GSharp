@@ -1,14 +1,11 @@
-﻿using GSharp.Base.Cores;
-using GSharp.Base.Scopes;
-using GSharp.Extension;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GSharp.Base.Cores;
+using GSharp.Extension;
 
 namespace GSharp.Base.Logics
 {
+    [Serializable]
     public class GLogicCall : GLogic
     {
         #region 객체

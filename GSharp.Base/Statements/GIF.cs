@@ -1,10 +1,12 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
 
 namespace GSharp.Base.Statements
 {
+    [Serializable]
     public class GIF : GStatement
     {
         #region 속성

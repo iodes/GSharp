@@ -1,18 +1,17 @@
-﻿using GSharp.Base.Scopes;
+﻿using System;
+using System.Text;
+using System.Collections.Generic;
+using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Base.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSharp.Base.Cores
 {
+    [Serializable]
     public class GEntry : GBase
     {
-        private List<GDefine> defineList = new List<GDefine>();
         private List<GEvent> eventList = new List<GEvent>();
+        private List<GDefine> defineList = new List<GDefine>();
         private List<GFunction> functionList = new List<GFunction>();
 
         public void Append(GEvent evt)

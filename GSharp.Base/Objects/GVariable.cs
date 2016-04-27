@@ -1,7 +1,9 @@
-﻿using GSharp.Base.Cores;
+﻿using System;
+using GSharp.Base.Cores;
 
 namespace GSharp.Base.Objects
 {
+    [Serializable]
     public class GVariable : GObject
     {
         #region 속성

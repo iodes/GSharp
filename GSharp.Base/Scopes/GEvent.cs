@@ -1,12 +1,13 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
 using GSharp.Extension;
-using System;
 
 namespace GSharp.Base.Scopes
 {
+    [Serializable]
     public class GEvent : GScope
     {
         public GCommand Command { get; set; }

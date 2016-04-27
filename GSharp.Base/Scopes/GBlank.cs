@@ -1,9 +1,11 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using GSharp.Base.Cores;
 
 namespace GSharp.Base.Scopes
 {
+    [Serializable]
     public class GBlank : GScope
     {
         #region 객체

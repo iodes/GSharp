@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GSharp.Extension
 {
+    [Serializable]
     public class GExtension
     {
         public string Path { get; set; }

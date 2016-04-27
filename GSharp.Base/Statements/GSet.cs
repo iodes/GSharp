@@ -1,9 +1,11 @@
-﻿using GSharp.Base.Cores;
+﻿using System;
+using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Base.Utilities;
 
 namespace GSharp.Base.Statements
 {
+    [Serializable]
     public class GSet : GStatement
     {
         #region 속성

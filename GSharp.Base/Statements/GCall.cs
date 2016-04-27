@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GSharp.Base.Cores;
-using GSharp.Base;
 using GSharp.Extension;
 using GSharp.Base.Scopes;
 
 namespace GSharp.Base.Statements
 {
+    [Serializable]
     public class GCall : GStatement
     {
         #region 객체

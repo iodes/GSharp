@@ -1,8 +1,10 @@
-﻿using GSharp.Base.Cores;
+﻿using System;
+using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
 
 namespace GSharp.Base.Logics
 {
+    [Serializable]
     public class GCompare : GLogic
     {
         #region 속성

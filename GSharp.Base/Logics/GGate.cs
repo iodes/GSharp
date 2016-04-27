@@ -1,7 +1,9 @@
-﻿using GSharp.Base.Cores;
+﻿using System;
+using GSharp.Base.Cores;
 
 namespace GSharp.Base.Logics
 {
+    [Serializable]
     public class GGate : GLogic
     {
         #region 속성

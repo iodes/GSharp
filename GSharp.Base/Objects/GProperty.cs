@@ -1,13 +1,10 @@
-﻿using GSharp.Base.Cores;
+﻿using System;
+using GSharp.Base.Cores;
 using GSharp.Extension;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects
 {
+    [Serializable]
     public class GProperty : GObject
     {
         #region 속성
