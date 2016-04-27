@@ -5,13 +5,13 @@ namespace GSharp.Base.Objects
     public class GNumber : GObject
     {
         #region 속성
-        public long Number { get; set; }
+        public double Number { get; set; }
         #endregion
 
         #region 생성자
-        public GNumber(long valueNumber)
+        public GNumber(double number)
         {
-            Number = valueNumber;
+            Number = number;
         }
         #endregion
 
