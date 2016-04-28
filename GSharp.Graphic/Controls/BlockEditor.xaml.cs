@@ -269,48 +269,54 @@ namespace GSharp.Graphic.Controls
                 {
                     MargnetBlock(SelectedBlock as StringBlock, e);
                 }
-                else if (SelectedBlock is CustomVariableBlock)
+                else if (SelectedBlock is CustomBlock)
                 {
-                    MargnetBlock(SelectedBlock as CustomVariableBlock, e);
+                    MargnetBlock(SelectedBlock as CustomBlock, e);
                 }
             }
         }
 
-        // StatementBlock일때
+        // StatementBlock일 때
         private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
             _MargnetBlock(block, NextConnectHoleList.ToList<BaseHole>(), e);
         }
 
-        // LogicBlock일때
+        // LogicBlock일 때
         private void MargnetBlock(LogicBlock block, MouseEventArgs e)
         {
             _MargnetBlock(block, LogicHoleList.ToList<BaseHole>(), e);
         }
 
-        // ObjectBlock일때
+        // ObjectBlock일 때
         private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
         {
             _MargnetBlock(block, ObjectHoleList.ToList<BaseHole>(), e);
         }
 
-        // NumberBlock일때
+        // NumberBlock일 때
         private void MargnetBlock(NumberBlock block, MouseEventArgs e)
         {
             _MargnetBlock(block, NumberHoleList.ToList<BaseHole>(), e);
         }
 
-        // StringBlock일때
+        // StringBlock일 때
         private void MargnetBlock(StringBlock block, MouseEventArgs e)
         {
             _MargnetBlock(block, StringHoleList.ToList<BaseHole>(), e);
         }
 
-        private void MargnetBlock(CustomVariableBlock block, MouseEventArgs e)
+        // CustomBlock일 때
+        private void MargnetBlock(CustomBlock block, MouseEventArgs e)
         {
             foreach (var hole in CustomHoleList)
             {
                 if (block.HoleList.Contains(hole))
+                {
+                    continue;
+                }
+
+                if (block.Type != hole.Type)
                 {
                     continue;
                 }
@@ -366,7 +372,18 @@ namespace GSharp.Graphic.Controls
             }
             else if (SelectedBlock is ObjectBlock)
             {
-                ConnectBlock(SelectedBlock as ObjectBlock, e);
+                if (SelectedBlock is NumberBlock)
+                {
+                    ConnectBlock(SelectedBlock as NumberBlock, e);
+                }
+                else if (SelectedBlock is StringBlock)
+                {
+                    ConnectBlock(SelectedBlock as StringBlock, e);
+                }
+                else if (SelectedBlock is CustomBlock)
+                {
+                    ConnectBlock(SelectedBlock as CustomBlock, e);
+                }
             }
         }
 
@@ -416,33 +433,165 @@ namespace GSharp.Graphic.Controls
             block.Position = new Point(0, 0);
         }
 
-        // ObjectBlock일때
-        private void ConnectBlock(ObjectBlock block, MouseEventArgs e)
+        // NumberBlock일때
+        private void ConnectBlock(NumberBlock block, MouseEventArgs e)
         {
-            // ObjectHole 아니면 연결할 수 없음
-            if (!(MargnetTarget is ObjectHole))
+            // ObjectHole인 경우 연결
+            if (MargnetTarget is ObjectHole)
             {
-                return;
+                var objectHole = MargnetTarget as ObjectHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.ObjectBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = objectHole.DetachBlock();
+                    AttachToCanvas(detachedBlock);
+
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.ObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+            // NumberHole인 경우 연결
+            else if (MargnetTarget is NumberHole)
+            {
+                var numberHole = MargnetTarget as NumberHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (numberHole.NumberBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = numberHole.DetachBlock();
+
+                    if (detachedBlock != null)
+                    {
+                        AttachToCanvas(detachedBlock);
+                        detachedBlock.Position = block.Position;
+                    }
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                numberHole.NumberBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+        }
+
+        // StringBlock일 때
+        private void ConnectBlock(StringBlock block, MouseEventArgs e)
+        {
+            // ObjectHole인 경우 연결
+            if (MargnetTarget is ObjectHole)
+            {
+                var objectHole = MargnetTarget as ObjectHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.ObjectBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = objectHole.DetachBlock();
+                    AttachToCanvas(detachedBlock);
+
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.ObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+            // StringHole인 경우 연결
+            else if (MargnetTarget is StringHole)
+            {
+                var stringHole = MargnetTarget as StringHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (stringHole.StringBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = stringHole.DetachBlock();
+
+                    if (detachedBlock != null)
+                    {
+                        AttachToCanvas(detachedBlock);
+                        detachedBlock.Position = block.Position;
+                    }
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                stringHole.StringBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+        }
+
+        // CustomBlock인 경우
+        private void ConnectBlock(CustomBlock block, MouseEventArgs e)
+        {
+            /* 일단 CustomBlock은 ObjectHole에 끼울 수 없음
+            // ObjectHole인 경우 연결
+            if (MargnetTarget is ObjectHole)
+            {
+                var objectHole = MargnetTarget as ObjectHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.ObjectBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = objectHole.DetachBlock();
+                    AttachToCanvas(detachedBlock);
+
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.ObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
             }
 
-            var objectHole = MargnetTarget as ObjectHole;
-
-            // 연결 대상에 이미 블럭이 존재하는 경우
-            if (objectHole.ObjectBlock != null)
+            // StringHole인 경우 연결
+            else */if (MargnetTarget is CustomHole)
             {
-                // 기존 블럭을 Canvas로 이동
-                var detachedBlock = objectHole.DetachBlock();
-                AttachToCanvas(detachedBlock);
+                var customHole = MargnetTarget as CustomHole;
 
-                detachedBlock.Position = block.Position;
+                // Type이 다르면 연결할 수 없음
+                if (customHole.Type != block.Type)
+                {
+                    return;
+                }
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (customHole.CustomBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = customHole.DetachBlock();
+                    
+                    AttachToCanvas(detachedBlock);
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                customHole.CustomBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
             }
-
-            // 블럭을 캔버스에서 연결 대상으로 이동
-            DetachFromCanvas(block);
-            objectHole.ObjectBlock = block;
-
-            // 블럭 위치 재조정
-            block.Position = new Point(0, 0);
         }
         #endregion
 
@@ -494,22 +643,21 @@ namespace GSharp.Graphic.Controls
                 {
                     LogicHoleList.Add(hole as LogicHole);
                 }
+                else if (hole is NumberHole)
+                {
+                    NumberHoleList.Add(hole as NumberHole);
+                }
+                else if (hole is StringHole)
+                {
+                    StringHoleList.Add(hole as StringHole);
+                }
+                else if (hole is CustomHole)
+                {
+                    CustomHoleList.Add(hole as CustomHole);
+                }
                 else if (hole is ObjectHole)
                 {
                     ObjectHoleList.Add(hole as ObjectHole);
-
-                    if (hole is NumberHole)
-                    {
-                        NumberHoleList.Add(hole as NumberHole);
-                    }
-                    else if (hole is StringHole)
-                    {
-                        StringHoleList.Add(hole as StringHole);
-                    }
-                    else if (hole is CustomHole)
-                    {
-                        CustomHoleList.Add(hole as CustomHole);
-                    }
                 }
             }
 
@@ -541,6 +689,10 @@ namespace GSharp.Graphic.Controls
                 else if (hole is LogicHole)
                 {
                     LogicHoleList.Remove(hole as LogicHole);
+                }
+                else if (hole is ObjectHole)
+                {
+                    ObjectHoleList.Remove(hole as ObjectHole);
                 }
                 else if (hole is NumberHole)
                 {
