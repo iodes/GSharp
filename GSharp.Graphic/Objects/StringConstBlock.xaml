@@ -7,7 +7,5 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Border CornerRadius="10" Padding="6" Background="Purple" HorizontalAlignment="Left" VerticalAlignment="Top">
-        <TextBox x:Name="StringText" VerticalAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0" Padding="3" TextAlignment="Center"></TextBox>
-    </Border>
+    <TextBox x:Name="StringText" VerticalAlignment="Center" HorizontalAlignment="Stretch" BorderThickness="0" Padding="3" TextAlignment="Center"></TextBox>
 </local:StringBlock>

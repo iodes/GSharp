@@ -22,11 +22,14 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class StringHole : BaseObjectHole
     {
+        public override event HoleEventArgs BlockAttached;
+        public override event HoleEventArgs BlockDetached;
+
         public override BaseBlock AttachedBlock
         {
             get
             {
-                return NumberBlock;
+                return StringBlock;
             }
         }
 
@@ -34,23 +37,80 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return NumberBlock;
+                return StringBlock;
             }
         }
 
-        public StringBlock NumberBlock
+        public StringBlock StringBlock
         {
             get
             {
-                return new StringConstBlock();
+                if (BlockHole.Child != null)
+                {
+                    return BlockHole.Child as StringBlock;
+                }
+                else
+                {
+                    return BlockString;
+                }
+            }
+            set
+            {
+                var prevBlock = StringBlock;
+
+                // 제거는 DetachBlock으로
+                if (value == null)
+                {
+                    DetachBlock();
+                    return;
+                }
+
+                // 같은 블럭을 연결하려고 한 경우 무시
+                if (value == prevBlock) return;
+
+                // 기존 블럭이 존재할 경우
+                if (prevBlock != null && !(prevBlock is StringConstBlock))
+                {
+                    throw new Exception("이미 블럭이 존재합니다.");
+                }
+
+                // 연결하려는 블럭을 부모에서 제거
+                value?.ParentHole?.DetachBlock();
+
+                // 블럭 연결
+                value.ParentHole = this;
+                BlockAttached?.Invoke(value);
+                BlockHole.Child = value;
+
+                // 상수 블럭을 보이지 않도록 변경
+                BlockString.Visibility = Visibility.Hidden;
             }
         }
-
-        public long Number { get; set; } = 0;
 
         public StringHole()
         {
             InitializeComponent();
+        }
+
+        public override BaseBlock DetachBlock()
+        {
+            var block = AttachedBlock;
+
+            if (block is StringConstBlock)
+            {
+                return null;
+            }
+
+            // Detach 이벤트 호출
+            BlockDetached?.Invoke(block);
+
+            // 블럭 연결 해제
+            BlockHole.Child = null;
+
+            // 상수 블럭을 보이도록 변경
+            BlockString.Visibility = Visibility.Visible;
+
+            return block;
         }
     }
 }
