@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GSharp.Graphic.Holes
 {
@@ -30,22 +31,37 @@ namespace GSharp.Graphic.Holes
             return null;
         }
 
-        public static BaseHole CreateHole(string holeName)
-        {   
-            switch (holeName)
+        private static Type[] numberTypes = new Type[] {
+            typeof(Char),
+
+            typeof(Int16),
+            typeof(UInt16),
+
+            typeof(Int32),
+            typeof(UInt32),
+
+            typeof(Int64),
+            typeof(UInt64),
+
+            typeof(Single),
+            typeof(Double),
+        };
+
+        public static BaseHole CreateHole(Type holeType)
+        {
+            // StringHole
+            if (holeType == typeof(string))
             {
-                case "logic":
-                    return new LogicHole();
-
-                case "object":
-                    return new ObjectHole();
-
-                case "variable":
-                    return new VariableHole();
-
-                default:
-                    return null;
+                return new StringHole();
             }
+            // NumberHole
+
+            if (numberTypes.Contains(holeType))
+            {
+                return new NumberHole();
+            }
+
+            return new CustomHole(holeType, Colors.Bisque);
         }
     }
 }
