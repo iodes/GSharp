@@ -14,6 +14,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base;
 using GSharp.Base.Scopes;
 using GSharp.Graphic.Scopes;
+using System.Collections;
+using GSharp.Graphic.Objects;
 
 namespace GSharp.Graphic.Controls
 {
@@ -46,18 +48,26 @@ namespace GSharp.Graphic.Controls
         //private List<BaseHole> HoleList = new List<BaseHole>();
 
         // Hole 목록
+        // Statement Hole
         private List<NextConnectHole> NextConnectHoleList = new List<NextConnectHole>();
-        private List<LogicHole> LogicHoleList = new List<LogicHole>();
-        private List<ObjectHole> ObjectHoleList = new List<ObjectHole>();
-        private List<VariableHole> VariableHoleList = new List<VariableHole>();
 
-        //private Dictionary<Type, List<BaseHole>> HoleList = new Dictionary<Type, List<BaseHole>>();
+        // Logic Hole
+        private List<LogicHole> LogicHoleList = new List<LogicHole>();
+
+        // Object Hole
+        private List<ObjectHole> ObjectHoleList = new List<ObjectHole>();
+        private List<NumberHole> NumberHoleList = new List<NumberHole>();
+        private List<StringHole> StringHoleList = new List<StringHole>();
+        private List<CustomHole> CustomHoleList = new List<CustomHole>();
+
+        // Variable Hole
+        //private List<VariableHole> VariableHoleList = new List<VariableHole>();
 
         // 선택된 대상이 움직였는지 체크
         private bool IsSelectedBlockMoved = false;
 
         // 변수 목록
-        private Dictionary<string, GDefine> DefineList = new Dictionary<string, GDefine>();
+        private Dictionary<string, GDefine> VariableList = new Dictionary<string, GDefine>();
 
         // 함수 목록
         private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
@@ -87,6 +97,8 @@ namespace GSharp.Graphic.Controls
             // 부모 블럭 클릭되지 않도록
             e.Handled = true;
             IsSelectedBlockMoved = false;
+
+            Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -145,6 +157,8 @@ namespace GSharp.Graphic.Controls
                 }
             }
 
+            Panel.SetZIndex(SelectedBlock, 1);
+
             // Selected 해제
             SelectedBlock = null;
             MargnetTarget = null;
@@ -174,24 +188,24 @@ namespace GSharp.Graphic.Controls
         // 변수 선언
         public void DefineVariable(string varName)
         {
-            DefineList[varName] = new GDefine(varName);
+            VariableList[varName] = new GDefine(varName);
         }
 
         // 변순 선언 해제
         public void UnDefineVariable(string varName)
         {
-            DefineList.Remove(varName);
+            VariableList.Remove(varName);
         }
 
         // 변수 목록
         public List<string> GetVariableNameList()
         {
-            return DefineList.Keys.ToList();
+            return VariableList.Keys.ToList();
         }
         
         public List<GDefine> GetDefineList()
         {
-            return DefineList.Values.ToList();
+            return VariableList.Values.ToList();
         }
         #endregion
 
@@ -237,44 +251,64 @@ namespace GSharp.Graphic.Controls
 
             if (SelectedBlock is StatementBlock)
             {
-                MargnetBlock((StatementBlock)SelectedBlock, e);
+                MargnetBlock(SelectedBlock as StatementBlock, e);
             }
             else if (SelectedBlock is LogicBlock)
             {
-                MargnetBlock((LogicBlock)SelectedBlock, e);
+                MargnetBlock(SelectedBlock as LogicBlock, e);
             }
             else if (SelectedBlock is ObjectBlock)
             {
-                MargnetBlock((ObjectBlock)SelectedBlock, e);
+                MargnetBlock(SelectedBlock as ObjectBlock, e);
+
+                if (SelectedBlock is NumberBlock)
+                {
+                    MargnetBlock(SelectedBlock as NumberBlock, e);
+                }
+                else if (SelectedBlock is StringBlock)
+                {
+                    MargnetBlock(SelectedBlock as StringBlock, e);
+                }
+                else if (SelectedBlock is CustomVariableBlock)
+                {
+                    MargnetBlock(SelectedBlock as CustomVariableBlock, e);
+                }
             }
         }
 
         // StatementBlock일때
         private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
-            foreach (var hole in NextConnectHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
+            _MargnetBlock(block, NextConnectHoleList.ToList<BaseHole>(), e);
         }
 
         // LogicBlock일때
         private void MargnetBlock(LogicBlock block, MouseEventArgs e)
         {
-            foreach (LogicHole hole in LogicHoleList)
+            _MargnetBlock(block, LogicHoleList.ToList<BaseHole>(), e);
+        }
+
+        // ObjectBlock일때
+        private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
+        {
+            _MargnetBlock(block, ObjectHoleList.ToList<BaseHole>(), e);
+        }
+
+        // NumberBlock일때
+        private void MargnetBlock(NumberBlock block, MouseEventArgs e)
+        {
+            _MargnetBlock(block, NumberHoleList.ToList<BaseHole>(), e);
+        }
+
+        // StringBlock일때
+        private void MargnetBlock(StringBlock block, MouseEventArgs e)
+        {
+            _MargnetBlock(block, StringHoleList.ToList<BaseHole>(), e);
+        }
+
+        private void MargnetBlock(CustomVariableBlock block, MouseEventArgs e)
+        {
+            foreach (var hole in CustomHoleList)
             {
                 if (block.HoleList.Contains(hole))
                 {
@@ -294,10 +328,10 @@ namespace GSharp.Graphic.Controls
             }
         }
 
-        // ObjectBlock일때
-        private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
+        // 공통 부분 통일
+        private void _MargnetBlock(BaseBlock block, List<BaseHole> holeList, MouseEventArgs e)
         {
-            foreach (ObjectHole hole in ObjectHoleList)
+            foreach (var hole in holeList)
             {
                 if (block.HoleList.Contains(hole))
                 {
@@ -463,12 +497,19 @@ namespace GSharp.Graphic.Controls
                 else if (hole is ObjectHole)
                 {
                     ObjectHoleList.Add(hole as ObjectHole);
-                }
-                else if (hole is VariableHole)
-                {
-                    var vHole = hole as VariableHole;
-                    VariableHoleList.Add(vHole);
-                    vHole.SetItemList(GetVariableNameList());
+
+                    if (hole is NumberHole)
+                    {
+                        NumberHoleList.Add(hole as NumberHole);
+                    }
+                    else if (hole is StringHole)
+                    {
+                        StringHoleList.Add(hole as StringHole);
+                    }
+                    else if (hole is CustomHole)
+                    {
+                        CustomHoleList.Add(hole as CustomHole);
+                    }
                 }
             }
 
@@ -501,13 +542,17 @@ namespace GSharp.Graphic.Controls
                 {
                     LogicHoleList.Remove(hole as LogicHole);
                 }
-                else if (hole is ObjectHole)
+                else if (hole is NumberHole)
                 {
-                    ObjectHoleList.Remove(hole as ObjectHole);
+                    NumberHoleList.Remove(hole as NumberHole);
                 }
-                else if (hole is VariableHole)
+                else if (hole is StringHole)
                 {
-                    VariableHoleList.Remove(hole as VariableHole);
+                    StringHoleList.Remove(hole as StringHole);
+                }
+                else if (hole is CustomHole)
+                {
+                    CustomHoleList.Remove(hole as CustomHole);
                 }
             }
 
@@ -522,7 +567,7 @@ namespace GSharp.Graphic.Controls
                 GEntry entry = new GEntry();
                 List<GBase> list = new List<GBase>();
 
-                foreach (GDefine define in DefineList.Values)
+                foreach (GDefine define in VariableList.Values)
                 {
                     entry.Append(define);
                 }
