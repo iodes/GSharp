@@ -69,7 +69,7 @@ namespace GSharp.Graphic.Holes
                 if (value == prevBlock) return;
 
                 // 기존 블럭이 존재할 경우
-                if (prevBlock != null)
+                if (prevBlock != null && !(prevBlock is NumberConstBlock))
                 {
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
@@ -81,6 +81,9 @@ namespace GSharp.Graphic.Holes
                 value.ParentHole = this;
                 BlockAttached?.Invoke(value);
                 BlockHole.Child = value;
+                
+                // 상수 블럭을 보이지 않도록 변경
+                BlockNumber.Visibility = Visibility.Hidden;
             }
         }
 
@@ -93,11 +96,19 @@ namespace GSharp.Graphic.Holes
         {
             var block = AttachedBlock;
 
+            if (block is NumberConstBlock)
+            { 
+                return null;
+            }
+
             // Detach 이벤트 호출
             BlockDetached?.Invoke(block);
 
             // 블럭 연결 해제
             BlockHole.Child = null;
+
+            // 상수 블럭을 보이도록 변경
+            BlockNumber.Visibility = Visibility.Visible;
 
             return block;
         }
