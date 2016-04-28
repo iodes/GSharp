@@ -1,4 +1,4 @@
-﻿<core:ObjectBlock x:Class="GSharp.Graphic.Objects.CustomVariableBlock"
+﻿<local:CustomBlock x:Class="GSharp.Graphic.Objects.CustomVariableBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,4 +11,4 @@
     <Border CornerRadius="10" Padding="6" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="2">
 
     </Border>
-</core:ObjectBlock>
+</local:CustomBlock>

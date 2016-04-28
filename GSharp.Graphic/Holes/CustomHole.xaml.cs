@@ -50,11 +50,11 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public CustomVariableBlock CustomBlock
+        public CustomBlock CustomBlock
         {
             get
             {
-                return BlockHole.Child as CustomVariableBlock;
+                return BlockHole.Child as CustomBlock;
             }
 
             set

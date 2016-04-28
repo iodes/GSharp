@@ -92,6 +92,7 @@
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\CustomBlock.cs" />
     <Compile Include="Objects\CustomVariableBlock.xaml.cs">
       <DependentUpon>CustomVariableBlock.xaml</DependentUpon>
     </Compile>
