@@ -4,10 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
+             xmlns:object="clr-namespace:GSharp.Graphic.Objects"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <ComboBox x:Name="Variable">
-        </ComboBox>
-    </Grid>
+             d:DesignHeight="30" d:DesignWidth="30">
+    <Border Background="#C8C8C8" CornerRadius="10" MinHeight="30" MinWidth="26">
+        <Grid>
+            <Border x:Name="BlockHole"></Border>
+            <object:NumberConstBlock x:Name="BlockNumber" MinWidth="20" VerticalAlignment="Center" Margin="5" HorizontalAlignment="Center" />
+        </Grid>
+    </Border>
 </local:BaseObjectHole>

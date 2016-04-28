@@ -22,6 +22,9 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class NumberHole : BaseObjectHole
     {
+        public override event HoleEventArgs BlockAttached;
+        public override event HoleEventArgs BlockDetached;
+
         public override BaseBlock AttachedBlock
         {
             get
@@ -42,18 +45,61 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return new NumberBlock
+                if (BlockHole.Child != null)
                 {
-                    Number = Number
-                };
+                    return BlockHole.Child as NumberBlock;
+                }
+                else
+                {
+                    return BlockNumber;
+                }
+            }
+            set
+            {
+                var prevBlock = NumberBlock;
+
+                // 제거는 DetachBlock으로
+                if (value == null)
+                {
+                    DetachBlock();
+                    return;
+                }
+
+                // 같은 블럭을 연결하려고 한 경우 무시
+                if (value == prevBlock) return;
+
+                // 기존 블럭이 존재할 경우
+                if (prevBlock != null)
+                {
+                    throw new Exception("이미 블럭이 존재합니다.");
+                }
+
+                // 연결하려는 블럭을 부모에서 제거
+                value?.ParentHole?.DetachBlock();
+
+                // 블럭 연결
+                value.ParentHole = this;
+                BlockAttached?.Invoke(value);
+                BlockHole.Child = value;
             }
         }
-
-        public long Number { get; set; } = 0;
 
         public NumberHole()
         {
             InitializeComponent();
+        }
+
+        public override BaseBlock DetachBlock()
+        {
+            var block = AttachedBlock;
+
+            // Detach 이벤트 호출
+            BlockDetached?.Invoke(block);
+
+            // 블럭 연결 해제
+            BlockHole.Child = null;
+
+            return block;
         }
     }
 }
