@@ -66,6 +66,12 @@
     <Compile Include="Holes\NextConnectHole.xaml.cs">
       <DependentUpon>NextConnectHole.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Holes\CustomHole.xaml.cs">
+      <DependentUpon>CustomHole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Holes\StringHole.xaml.cs">
+      <DependentUpon>StringHole.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Holes\ObjectHole.xaml.cs">
       <DependentUpon>ObjectHole.xaml</DependentUpon>
     </Compile>
@@ -77,9 +83,6 @@
       <DependentUpon>NumberHole.xaml</DependentUpon>
     </Compile>
     <Compile Include="Holes\BaseStatementHole.cs" />
-    <Compile Include="Holes\VariableHole.xaml.cs">
-      <DependentUpon>VariableHole.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Logics\GateBlock.xaml.cs">
       <DependentUpon>GateBlock.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,9 @@
     </Compile>
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\CustomVariableBlock.xaml.cs">
+      <DependentUpon>CustomVariableBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\MultiplyBlock.xaml.cs">
       <DependentUpon>MultiplyBlock.xaml</DependentUpon>
@@ -101,20 +107,25 @@
     <Compile Include="Objects\MinusBlock.xaml.cs">
       <DependentUpon>MinusBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\StringVariableBlock.xaml.cs">
+      <DependentUpon>StringVariableBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\StringBlock.cs" />
+    <Compile Include="Objects\NumberBlock.cs" />
     <Compile Include="Objects\PlusBlock.xaml.cs">
       <DependentUpon>PlusBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\StringBlock.xaml.cs">
-      <DependentUpon>StringBlock.xaml</DependentUpon>
+    <Compile Include="Objects\StringConstBlock.xaml.cs">
+      <DependentUpon>StringConstBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\NumberBlock.xaml.cs">
-      <DependentUpon>NumberBlock.xaml</DependentUpon>
+    <Compile Include="Objects\NumberConstBlock.xaml.cs">
+      <DependentUpon>NumberConstBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\PropertyBlock.xaml.cs">
       <DependentUpon>PropertyBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\VariableBlock.xaml.cs">
-      <DependentUpon>VariableBlock.xaml</DependentUpon>
+    <Compile Include="Objects\NumberVariableBlock.xaml.cs">
+      <DependentUpon>NumberVariableBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -174,6 +185,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Holes\CustomHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Holes\StringHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Holes\ObjectHole.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,10 +205,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Holes\VariableHole.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Logics\GateBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -199,6 +214,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Logics\CompareBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\CustomVariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -218,15 +237,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Objects\StringVariableBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Objects\PlusBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\StringBlock.xaml">
+    <Page Include="Objects\StringConstBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\NumberBlock.xaml">
+    <Page Include="Objects\NumberConstBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -234,7 +257,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\VariableBlock.xaml">
+    <Page Include="Objects\NumberVariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
