@@ -30,7 +30,8 @@ namespace GSharp.Manager
             foreach (string path in Directory.GetFiles(valuePath, "*.ini", SearchOption.AllDirectories))
             {
                 INI ini = new INI(path);
-                string extensionPath = ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", Directory.GetParent(path).FullName);
+                string parentName = Directory.GetParent(path).FullName;
+                string extensionPath = ini.GetValue("Assembly", "File").Replace("<%LOCAL%>", parentName);
 
                 if (File.Exists(extensionPath))
                 {
@@ -39,6 +40,12 @@ namespace GSharp.Manager
                     extension.Title = ini.GetValue("General", "Title");
                     extension.Author = ini.GetValue("General", "Author");
                     extension.Summary = ini.GetValue("General", "Summary");
+
+                    string dependenciesDir = ini.GetValue("Assembly", "Dependencies").Replace("<%LOCAL%>", parentName);
+                    if (dependenciesDir.Length > 0 && Directory.Exists(dependenciesDir))
+                    {
+                        extension.Dependencies = dependenciesDir;
+                    }
 
                     Extensions.Add(extension);
                 }

@@ -23,6 +23,8 @@ namespace GSharp.Compile
                 return parameters.ReferencedAssemblies;
             }
         }
+
+        public List<string> Dependencies { get; set; } = new List<string>();
         #endregion
 
         #region 객체
@@ -128,6 +130,32 @@ namespace GSharp.Compile
 
             return result.ToString();
         }
+
+        private void CopyDirectory(string source, string destination, bool copySubDirs)
+        {
+            DirectoryInfo dir = new DirectoryInfo(source);
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            if (!Directory.Exists(destination))
+            {
+                Directory.CreateDirectory(destination);
+            }
+
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(destination, file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    CopyDirectory(subdir.FullName, Path.Combine(destination, subdir.Name), copySubDirs);
+                }
+            }
+        }
         #endregion
 
         #region 사용자 함수
@@ -202,6 +230,18 @@ namespace GSharp.Compile
         }
 
         /// <summary>
+        /// 실행시 필요한 추가 종속성을 추가합니다.
+        /// </summary>
+        /// <param name="path">추가 종속성 파일의 경로입니다.</param>
+        public void LoadDependencies(string path)
+        {
+            if (!Dependencies.Contains(path))
+            {
+                Dependencies.Add(path);
+            }
+        }
+
+        /// <summary>
         /// 소스를 빌드하여 컴파일된 파일을 생성합니다.
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
@@ -225,6 +265,14 @@ namespace GSharp.Compile
                 if (File.Exists(dll))
                 {
                     File.Copy(dll, string.Format(@"{0}\{1}", Path.GetDirectoryName(path), Path.GetFileName(dll)), true);
+                }
+            }
+
+            foreach (string directory in Dependencies)
+            {
+                if (Directory.Exists(directory))
+                {
+                    CopyDirectory(directory, Path.GetDirectoryName(path), true);
                 }
             }
 
