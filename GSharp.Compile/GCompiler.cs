@@ -220,6 +220,14 @@ namespace GSharp.Compile
                 Results = provider.CompileAssemblyFromSource(parameters, fullSource)
             };
 
+            foreach (string dll in References)
+            {
+                if (File.Exists(dll))
+                {
+                    File.Copy(dll, string.Format(@"{0}\{1}", Path.GetDirectoryName(path), Path.GetFileName(dll)), true);
+                }
+            }
+
             return results;
         }
         #endregion
