@@ -11,5 +11,7 @@
              PreviewMouseUp="UserControl_PreviewMouseUp"
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid x:Name="BlockCanvas"/>
+    <ScrollViewer x:Name="BlockViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="BlockGrid"/>
+    </ScrollViewer>
 </UserControl>

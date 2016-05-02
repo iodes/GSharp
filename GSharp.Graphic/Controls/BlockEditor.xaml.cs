@@ -29,6 +29,16 @@ namespace GSharp.Graphic.Controls
     /// </summary>
     public partial class BlockEditor : UserControl
     {
+        #region 속성
+        public Grid Master
+        {
+            get
+            {
+                return BlockGrid;
+            }
+        }
+        #endregion
+
         #region 객체
         // 선택한 블럭
         private BaseBlock SelectedBlock;
@@ -75,8 +85,12 @@ namespace GSharp.Graphic.Controls
         {
             InitializeComponent();
 
+            BlockViewer.PreviewMouseDown += BlockViewer_PreviewMouseDown;
+            BlockViewer.PreviewMouseMove += BlockViewer_PreviewMouseMove;
+            BlockViewer.PreviewMouseUp += BlockViewer_PreviewMouseUp;
+
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
-            BlockCanvas.Children.Add(Highlighter);
+            Master.Children.Add(Highlighter);
         }
         #endregion
 
@@ -88,7 +102,7 @@ namespace GSharp.Graphic.Controls
         {
             CaptureMouse();
 
-            SelectedBlock = (BaseBlock)sender;
+            SelectedBlock = sender as BaseBlock;
             SelectedPosition = e.GetPosition(SelectedBlock);
 
             // 부모 블럭 클릭되지 않도록
@@ -123,8 +137,16 @@ namespace GSharp.Graphic.Controls
             }
 
             // 마우스 좌표로 블럭 이동
-            Point position = e.GetPosition(this);
+            Point position = e.GetPosition(Master);
             SelectedBlock.Position = new Point(position.X - SelectedPosition.X, position.Y - SelectedPosition.Y);
+            if (SelectedBlock.Position.X < 0)
+            {
+                SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
+            }
+            if (SelectedBlock.Position.Y < 0)
+            {
+                SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
+            }
 
             // 연결할 대상을 찾고 하이라이팅
             MargnetBlock(SelectedBlock, e);
@@ -142,8 +164,16 @@ namespace GSharp.Graphic.Controls
             if (IsSelectedBlockMoved)
             {
                 // 마우스 좌표로 블럭 이동
-                Point position = e.GetPosition(this);
+                Point position = e.GetPosition(Master);
                 SelectedBlock.Position = new Point(position.X - SelectedPosition.X, position.Y - SelectedPosition.Y);
+                if (SelectedBlock.Position.X < 0)
+                {
+                    SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
+                }
+                if (SelectedBlock.Position.Y < 0)
+                {
+                    SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
+                }
 
                 // 연결할 대상이 있다면 연결
                 if (MargnetTarget != null)
@@ -234,94 +264,27 @@ namespace GSharp.Graphic.Controls
         }
         #endregion
 
-        #region 블럭 자석 효과
-        // 각자 맞는 블럭으로 오버로딩
-        private void MargnetBlock(BaseBlock block, MouseEventArgs e)
+        #region 내부 함수
+        private double GetDistance2(Point a, Point b)
         {
-            MargnetTarget = null;
-
-            Highlighter.Visibility = Visibility.Hidden;
-
-            if (SelectedBlock is StatementBlock)
-            {
-                MargnetBlock((StatementBlock)SelectedBlock, e);
-            }
-            else if (SelectedBlock is LogicBlock)
-            {
-                MargnetBlock((LogicBlock)SelectedBlock, e);
-            }
-            else if (SelectedBlock is ObjectBlock)
-            {
-                MargnetBlock((ObjectBlock)SelectedBlock, e);
-            }
+            return Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2);
         }
 
-        // StatementBlock일때
-        private void MargnetBlock(StatementBlock block, MouseEventArgs e)
+        private double GetDistance(Point a, Point b)
         {
-            foreach (var hole in NextConnectHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
+            return Math.Sqrt(GetDistance2(a, b));
         }
 
-        // LogicBlock일때
-        private void MargnetBlock(LogicBlock block, MouseEventArgs e)
+        // 부모에서 선택한 요소를 제거
+        private void DetachFromCanvas(BaseBlock block)
         {
-            foreach (LogicHole hole in LogicHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
-
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
+            Master.Children.Remove(block);
         }
 
-        // ObjectBlock일때
-        private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
+        private void AttachToCanvas(BaseBlock block)
         {
-            foreach (ObjectHole hole in ObjectHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
-
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
+            Master.Children.Add(block);
+            block.ParentHole = null;
         }
         #endregion
 
@@ -368,7 +331,7 @@ namespace GSharp.Graphic.Controls
             {
                 return;
             }
-            
+
             var logicHole = MargnetTarget as LogicHole;
 
             // 연결 대상에 이미 블럭이 존재하는 경우
@@ -419,27 +382,125 @@ namespace GSharp.Graphic.Controls
         }
         #endregion
 
-        #region 내부 함수
-        private double GetDistance2(Point a, Point b)
+        #region 블럭 자석 효과
+        // 각자 맞는 블럭으로 오버로딩
+        private void MargnetBlock(BaseBlock block, MouseEventArgs e)
         {
-            return Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2);
+            MargnetTarget = null;
+
+            Highlighter.Visibility = Visibility.Hidden;
+
+            if (SelectedBlock is StatementBlock)
+            {
+                MargnetBlock((StatementBlock)SelectedBlock, e);
+            }
+            else if (SelectedBlock is LogicBlock)
+            {
+                MargnetBlock((LogicBlock)SelectedBlock, e);
+            }
+            else if (SelectedBlock is ObjectBlock)
+            {
+                MargnetBlock((ObjectBlock)SelectedBlock, e);
+            }
         }
 
-        private double GetDistance(Point a, Point b)
+        // StatementBlock일때
+        private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
-            return Math.Sqrt(GetDistance2(a, b));
+            foreach (var hole in NextConnectHoleList)
+            {
+                if (block.HoleList.Contains(hole))
+                {
+                    continue;
+                }
+
+                var position = hole.TranslatePoint(new Point(0, 0), Master);
+                if (GetDistance(position, block.Position) > 20)
+                {
+                    continue;
+                }
+
+                MargnetTarget = hole;
+                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
+                Highlighter.Visibility = Visibility.Visible;
+            }
         }
 
-        // 부모에서 선택한 요소를 제거
-        private void DetachFromCanvas(BaseBlock block)
+        // LogicBlock일때
+        private void MargnetBlock(LogicBlock block, MouseEventArgs e)
         {
-            BlockCanvas.Children.Remove(block);
+            foreach (LogicHole hole in LogicHoleList)
+            {
+                if (block.HoleList.Contains(hole))
+                {
+                    continue;
+                }
+
+                var position = hole.TranslatePoint(new Point(0, 0), Master);
+
+                if (GetDistance(position, block.Position) > 20)
+                {
+                    continue;
+                }
+
+                MargnetTarget = hole;
+                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
+                Highlighter.Visibility = Visibility.Visible;
+            }
         }
 
-        private void AttachToCanvas(BaseBlock block)
+        // ObjectBlock일때
+        private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
         {
-            BlockCanvas.Children.Add(block);
-            block.ParentHole = null;
+            foreach (ObjectHole hole in ObjectHoleList)
+            {
+                if (block.HoleList.Contains(hole))
+                {
+                    continue;
+                }
+
+                var position = hole.TranslatePoint(new Point(0, 0), Master);
+
+                if (GetDistance(position, block.Position) > 20)
+                {
+                    continue;
+                }
+
+                MargnetTarget = hole;
+                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
+                Highlighter.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
+
+        #region 스크롤 뷰어 드래그
+        double vOffset = 0;
+        double hOffset = 0;
+        Point scrollMousePoint = new Point();
+
+        private void BlockViewer_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            BlockViewer.ReleaseMouseCapture();
+        }
+
+        private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                BlockViewer.CaptureMouse();
+                vOffset = BlockViewer.VerticalOffset;
+                hOffset = BlockViewer.HorizontalOffset;
+                scrollMousePoint = e.GetPosition(BlockViewer);
+            }
+        }
+
+        private void BlockViewer_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (BlockViewer.IsMouseCaptured)
+            {
+                BlockViewer.ScrollToVerticalOffset(vOffset + (scrollMousePoint.Y - e.GetPosition(BlockViewer).Y));
+                BlockViewer.ScrollToHorizontalOffset(hOffset + (scrollMousePoint.X - e.GetPosition(BlockViewer).X));
+            }
         }
         #endregion
 
@@ -534,7 +595,7 @@ namespace GSharp.Graphic.Controls
                     entry.Append(define);
                 }
 
-                foreach (var block in BlockCanvas.Children)
+                foreach (var block in Master.Children)
                 {
                     if (block is EventBlock)
                     {
@@ -562,7 +623,7 @@ namespace GSharp.Graphic.Controls
 
             writer.WriteStartDocument();
             writer.WriteStartElement("Contents");
-            foreach (var target in BlockCanvas.Children)
+            foreach (var target in Master.Children)
             {
                 if (target is BaseBlock)
                 {
