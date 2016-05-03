@@ -24,14 +24,13 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class NumberVariableBlock : NumberBlock
     {
-        public string VariableName { get; set; }
-
         // 생성자
-        public NumberVariableBlock(string variableName)
+        public NumberVariableBlock(GVariable variable)
         {
             InitializeComponent();
-            
-            VariableName = variableName;
+
+            _GVariable = variable;
+            VariableName.Text = variable.Name;
 
             InitializeBlock();
         }
@@ -40,9 +39,10 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return new GVariable(VariableName);
+                return _GVariable;
             }
         }
+        private GVariable _GVariable;
 
         public override GObject GObject
         {

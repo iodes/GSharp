@@ -9,6 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
     <Border CornerRadius="10" Padding="6" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="2">
-
+        <TextBlock x:Name="VariableName" Foreground="#D5404D" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
 </local:CustomBlock>

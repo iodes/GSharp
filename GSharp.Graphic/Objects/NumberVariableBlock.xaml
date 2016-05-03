@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
     <Border CornerRadius="10" Padding="10" Background="Green" HorizontalAlignment="Left" VerticalAlignment="Top">
-        <TextBlock Text="test1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TextBlock x:Name="VariableName" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
 </local:NumberBlock>

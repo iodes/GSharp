@@ -17,22 +17,34 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return null;
+                return GVariable;
             }
         }
+
+        public GVariable GVariable
+        {
+            get
+            {
+                return _GVariable;
+            }
+        }
+        private GVariable _GVariable;
 
         public override List<GBase> GObjectList
         {
             get
             {
-                return null;
+                return new List<GBase>() { GObject };
             }
         }
 
-        public CustomVariableBlock(Type type, Color color)
+        public CustomVariableBlock(GVariable variable, Type type, Color color)
             : base(type)
         {
             InitializeComponent();
+
+            _GVariable = variable;
+            VariableName.Text = variable.Name;
 
             // Set background color
             Background = new SolidColorBrush(color);
