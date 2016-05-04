@@ -79,7 +79,7 @@ namespace GSharp.Graphic.Controls
             InitializeComponent();
 
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
-            BlockCanvas.Children.Add(Highlighter);
+            BlockGrid.Children.Add(Highlighter);
         }
         #endregion
 
@@ -321,7 +321,7 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+                var position = hole.TranslatePoint(new Point(0, 0), BlockGrid);
 
                 if (GetDistance(position, block.Position) > 20)
                 {
@@ -344,7 +344,7 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+                var position = hole.TranslatePoint(new Point(0, 0), BlockGrid);
 
                 if (GetDistance(position, block.Position) > 20)
                 {
@@ -609,12 +609,12 @@ namespace GSharp.Graphic.Controls
         // 부모에서 선택한 요소를 제거
         private void DetachFromCanvas(BaseBlock block)
         {
-            BlockCanvas.Children.Remove(block);
+            BlockGrid.Children.Remove(block);
         }
 
         private void AttachToCanvas(BaseBlock block)
         {
-            BlockCanvas.Children.Add(block);
+            BlockGrid.Children.Add(block);
             block.ParentHole = null;
         }
         #endregion
@@ -724,7 +724,7 @@ namespace GSharp.Graphic.Controls
                     entry.Append(define);
                 }
 
-                foreach (var block in BlockCanvas.Children)
+                foreach (var block in BlockGrid.Children)
                 {
                     if (block is EventBlock)
                     {
