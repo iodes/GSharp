@@ -20,16 +20,25 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// VariableHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class NumberHole : BaseObjectHole
+    public partial class CustomHole : BaseObjectHole
     {
         public override event HoleEventArgs BlockAttached;
         public override event HoleEventArgs BlockDetached;
+
+        public Type Type
+        {
+            get
+            {
+                return _Type;
+            }
+        }
+        private Type _Type;
 
         public override BaseBlock AttachedBlock
         {
             get
             {
-                return NumberBlock;
+                return CustomBlock;
             }
         }
 
@@ -37,27 +46,19 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return NumberBlock;
+                return CustomBlock;
             }
         }
 
-        public NumberBlock NumberBlock
+        public CustomBlock CustomBlock
         {
             get
             {
-                if (BlockHole.Child != null)
-                {
-                    return BlockHole.Child as NumberBlock;
-                }
-                else
-                {
-                    return BlockNumber;
-                }
+                return BlockHole.Child as CustomBlock;
             }
+
             set
             {
-                var prevBlock = NumberBlock;
-
                 // 제거는 DetachBlock으로
                 if (value == null)
                 {
@@ -65,13 +66,18 @@ namespace GSharp.Graphic.Holes
                     return;
                 }
 
-                // 같은 블럭을 연결하려고 한 경우 무시
-                if (value == prevBlock) return;
+                // 같은 블럭일 경우 무시
+                if (value == BlockHole.Child) return;
 
-                // 기존 블럭이 존재할 경우
-                if (prevBlock != null && !(prevBlock is NumberConstBlock))
+                // 이미 블럭이 존재하는 경우
+                if (BlockHole.Child != null)
                 {
                     throw new Exception("이미 블럭이 존재합니다.");
+                }
+
+                if (value.Type != Type)
+                {
+                    throw new Exception("Type이 다른 블럭을 끼웠습니다.");
                 }
 
                 // 연결하려는 블럭을 부모에서 제거
@@ -81,34 +87,35 @@ namespace GSharp.Graphic.Holes
                 value.ParentHole = this;
                 BlockAttached?.Invoke(value);
                 BlockHole.Child = value;
-                
-                // 상수 블럭을 보이지 않도록 변경
-                BlockNumber.Visibility = Visibility.Hidden;
             }
         }
 
-        public NumberHole()
+        public CustomHole(Type type, Color color)
         {
             InitializeComponent();
+            _Type = type;
+
+            color.R -= 20;
+            color.G -= 20;
+            color.B -= 20;
+
+            Background = new SolidColorBrush(new Color() {
+                R = color.R,
+                G = color.G,
+                B = color.B
+            });
         }
 
+        // 연결된 블럭을 제거
         public override BaseBlock DetachBlock()
         {
             var block = AttachedBlock;
-
-            if (block is NumberConstBlock)
-            { 
-                return null;
-            }
 
             // Detach 이벤트 호출
             BlockDetached?.Invoke(block);
 
             // 블럭 연결 해제
             BlockHole.Child = null;
-
-            // 상수 블럭을 보이도록 변경
-            BlockNumber.Visibility = Visibility.Visible;
 
             return block;
         }

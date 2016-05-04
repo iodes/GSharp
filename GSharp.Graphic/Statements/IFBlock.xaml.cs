@@ -28,7 +28,7 @@ namespace GSharp.Graphic.Statements
         public IFBlock()
         {
             InitializeComponent();
-            Init();
+            InitializeBlock();
         }
 
         public GIF GIF

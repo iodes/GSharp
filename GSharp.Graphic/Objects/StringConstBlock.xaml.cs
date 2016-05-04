@@ -22,28 +22,25 @@ namespace GSharp.Graphic.Objects
     /// <summary>
     /// NumberBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class NumberBlock : ObjectBlock
+    public partial class StringConstBlock : StringBlock
     {
-        private long number;
-        public long Number
+        public string String
         {
             get
             {
-                return number;
+                return StringText.Text;
             }
             set
             {
-                number = value;
-                NumberText.Text = value.ToString();
+                StringText.Text = value;
             }
         }
 
-        public GNumber GNumber
+        public GString GString
         {
             get
             {
-                long number = long.Parse(NumberText.Text);
-                return new GNumber(number);
+                return new GString(String);
             }
         }
 
@@ -51,7 +48,7 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return GNumber;
+                return GString;
             }
         }
 
@@ -63,24 +60,10 @@ namespace GSharp.Graphic.Objects
             }
         }
 
-        public NumberBlock()
+        public StringConstBlock()
         {
             InitializeComponent();
-            Init();
-        }
-
-        private void NumberText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            long number;
-
-            if (long.TryParse(NumberText.Text, out number))
-            {
-                Number = number;
-            }
-            else
-            {
-                Number = Number;
-            }
+            InitializeBlock();
         }
     }
 }

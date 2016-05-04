@@ -83,7 +83,7 @@ namespace GSharp.Graphic.Logics
         public CompareBlock()
         {
             InitializeComponent();
-            Init();
+            InitializeBlock();
         }
 
         private GCompare.ConditionType GetConditionType()

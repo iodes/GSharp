@@ -1,4 +1,4 @@
-﻿<core:ObjectBlock x:Class="GSharp.Graphic.Objects.VariableBlock"
+﻿<local:StringBlock x:Class="GSharp.Graphic.Objects.StringVariableBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
     <Border CornerRadius="10" Padding="10" Background="Green" HorizontalAlignment="Left" VerticalAlignment="Top">
-        <TextBlock Text="test1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TextBlock x:Name="VariableName" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
-</core:ObjectBlock>
+</local:StringBlock>

@@ -22,13 +22,13 @@ namespace GSharp.Graphic.Objects
     /// <summary>
     /// NumberBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MultiplyBlock : ObjectBlock
+    public partial class MultiplyBlock : NumberBlock
     {
         public override List<BaseHole> HoleList
         {
             get
             {
-                return new List<BaseHole> { ObjectHole1, ObjectHole2 };
+                return new List<BaseHole> { NumberHole1, NumberHole2 };
             }
         }
 
@@ -36,8 +36,8 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                GObject obj1 = ObjectHole1.ObjectBlock.GObject;
-                GObject obj2 = ObjectHole2.ObjectBlock.GObject;
+                GObject obj1 = NumberHole1.NumberBlock.GObject;
+                GObject obj2 = NumberHole2.NumberBlock.GObject;
                 return new GCompute(obj1, GCompute.OperatorType.MULTIPLY, obj2);
             }
         }
@@ -61,7 +61,7 @@ namespace GSharp.Graphic.Objects
         public MultiplyBlock()
         {
             InitializeComponent();
-            Init();
+            InitializeBlock();
         }
     }
 }

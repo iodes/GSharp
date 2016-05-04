@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
@@ -13,14 +14,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base;
 using GSharp.Base.Scopes;
 using GSharp.Graphic.Scopes;
-using System.IO;
-using System.Xml;
-using System.Text;
-using GSharp.Graphic.Statements;
-using GSharp.Graphic.Logics;
-using System.Runtime.Serialization.Formatters.Binary;
-using GSharp.Extension;
-using System.Reflection;
+using System.Collections;
+using GSharp.Graphic.Objects;
 
 namespace GSharp.Graphic.Controls
 {
@@ -29,16 +24,6 @@ namespace GSharp.Graphic.Controls
     /// </summary>
     public partial class BlockEditor : UserControl
     {
-        #region 속성
-        public Grid Master
-        {
-            get
-            {
-                return BlockGrid;
-            }
-        }
-        #endregion
-
         #region 객체
         // 선택한 블럭
         private BaseBlock SelectedBlock;
@@ -63,18 +48,26 @@ namespace GSharp.Graphic.Controls
         //private List<BaseHole> HoleList = new List<BaseHole>();
 
         // Hole 목록
+        // Statement Hole
         private List<NextConnectHole> NextConnectHoleList = new List<NextConnectHole>();
-        private List<LogicHole> LogicHoleList = new List<LogicHole>();
-        private List<ObjectHole> ObjectHoleList = new List<ObjectHole>();
-        private List<VariableHole> VariableHoleList = new List<VariableHole>();
 
-        //private Dictionary<Type, List<BaseHole>> HoleList = new Dictionary<Type, List<BaseHole>>();
+        // Logic Hole
+        private List<LogicHole> LogicHoleList = new List<LogicHole>();
+
+        // Object Hole
+        private List<ObjectHole> ObjectHoleList = new List<ObjectHole>();
+        private List<NumberHole> NumberHoleList = new List<NumberHole>();
+        private List<StringHole> StringHoleList = new List<StringHole>();
+        private List<CustomHole> CustomHoleList = new List<CustomHole>();
+
+        // Variable Hole
+        //private List<VariableHole> VariableHoleList = new List<VariableHole>();
 
         // 선택된 대상이 움직였는지 체크
         private bool IsSelectedBlockMoved = false;
 
         // 변수 목록
-        private Dictionary<string, GDefine> DefineList = new Dictionary<string, GDefine>();
+        private Dictionary<string, GDefine> VariableList = new Dictionary<string, GDefine>();
 
         // 함수 목록
         private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
@@ -85,12 +78,8 @@ namespace GSharp.Graphic.Controls
         {
             InitializeComponent();
 
-            BlockViewer.PreviewMouseDown += BlockViewer_PreviewMouseDown;
-            BlockViewer.PreviewMouseMove += BlockViewer_PreviewMouseMove;
-            BlockViewer.PreviewMouseUp += BlockViewer_PreviewMouseUp;
-
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
-            Master.Children.Add(Highlighter);
+            BlockCanvas.Children.Add(Highlighter);
         }
         #endregion
 
@@ -102,12 +91,14 @@ namespace GSharp.Graphic.Controls
         {
             CaptureMouse();
 
-            SelectedBlock = sender as BaseBlock;
+            SelectedBlock = (BaseBlock)sender;
             SelectedPosition = e.GetPosition(SelectedBlock);
 
             // 부모 블럭 클릭되지 않도록
             e.Handled = true;
             IsSelectedBlockMoved = false;
+
+            Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -137,16 +128,8 @@ namespace GSharp.Graphic.Controls
             }
 
             // 마우스 좌표로 블럭 이동
-            Point position = e.GetPosition(Master);
+            Point position = e.GetPosition(this);
             SelectedBlock.Position = new Point(position.X - SelectedPosition.X, position.Y - SelectedPosition.Y);
-            if (SelectedBlock.Position.X < 0)
-            {
-                SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
-            }
-            if (SelectedBlock.Position.Y < 0)
-            {
-                SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
-            }
 
             // 연결할 대상을 찾고 하이라이팅
             MargnetBlock(SelectedBlock, e);
@@ -164,16 +147,8 @@ namespace GSharp.Graphic.Controls
             if (IsSelectedBlockMoved)
             {
                 // 마우스 좌표로 블럭 이동
-                Point position = e.GetPosition(Master);
+                Point position = e.GetPosition(this);
                 SelectedBlock.Position = new Point(position.X - SelectedPosition.X, position.Y - SelectedPosition.Y);
-                if (SelectedBlock.Position.X < 0)
-                {
-                    SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
-                }
-                if (SelectedBlock.Position.Y < 0)
-                {
-                    SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
-                }
 
                 // 연결할 대상이 있다면 연결
                 if (MargnetTarget != null)
@@ -181,6 +156,8 @@ namespace GSharp.Graphic.Controls
                     ConnectBlock(SelectedBlock, e);
                 }
             }
+
+            Panel.SetZIndex(SelectedBlock, 1);
 
             // Selected 해제
             SelectedBlock = null;
@@ -211,24 +188,24 @@ namespace GSharp.Graphic.Controls
         // 변수 선언
         public void DefineVariable(string varName)
         {
-            DefineList[varName] = new GDefine(varName);
+            VariableList[varName] = new GDefine(varName);
         }
 
         // 변순 선언 해제
         public void UnDefineVariable(string varName)
         {
-            DefineList.Remove(varName);
+            VariableList.Remove(varName);
         }
 
         // 변수 목록
         public List<string> GetVariableNameList()
         {
-            return DefineList.Keys.ToList();
+            return VariableList.Keys.ToList();
         }
         
         public List<GDefine> GetDefineList()
         {
-            return DefineList.Values.ToList();
+            return VariableList.Values.ToList();
         }
         #endregion
 
@@ -264,27 +241,120 @@ namespace GSharp.Graphic.Controls
         }
         #endregion
 
-        #region 내부 함수
-        private double GetDistance2(Point a, Point b)
+        #region 블럭 자석 효과
+        // 각자 맞는 블럭으로 오버로딩
+        private void MargnetBlock(BaseBlock block, MouseEventArgs e)
         {
-            return Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2);
+            MargnetTarget = null;
+
+            Highlighter.Visibility = Visibility.Hidden;
+
+            if (SelectedBlock is StatementBlock)
+            {
+                MargnetBlock(SelectedBlock as StatementBlock, e);
+            }
+            else if (SelectedBlock is LogicBlock)
+            {
+                MargnetBlock(SelectedBlock as LogicBlock, e);
+            }
+            else if (SelectedBlock is ObjectBlock)
+            {
+                MargnetBlock(SelectedBlock as ObjectBlock, e);
+
+                if (SelectedBlock is NumberBlock)
+                {
+                    MargnetBlock(SelectedBlock as NumberBlock, e);
+                }
+                else if (SelectedBlock is StringBlock)
+                {
+                    MargnetBlock(SelectedBlock as StringBlock, e);
+                }
+                else if (SelectedBlock is CustomBlock)
+                {
+                    MargnetBlock(SelectedBlock as CustomBlock, e);
+                }
+            }
         }
 
-        private double GetDistance(Point a, Point b)
+        // StatementBlock일 때
+        private void MargnetBlock(StatementBlock block, MouseEventArgs e)
         {
-            return Math.Sqrt(GetDistance2(a, b));
+            _MargnetBlock(block, NextConnectHoleList.ToList<BaseHole>(), e);
         }
 
-        // 부모에서 선택한 요소를 제거
-        private void DetachFromCanvas(BaseBlock block)
+        // LogicBlock일 때
+        private void MargnetBlock(LogicBlock block, MouseEventArgs e)
         {
-            Master.Children.Remove(block);
+            _MargnetBlock(block, LogicHoleList.ToList<BaseHole>(), e);
         }
 
-        private void AttachToCanvas(BaseBlock block)
+        // ObjectBlock일 때
+        private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
         {
-            Master.Children.Add(block);
-            block.ParentHole = null;
+            _MargnetBlock(block, ObjectHoleList.ToList<BaseHole>(), e);
+        }
+
+        // NumberBlock일 때
+        private void MargnetBlock(NumberBlock block, MouseEventArgs e)
+        {
+            _MargnetBlock(block, NumberHoleList.ToList<BaseHole>(), e);
+        }
+
+        // StringBlock일 때
+        private void MargnetBlock(StringBlock block, MouseEventArgs e)
+        {
+            _MargnetBlock(block, StringHoleList.ToList<BaseHole>(), e);
+        }
+
+        // CustomBlock일 때
+        private void MargnetBlock(CustomBlock block, MouseEventArgs e)
+        {
+            foreach (var hole in CustomHoleList)
+            {
+                if (block.HoleList.Contains(hole))
+                {
+                    continue;
+                }
+
+                if (block.Type != hole.Type)
+                {
+                    continue;
+                }
+
+                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+
+                if (GetDistance(position, block.Position) > 20)
+                {
+                    continue;
+                }
+
+                MargnetTarget = hole;
+                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
+                Highlighter.Visibility = Visibility.Visible;
+            }
+        }
+
+        // 공통 부분 통일
+        private void _MargnetBlock(BaseBlock block, List<BaseHole> holeList, MouseEventArgs e)
+        {
+            foreach (var hole in holeList)
+            {
+                if (block.HoleList.Contains(hole))
+                {
+                    continue;
+                }
+
+                var position = hole.TranslatePoint(new Point(0, 0), BlockCanvas);
+
+                if (GetDistance(position, block.Position) > 20)
+                {
+                    continue;
+                }
+
+                MargnetTarget = hole;
+                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
+                Highlighter.Visibility = Visibility.Visible;
+            }
         }
         #endregion
 
@@ -302,7 +372,18 @@ namespace GSharp.Graphic.Controls
             }
             else if (SelectedBlock is ObjectBlock)
             {
-                ConnectBlock(SelectedBlock as ObjectBlock, e);
+                if (SelectedBlock is NumberBlock)
+                {
+                    ConnectBlock(SelectedBlock as NumberBlock, e);
+                }
+                else if (SelectedBlock is StringBlock)
+                {
+                    ConnectBlock(SelectedBlock as StringBlock, e);
+                }
+                else if (SelectedBlock is CustomBlock)
+                {
+                    ConnectBlock(SelectedBlock as CustomBlock, e);
+                }
             }
         }
 
@@ -331,7 +412,7 @@ namespace GSharp.Graphic.Controls
             {
                 return;
             }
-
+            
             var logicHole = MargnetTarget as LogicHole;
 
             // 연결 대상에 이미 블럭이 존재하는 경우
@@ -352,155 +433,189 @@ namespace GSharp.Graphic.Controls
             block.Position = new Point(0, 0);
         }
 
-        // ObjectBlock일때
-        private void ConnectBlock(ObjectBlock block, MouseEventArgs e)
+        // NumberBlock일때
+        private void ConnectBlock(NumberBlock block, MouseEventArgs e)
         {
-            // ObjectHole 아니면 연결할 수 없음
-            if (!(MargnetTarget is ObjectHole))
+            // ObjectHole인 경우 연결
+            if (MargnetTarget is ObjectHole)
             {
-                return;
+                var objectHole = MargnetTarget as ObjectHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.ObjectBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = objectHole.DetachBlock();
+                    AttachToCanvas(detachedBlock);
+
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.ObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+            // NumberHole인 경우 연결
+            else if (MargnetTarget is NumberHole)
+            {
+                var numberHole = MargnetTarget as NumberHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (numberHole.NumberBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = numberHole.DetachBlock();
+
+                    if (detachedBlock != null)
+                    {
+                        AttachToCanvas(detachedBlock);
+                        detachedBlock.Position = block.Position;
+                    }
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                numberHole.NumberBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+        }
+
+        // StringBlock일 때
+        private void ConnectBlock(StringBlock block, MouseEventArgs e)
+        {
+            // ObjectHole인 경우 연결
+            if (MargnetTarget is ObjectHole)
+            {
+                var objectHole = MargnetTarget as ObjectHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.ObjectBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = objectHole.DetachBlock();
+                    AttachToCanvas(detachedBlock);
+
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.ObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+            // StringHole인 경우 연결
+            else if (MargnetTarget is StringHole)
+            {
+                var stringHole = MargnetTarget as StringHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (stringHole.StringBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = stringHole.DetachBlock();
+
+                    if (detachedBlock != null)
+                    {
+                        AttachToCanvas(detachedBlock);
+                        detachedBlock.Position = block.Position;
+                    }
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                stringHole.StringBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
+        }
+
+        // CustomBlock인 경우
+        private void ConnectBlock(CustomBlock block, MouseEventArgs e)
+        {
+            /* 일단 CustomBlock은 ObjectHole에 끼울 수 없음
+            // ObjectHole인 경우 연결
+            if (MargnetTarget is ObjectHole)
+            {
+                var objectHole = MargnetTarget as ObjectHole;
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.ObjectBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = objectHole.DetachBlock();
+                    AttachToCanvas(detachedBlock);
+
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.ObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
             }
 
-            var objectHole = MargnetTarget as ObjectHole;
-
-            // 연결 대상에 이미 블럭이 존재하는 경우
-            if (objectHole.ObjectBlock != null)
+            // StringHole인 경우 연결
+            else */if (MargnetTarget is CustomHole)
             {
-                // 기존 블럭을 Canvas로 이동
-                var detachedBlock = objectHole.DetachBlock();
-                AttachToCanvas(detachedBlock);
+                var customHole = MargnetTarget as CustomHole;
 
-                detachedBlock.Position = block.Position;
+                // Type이 다르면 연결할 수 없음
+                if (customHole.Type != block.Type)
+                {
+                    return;
+                }
+
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (customHole.CustomBlock != null)
+                {
+                    // 기존 블럭을 Canvas로 이동
+                    var detachedBlock = customHole.DetachBlock();
+                    
+                    AttachToCanvas(detachedBlock);
+                    detachedBlock.Position = block.Position;
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                customHole.CustomBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
             }
-
-            // 블럭을 캔버스에서 연결 대상으로 이동
-            DetachFromCanvas(block);
-            objectHole.ObjectBlock = block;
-
-            // 블럭 위치 재조정
-            block.Position = new Point(0, 0);
         }
         #endregion
 
-        #region 블럭 자석 효과
-        // 각자 맞는 블럭으로 오버로딩
-        private void MargnetBlock(BaseBlock block, MouseEventArgs e)
+        #region 내부 함수
+        private double GetDistance2(Point a, Point b)
         {
-            MargnetTarget = null;
-
-            Highlighter.Visibility = Visibility.Hidden;
-
-            if (SelectedBlock is StatementBlock)
-            {
-                MargnetBlock((StatementBlock)SelectedBlock, e);
-            }
-            else if (SelectedBlock is LogicBlock)
-            {
-                MargnetBlock((LogicBlock)SelectedBlock, e);
-            }
-            else if (SelectedBlock is ObjectBlock)
-            {
-                MargnetBlock((ObjectBlock)SelectedBlock, e);
-            }
+            return Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2);
         }
 
-        // StatementBlock일때
-        private void MargnetBlock(StatementBlock block, MouseEventArgs e)
+        private double GetDistance(Point a, Point b)
         {
-            foreach (var hole in NextConnectHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), Master);
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
+            return Math.Sqrt(GetDistance2(a, b));
         }
 
-        // LogicBlock일때
-        private void MargnetBlock(LogicBlock block, MouseEventArgs e)
+        // 부모에서 선택한 요소를 제거
+        private void DetachFromCanvas(BaseBlock block)
         {
-            foreach (LogicHole hole in LogicHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), Master);
-
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
+            BlockCanvas.Children.Remove(block);
         }
 
-        // ObjectBlock일때
-        private void MargnetBlock(ObjectBlock block, MouseEventArgs e)
+        private void AttachToCanvas(BaseBlock block)
         {
-            foreach (ObjectHole hole in ObjectHoleList)
-            {
-                if (block.HoleList.Contains(hole))
-                {
-                    continue;
-                }
-
-                var position = hole.TranslatePoint(new Point(0, 0), Master);
-
-                if (GetDistance(position, block.Position) > 20)
-                {
-                    continue;
-                }
-
-                MargnetTarget = hole;
-                Highlighter.Margin = new Thickness(position.X, position.Y, 0, 0);
-                Highlighter.Visibility = Visibility.Visible;
-            }
-        }
-        #endregion
-
-        #region 스크롤 뷰어 드래그
-        double vOffset = 0;
-        double hOffset = 0;
-        Point scrollMousePoint = new Point();
-
-        private void BlockViewer_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            BlockViewer.ReleaseMouseCapture();
-        }
-
-        private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                BlockViewer.CaptureMouse();
-                vOffset = BlockViewer.VerticalOffset;
-                hOffset = BlockViewer.HorizontalOffset;
-                scrollMousePoint = e.GetPosition(BlockViewer);
-            }
-        }
-
-        private void BlockViewer_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (BlockViewer.IsMouseCaptured)
-            {
-                BlockViewer.ScrollToVerticalOffset(vOffset + (scrollMousePoint.Y - e.GetPosition(BlockViewer).Y));
-                BlockViewer.ScrollToHorizontalOffset(hOffset + (scrollMousePoint.X - e.GetPosition(BlockViewer).X));
-            }
+            BlockCanvas.Children.Add(block);
+            block.ParentHole = null;
         }
         #endregion
 
@@ -528,15 +643,21 @@ namespace GSharp.Graphic.Controls
                 {
                     LogicHoleList.Add(hole as LogicHole);
                 }
+                else if (hole is NumberHole)
+                {
+                    NumberHoleList.Add(hole as NumberHole);
+                }
+                else if (hole is StringHole)
+                {
+                    StringHoleList.Add(hole as StringHole);
+                }
+                else if (hole is CustomHole)
+                {
+                    CustomHoleList.Add(hole as CustomHole);
+                }
                 else if (hole is ObjectHole)
                 {
                     ObjectHoleList.Add(hole as ObjectHole);
-                }
-                else if (hole is VariableHole)
-                {
-                    var vHole = hole as VariableHole;
-                    VariableHoleList.Add(vHole);
-                    vHole.SetItemList(GetVariableNameList());
                 }
             }
 
@@ -573,9 +694,17 @@ namespace GSharp.Graphic.Controls
                 {
                     ObjectHoleList.Remove(hole as ObjectHole);
                 }
-                else if (hole is VariableHole)
+                else if (hole is NumberHole)
                 {
-                    VariableHoleList.Remove(hole as VariableHole);
+                    NumberHoleList.Remove(hole as NumberHole);
+                }
+                else if (hole is StringHole)
+                {
+                    StringHoleList.Remove(hole as StringHole);
+                }
+                else if (hole is CustomHole)
+                {
+                    CustomHoleList.Remove(hole as CustomHole);
                 }
             }
 
@@ -590,12 +719,12 @@ namespace GSharp.Graphic.Controls
                 GEntry entry = new GEntry();
                 List<GBase> list = new List<GBase>();
 
-                foreach (GDefine define in DefineList.Values)
+                foreach (GDefine define in VariableList.Values)
                 {
                     entry.Append(define);
                 }
 
-                foreach (var block in Master.Children)
+                foreach (var block in BlockCanvas.Children)
                 {
                     if (block is EventBlock)
                     {
@@ -610,145 +739,6 @@ namespace GSharp.Graphic.Controls
             {
                 return e.Message;
             }
-        }
-
-        public void Save(string path)
-        {
-            FileStream stream = new FileStream(path, FileMode.Create);
-            XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8)
-            {
-                Formatting = Formatting.Indented,
-                Indentation = 4
-            };
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("Contents");
-            foreach (var target in Master.Children)
-            {
-                if (target is BaseBlock)
-                {
-                    ResolveBlockToXML(writer, target as BaseBlock, path);
-                }
-            }
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Flush();
-
-            stream.Close();
-        }
-
-        public void ResolveBlockToXML(XmlTextWriter writer, BaseBlock target, string path)
-        {
-            writer.WriteStartElement("Block");
-            writer.WriteAttributeString("Type", target.GetType().ToString());
-
-            if (target.Position.X != 0 && target.Position.Y != 0)
-            {
-                writer.WriteAttributeString("Position", target.Position.ToString());
-            }
-            if (target is CompareBlock)
-            {
-                writer.WriteAttributeString("Option", (target as CompareBlock).Operator.SelectedIndex.ToString());
-            }
-
-            if (target is ObjectBlock)
-            {
-                writer.WriteAttributeString("Content", target.GetHashCode().ToString());
-                Serialize(System.IO.Path.GetDirectoryName(path) + "\\" + target.GetHashCode().ToString(), (target as ObjectBlock).GObject);
-            }
-            else if (target is IModuleBlock)
-            {
-                writer.WriteAttributeString("Content", target.GetHashCode().ToString());
-                Serialize(System.IO.Path.GetDirectoryName(path) + "\\" + target.GetHashCode().ToString(), (target as IModuleBlock).Command);
-            }
-
-            NextConnectHole realNextConnectHole = null;
-            foreach (BaseHole hole in target.HoleList)
-            {
-                if (hole?.AttachedBlock != null)
-                {
-                    if (hole is NextConnectHole)
-                    {
-                        if (hole.Name == "RealNextConnectHole")
-                        {
-                            realNextConnectHole = hole as NextConnectHole;
-                        }
-                        else
-                        {
-                            ResolveBlockToXML(writer, hole.AttachedBlock, path);
-                        }
-                    }
-                    else
-                    {
-                        writer.WriteStartElement("Hole");
-                        writer.WriteAttributeString("Type", hole.GetType().ToString());
-                        ResolveBlockToXML(writer, hole.AttachedBlock, path);
-                        writer.WriteEndElement();
-                    }
-                }
-            }
-            writer.WriteEndElement();
-
-            if (realNextConnectHole != null)
-            {
-                ResolveBlockToXML(writer, realNextConnectHole.AttachedBlock, path);
-            }
-        }
-
-        public void Load(string path)
-        {
-            XmlDocument document = new XmlDocument();
-            document.Load(path);
-
-            BaseBlock prevBlock = null;
-            foreach (XmlElement element in document.GetElementsByTagName("Block"))
-            {
-                Type blockType = Type.GetType(element.GetAttribute("Type"));
-                ParameterInfo[] blockParams = blockType.GetConstructors()[0].GetParameters();
-
-                BaseBlock block = null;
-                if (blockParams.Any())
-                {
-                    // 블럭 생성자에 인자가 필요함
-                    block = Activator.CreateInstance(blockType, Deserialize(System.IO.Path.GetDirectoryName(path) + "\\" + element.GetAttribute("Content"))) as BaseBlock;
-                }
-                else
-                {
-                    // 인자 없이 즉시 블럭 생성이 가능
-                    block = Activator.CreateInstance(blockType) as BaseBlock;
-                }
-                block.Position = new Point(50, 50);
-
-                if (prevBlock is EventBlock)
-                {
-                    (prevBlock as EventBlock).NextConnectHole.StatementBlock = block as StatementBlock;
-                    block.Position = new Point(0, 0);
-                    AddBlock(prevBlock);
-                }
-
-                prevBlock = block;
-            }
-        }
-
-        private void Serialize(string path, object target)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                formatter.Serialize(stream, target);
-            }
-        }
-
-        private object Deserialize(string path)
-        {
-            object result;
-
-            BinaryFormatter formatter = new BinaryFormatter(); ;
-            using (FileStream stream = new FileStream(path, FileMode.Open))
-            {
-                result = formatter.Deserialize(stream);
-            }
-            return result;
         }
         #endregion
     }

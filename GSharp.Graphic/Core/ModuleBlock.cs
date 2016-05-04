@@ -10,7 +10,7 @@ namespace GSharp.Graphic.Core
 {
     public abstract class ModuleBlock
     {
-        public static List<BaseHole> SetContent(String name, StackPanel Content)
+        public static List<BaseHole> SetContent(string name, Type[] argumentList, StackPanel Content)
         {
             Content.Children.Clear();
 
@@ -31,13 +31,13 @@ namespace GSharp.Graphic.Core
                 else if (chr == '}' && start >= 0)
                 {
                     string text = name.Substring(last, start - last);
-                    string holeName = name.Substring(start + 1, i - start - 1);
-
-                    BaseHole hole = BaseHole.CreateHole(holeName);
-                    hole.VerticalAlignment = System.Windows.VerticalAlignment.Center;
-
-                    if (hole != null)
+                    string holeNumber = name.Substring(start + 1, i - start - 1);
+                    int number;
+                    if (int.TryParse(holeNumber, out number) && 0 <= number && number < argumentList.Length)
                     {
+                        BaseHole hole = BaseHole.CreateHole(argumentList[number]);
+                        hole.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                        
                         Content.Children.Add(new TextBlock
                         {
                             Text = text,

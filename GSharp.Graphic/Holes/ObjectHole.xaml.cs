@@ -49,6 +49,8 @@ namespace GSharp.Graphic.Holes
             }
             set
             {
+                var prevBlock = ObjectBlock;
+
                 // 제거는 DetachBlock으로
                 if (value == null)
                 {
@@ -57,10 +59,10 @@ namespace GSharp.Graphic.Holes
                 }
 
                 // 같은 블럭일 경우 무시
-                if (value == BlockHole.Child) return;
+                if (value == prevBlock) return;
 
                 // 이미 블럭이 존재하는 경우
-                if (BlockHole.Child != null)
+                if (prevBlock != null)
                 {
                     throw new Exception("이미 블럭이 존재합니다.");
                 }

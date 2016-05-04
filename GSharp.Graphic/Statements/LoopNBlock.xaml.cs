@@ -28,7 +28,7 @@ namespace GSharp.Graphic.Statements
         public LoopNBlock()
         {
             InitializeComponent();
-            Init();
+            InitializeBlock();
         }
 
         public GLoop GLoop

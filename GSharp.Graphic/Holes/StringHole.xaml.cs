@@ -20,7 +20,7 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// VariableHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class NumberHole : BaseObjectHole
+    public partial class StringHole : BaseObjectHole
     {
         public override event HoleEventArgs BlockAttached;
         public override event HoleEventArgs BlockDetached;
@@ -29,7 +29,7 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return NumberBlock;
+                return StringBlock;
             }
         }
 
@@ -37,26 +37,26 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return NumberBlock;
+                return StringBlock;
             }
         }
 
-        public NumberBlock NumberBlock
+        public StringBlock StringBlock
         {
             get
             {
                 if (BlockHole.Child != null)
                 {
-                    return BlockHole.Child as NumberBlock;
+                    return BlockHole.Child as StringBlock;
                 }
                 else
                 {
-                    return BlockNumber;
+                    return BlockString;
                 }
             }
             set
             {
-                var prevBlock = NumberBlock;
+                var prevBlock = StringBlock;
 
                 // 제거는 DetachBlock으로
                 if (value == null)
@@ -69,7 +69,7 @@ namespace GSharp.Graphic.Holes
                 if (value == prevBlock) return;
 
                 // 기존 블럭이 존재할 경우
-                if (prevBlock != null && !(prevBlock is NumberConstBlock))
+                if (prevBlock != null && !(prevBlock is StringConstBlock))
                 {
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
@@ -81,13 +81,13 @@ namespace GSharp.Graphic.Holes
                 value.ParentHole = this;
                 BlockAttached?.Invoke(value);
                 BlockHole.Child = value;
-                
+
                 // 상수 블럭을 보이지 않도록 변경
-                BlockNumber.Visibility = Visibility.Hidden;
+                BlockString.Visibility = Visibility.Hidden;
             }
         }
 
-        public NumberHole()
+        public StringHole()
         {
             InitializeComponent();
         }
@@ -96,8 +96,8 @@ namespace GSharp.Graphic.Holes
         {
             var block = AttachedBlock;
 
-            if (block is NumberConstBlock)
-            { 
+            if (block is StringConstBlock)
+            {
                 return null;
             }
 
@@ -108,7 +108,7 @@ namespace GSharp.Graphic.Holes
             BlockHole.Child = null;
 
             // 상수 블럭을 보이도록 변경
-            BlockNumber.Visibility = Visibility.Visible;
+            BlockString.Visibility = Visibility.Visible;
 
             return block;
         }

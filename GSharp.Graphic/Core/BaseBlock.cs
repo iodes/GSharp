@@ -54,7 +54,7 @@ namespace GSharp.Graphic.Core
         }
 
         // 블럭의 모든 Hole에 BlockChanged 이벤트 핸들러 추가
-        protected void Init()
+        protected void InitializeBlock()
         {
             if (HoleList == null) return;
 
@@ -63,13 +63,13 @@ namespace GSharp.Graphic.Core
                 if (hole == null) continue;
 
                 hole.ParentBlock = this;
-                hole.BlockAttached += BlockAttached;
-                hole.BlockDetached += BlockDetached;
+                hole.BlockAttached += OnBlockAttached;
+                hole.BlockDetached += OnBlockDetached;
             }
         }
 
         // Hole의 블럭이 추가되면 그 블럭의 HoleList 추가
-        private void BlockAttached(BaseBlock block)
+        private void OnBlockAttached(BaseBlock block)
         {
             if (block != null)
             {
@@ -78,12 +78,12 @@ namespace GSharp.Graphic.Core
                     HoleList.Add(hole);
                 }
 
-                ParentHole?.ParentBlock?.BlockAttached(block);
+                ParentHole?.ParentBlock?.OnBlockAttached(block);
             }
         }
 
         // Hole에 블럭이 삭제되면 그 블럭의 HoleList도 제거
-        private void BlockDetached(BaseBlock block)
+        private void OnBlockDetached(BaseBlock block)
         {
             if (block != null)
             {
@@ -92,7 +92,7 @@ namespace GSharp.Graphic.Core
                     HoleList.Remove(hole);
                 }
 
-                ParentHole?.ParentBlock?.BlockDetached(block);
+                ParentHole?.ParentBlock?.OnBlockDetached(block);
             }
         }
     }

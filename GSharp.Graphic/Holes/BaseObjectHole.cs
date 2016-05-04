@@ -19,5 +19,10 @@ namespace GSharp.Graphic.Holes
                 return BaseObjectBlock;
             }
         }
+
+        public BaseObjectHole()
+        {
+
+        }
     }
 }

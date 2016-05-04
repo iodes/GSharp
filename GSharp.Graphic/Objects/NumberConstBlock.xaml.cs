@@ -20,33 +20,38 @@ using GSharp.Base.Objects;
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// NumberBlock.xaml에 대한 상호 작용 논리
+    /// NumberConstBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PlusBlock : NumberBlock
+    public partial class NumberConstBlock : NumberBlock
     {
-        public override List<BaseHole> HoleList
+        public double Number
         {
             get
             {
-                return new List<BaseHole> { NumberHole1, NumberHole2 };
+                return _Number;
+            }
+            set
+            {
+                _Number = value;
+                _GNumber.Number = value;
             }
         }
+        private double _Number = .0;
 
-        public GCompute GCompute
+        public GNumber GNumber
         {
             get
             {
-                GObject obj1 = NumberHole1.NumberBlock.GObject;
-                GObject obj2 = NumberHole2.NumberBlock.GObject;
-                return new GCompute(obj1, GCompute.OperatorType.PLUS, obj2);
+                return _GNumber;
             }
         }
+        private GNumber _GNumber;
 
         public override GObject GObject
         {
             get
             {
-                return GCompute;
+                return GNumber;
             }
         }
 
@@ -54,14 +59,29 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return new List<GBase> { GObject };
+                return new List<GBase> { GNumber };
             }
         }
 
-        public PlusBlock()
+        public NumberConstBlock()
         {
+            _GNumber = new GNumber(_Number);
+
             InitializeComponent();
             InitializeBlock();
+        }
+
+        private void NumberText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            double number;
+            if (double.TryParse(NumberText.Text, out number))
+            {
+                Number = number;
+            }
+            else
+            {
+                // No!
+            }
         }
     }
 }

@@ -40,7 +40,7 @@ namespace GSharp.Graphic.Logics
                     return holeList;
                 }
                 else {
-                    return holeList = ModuleBlock.SetContent(Command.FriendlyName, StackContent);
+                    return holeList = ModuleBlock.SetContent(Command.FriendlyName, Command.Arguments, StackContent);
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace GSharp.Graphic.Logics
         public LogicCallBlock()
         {
             InitializeComponent();
-            Init();
+            InitializeBlock();
         }
 
         public LogicCallBlock(GCommand command) : this()

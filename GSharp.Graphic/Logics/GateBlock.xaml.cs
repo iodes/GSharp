@@ -93,7 +93,7 @@ namespace GSharp.Graphic.Logics
         public GateBlock()
         {
             InitializeComponent();
-            Init();
+            InitializeBlock();
         }
     }
 }

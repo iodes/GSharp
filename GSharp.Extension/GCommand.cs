@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Text;
 
 namespace GSharp.Extension
 {
@@ -67,6 +69,15 @@ namespace GSharp.Extension
                 return string.Format("{0}.{1}", NamespaceName, MethodName);
             }
         }
+
+        public Color BlockColor
+        {
+            get
+            {
+                return _BlockColor;
+            }
+        }
+        private Color _BlockColor;
         #endregion
 
         #region 열거형
@@ -85,6 +96,22 @@ namespace GSharp.Extension
             _MethodName = methodName;
             _Arguments = arguments;
             _MethodType = methodType;
+
+            // MD5 Hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(FullName);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+
+                _BlockColor = ColorTranslator.FromHtml("#" + sb.ToString().Substring(0, 6));
+            }
         }
 
         public GCommand(string namespaceName, string methodName, CommandType methodType, Type[] arguments = null)

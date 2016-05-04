@@ -20,35 +20,35 @@ using GSharp.Base.Objects;
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// NumberBlock.xaml에 대한 상호 작용 논리
+    /// VariableBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class StringBlock : ObjectBlock
+    public partial class StringVariableBlock : StringBlock
     {
-        public string String
+        // 생성자
+        public StringVariableBlock(GVariable variable)
         {
-            get
-            {
-                return StringText.Text;
-            }
-            set
-            {
-                StringText.Text = value;
-            }
-        }
+            InitializeComponent();
 
-        public GString GString
+            _GVariable = variable;
+            VariableName.Text = variable.Name;
+
+            InitializeBlock();
+        }
+        
+        public GVariable GVariable
         {
             get
             {
-                return new GString(String);
+                return _GVariable;
             }
         }
+        private GVariable _GVariable;
 
         public override GObject GObject
         {
             get
             {
-                return GString;
+                return GVariable;
             }
         }
 
@@ -58,12 +58,6 @@ namespace GSharp.Graphic.Objects
             {
                 return new List<GBase> { GObject };
             }
-        }
-
-        public StringBlock()
-        {
-            InitializeComponent();
-            Init();
         }
     }
 }
