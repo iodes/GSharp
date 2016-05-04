@@ -24,6 +24,17 @@ namespace GSharp.Graphic.Controls
     /// </summary>
     public partial class BlockEditor : UserControl
     {
+
+        #region 속성
+        public Grid Master
+        {
+            get
+            {
+                return BlockGrid;
+            }
+        }
+        #endregion
+   
         #region 객체
         // 선택한 블럭
         private BaseBlock SelectedBlock;
