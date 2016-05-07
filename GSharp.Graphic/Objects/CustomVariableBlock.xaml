@@ -7,7 +7,7 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
+             d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
     <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
         <TextBlock x:Name="VariableName" Foreground="#D5404D" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Border>
