@@ -89,8 +89,12 @@ namespace GSharp.Graphic.Controls
         {
             InitializeComponent();
 
+            BlockViewer.PreviewMouseMove += BlockViewer_PreviewMouseMove;
+            BlockViewer.PreviewMouseDown += BlockViewer_PreviewMouseDown;
+            BlockViewer.PreviewMouseUp += BlockViewer_PreviewMouseUp;
+
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
-            BlockGrid.Children.Add(Highlighter);
+            Master.Children.Add(Highlighter);
         }
         #endregion
 
@@ -102,7 +106,7 @@ namespace GSharp.Graphic.Controls
         {
             CaptureMouse();
 
-            SelectedBlock = (BaseBlock)sender;
+            SelectedBlock = sender as BaseBlock;
             SelectedPosition = e.GetPosition(SelectedBlock);
 
             // 부모 블럭 클릭되지 않도록
@@ -130,17 +134,22 @@ namespace GSharp.Graphic.Controls
 
                     // 선택 블럭을 캔버스에 추가
                     AttachToCanvas(SelectedBlock);
-
-                    //Point pos = e.GetPosition(this);
-                    //SelectedBlock.Position = new Point(pos.X - SelectedPosition.X, pos.Y - SelectedPosition.Y);
                 }
 
                 IsSelectedBlockMoved = true;
             }
 
             // 마우스 좌표로 블럭 이동
-            Point position = e.GetPosition(this);
+            Point position = e.GetPosition(Master);
             SelectedBlock.Position = new Point(position.X - SelectedPosition.X, position.Y - SelectedPosition.Y);
+            if (SelectedBlock.Position.X < 0)
+            {
+                SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
+            }
+            if (SelectedBlock.Position.Y < 0)
+            {
+                SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
+            }
 
             // 연결할 대상을 찾고 하이라이팅
             MargnetBlock(SelectedBlock, e);
@@ -158,8 +167,16 @@ namespace GSharp.Graphic.Controls
             if (IsSelectedBlockMoved)
             {
                 // 마우스 좌표로 블럭 이동
-                Point position = e.GetPosition(this);
+                Point position = e.GetPosition(Master);
                 SelectedBlock.Position = new Point(position.X - SelectedPosition.X, position.Y - SelectedPosition.Y);
+                if (SelectedBlock.Position.X < 0)
+                {
+                    SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
+                }
+                if (SelectedBlock.Position.Y < 0)
+                {
+                    SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
+                }
 
                 // 연결할 대상이 있다면 연결
                 if (MargnetTarget != null)
@@ -332,7 +349,7 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                var position = hole.TranslatePoint(new Point(0, 0), BlockGrid);
+                var position = hole.TranslatePoint(new Point(0, 0), Master);
 
                 if (GetDistance(position, block.Position) > 20)
                 {
@@ -355,7 +372,7 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                var position = hole.TranslatePoint(new Point(0, 0), BlockGrid);
+                var position = hole.TranslatePoint(new Point(0, 0), Master);
 
                 if (GetDistance(position, block.Position) > 20)
                 {
@@ -620,12 +637,12 @@ namespace GSharp.Graphic.Controls
         // 부모에서 선택한 요소를 제거
         private void DetachFromCanvas(BaseBlock block)
         {
-            BlockGrid.Children.Remove(block);
+            Master.Children.Remove(block);
         }
 
         private void AttachToCanvas(BaseBlock block)
         {
-            BlockGrid.Children.Add(block);
+            Master.Children.Add(block);
             block.ParentHole = null;
         }
         #endregion
@@ -735,7 +752,7 @@ namespace GSharp.Graphic.Controls
                     entry.Append(define);
                 }
 
-                foreach (var block in BlockGrid.Children)
+                foreach (var block in Master.Children)
                 {
                     if (block is EventBlock)
                     {
@@ -749,6 +766,37 @@ namespace GSharp.Graphic.Controls
             catch (ToObjectException e)
             {
                 return e.Message;
+            }
+        }
+        #endregion
+
+        #region 스크롤 뷰어 드래그
+        double vOffset = 0;
+        double hOffset = 0;
+        Point scrollMousePoint = new Point();
+
+        private void BlockViewer_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            BlockViewer.ReleaseMouseCapture();
+        }
+
+        private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                BlockViewer.CaptureMouse();
+                vOffset = BlockViewer.VerticalOffset;
+                hOffset = BlockViewer.HorizontalOffset;
+                scrollMousePoint = e.GetPosition(BlockViewer);
+            }
+        }
+
+        private void BlockViewer_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (BlockViewer.IsMouseCaptured)
+            {
+                BlockViewer.ScrollToVerticalOffset(vOffset + (scrollMousePoint.Y - e.GetPosition(BlockViewer).Y));
+                BlockViewer.ScrollToHorizontalOffset(hOffset + (scrollMousePoint.X - e.GetPosition(BlockViewer).X));
             }
         }
         #endregion
