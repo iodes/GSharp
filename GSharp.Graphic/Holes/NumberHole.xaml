@@ -7,10 +7,10 @@
              xmlns:object="clr-namespace:GSharp.Graphic.Objects"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="30">
-    <Border Background="#C8C8C8" CornerRadius="10" MinHeight="30" MinWidth="26">
+    <Border Background="#C8C8C8" CornerRadius="2">
         <Grid>
             <Border x:Name="BlockHole"></Border>
-            <object:NumberConstBlock x:Name="BlockNumber" MinWidth="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <object:NumberConstBlock x:Name="BlockNumber" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         </Grid>
     </Border>
 </local:BaseObjectHole>

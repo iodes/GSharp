@@ -6,14 +6,14 @@
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
              xmlns:logic="clr-namespace:GSharp.Graphic.Logics"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="600" SnapsToDevicePixels="true" MinHeight="20">
+             d:DesignHeight="50" d:DesignWidth="600" SnapsToDevicePixels="true" MinHeight="5">
     <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal" MinHeight="30">
-            <Polygon Panel.ZIndex="1" Points="0,10 10,0 10,20" Fill="#C8C8C8" Stretch="Fill" VerticalAlignment="Stretch" Width="10" />
-            <Grid Panel.ZIndex="2" Background="#C8C8C8" MinWidth="20">
-                <Border x:Name="BlockHole" Margin="-10,0,-10,0"></Border>
+        <StackPanel Orientation="Horizontal" MinHeight="5">
+            <Polygon Panel.ZIndex="1" Points="0,10 10,0 10,20" Fill="#C8C8C8" Stretch="Fill" VerticalAlignment="Stretch" Width="7" />
+            <Grid Panel.ZIndex="2" Background="#C8C8C8" MinWidth="10">
+                <Border x:Name="BlockHole" Margin="-7,0"></Border>
             </Grid>
-            <Polygon Panel.ZIndex="1" Points="0,0 10,10 0,20" Fill="#C8C8C8" Stretch="Fill" VerticalAlignment="Stretch" Width="10" />
+            <Polygon Panel.ZIndex="1" Points="0,0 10,10 0,20" Fill="#C8C8C8" Stretch="Fill" VerticalAlignment="Stretch" Width="7" />
         </StackPanel>
     </StackPanel>
 </local:BaseObjectHole>

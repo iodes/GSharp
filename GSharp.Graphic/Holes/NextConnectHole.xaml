@@ -8,12 +8,11 @@
              d:DesignWidth="300"
              d:DesignHeight="10"
              SnapsToDevicePixels="True">
-    <StackPanel Orientation="Vertical" VerticalAlignment="top">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <Grid Height="10">
             <DockPanel ClipToBounds="True">
-                <Path Data="M -2,-2 -2,9 L 10,9 18,2 26,9 28,9 28,-2 Z" StrokeThickness="2" StrokeLineJoin="Round" Margin="0,0,-2,0" Stroke="#D5404D" Fill="White" />
-                <!--<Path Data="M -2,-2 10,11 L 12,11 12,-2 Z" Width="10" StrokeThickness="2" StrokeLineJoin="Round" Stroke="#D5404D" Fill="White" />-->
-                <Border Background="White" BorderBrush="#D5404D" BorderThickness="0,0,0,2" />
+                <Path Data="M -1,-1 L -1,9.5 10,9.5 18,2 26,9.5 28,9.5 28,-1 Z" Height="10" StrokeThickness="1" StrokeLineJoin="Round" Margin="0,0,-1,0" Stroke="#D5404D" Fill="White" />
+                <Border Background="White" BorderBrush="#D5404D" VerticalAlignment="Top" Height="10" BorderThickness="0,0,0,1" />
             </DockPanel>
         </Grid>
         <Border x:Name="BlockHole" Margin="-5,-10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>

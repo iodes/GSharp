@@ -8,12 +8,12 @@
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Border CornerRadius="10" Padding="6" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="2">
+    <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
         <StackPanel Orientation="Horizontal">
-            <hole:NumberHole x:Name="NumberHole1" />
-            <TextBlock VerticalAlignment="Center" Margin="5,0">를</TextBlock>
-            <hole:NumberHole x:Name="NumberHole2" />
-            <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">로 나눈 나머지</TextBlock>
+            <hole:NumberHole x:Name="NumberHole1" VerticalAlignment="Center" />
+            <TextBlock VerticalAlignment="Center" Margin="2,0,4,0">를</TextBlock>
+            <hole:NumberHole x:Name="NumberHole2" VerticalAlignment="Center" />
+            <TextBlock VerticalAlignment="Center" Margin="2,0,0,0">로 나눈 나머지</TextBlock>
         </StackPanel>
     </Border>
 </local:NumberBlock>

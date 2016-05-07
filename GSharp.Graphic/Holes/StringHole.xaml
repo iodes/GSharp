@@ -7,10 +7,14 @@
              xmlns:object="clr-namespace:GSharp.Graphic.Objects"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="30">
-    <Border Background="#C8C8C8" CornerRadius="10" MinHeight="30" MinWidth="26">
-        <Grid>
-            <object:StringConstBlock x:Name="BlockString" MinWidth="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></object:StringConstBlock>
-            <Border x:Name="BlockHole"></Border>
-        </Grid>
-    </Border>
+    <StackPanel Orientation="Horizontal">
+        <TextBlock>"</TextBlock>
+        <Border Background="#C8C8C8" CornerRadius="2" MinWidth="20" MinHeight="20">
+            <Grid>
+                <object:StringConstBlock x:Name="BlockString" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></object:StringConstBlock>
+                <Border x:Name="BlockHole"></Border>
+            </Grid>
+        </Border>
+        <TextBlock>"</TextBlock>
+    </StackPanel>
 </local:BaseObjectHole>

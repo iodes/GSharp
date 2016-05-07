@@ -10,17 +10,17 @@
              d:DesignHeight="51" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
     <Grid>
         <StackPanel Orientation="Vertical" Margin="5,0">
-            <Border BorderThickness="2,2,2,0" HorizontalAlignment="Stretch" BorderBrush="#D5404D" Height="5" Background="White" CornerRadius="2,2,0,0" />
-            <Border Background="white" BorderThickness="2,0,2,0" BorderBrush="#D5404D">
-                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="10,10,10,10">
+            <Border BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" BorderBrush="#D5404D" Height="5" Background="White" CornerRadius="2,2,0,0" />
+            <Border Background="white" BorderThickness="1,0,1,0" BorderBrush="#D5404D">
+                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="5,3">
                     <TextBlock Margin="0,0,5,0">함수</TextBlock>
                     <TextBlock x:Name="StackContentText"></TextBlock>
                 </StackPanel>
             </Border>
             <Grid>
-                <Border BorderThickness="2,0,0,2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,0,2" />
+                <Border BorderThickness="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,0,2" />
                 <hole:NextConnectHole x:Name="NextConnectHole" Margin="5,0" VerticalAlignment="Bottom" />
-                <Border BorderThickness="0,0,2,2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,2,0" />
+                <Border BorderThickness="0,0,1,1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,2,0" />
             </Grid>
         </StackPanel>
     </Grid>

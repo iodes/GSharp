@@ -7,12 +7,12 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Border CornerRadius="10" Padding="6" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="2">
+             d:DesignHeight="50" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
         <StackPanel Orientation="Horizontal">
-            <hole:NumberHole x:Name="NumberHole1" />
-            <TextBlock VerticalAlignment="Center" Margin="5,0">÷</TextBlock>
-            <hole:NumberHole x:Name="NumberHole2" />
+            <hole:NumberHole x:Name="NumberHole1" VerticalAlignment="Center" />
+            <TextBlock VerticalAlignment="Center" Margin="4,0">÷</TextBlock>
+            <hole:NumberHole x:Name="NumberHole2" VerticalAlignment="Center" />
         </StackPanel>
     </Border>
 </local:NumberBlock>
