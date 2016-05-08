@@ -27,7 +27,6 @@ copy %GSHARP%\GSharp.Compile\%BIN%\GSharp.Compile.dll %ENTRA_CORE%\GSharp.Compil
 copy %GSHARP%\GSharp.Extension\%BIN%\GSharp.Extension.dll %ENTRA_CORE%\GSharp.Extension.dll
 copy %GSHARP%\GSharp.Graphic\%BIN%\GSharp.Graphic.dll %ENTRA_CORE%\GSharp.Graphic.dll
 copy %GSHARP%\GSharp.Manager\%BIN%\GSharp.Manager.dll %ENTRA_CORE%\GSharp.Manager.dll
-copy %GSHARP%\GSharp.Runtime\%BIN%\GSharp.Runtime.dll %ENTRA_CORE%\GSharp.Runtime.dll
 
 if not exist %ENTRA_STUDIO% mkdir %ENTRA_STUDIO%
 copy %GSHARP%\GSharp.Base\%BIN%\GSharp.Base.dll %ENTRA_STUDIO%\GSharp.Base.dll
@@ -35,7 +34,6 @@ copy %GSHARP%\GSharp.Compile\%BIN%\GSharp.Compile.dll %ENTRA_STUDIO%\GSharp.Comp
 copy %GSHARP%\GSharp.Extension\%BIN%\GSharp.Extension.dll %ENTRA_STUDIO%\GSharp.Extension.dll
 copy %GSHARP%\GSharp.Graphic\%BIN%\GSharp.Graphic.dll %ENTRA_STUDIO%\GSharp.Graphic.dll
 copy %GSHARP%\GSharp.Manager\%BIN%\GSharp.Manager.dll %ENTRA_STUDIO%\GSharp.Manager.dll
-copy %GSHARP%\GSharp.Runtime\%BIN%\GSharp.Runtime.dll %ENTRA_STUDIO%\GSharp.Runtime.dll
 
 echo.
 echo            DLL UPDATE COMPLETE!
