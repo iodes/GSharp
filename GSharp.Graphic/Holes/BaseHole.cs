@@ -61,7 +61,7 @@ namespace GSharp.Graphic.Holes
                 return new NumberHole();
             }
 
-            return new CustomHole(holeType, Colors.Bisque);
+            return new CustomHole(holeType);
         }
     }
 }

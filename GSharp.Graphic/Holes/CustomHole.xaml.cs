@@ -90,20 +90,17 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public CustomHole(Type type, Color color)
+        public CustomHole(Type type)
         {
             InitializeComponent();
             _Type = type;
 
-            color.R -= 20;
-            color.G -= 20;
-            color.B -= 20;
+            Background = new SolidColorBrush(GetColor(type));
+        }
 
-            Background = new SolidColorBrush(new Color() {
-                R = color.R,
-                G = color.G,
-                B = color.B
-            });
+        private Color GetColor(Type type)
+        {
+            return Colors.AliceBlue;
         }
 
         // 연결된 블럭을 제거
