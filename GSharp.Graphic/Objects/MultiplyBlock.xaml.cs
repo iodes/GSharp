@@ -20,28 +20,34 @@ using GSharp.Base.Objects;
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// NumberBlock.xaml에 대한 상호 작용 논리
+    /// MultiplyBlock.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class MultiplyBlock : NumberBlock
     {
+        #region Hole List
+        // Hole List
         public override List<BaseHole> HoleList
         {
             get
             {
-                return new List<BaseHole> { NumberHole1, NumberHole2 };
+                return _HoleList;
             }
         }
+        private List<BaseHole> _HoleList;
+        #endregion
 
+        #region Objects
+        // GCompute
         public GCompute GCompute
         {
             get
             {
-                GObject obj1 = NumberHole1.NumberBlock.GObject;
-                GObject obj2 = NumberHole2.NumberBlock.GObject;
-                return new GCompute(obj1, GCompute.OperatorType.MULTIPLY, obj2);
+                return _GCompute;
             }
         }
+        private GCompute _GCompute;
 
+        // GObject
         public override GObject GObject
         {
             get
@@ -50,18 +56,52 @@ namespace GSharp.Graphic.Objects
             }
         }
 
+        // GObjectList
         public override List<GBase> GObjectList
         {
             get
             {
-                return new List<GBase> { GObject };
+                return _GObjectList;
             }
         }
+        private List<GBase> _GObjectList;
+        #endregion
 
+        #region Constructor
+        // Constructor
         public MultiplyBlock()
         {
+            // Initialize Component
             InitializeComponent();
+
+            // Initialize Lists
+            _HoleList = new List<BaseHole> { NumberHole1, NumberHole2 };
+            _GObjectList = new List<GBase> { GObject };
+
+            // Initialize Objects
+            _GCompute = new GCompute(null, GCompute.OperatorType.MULTIPLY, null);
+
+            // Initialize Event
+            NumberHole1.BlockAttached += NumberHole1_BlockAttached;
+            NumberHole2.BlockAttached += NumberHole2_BlockAttached;
+
+            // Initialize Block
             InitializeBlock();
         }
+        #endregion
+
+        #region Event
+        // NumberHole1 BlockAttached Event
+        private void NumberHole1_BlockAttached(BaseBlock block)
+        {
+            GCompute.FirstPart = NumberHole1.NumberBlock?.GObject;
+        }
+
+        // NumberHole2 BlockAttached Event
+        private void NumberHole2_BlockAttached(BaseBlock block)
+        {
+            GCompute.SecondPart = NumberHole2.NumberBlock?.GObject;
+        }
+        #endregion
     }
 }
