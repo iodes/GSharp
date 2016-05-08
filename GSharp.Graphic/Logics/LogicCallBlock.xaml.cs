@@ -28,22 +28,17 @@ namespace GSharp.Graphic.Logics
     /// </summary>
     public partial class LogicCallBlock : LogicBlock, IModuleBlock
     {
-        public GCommand Command { get; set; }
+        public GCommand GCommand { get; set; }
 
-        private List<BaseHole> holeList = new List<BaseHole>();
+        // Hole List
         public override List<BaseHole> HoleList
         {
             get
             {
-                if (holeList != null)
-                {
-                    return holeList;
-                }
-                else {
-                    return holeList = ModuleBlock.SetContent(Command.FriendlyName, Command.Arguments, StackContent);
-                }
+                return _HoleList;
             }
         }
+        private List<BaseHole> _HoleList;
 
         public GLogicCall GLogicCall
         {
@@ -51,13 +46,13 @@ namespace GSharp.Graphic.Logics
             {
                 List<GObject> objectList = new List<GObject>();
 
-                foreach (BaseHole hole in holeList)
+                foreach (BaseHole hole in _HoleList)
                 {
                     if (hole.ParentBlock != this) continue;
 
                     if (hole.AttachedBlock == null)
                     {
-                        throw new ToObjectException(Command.FriendlyName + "블럭이 완성되지 않았습니다.", this);
+                        throw new ToObjectException(GCommand.FriendlyName + "블럭이 완성되지 않았습니다.", this);
                     }
 
                     if (hole is BaseObjectHole)
@@ -66,7 +61,7 @@ namespace GSharp.Graphic.Logics
                     }
                 }
 
-                return new GLogicCall(Command, objectList.ToArray());
+                return new GLogicCall(GCommand, objectList.ToArray());
             }
         }
 
@@ -89,12 +84,15 @@ namespace GSharp.Graphic.Logics
         public LogicCallBlock()
         {
             InitializeComponent();
+
+            _HoleList = ModuleBlock.SetContent(GCommand.FriendlyName, GCommand.Arguments, StackContent);
+
             InitializeBlock();
         }
 
         public LogicCallBlock(GCommand command) : this()
         {
-            Command = command;
+            GCommand = command;
         }
     }
 }

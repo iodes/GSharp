@@ -29,25 +29,14 @@ namespace GSharp.Graphic.Logics
     public partial class GateBlock : LogicBlock
     {
         // Hole List
-        private List<BaseHole> holeList;
         public override List<BaseHole> HoleList
         {
             get
             {
-                if (holeList != null)
-                {
-                    return holeList;
-                }
-                else
-                {
-                    return holeList = new List<BaseHole>
-                    {
-                        LogicHole1,
-                        LogicHole2
-                    };
-                }
+                return _HoleList;
             }
         }
+        private List<BaseHole> _HoleList;
 
         // Gate Object
         public GGate GGate
@@ -57,18 +46,9 @@ namespace GSharp.Graphic.Logics
                 GLogic logic1 = LogicHole1.LogicBlock.GLogic;
                 GLogic logic2 = LogicHole2.LogicBlock.GLogic;
 
-                GGate.GateType gateOperator;
+                GGate.GateType op = GetGateType();
 
-                if (GateOperator.SelectedIndex == 0)
-                {
-                    gateOperator = GGate.GateType.AND;
-                }
-                else
-                {
-                    gateOperator = GGate.GateType.OR;
-                }
-
-                return new GGate(logic1, gateOperator, logic2);
+                return new GGate(logic1, op, logic2);
             }
         }
 
@@ -93,7 +73,26 @@ namespace GSharp.Graphic.Logics
         public GateBlock()
         {
             InitializeComponent();
+
+            _HoleList = new List<BaseHole>
+            {
+                LogicHole1,
+                LogicHole2
+            };
+
             InitializeBlock();
+        }
+
+        public GGate.GateType GetGateType()
+        {
+            if (Operator.SelectedIndex == 0)
+            {
+                return GGate.GateType.AND;
+            }
+            else
+            {
+                return  GGate.GateType.OR;
+            }
         }
     }
 }

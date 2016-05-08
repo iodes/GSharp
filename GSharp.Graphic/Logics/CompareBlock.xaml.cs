@@ -24,27 +24,14 @@ namespace GSharp.Graphic.Logics
     /// </summary>
     public partial class CompareBlock : LogicBlock
     {
-        private List<BaseHole> holeList = null;
         public override List<BaseHole> HoleList
         {
             get
             {
-                if (holeList != null)
-                {
-                    return holeList;
-                }
-                else
-                {
-                    holeList = new List<BaseHole>()
-                    {
-                        ObjectHole1,
-                        ObjectHole2
-                    };
-
-                    return holeList;
-                }
+                return _HoleList;
             }
         }
+        private List<BaseHole> _HoleList;
 
         public GCompare GCompare
         {
@@ -83,10 +70,17 @@ namespace GSharp.Graphic.Logics
         public CompareBlock()
         {
             InitializeComponent();
+
+            _HoleList = new List<BaseHole>()
+            {
+                ObjectHole1,
+                ObjectHole2
+            };
+
             InitializeBlock();
         }
 
-        private GCompare.ConditionType GetConditionType()
+        public GCompare.ConditionType GetConditionType()
         {
             switch (Operator.Text)
             {
