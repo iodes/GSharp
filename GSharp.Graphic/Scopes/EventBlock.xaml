@@ -17,7 +17,7 @@
         </Border>
         <Grid>
             <Border BorderThickness="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,0,2" />
-            <hole:NextConnectHole x:Name="NextConnectHole" Margin="5,0" VerticalAlignment="Bottom" />
+            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Bottom" />
             <Border BorderThickness="0,0,1,1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,2,0" />
         </Grid>
     </StackPanel>

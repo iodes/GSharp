@@ -39,7 +39,7 @@ namespace GSharp.Graphic.Scopes
         {
             get
             {
-                List<GBase> content = NextConnectHole?.StatementBlock?.GObjectList;
+                List<GBase> content = RealNextConnectHole?.StatementBlock?.GObjectList;
                 if (content == null)
                 {
                     content = new List<GBase>();
@@ -79,7 +79,7 @@ namespace GSharp.Graphic.Scopes
         {
             get
             {
-                return new List<BaseHole> { NextConnectHole };
+                return new List<BaseHole> { RealNextConnectHole };
             }
         }
     }
