@@ -24,6 +24,8 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class NumberConstBlock : NumberBlock
     {
+        #region Objects
+        // Number
         public double Number
         {
             get
@@ -33,11 +35,12 @@ namespace GSharp.Graphic.Objects
             set
             {
                 _Number = value;
-                _GNumber.Number = value;
+                GNumber.Number = value;
             }
         }
         private double _Number = .0;
 
+        // GNumber
         public GNumber GNumber
         {
             get
@@ -47,6 +50,7 @@ namespace GSharp.Graphic.Objects
         }
         private GNumber _GNumber;
 
+        // GObject
         public override GObject GObject
         {
             get
@@ -55,22 +59,29 @@ namespace GSharp.Graphic.Objects
             }
         }
 
+        // GObjectList
         public override List<GBase> GObjectList
         {
             get
             {
-                return new List<GBase> { GNumber };
+                return _GObjectList;
             }
         }
+        private List<GBase> _GObjectList;
+        #endregion
 
+        // Constructor
         public NumberConstBlock()
         {
+            // Initialize Objects
             _GNumber = new GNumber(_Number);
+            _GObjectList = new List<GBase> { GNumber };
 
             InitializeComponent();
             InitializeBlock();
         }
 
+        // NumberText TextChanged Event
         private void NumberText_TextChanged(object sender, TextChangedEventArgs e)
         {
             double number;

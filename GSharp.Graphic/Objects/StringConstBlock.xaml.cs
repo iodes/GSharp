@@ -33,16 +33,19 @@ namespace GSharp.Graphic.Objects
             set
             {
                 StringText.Text = value;
+                _GString.String = value;
             }
         }
+        private string _String;
 
         public GString GString
         {
             get
             {
-                return new GString(String);
+                return _GString;
             }
         }
+        private GString _GString;
 
         public override GObject GObject
         {
@@ -62,8 +65,15 @@ namespace GSharp.Graphic.Objects
 
         public StringConstBlock()
         {
+            _GString = new GString(String);
+
             InitializeComponent();
             InitializeBlock();
+        }
+
+        private void StringText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _GString.String = StringText.Text;
         }
     }
 }
