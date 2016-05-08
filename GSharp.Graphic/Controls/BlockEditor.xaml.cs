@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
@@ -112,16 +111,10 @@ namespace GSharp.Graphic.Controls
 
         private void Block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            CaptureMouse();
-
-            SelectedBlock = sender as BaseBlock;
-            SelectedPosition = e.GetPosition(SelectedBlock);
-
-            // 부모 블럭 클릭되지 않도록
             e.Handled = true;
-            IsSelectedBlockMoved = false;
 
-            Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
+            BaseBlock target = sender as BaseBlock;
+            StartBlockMove(target, e.GetPosition(target));
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -781,6 +774,17 @@ namespace GSharp.Graphic.Controls
                 return e.Message;
             }
         }
+
+        public void StartBlockMove(BaseBlock target, Point position = new Point())
+        {
+            CaptureMouse();
+
+            SelectedBlock = target;
+            SelectedPosition = position;
+            IsSelectedBlockMoved = false;
+
+            Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
+        }
         #endregion
 
         #region 스크롤 뷰어 드래그
@@ -813,7 +817,6 @@ namespace GSharp.Graphic.Controls
             }
         }
         #endregion
-
 
         public void Save(string path)
         {
