@@ -77,22 +77,21 @@ namespace GSharp.Graphic.Logics
         {
             get
             {
-                return new List<GBase> { GLogic };
+                return _GObjectList;
             }
         }
+        private List<GBase> _GObjectList;
 
-        public LogicCallBlock()
+        public LogicCallBlock(GCommand command)
         {
             InitializeComponent();
 
+            GCommand = command;
             _HoleList = ModuleBlock.SetContent(GCommand.FriendlyName, GCommand.Arguments, StackContent);
 
-            InitializeBlock();
-        }
+            _GObjectList = new List<GBase> { GLogic };
 
-        public LogicCallBlock(GCommand command) : this()
-        {
-            GCommand = command;
+            InitializeBlock();
         }
     }
 }
