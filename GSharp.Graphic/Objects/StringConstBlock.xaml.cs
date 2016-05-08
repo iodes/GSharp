@@ -64,7 +64,7 @@ namespace GSharp.Graphic.Objects
 
         public StringConstBlock()
         {
-            _GString = new GString(String);
+            _GString = new GString("");
 
             InitializeComponent();
             InitializeBlock();
