@@ -23,6 +23,7 @@ using System.Reflection;
 using GSharp.Graphic.Logics;
 using System.Text;
 using GSharp.Graphic.Statements;
+using GSharp.Extension;
 
 namespace GSharp.Graphic.Controls
 {
@@ -835,7 +836,7 @@ namespace GSharp.Graphic.Controls
                     writer.WriteStartElement("Blocks");
                     writer.WriteAttributeString("Position", baseBlock.Position.ToString());
 
-                    ResolveBlockToXML(writer, baseBlock);
+                    BlockToXML(writer, baseBlock);
 
                     writer.WriteEndElement();
                 }
@@ -847,7 +848,7 @@ namespace GSharp.Graphic.Controls
             stream.Close();
         }
 
-        public void ResolveBlockToXML(XmlTextWriter writer, BaseBlock target)
+        public void BlockToXML(XmlTextWriter writer, BaseBlock target)
         {
             if (target == null) return;
 
@@ -879,7 +880,7 @@ namespace GSharp.Graphic.Controls
             if (target is IModuleBlock)
             {
                 var moduleBlock = target as IModuleBlock;
-
+                
                 writer.WriteAttributeString("FriendlyName", moduleBlock.GCommand.FriendlyName);
                 writer.WriteAttributeString("NamespaceName", moduleBlock.GCommand.NamespaceName);
                 writer.WriteAttributeString("MethodName", moduleBlock.GCommand.MethodName);
@@ -912,84 +913,214 @@ namespace GSharp.Graphic.Controls
 
                     writer.WriteStartElement("Hole");
                     writer.WriteAttributeString("Type", hole.GetType().ToString());
-                    ResolveBlockToXML(writer, hole.AttachedBlock);
+                    BlockToXML(writer, hole.AttachedBlock);
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
             }
 
-            if (target is IContainChildBlock)
+            if (target is IContainChildBlock && (target as IContainChildBlock).ChildConnectHole.AttachedBlock != null)
             {
-                ResolveBlockToXML(writer, (target as IContainChildBlock).ChildConnectHole.AttachedBlock);
+                writer.WriteStartElement("Blocks");
+                BlockToXML(writer, (target as IContainChildBlock).ChildConnectHole.AttachedBlock);
+                writer.WriteEndElement();
             }
 
             writer.WriteEndElement();
 
             if (target is ScopeBlock)
             {
-                ResolveBlockToXML(writer, (target as ScopeBlock).NextConnectHole.AttachedBlock);
+                BlockToXML(writer, (target as ScopeBlock).NextConnectHole.AttachedBlock);
             }
             else if (target is PrevStatementBlock)
             {
-                ResolveBlockToXML(writer, (target as PrevStatementBlock).NextConnectHole.AttachedBlock);
+                BlockToXML(writer, (target as PrevStatementBlock).NextConnectHole.AttachedBlock);
             }
 
         }
 
         public void Load(string path)
         {
-            XmlDocument document = new XmlDocument();
+            var document = new XmlDocument();
             document.Load(path);
+            
+            foreach (XmlElement element in document.SelectNodes("/Canvas/Blocks"))
+            {
+                var position = Point.Parse(element.GetAttribute("Position"));
+                var block = BlocksFromXML(element);
+                block.Position = position;
+            }
+        }
+
+        private BaseBlock BlocksFromXML(XmlElement parent)
+        {
+            if (parent == null) return null;
 
             BaseBlock prevBlock = null;
-            foreach (XmlElement element in document.GetElementsByTagName("Block"))
+            BaseBlock firstBlock = null;
+
+            foreach(XmlElement element in parent.ChildNodes)
             {
-                Type blockType = Type.GetType(element.GetAttribute("Type"));
-                ParameterInfo[] blockParams = blockType.GetConstructors()[0].GetParameters();
+                var block = BlockFromXML(element);
 
-                BaseBlock block = null;
-                if (blockParams.Any())
+                if (prevBlock == null)
                 {
-                    // 블럭 생성자에 인자가 필요함
-                    block = Activator.CreateInstance(blockType, Deserialize(System.IO.Path.GetDirectoryName(path) + "\\" + element.GetAttribute("Content"))) as BaseBlock;
+                    firstBlock = block;
                 }
-                else
-                {
-                    // 인자 없이 즉시 블럭 생성이 가능
-                    block = Activator.CreateInstance(blockType) as BaseBlock;
-                }
-                block.Position = new Point(50, 50);
 
-                if (prevBlock is EventBlock)
+                if (block is StatementBlock)
                 {
-                    (prevBlock as EventBlock).RealNextConnectHole.StatementBlock = block as StatementBlock;
-                    block.Position = new Point(0, 0);
-                    AddBlock(prevBlock);
+                    var statement = block as StatementBlock;
+                    if (prevBlock is PrevStatementBlock)
+                    {
+                        DetachFromCanvas(statement);
+                        (prevBlock as PrevStatementBlock).NextConnectHole.StatementBlock = statement;
+                    }
+                    else if (prevBlock is ScopeBlock)
+                    {
+                        DetachFromCanvas(statement);
+                        (prevBlock as ScopeBlock).NextConnectHole.StatementBlock = statement;
+                    }
                 }
 
                 prevBlock = block;
             }
+
+            return firstBlock;
         }
 
-        private void Serialize(string path, object target)
+        private BaseBlock BlockFromXML(XmlElement element)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream stream = new FileStream(path, FileMode.Create))
-            {
-                formatter.Serialize(stream, target);
-            }
-        }
+            Type blockType = Type.GetType(element.GetAttribute("Type"));
+            BaseBlock block;
 
-        private object Deserialize(string path)
-        {
-            object result;
-
-            BinaryFormatter formatter = new BinaryFormatter(); ;
-            using (FileStream stream = new FileStream(path, FileMode.Open))
+            var constructorInfo = blockType.GetConstructor(Type.EmptyTypes);
+            
+            if (constructorInfo != null)
             {
-                result = formatter.Deserialize(stream);
+                // 블럭 생성에 인자가 필요 없음
+                block = Activator.CreateInstance(blockType) as BaseBlock;
             }
-            return result;
+            else
+            {
+                var argList = new List<object>();
+
+                // IModuleBlock은 GCommand를 생성자로 가짐
+                if (typeof(IModuleBlock).IsAssignableFrom(blockType))
+                {
+                    var friendlyName = element.GetAttribute("FriendlyName");
+                    var namespaceName = element.GetAttribute("NamespaceName");
+                    var methodName = element.GetAttribute("MethodName");
+                    var methodType = (GCommand.CommandType) Enum.Parse(typeof(GCommand.CommandType), element.GetAttribute("MethodType"));
+
+                    var commandArgList = new List<Type>();
+
+                    XmlNodeList argNodeList;
+                    if ((argNodeList = element.SelectSingleNode("Arguments")?.ChildNodes) != null)
+                    {
+                        foreach (XmlElement argElem in argNodeList)
+                        {
+                            var argType = Type.GetType(argElem.GetAttribute("Type"));
+                            commandArgList.Add(argType);
+                        }
+                    }
+
+                    var command = new GCommand(namespaceName, methodName, friendlyName, methodType, commandArgList.ToArray());
+                    argList.Add(command);
+                }
+
+                // 블럭 생성자에 인자가 필요함
+                block = Activator.CreateInstance(blockType, argList.ToArray()) as BaseBlock;
+            }
+
+            int idx = 0;
+
+            XmlNodeList holeNodeList;
+            if ((holeNodeList = element.SelectSingleNode("Holes")?.ChildNodes) != null)
+            {
+                foreach (XmlElement holeElem in holeNodeList)
+                {
+                    Type holeType = Type.GetType(holeElem.GetAttribute("Type"));
+
+                    // 불러온 Hole 정보가 현재 Block의 Hole 정보와 일치하지 않음
+                    if (holeType != block.HoleList[idx].GetType())
+                    {
+                        throw new Exception();
+                    }
+
+                    // 불러온 Hole에 연결된 블럭 불러오기
+                    XmlElement holeBlockElem = holeElem.SelectSingleNode("Block") as XmlElement;
+                    if (holeBlockElem != null)
+                    {
+                        BaseBlock holeBlock = BlockFromXML(holeBlockElem);
+
+                        if (block.HoleList[idx] is StringHole)
+                        {
+                            DetachFromCanvas(holeBlock);
+                            (block.HoleList[idx] as StringHole).StringBlock = holeBlock as StringBlock;
+                        }
+                        else if (block.HoleList[idx] is NumberHole)
+                        {
+                            DetachFromCanvas(holeBlock);
+                            (block.HoleList[idx] as NumberHole).NumberBlock = holeBlock as NumberBlock;
+                        }
+                        else if (block.HoleList[idx] is LogicHole)
+                        {
+                            DetachFromCanvas(holeBlock);
+                            (block.HoleList[idx] as LogicHole).LogicBlock = holeBlock as LogicBlock;
+                        }
+                        else if (block.HoleList[idx] is CustomHole)
+                        {
+                            DetachFromCanvas(holeBlock);
+                            (block.HoleList[idx] as CustomHole).CustomBlock = holeBlock as CustomBlock;
+                        }
+                        else if (block.HoleList[idx] is ObjectHole)
+                        {
+                            DetachFromCanvas(holeBlock);
+                            (block.HoleList[idx] as ObjectHole).ObjectBlock = holeBlock as ObjectBlock;
+                        }
+                    }
+
+                    idx++;
+                }
+            }
+
+            // IContainChild 블럭은 자식 요소를 포함함
+            if (block is IContainChildBlock)
+            {
+                var childBlocksElem = element.SelectSingleNode("Blocks") as XmlElement;
+
+                if (childBlocksElem != null)
+                {
+                    var firstChildBlock = BlocksFromXML(childBlocksElem);
+                    (block as IContainChildBlock).ChildConnectHole.StatementBlock = firstChildBlock as StatementBlock;
+                }
+            }
+
+            AddBlock(block);
+
+            return block;
         }
+        
+        //private void Serialize(string path, object target)
+        //{
+        //    BinaryFormatter formatter = new BinaryFormatter();
+        //    using (FileStream stream = new FileStream(path, FileMode.Create))
+        //    {
+        //        formatter.Serialize(stream, target);
+        //    }
+        //}
+
+        //private object Deserialize(string path)
+        //{
+        //    object result;
+
+        //    BinaryFormatter formatter = new BinaryFormatter(); ;
+        //    using (FileStream stream = new FileStream(path, FileMode.Open))
+        //    {
+        //        result = formatter.Deserialize(stream);
+        //    }
+        //    return result;
+        //}
     }
 }
