@@ -48,30 +48,17 @@ namespace GSharp.Graphic.Scopes
         }
         private GCommand _GCommand;
 
+        // GEvent
         public GEvent GEvent
         {
             get
             {
-                List<GBase> content = RealNextConnectHole?.StatementBlock?.GObjectList;
-                if (content == null)
-                {
-                    content = new List<GBase>();
-                }
-
-                GEvent evt = new GEvent(GCommand);
-
-                foreach (GBase gbase in content)
-                {
-                    if (gbase is GStatement)
-                    {
-                        evt.Append(gbase as GStatement);
-                    }
-                }
-
-                return evt;
+                return _GEvent;
             }
         }
+        private GEvent _GEvent;
 
+        // GScopre
         public override GScope GScope
         {
             get
@@ -80,29 +67,59 @@ namespace GSharp.Graphic.Scopes
             }
         }
 
+        // GObjectList
         public override List<GBase> GObjectList
         {
             get
             {
-                return new List<GBase> { GScope };
+                return _GObjectList;
             }
         }
+        private List<GBase> _GObjectList;
         #endregion
 
+        #region Constructor
         // Constructor
         public EventBlock(GCommand command)
         {
             // Initialize Component
             InitializeComponent();
 
-            _GCommand = command;
-            StackContentText.Text = command.FriendlyName;
-
             // Initialize Hole List
             _HoleList = new List<BaseHole> { RealNextConnectHole };
+
+            // Initialize Objects
+            _GCommand = command;
+            _GEvent = new GEvent(command);
+            _GObjectList = new List<GBase> { GScope };
+
+            StackContentText.Text = command.FriendlyName;
+
+            // Initialize Events
+            RealNextConnectHole.BlockAttached += RealNextConnectHole_BlockAttached;
 
             // Initialize Block
             InitializeBlock();
         }
+        #endregion
+
+        #region Events
+        // RealNextConnectHole BlockAttached Event
+        private void RealNextConnectHole_BlockAttached(BaseBlock block)
+        {
+            _GEvent.Content.Clear();
+
+            List<GBase> content = RealNextConnectHole?.StatementBlock?.GObjectList;
+            if (content == null) return;
+            
+            foreach (GBase gbase in content)
+            {
+                if (gbase is GStatement)
+                {
+                    _GEvent.Append(gbase as GStatement);
+                }
+            }
+        }
+        #endregion
     }
 }

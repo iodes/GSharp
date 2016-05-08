@@ -25,40 +25,30 @@ namespace GSharp.Graphic.Scopes
     /// </summary>
     public partial class FunctionBlock : ScopeBlock
     {
-        public string FunctionName;
-
-        public FunctionBlock(string name)
+        #region Hole List
+        // Hole List
+        public override List<BaseHole> HoleList
         {
-            InitializeComponent();
-            FunctionName = name;
-            StackContentText.Text = name;
-            InitializeBlock();
+            get
+            {
+                return _HoleList;
+            }
         }
+        private List<BaseHole> _HoleList;
+        #endregion
 
+        #region Objects
+        // GFunction
         public GFunction GFunction
         {
             get
             {
-                List<GBase> content = RealNextConnectHole?.StatementBlock?.GObjectList;
-                if (content == null)
-                {
-                    content = new List<GBase>();
-                }
-
-                GFunction func = new GFunction(FunctionName);
-
-                foreach (GBase gbase in content)
-                {
-                    if (gbase is GStatement)
-                    {
-                        func.Append(gbase as GStatement);
-                    }
-                }
-
-                return func;
+                return _GFunction;
             }
         }
+        private GFunction _GFunction;
 
+        // GScope
         public override GScope GScope
         {
             get
@@ -67,20 +57,59 @@ namespace GSharp.Graphic.Scopes
             }
         }
 
+        // GObjectList
         public override List<GBase> GObjectList
         {
             get
             {
-                return new List<GBase> { GScope };
+                return _GObjectList;
             }
         }
+        private List<GBase> _GObjectList;
+        #endregion
 
-        public override List<BaseHole> HoleList
+        #region Constructor
+        // Constructor
+        public FunctionBlock(GFunction function)
         {
-            get
+            // Initialize Component
+            InitializeComponent();
+
+            // Initialize Hole List
+            _HoleList = new List<BaseHole> { RealNextConnectHole };
+
+            // Initialize Objects
+            _GFunction = function;
+            _GObjectList = new List<GBase> { GScope };
+
+            StackContentText.Text = function.FunctionName;
+
+            // Initialize Events
+            RealNextConnectHole.BlockAttached += RealNextConnectHole_BlockChanged;
+            RealNextConnectHole.BlockDetached += RealNextConnectHole_BlockChanged;
+
+            // Initialize Block
+            InitializeBlock();
+        }
+        #endregion
+
+        #region Events
+        // RealNextConnectHole BlockAttached & BlockDetached Event
+        private void RealNextConnectHole_BlockChanged(BaseBlock block)
+        {
+            _GFunction.Content.Clear();
+
+            List<GBase> content = RealNextConnectHole.StatementBlock?.GObjectList;
+            if (content == null) return;
+
+            foreach (GBase gbase in content)
             {
-                return new List<BaseHole> { RealNextConnectHole };
+                if (gbase is GStatement)
+                {
+                    _GFunction.Append(gbase as GStatement);
+                }
             }
         }
+        #endregion
     }
 }
