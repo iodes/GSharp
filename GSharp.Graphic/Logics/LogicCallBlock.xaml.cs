@@ -87,7 +87,7 @@ namespace GSharp.Graphic.Logics
             InitializeComponent();
 
             GCommand = command;
-            _HoleList = ModuleBlock.SetContent(GCommand.FriendlyName, GCommand.Arguments, StackContent);
+            _HoleList = ModuleBlock.SetContent(GCommand.FriendlyName, GCommand.Arguments, WrapContent);
 
             _GObjectList = new List<GBase> { GLogic };
 

@@ -10,7 +10,7 @@ namespace GSharp.Graphic.Core
 {
     public abstract class ModuleBlock
     {
-        public static List<BaseHole> SetContent(string name, Type[] argumentList, StackPanel Content)
+        public static List<BaseHole> SetContent(string name, Type[] argumentList, WrapPanel Content)
         {
             Content.Children.Clear();
 

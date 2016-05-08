@@ -107,7 +107,7 @@ namespace GSharp.Graphic.Statements
             InitializeComponent();
 
             // Initialize Hole List
-            _HoleList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, StackContent);
+            _HoleList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, WrapContent);
 
             // Initialize Objects
             _GCommand = command;
