@@ -11,7 +11,7 @@ namespace GSharp.Graphic.Objects
     /// <summary>
     /// NumberBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CustomVariableBlock : CustomBlock
+    public partial class CustomVariableBlock : CustomBlock, IVariableBlock
     {
         public override GObject GObject
         {
@@ -34,20 +34,23 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return new List<GBase>() { GObject };
+                return _GObjectList;
             }
         }
+        private List<GBase> _GObjectList;
 
-        public CustomVariableBlock(GVariable variable, Type type, Color color)
+        public CustomVariableBlock(GVariable variable, Type type)
             : base(type)
         {
             InitializeComponent();
 
             _GVariable = variable;
-            VariableName.Text = variable.Name;
+            _GObjectList = new List<GBase>() { GObject };
 
             // Set background color
-            Background = new SolidColorBrush(color);
+            Background = new SolidColorBrush(GetColor(type));
+
+            VariableName.Text = variable.Name;
 
             // Init block
             InitializeBlock();

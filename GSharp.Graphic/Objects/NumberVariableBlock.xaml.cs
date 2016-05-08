@@ -22,19 +22,8 @@ namespace GSharp.Graphic.Objects
     /// <summary>
     /// VariableBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class NumberVariableBlock : NumberBlock
-    {
-        // 생성자
-        public NumberVariableBlock(GVariable variable)
-        {
-            InitializeComponent();
-
-            _GVariable = variable;
-            VariableName.Text = variable.Name;
-
-            InitializeBlock();
-        }
-        
+    public partial class NumberVariableBlock : NumberBlock, IVariableBlock
+    {   
         public GVariable GVariable
         {
             get
@@ -56,8 +45,20 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return new List<GBase> { GObject };
+                return _GObjectList;
             }
+        }
+        private List<GBase> _GObjectList;
+        // 생성자
+        public NumberVariableBlock(GVariable variable)
+        {
+            InitializeComponent();
+
+            _GVariable = variable;
+            VariableName.Text = variable.Name;
+            _GObjectList = new List<GBase> { GObject };
+
+            InitializeBlock();
         }
     }
 }

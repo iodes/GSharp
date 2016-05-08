@@ -96,6 +96,7 @@
     <Compile Include="Objects\CustomVariableBlock.xaml.cs">
       <DependentUpon>CustomVariableBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\IVariableBlock.cs" />
     <Compile Include="Objects\MultiplyBlock.xaml.cs">
       <DependentUpon>MultiplyBlock.xaml</DependentUpon>
     </Compile>
