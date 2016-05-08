@@ -22,6 +22,7 @@ using System.IO;
 using System.Reflection;
 using GSharp.Graphic.Logics;
 using System.Text;
+using GSharp.Graphic.Statements;
 
 namespace GSharp.Graphic.Controls
 {
@@ -834,7 +835,7 @@ namespace GSharp.Graphic.Controls
                     writer.WriteStartElement("Blocks");
                     writer.WriteAttributeString("Position", baseBlock.Position.ToString());
 
-                    ResolveBlockToXML(writer, baseBlock, path);
+                    ResolveBlockToXML(writer, baseBlock);
 
                     writer.WriteEndElement();
                 }
@@ -846,8 +847,10 @@ namespace GSharp.Graphic.Controls
             stream.Close();
         }
 
-        public void ResolveBlockToXML(XmlTextWriter writer, BaseBlock target, string path)
+        public void ResolveBlockToXML(XmlTextWriter writer, BaseBlock target)
         {
+            if (target == null) return;
+
             writer.WriteStartElement("Block");
             writer.WriteAttributeString("Type", target.GetType().ToString());
 
@@ -897,39 +900,40 @@ namespace GSharp.Graphic.Controls
                 //Serialize(System.IO.Path.GetDirectoryName(path) + "\\" + target.GetHashCode().ToString(), (target as IModuleBlock).Command);
             }
 
-            NextConnectHole realNextConnectHole = null;
-            foreach (BaseHole hole in target.HoleList)
+            if (target.HoleList.Any())
             {
-                if (hole?.AttachedBlock != null)
+                writer.WriteStartElement("Holes");
+                foreach (BaseHole hole in target.HoleList)
                 {
                     if (hole is NextConnectHole)
                     {
-                        if (hole.Name == "RealNextConnectHole")
-                        {
-                            realNextConnectHole = hole as NextConnectHole;
-                        }
-                        else
-                        {
-                            writer.WriteStartElement("Blocks");
-                            ResolveBlockToXML(writer, hole.AttachedBlock, path);
-                            writer.WriteEndElement();
-                        }
+                        continue;
                     }
-                    else
-                    {
-                        writer.WriteStartElement("Hole");
-                        writer.WriteAttributeString("Type", hole.GetType().ToString());
-                        ResolveBlockToXML(writer, hole.AttachedBlock, path);
-                        writer.WriteEndElement();
-                    }
+
+                    writer.WriteStartElement("Hole");
+                    writer.WriteAttributeString("Type", hole.GetType().ToString());
+                    ResolveBlockToXML(writer, hole.AttachedBlock);
+                    writer.WriteEndElement();
                 }
+                writer.WriteEndElement();
             }
+
+            if (target is IContainChildBlock)
+            {
+                ResolveBlockToXML(writer, (target as IContainChildBlock).ChildConnectHole.AttachedBlock);
+            }
+
             writer.WriteEndElement();
 
-            if (realNextConnectHole != null)
+            if (target is ScopeBlock)
             {
-                ResolveBlockToXML(writer, realNextConnectHole.AttachedBlock, path);
+                ResolveBlockToXML(writer, (target as ScopeBlock).NextConnectHole.AttachedBlock);
             }
+            else if (target is PrevStatementBlock)
+            {
+                ResolveBlockToXML(writer, (target as PrevStatementBlock).NextConnectHole.AttachedBlock);
+            }
+
         }
 
         public void Load(string path)
