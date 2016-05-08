@@ -36,7 +36,6 @@ namespace GSharp.Graphic.Objects
                 _GString.String = value;
             }
         }
-        private string _String;
 
         public GString GString
         {
