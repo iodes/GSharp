@@ -25,7 +25,7 @@ namespace GSharp.Graphic.Scopes
     /// </summary>
     public partial class EventBlock : ScopeBlock, IModuleBlock
     {
-        #region Hole List
+        #region Holes
         // Hole List
         public override List<BaseHole> HoleList
         {
@@ -35,6 +35,15 @@ namespace GSharp.Graphic.Scopes
             }
         }
         private List<BaseHole> _HoleList;
+
+        // Next Connect Hole
+        public override NextConnectHole NextConnectHole
+        {
+            get
+            {
+                return RealNextConnectHole;
+            }
+        }
         #endregion
 
         #region Objects
