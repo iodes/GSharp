@@ -1096,6 +1096,7 @@ namespace GSharp.Graphic.Controls
                 if (childBlocksElem != null)
                 {
                     var firstChildBlock = BlocksFromXML(childBlocksElem);
+                    DetachFromCanvas(firstChildBlock);
                     (block as IContainChildBlock).ChildConnectHole.StatementBlock = firstChildBlock as StatementBlock;
                 }
             }

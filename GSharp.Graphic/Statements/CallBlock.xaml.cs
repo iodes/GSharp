@@ -156,6 +156,7 @@ namespace GSharp.Graphic.Statements
             int idx = 0;
             foreach (BaseHole hole in _HoleList)
             {
+                if (hole is NextConnectHole) continue;
                 _GCall.targetArguments[idx++] = (hole as BaseObjectHole).BaseObjectBlock?.GObject;
             }
         }
