@@ -11,7 +11,7 @@
     <StackPanel Orientation="Vertical" VerticalAlignment="Top">
         <Grid Height="10">
             <DockPanel ClipToBounds="True">
-                <Path Data="M -2,-2 L -2,9.5 10,9.5 18,2 26,9.5 28,9.5 28,-2 Z" Height="10" StrokeThickness="1" StrokeLineJoin="Round" Margin="0,0,-1,0" Stroke="#D5404D" Fill="White" />
+                <Path Data="M -2,-2 L -2,9.5 10,9.5 18,2 26,9.5 28,9.5 28,-2 Z" Height="10" StrokeThickness="1" StrokeLineJoin="Round" Margin="0,0,-2,0" Stroke="#D5404D" Fill="White" />
                 <Border Background="White" BorderBrush="#D5404D" VerticalAlignment="Top" Height="10" BorderThickness="0,0,0,1" />
             </DockPanel>
         </Grid>
