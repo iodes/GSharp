@@ -65,10 +65,6 @@
       <Project>{962e1900-9ea0-4e71-b75d-3890973ba34a}</Project>
       <Name>GSharp.Manager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GSharp.Runtime\GSharp.Runtime.csproj">
-      <Project>{e05ee7cb-7c1e-4425-87ce-9138131db55d}</Project>
-      <Name>GSharp.Runtime</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

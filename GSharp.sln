@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharpSample", "GSharpSample\GSharpSample.csproj", "{730CDA8B-9911-4CBC-95F8-5D62CC838692}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Runtime", "GSharp.Runtime\GSharp.Runtime.csproj", "{E05EE7CB-7C1E-4425-87CE-9138131DB55D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Graphic", "GSharp.Graphic\GSharp.Graphic.csproj", "{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}"
 EndProject
@@ -27,10 +25,6 @@ Global
 		{730CDA8B-9911-4CBC-95F8-5D62CC838692}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{730CDA8B-9911-4CBC-95F8-5D62CC838692}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{730CDA8B-9911-4CBC-95F8-5D62CC838692}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E05EE7CB-7C1E-4425-87CE-9138131DB55D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
