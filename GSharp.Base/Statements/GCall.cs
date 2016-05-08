@@ -12,7 +12,7 @@ namespace GSharp.Base.Statements
         #region 객체
         private GFunction targetFunction;
         private GCommand targetCommand;
-        private GObject[] targetArguments;
+        public GObject[] targetArguments;
         #endregion
 
         #region 생성자
