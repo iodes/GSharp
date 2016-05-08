@@ -25,15 +25,28 @@ namespace GSharp.Graphic.Scopes
     /// </summary>
     public partial class EventBlock : ScopeBlock, IModuleBlock
     {
-        public GCommand Command { get; set; }
-
-        public EventBlock(GCommand command)
+        #region Hole List
+        // Hole List
+        public override List<BaseHole> HoleList
         {
-            InitializeComponent();
-            Command = command;
-            StackContentText.Text = command.FriendlyName;
-            InitializeBlock();
+            get
+            {
+                return _HoleList;
+            }
         }
+        private List<BaseHole> _HoleList;
+        #endregion
+
+        #region Objects
+        // GCommand
+        public GCommand GCommand
+        {
+            get
+            {
+                return _GCommand;
+            }
+        }
+        private GCommand _GCommand;
 
         public GEvent GEvent
         {
@@ -45,7 +58,7 @@ namespace GSharp.Graphic.Scopes
                     content = new List<GBase>();
                 }
 
-                GEvent evt = new GEvent(Command);
+                GEvent evt = new GEvent(GCommand);
 
                 foreach (GBase gbase in content)
                 {
@@ -74,13 +87,22 @@ namespace GSharp.Graphic.Scopes
                 return new List<GBase> { GScope };
             }
         }
+        #endregion
 
-        public override List<BaseHole> HoleList
+        // Constructor
+        public EventBlock(GCommand command)
         {
-            get
-            {
-                return new List<BaseHole> { RealNextConnectHole };
-            }
+            // Initialize Component
+            InitializeComponent();
+
+            _GCommand = command;
+            StackContentText.Text = command.FriendlyName;
+
+            // Initialize Hole List
+            _HoleList = new List<BaseHole> { RealNextConnectHole };
+
+            // Initialize Block
+            InitializeBlock();
         }
     }
 }

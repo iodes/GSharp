@@ -30,13 +30,13 @@ namespace GSharp.Graphic.Statements
     {
         private List<BaseHole> holeList;
 
-        public GCommand Command { get; set; }
+        public GCommand GCommand { get; set; }
         public GFunction GFunction { get; set; }
 
         public CallBlock(GCommand command)
         {
             InitializeComponent();
-            Command = command;
+            GCommand = command;
             holeList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, StackContent);
             holeList.Add(NextConnectHole);
             InitializeBlock();
@@ -82,7 +82,7 @@ namespace GSharp.Graphic.Statements
 
                     if (!(hole is NextConnectHole) && hole.AttachedBlock == null)
                     {
-                        throw new ToObjectException(Command.FriendlyName + " / " + hole.ToString() + "블럭이 완성되지 않았습니다.", this);
+                        throw new ToObjectException(GCommand.FriendlyName + " / " + hole.ToString() + "블럭이 완성되지 않았습니다.", this);
                     }
 
                     if (hole is BaseObjectHole)
@@ -91,7 +91,7 @@ namespace GSharp.Graphic.Statements
                     }
                 }
 
-                return new GCall(Command, objectList.ToArray());
+                return new GCall(GCommand, objectList.ToArray());
             }
         }
 

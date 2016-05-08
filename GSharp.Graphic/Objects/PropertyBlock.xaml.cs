@@ -25,22 +25,15 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class PropertyBlock : ObjectBlock, IModuleBlock
     {
-        private GProperty GProperty;
 
-        public GCommand Command { get; set; }
-
-        // 생성자
-        public PropertyBlock(GCommand command)
+        public GCommand GCommand
         {
-            InitializeComponent();
-
-            Command = command;
-
-            GProperty = new GProperty(command);
-
-            PropertyName.Text = command.FriendlyName;
-            InitializeBlock();
+            get
+            {
+                return _GCommand;
+            }
         }
+        private GCommand _GCommand;
 
         public override GObject GObject
         {
@@ -50,12 +43,36 @@ namespace GSharp.Graphic.Objects
             }
         }
 
+        public GProperty GProperty
+        {
+            get
+            {
+                return _GProperty;
+            }
+        }
+        private GProperty _GProperty;
+
         public override List<GBase> GObjectList
         {
             get
             {
-                return new List<GBase> { GObject };
+                return _GObjectList;
             }
+        }
+        private List<GBase> _GObjectList;
+
+        // 생성자
+        public PropertyBlock(GCommand command)
+        {
+            InitializeComponent();
+
+            _GCommand = command;
+            _GProperty = new GProperty(command);
+            _GObjectList = new List<GBase> { GObject };
+
+            PropertyName.Text = command.FriendlyName;
+
+            InitializeBlock();
         }
     }
 }
