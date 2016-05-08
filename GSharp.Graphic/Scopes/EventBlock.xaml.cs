@@ -105,7 +105,8 @@ namespace GSharp.Graphic.Scopes
             StackContentText.Text = command.FriendlyName;
 
             // Initialize Events
-            RealNextConnectHole.BlockAttached += RealNextConnectHole_BlockAttached;
+            NextConnectHole.BlockAttached += RealNextConnectHole_BlockChanged;
+            NextConnectHole.BlockDetached += RealNextConnectHole_BlockChanged;
 
             // Initialize Block
             InitializeBlock();
@@ -113,12 +114,12 @@ namespace GSharp.Graphic.Scopes
         #endregion
 
         #region Events
-        // RealNextConnectHole BlockAttached Event
-        private void RealNextConnectHole_BlockAttached(BaseBlock block)
+        // RealNextConnectHole BlockAttached & BlockDetached Event
+        private void RealNextConnectHole_BlockChanged(BaseBlock block)
         {
             _GEvent.Content.Clear();
 
-            List<GBase> content = RealNextConnectHole?.StatementBlock?.GObjectList;
+            List<GBase> content = NextConnectHole.StatementBlock?.GObjectList;
             if (content == null) return;
             
             foreach (GBase gbase in content)

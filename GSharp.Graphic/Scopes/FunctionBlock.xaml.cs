@@ -85,7 +85,7 @@ namespace GSharp.Graphic.Scopes
             InitializeComponent();
 
             // Initialize Hole List
-            _HoleList = new List<BaseHole> { RealNextConnectHole };
+            _HoleList = new List<BaseHole> { NextConnectHole };
 
             // Initialize Objects
             _GFunction = function;
@@ -94,8 +94,8 @@ namespace GSharp.Graphic.Scopes
             StackContentText.Text = function.FunctionName;
 
             // Initialize Events
-            RealNextConnectHole.BlockAttached += RealNextConnectHole_BlockChanged;
-            RealNextConnectHole.BlockDetached += RealNextConnectHole_BlockChanged;
+            NextConnectHole.BlockAttached += RealNextConnectHole_BlockChanged;
+            NextConnectHole.BlockDetached += RealNextConnectHole_BlockChanged;
 
             // Initialize Block
             InitializeBlock();
@@ -108,7 +108,7 @@ namespace GSharp.Graphic.Scopes
         {
             _GFunction.Content.Clear();
 
-            List<GBase> content = RealNextConnectHole.StatementBlock?.GObjectList;
+            List<GBase> content = NextConnectHole.StatementBlock?.GObjectList;
             if (content == null) return;
 
             foreach (GBase gbase in content)
