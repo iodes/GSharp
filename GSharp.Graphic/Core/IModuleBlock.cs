@@ -4,6 +4,6 @@ namespace GSharp.Graphic.Core
 {
     public interface IModuleBlock
     {
-        GCommand Command { get; set; }
+        GCommand GCommand { get; }
     }
 }
