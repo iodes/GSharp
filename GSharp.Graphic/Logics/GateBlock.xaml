@@ -15,7 +15,7 @@
             <Border Panel.ZIndex="2" Background="White" BorderBrush="#D5404D" BorderThickness="0,1" Margin="0,0,-2,0">
                 <StackPanel Orientation="Horizontal" Margin="2">
                     <hole:LogicHole x:Name="LogicHole1" />
-                    <ComboBox Name="GateOperator" SelectedIndex="0" Margin="3,0">
+                    <ComboBox Name="Operator" SelectedIndex="0" Margin="3,0">
                         <ComboBoxItem>이면서</ComboBoxItem>
                         <ComboBoxItem>이거나</ComboBoxItem>
                     </ComboBox>
