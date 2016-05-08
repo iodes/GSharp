@@ -23,7 +23,7 @@ namespace GSharp.Graphic.Statements
     /// <summary>
     /// IFBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class LoopNBlock : PrevStatementBlock
+    public partial class LoopNBlock : PrevStatementBlock, IContainChildBlock
     {
         public LoopNBlock()
         {
@@ -93,6 +93,14 @@ namespace GSharp.Graphic.Statements
             get
             {
                 return RealNextConnectHole;
+            }
+        }
+
+        public NextConnectHole ChildConnectHole
+        {
+            get
+            {
+                return RealChildConnectHole;
             }
         }
     }
