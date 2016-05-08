@@ -151,6 +151,7 @@
     <Compile Include="Statements\CallBlock.xaml.cs">
       <DependentUpon>CallBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statements\IContainChildBlock.cs" />
     <Compile Include="Statements\LoopInfinityBlock.xaml.cs">
       <DependentUpon>LoopInfinityBlock.xaml</DependentUpon>
     </Compile>
