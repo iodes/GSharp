@@ -9,14 +9,11 @@ namespace GSharp.Graphic.Core
 {
     public abstract class BaseBlock : UserControl
     {
-        // 블럭을 끼울 수 있는 구멍 목록
-        public virtual List<BaseHole> HoleList
-        {
-            get
-            {
-                return new List<BaseHole>();
-            }
-        }
+        // 블럭을 끼울 수 있는 구멍 목록 - 하위 블럭 포함
+        public List<BaseHole> AllHoleList { get; } = new List<BaseHole>();
+
+        // 블럭을 끼울 수 있는 구멍 목록 - 원래 자신의 블럭만
+        public virtual List<BaseHole> HoleList { get; } = new List<BaseHole>();
 
         // GSharp Object로 변환된 블럭
         public abstract List<GBase> GObjectList { get; }
@@ -56,12 +53,10 @@ namespace GSharp.Graphic.Core
         // 블럭의 모든 Hole에 BlockChanged 이벤트 핸들러 추가
         protected void InitializeBlock()
         {
-            if (HoleList == null) return;
+            AllHoleList.AddRange(HoleList);
 
             foreach (BaseHole hole in HoleList)
             {
-                if (hole == null) continue;
-
                 hole.ParentBlock = this;
                 hole.BlockAttached += OnBlockAttached;
                 hole.BlockDetached += OnBlockDetached;
@@ -75,7 +70,7 @@ namespace GSharp.Graphic.Core
             {
                 foreach (BaseHole hole in block.HoleList)
                 {
-                    HoleList.Add(hole);
+                    AllHoleList.Add(hole);
                 }
 
                 ParentHole?.ParentBlock?.OnBlockAttached(block);
@@ -89,7 +84,7 @@ namespace GSharp.Graphic.Core
             {
                 foreach (BaseHole hole in block.HoleList)
                 {
-                    HoleList.Remove(hole);
+                    AllHoleList.Remove(hole);
                 }
 
                 ParentHole?.ParentBlock?.OnBlockDetached(block);

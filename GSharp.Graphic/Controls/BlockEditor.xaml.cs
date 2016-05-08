@@ -16,6 +16,12 @@ using GSharp.Base.Scopes;
 using GSharp.Graphic.Scopes;
 using System.Collections;
 using GSharp.Graphic.Objects;
+using System.Xml;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Reflection;
+using GSharp.Graphic.Logics;
+using System.Text;
 
 namespace GSharp.Graphic.Controls
 {
@@ -34,7 +40,7 @@ namespace GSharp.Graphic.Controls
             }
         }
         #endregion
-   
+
         #region 객체
         // 선택한 블럭
         private BaseBlock SelectedBlock;
@@ -230,7 +236,7 @@ namespace GSharp.Graphic.Controls
         {
             return VariableList.Keys.ToList();
         }
-        
+
         public List<GDefine> GetDefineList()
         {
             return VariableList.Values.ToList();
@@ -339,7 +345,7 @@ namespace GSharp.Graphic.Controls
         {
             foreach (var hole in CustomHoleList)
             {
-                if (block.HoleList.Contains(hole))
+                if (block.AllHoleList.Contains(hole))
                 {
                     continue;
                 }
@@ -367,7 +373,7 @@ namespace GSharp.Graphic.Controls
         {
             foreach (var hole in holeList)
             {
-                if (block.HoleList.Contains(hole))
+                if (block.AllHoleList.Contains(hole))
                 {
                     continue;
                 }
@@ -440,7 +446,7 @@ namespace GSharp.Graphic.Controls
             {
                 return;
             }
-            
+
             var logicHole = MargnetTarget as LogicHole;
 
             // 연결 대상에 이미 블럭이 존재하는 경우
@@ -593,7 +599,8 @@ namespace GSharp.Graphic.Controls
             }
 
             // StringHole인 경우 연결
-            else */if (MargnetTarget is CustomHole)
+            else */
+            if (MargnetTarget is CustomHole)
             {
                 var customHole = MargnetTarget as CustomHole;
 
@@ -608,7 +615,7 @@ namespace GSharp.Graphic.Controls
                 {
                     // 기존 블럭을 Canvas로 이동
                     var detachedBlock = customHole.DetachBlock();
-                    
+
                     AttachToCanvas(detachedBlock);
                     detachedBlock.Position = block.Position;
                 }
@@ -659,7 +666,7 @@ namespace GSharp.Graphic.Controls
 
             // 블럭의 HoleList를 가져와 BlockEditor에 추가
             List<BaseHole> holeList = block.HoleList;
-            foreach(BaseHole hole in holeList)
+            foreach (BaseHole hole in holeList)
             {
                 Type type = hole.GetType();
 
@@ -696,12 +703,14 @@ namespace GSharp.Graphic.Controls
         // 블럭 삭제
         public void RemoveBlock(BaseBlock block)
         {
+            if (block == null) return;
+
             if (block.ParentHole == null)
             {
                 DetachFromCanvas(block);
             }
             else
-            { 
+            {
                 block.ParentHole.DetachBlock();
             }
 
@@ -734,6 +743,8 @@ namespace GSharp.Graphic.Controls
                 {
                     CustomHoleList.Remove(hole as CustomHole);
                 }
+
+                RemoveBlock(hole.AttachedBlock);
             }
 
             BlockChanged?.Invoke();
@@ -800,5 +811,6 @@ namespace GSharp.Graphic.Controls
             }
         }
         #endregion
+
     }
 }
