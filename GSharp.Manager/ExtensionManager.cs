@@ -23,6 +23,11 @@ namespace GSharp.Manager
         #endregion
 
         #region 생성자
+        public ExtensionManager()
+        {
+
+        }
+
         public ExtensionManager(string valuePath)
         {
             Path = valuePath;
@@ -54,11 +59,32 @@ namespace GSharp.Manager
         #endregion
 
         #region 내부 함수
-        private GExtension LoadExtension(string pathValue)
+        private T GetAttribute<T>(MemberInfo info)
         {
-            Path = pathValue;
+            object[] attributes = info.GetCustomAttributes(true);
+            if (attributes.Length > 0)
+            {
+                foreach (object attribute in attributes)
+                {
+                    if (attribute.GetType() == typeof(T))
+                    {
+                        return (T)attribute;
+                    }
+                }
+            }
 
-            Assembly targetAssembly = Assembly.LoadFrom(Path);
+            return default(T);
+        }
+        #endregion
+
+        #region 사용자 함수
+        /// <summary>
+        /// 확장 모듈을 불러옵니다.
+        /// </summary>
+        /// <param name="pathValue">확장 모듈의 전체 경로입니다.</param>
+        public GExtension LoadExtension(string pathValue)
+        {
+            Assembly targetAssembly = Assembly.LoadFile(pathValue);
             AssemblyName[] name = targetAssembly.GetReferencedAssemblies();
 
             // 객체 생성
@@ -157,25 +183,6 @@ namespace GSharp.Manager
             return target;
         }
 
-        private T GetAttribute<T>(MemberInfo info)
-        {
-            object[] attributes = info.GetCustomAttributes(true);
-            if (attributes.Length > 0)
-            {
-                foreach (object attribute in attributes)
-                {
-                    if (attribute.GetType() == typeof(T))
-                    {
-                        return (T)attribute;
-                    }
-                }
-            }
-
-            return default(T);
-        }
-        #endregion
-
-        #region 사용자 함수
         /// <summary>
         /// 모듈에 포함된 모든 함수를 블럭 배열로 변환합니다.
         /// </summary>
