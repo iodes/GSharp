@@ -145,7 +145,7 @@ namespace GSharp.Compile
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destination, file.Name);
-                file.CopyTo(temppath, false);
+                file.CopyTo(temppath, true);
             }
 
             if (copySubDirs)
