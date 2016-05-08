@@ -82,8 +82,10 @@ namespace GSharp.Graphic.Objects
             _GCompute = new GCompute(null, GCompute.OperatorType.MODULO, null);
 
             // Initialize Event
-            NumberHole1.BlockAttached += NumberHole1_BlockAttached;
-            NumberHole2.BlockAttached += NumberHole2_BlockAttached;
+            NumberHole1.BlockAttached += NumberHole1_BlockChanged;
+            NumberHole1.BlockDetached += NumberHole1_BlockChanged;
+            NumberHole2.BlockAttached += NumberHole2_BlockChanged;
+            NumberHole2.BlockDetached += NumberHole2_BlockChanged;
 
             // Initialize Block
             InitializeBlock();
@@ -92,13 +94,13 @@ namespace GSharp.Graphic.Objects
 
         #region Event
         // NumberHole1 BlockAttached Event
-        private void NumberHole1_BlockAttached(BaseBlock block)
+        private void NumberHole1_BlockChanged(BaseBlock block)
         {
             GCompute.FirstPart = NumberHole1.NumberBlock?.GObject;
         }
 
         // NumberHole2 BlockAttached Event
-        private void NumberHole2_BlockAttached(BaseBlock block)
+        private void NumberHole2_BlockChanged(BaseBlock block)
         {
             GCompute.SecondPart = NumberHole2.NumberBlock?.GObject;
         }
