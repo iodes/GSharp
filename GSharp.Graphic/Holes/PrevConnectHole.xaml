@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d" 
-             Height="10" d:DesignWidth="300" SnapsToDevicePixels="True">
+             mc:Ignorable="d" Height="10" d:DesignWidth="300" SnapsToDevicePixels="True"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    
     <DockPanel>
-        <Rectangle Fill="#D5404D" Height="1" VerticalAlignment="Bottom" Width="9" />
-        <Path Data="M 0,11 L 10,1 20,11 Z" StrokeThickness="1" StrokeLineJoin="Round" Margin="-2, 0" Stroke="#D5404D" Fill="White" />
-        <Rectangle Fill="#D5404D" Height="1" VerticalAlignment="Bottom" />
+        <Rectangle Fill="{Binding BorderColor}" Height="1" VerticalAlignment="Bottom" Width="9" />
+        <Path Data="M 0,11 L 10,1 20,11 Z" StrokeThickness="1" StrokeLineJoin="Round" Margin="-2, 0" Stroke="{Binding BorderColor}" Fill="{Binding BodyColor}" />
+        <Rectangle Fill="{Binding BorderColor}" Height="1" VerticalAlignment="Bottom" />
     </DockPanel>
 </UserControl>
