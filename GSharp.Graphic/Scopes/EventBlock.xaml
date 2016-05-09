@@ -6,19 +6,24 @@
              xmlns:local="clr-namespace:GSharp.Graphic.Scopes"
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d" 
-             d:DesignHeight="51" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
+             mc:Ignorable="d" d:DesignHeight="51" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
+
+    <core:ScopeBlock.Resources>
+        <SolidColorBrush x:Key="BodyColor" Color="#FF2CA5E2"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#FF268ABD"/>
+    </core:ScopeBlock.Resources>
+    
     <StackPanel Orientation="Vertical">
-        <Border BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" BorderBrush="#D5404D" Height="5" Background="White" CornerRadius="2,2,0,0" />
-        <Border Background="white" BorderThickness="1,0,1,0" BorderBrush="#D5404D">
+        <Border BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" BorderBrush="{StaticResource BorderColor}" Height="5" Background="{StaticResource BodyColor}" CornerRadius="2,2,0,0" />
+        <Border Background="{StaticResource BodyColor}" BorderThickness="1,0,1,0" BorderBrush="{StaticResource BorderColor}">
             <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="3">
-                <TextBlock x:Name="StackContentText"></TextBlock>
+                <TextBlock x:Name="StackContentText" Foreground="White" FontWeight="Bold" Margin="5,2"/>
             </StackPanel>
         </Border>
         <Grid>
-            <Border BorderThickness="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,0,2" />
-            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Bottom" />
-            <Border BorderThickness="0,0,1,1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="#D5404D" Height="10" Background="White" CornerRadius="0,0,2,0" />
+            <Border BorderThickness="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="{StaticResource BorderColor}" Height="10" Background="{StaticResource BodyColor}" CornerRadius="0,0,0,2" />
+            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Bottom" BodyColor="{StaticResource BodyColor}" BorderColor="{StaticResource BorderColor}"/>
+            <Border BorderThickness="0,0,1,1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="{StaticResource BorderColor}" Height="10" Background="{StaticResource BodyColor}" CornerRadius="0,0,2,0" />
         </Grid>
     </StackPanel>
 </core:ScopeBlock>
