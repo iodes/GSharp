@@ -31,7 +31,7 @@
         <Grid>
             <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,0" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="17" Height="10" Margin="0,0,0,0"/>
             <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,1,0" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="17" Margin="0,10,0,0"/>
-            <Border BorderBrush="{StaticResource BorderColor}" Margin="16,0,0,0" BorderThickness="0,0,0,1" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" Width="5" Height="10"/>
+            <Border BorderBrush="{StaticResource BorderColor}" Margin="16,0,0,0" BorderThickness="0,0,0,1" Background="{StaticResource BodyColor}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="5" Height="10"/>
             <hole:NextConnectHole x:Name="RealChildConnectHole" Margin="20,0,5,0" VerticalAlignment="Top" BodyColor="{StaticResource BodyColor}" BorderColor="{StaticResource BorderColor}"/>
             <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,1,1" Width="5" Height="10" Background="{StaticResource BodyColor}" CornerRadius="0,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
