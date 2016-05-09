@@ -8,37 +8,43 @@
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
              d:DesignHeight="90" d:DesignWidth="200" SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+    <local:PrevStatementBlock.Resources>
+        <SolidColorBrush x:Key="BodyColor" Color="#FFE1A91A"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#FFBD8F18"/>
+    </local:PrevStatementBlock.Resources>
+    
     <StackPanel Orientation="Vertical">
         <Grid>
-            <Border BorderBrush="#D5404D" BorderThickness="1,1,0,0" Margin="0,9,0,0" Width="5" Height="4" Background="White" CornerRadius="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Border BorderBrush="White" BorderThickness="0,0,0,3" Margin="5,0" VerticalAlignment="Top">
-                <hole:PrevConnectHole />
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,1,0,0" Margin="0,9,0,0" Width="5" Height="4" Background="{StaticResource BodyColor}" CornerRadius="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Border BorderBrush="{StaticResource BodyColor}" BorderThickness="0,0,0,3" Margin="5,0" VerticalAlignment="Top">
+                <hole:PrevConnectHole BodyColor="{StaticResource BodyColor}" BorderColor="{StaticResource BorderColor}"/>
             </Border>
-            <Border BorderBrush="#D5404D" BorderThickness="0,1,1,0" Margin="0,9,0,0" Width="5" Height="4" Background="White" CornerRadius="0,2,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,1,0" Margin="0,9,0,0" Width="5" Height="4" Background="{StaticResource BodyColor}" CornerRadius="0,2,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
         </Grid>
-        <Border BorderThickness="1,0" BorderBrush="#D5404D" Background="white" Padding="3 0">
+        <Border BorderThickness="1,0" BorderBrush="{StaticResource BorderColor}" Background="{StaticResource BodyColor}" Padding="10,3">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                <hole:ObjectHole x:Name="ObjectHole" VerticalAlignment="Center" Margin="0 0 3 0"/>
-                <TextBlock VerticalAlignment="Center">번 반복</TextBlock>
+                <hole:ObjectHole x:Name="ObjectHole" VerticalAlignment="Center" Margin="0 0 3 0" Foreground="#FFA87E14"/>
+                <TextBlock Text="번 반복" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Margin="2,0,0,0"/>
             </StackPanel>
         </Border>
         <Grid>
-            <Border BorderBrush="#D5404D" BorderThickness="1,0,0,0" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="17" Height="10" Margin="0,0,0,0"/>
-            <Border BorderBrush="#D5404D" BorderThickness="1,0,1,0" Background="White" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="17" Margin="0,10,0,0"/>
-            <Border BorderBrush="#D5404D" Margin="16,0,0,0" BorderThickness="0,0,0,1" Background="White" HorizontalAlignment="Left" Width="5" Height="10" />
-            <hole:NextConnectHole x:Name="RealChildConnectHole" Margin="20,0,5,0" VerticalAlignment="Top" />
-            <Border BorderBrush="#D5404D" BorderThickness="0,0,1,1" Width="5" Height="10" Background="White" CornerRadius="0,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,0" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="17" Height="10" Margin="0,0,0,0"/>
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,1,0" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="17" Margin="0,10,0,0"/>
+            <Border BorderBrush="{StaticResource BorderColor}" Margin="16,0,0,0" BorderThickness="0,0,0,1" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" Width="5" Height="10"/>
+            <hole:NextConnectHole x:Name="RealChildConnectHole" Margin="20,0,5,0" VerticalAlignment="Top" BodyColor="{StaticResource BodyColor}" BorderColor="{StaticResource BorderColor}"/>
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,1,1" Width="5" Height="10" Background="{StaticResource BodyColor}" CornerRadius="0,0,2,0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         </Grid>
-        <Border BorderBrush="#D5404D" BorderThickness="1,0,1,0" Background="White" HorizontalAlignment="Left" Width="17" Height="10" />
+        <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,1,0" Background="{StaticResource BodyColor}" HorizontalAlignment="Left" Width="17" Height="10"/>
         <Grid>
-            <Border BorderBrush="#D5404D" BorderThickness="1,0,0,0" Height="5" Width="16" HorizontalAlignment="Left" Background="White" />
-            <Border BorderBrush="#D5404D" BorderThickness="0,1,0,0" Margin="16,0,5,0" Height="5" HorizontalAlignment="Stretch" Background="White" />
-            <Border BorderBrush="#D5404D" BorderThickness="0,1,1,0" Height="5" Width="5" HorizontalAlignment="Right" CornerRadius="0,2,0,0" Background="White" />
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,0" Height="5" Width="16" HorizontalAlignment="Left" Background="{StaticResource BodyColor}"/>
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,0,0" Margin="16,0,5,0" Height="5" HorizontalAlignment="Stretch" Background="{StaticResource BodyColor}"/>
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,1,1,0" Height="5" Width="5" HorizontalAlignment="Right" CornerRadius="0,2,0,0" Background="{StaticResource BodyColor}"/>
         </Grid>
         <Grid>
-            <Border BorderBrush="#D5404D" BorderThickness="1,0,0,1" CornerRadius="0,0,0,2" Height="10" Width="5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="White" />
-            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
-            <Border BorderBrush="#D5404D" BorderThickness="0,0,1,1" Height="10" Width="5" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="0,0,2,0" Background="White" />
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="1,0,0,1" CornerRadius="0,0,0,2" Height="10" Width="5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{StaticResource BodyColor}" />
+            <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" BodyColor="{StaticResource BodyColor}" BorderColor="{StaticResource BorderColor}"/>
+            <Border BorderBrush="{StaticResource BorderColor}" BorderThickness="0,0,1,1" Height="10" Width="5" HorizontalAlignment="Right" VerticalAlignment="Top" CornerRadius="0,0,2,0" Background="{StaticResource BodyColor}" />
         </Grid>
     </StackPanel>
 </local:PrevStatementBlock>
