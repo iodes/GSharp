@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:GSharp.Graphic.Objects"
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
+
+    <Border HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="1" CornerRadius="2" Padding="3">
         <StackPanel Orientation="Horizontal">
-            <hole:NumberHole x:Name="NumberHole1" VerticalAlignment="Center" />
-            <TextBlock VerticalAlignment="Center" Margin="4,0">÷</TextBlock>
-            <hole:NumberHole x:Name="NumberHole2" VerticalAlignment="Center" />
+            <hole:NumberHole x:Name="NumberHole1" VerticalAlignment="Center" Foreground="#FF3B760B"/>
+            <TextBlock Width="10" Margin="4,0" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Text="÷" TextAlignment="Center"/>
+            <hole:NumberHole x:Name="NumberHole2" VerticalAlignment="Center" Foreground="#FF3B760B"/>
         </StackPanel>
     </Border>
 </local:NumberBlock>

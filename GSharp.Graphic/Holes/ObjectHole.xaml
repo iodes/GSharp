@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="26">
-    <Border x:Name="BlockHole" Background="#C8C8C8" CornerRadius="2" MinWidth="20" MinHeight="20"></Border>
+             mc:Ignorable="d" Foreground="DarkGreen">
+
+    <Border x:Name="BlockHole" Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" MinWidth="20" MinHeight="20"></Border>
 </local:BaseObjectHole>
