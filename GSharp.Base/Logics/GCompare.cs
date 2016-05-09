@@ -62,7 +62,7 @@ namespace GSharp.Base.Logics
                     break;
 
                 case ConditionType.GREATER_THEN_OR_EQUAL:
-                    conditionText = "<=";
+                    conditionText = ">=";
                     break;
             }
 

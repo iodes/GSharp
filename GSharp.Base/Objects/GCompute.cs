@@ -63,9 +63,9 @@ namespace GSharp.Base.Objects
             return string.Format
                 (
                     "({0} {1} {2})",
-                    FirstPart.ToSource(),
+                    FirstPart?.ToSource(),
                     operatorText,
-                    SecondPart.ToSource()
+                    SecondPart?.ToSource()
                 );
         }
     }
