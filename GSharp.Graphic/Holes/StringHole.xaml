@@ -5,16 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
              xmlns:object="clr-namespace:GSharp.Graphic.Objects"
-             mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="30">
+             mc:Ignorable="d" Foreground="DarkGreen">
+    
     <StackPanel Orientation="Horizontal">
-        <TextBlock>"</TextBlock>
-        <Border Background="#C8C8C8" CornerRadius="2" MinWidth="20" MinHeight="20">
+        <TextBlock Foreground="White" FontWeight="Bold">"</TextBlock>
+        <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" MinWidth="20" MinHeight="20">
             <Grid>
-                <object:StringConstBlock x:Name="BlockString" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></object:StringConstBlock>
-                <Border x:Name="BlockHole"></Border>
+                <object:StringConstBlock x:Name="BlockString" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Border x:Name="BlockHole"/>
             </Grid>
         </Border>
-        <TextBlock>"</TextBlock>
+        <TextBlock Foreground="White" FontWeight="Bold">"</TextBlock>
     </StackPanel>
 </local:BaseObjectHole>

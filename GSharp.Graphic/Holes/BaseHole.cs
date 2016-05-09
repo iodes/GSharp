@@ -52,7 +52,10 @@ namespace GSharp.Graphic.Holes
             // StringHole
             if (holeType == typeof(string))
             {
-                return new StringHole();
+                return new StringHole
+                {
+                    Foreground = new BrushConverter().ConvertFromString("#086748") as Brush
+                };
             }
             // NumberHole
 

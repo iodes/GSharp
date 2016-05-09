@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GSharp.Graphic.Core
 {
@@ -36,12 +38,15 @@ namespace GSharp.Graphic.Core
                     if (int.TryParse(holeNumber, out number) && 0 <= number && number < argumentList.Length)
                     {
                         BaseHole hole = BaseHole.CreateHole(argumentList[number]);
-                        hole.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                        hole.Foreground = new BrushConverter().ConvertFromString("#086748") as Brush;
+                        hole.VerticalAlignment = VerticalAlignment.Center;
                         
                         Content.Children.Add(new TextBlock
                         {
                             Text = text,
-                            VerticalAlignment = System.Windows.VerticalAlignment.Center
+                            FontWeight = FontWeights.Bold,
+                            Foreground = Brushes.White,
+                            VerticalAlignment = VerticalAlignment.Center
                         });
                         Content.Children.Add(hole);
                         holeList.Add(hole);
@@ -56,7 +61,9 @@ namespace GSharp.Graphic.Core
             Content.Children.Add(new TextBlock
             {
                 Text = lastText,
-                VerticalAlignment = System.Windows.VerticalAlignment.Center
+                FontWeight = FontWeights.Bold,
+                Foreground = Brushes.White,
+                VerticalAlignment = VerticalAlignment.Center
             });
 
             return holeList;
