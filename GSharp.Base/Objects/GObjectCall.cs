@@ -2,12 +2,11 @@
 using System.Linq;
 using GSharp.Base.Cores;
 using GSharp.Extension;
-using GSharp.Base.Objects;
 
-namespace GSharp.Base.Logics
+namespace GSharp.Base.Objects
 {
     [Serializable]
-    public class GLogicCall : GLogic
+    public class GObjectCall : GObject
     {
         #region 객체
         private GCommand targetCommand;
@@ -15,12 +14,12 @@ namespace GSharp.Base.Logics
         #endregion
 
         #region 생성자
-        public GLogicCall(GCommand valueMethod)
+        public GObjectCall(GCommand valueMethod)
         {
             targetCommand = valueMethod;
         }
 
-        public GLogicCall(GCommand valueMethod, GObject[] valueArguments)
+        public GObjectCall(GCommand valueMethod, GObject[] valueArguments)
         {
             targetCommand = valueMethod;
             targetArguments = valueArguments;

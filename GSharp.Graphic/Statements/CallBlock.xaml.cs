@@ -28,24 +28,23 @@ namespace GSharp.Graphic.Statements
     /// </summary>
     public partial class CallBlock : PrevStatementBlock, IModuleBlock
     {
-        private List<BaseHole> holeList;
-
-        public GCommand GCommand { get; set; }
-        public GFunction GFunction { get; set; }
-
-        public CallBlock(GCommand command)
+        public override List<BaseHole> HoleList
         {
-            InitializeComponent();
-            GCommand = command;
-            holeList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, WrapContent);
-            holeList.Add(NextConnectHole);
-            InitializeBlock();
+            get
+            {
+                return _HoleList;
+            }
         }
+        private List<BaseHole> _HoleList;
 
-        public CallBlock(GFunction function)
+        public GCommand GCommand
         {
-            GFunction = function;
+            get
+            {
+                return _GCommand;
+            }
         }
+        private GCommand _GCommand;
 
         public override NextConnectHole NextConnectHole
         {
@@ -69,14 +68,9 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                if (GFunction != null)
-                {
-                    return new GCall(GFunction, new GObject[] { });
-                }
-
                 List<GObject> objectList = new List<GObject>();
 
-                foreach (BaseHole hole in holeList)
+                foreach (BaseHole hole in HoleList)
                 {
                     if (hole.ParentBlock != this) continue;
 
@@ -118,12 +112,16 @@ namespace GSharp.Graphic.Statements
             }
         }
 
-        public override List<BaseHole> HoleList
+        public CallBlock(GCommand command)
         {
-            get
-            {
-                return holeList;
-            }
+            InitializeComponent();
+
+            _GCommand = command;
+
+            _HoleList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, WrapContent);
+            _HoleList.Add(NextConnectHole);
+
+            InitializeBlock();
         }
     }
 }

@@ -215,7 +215,32 @@ namespace GSharp.Manager
                 switch (command.MethodType)
                 {
                     case GCommand.CommandType.Call:
-                        blockList.Add(new CallBlock(command));
+                        if (numberTypes.Contains(command.ObjectType))
+                        {
+                            blockList.Add(new NumberPropertyBlock(command));
+                            break;
+                        }
+
+                        if (command.ObjectType == typeof(string))
+                        {
+                            blockList.Add(new StringCallBlock(command));
+                            break;
+                        }
+
+                        if (command.ObjectType == typeof(bool))
+                        {
+                            blockList.Add(new LogicCallBlock(command));
+                            break;
+                        }
+
+                        if (command.ObjectType == typeof(void))
+                        {
+                            blockList.Add(new CallBlock(command));
+                            break;
+                        }
+
+                        blockList.Add(new CustomCallBlock(command));
+
                         break;
 
                     case GCommand.CommandType.Logic:
@@ -236,6 +261,12 @@ namespace GSharp.Manager
                         if (command.ObjectType == typeof(string))
                         {
                             blockList.Add(new StringPropertyBlock(command));
+                            break;
+                        }
+
+                        if (command.ObjectType == typeof(bool))
+                        {
+                            blockList.Add(new LogicPropertyBlock(command));
                             break;
                         }
 

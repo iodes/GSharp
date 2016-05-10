@@ -50,6 +50,8 @@
     <Compile Include="Logics\GCompare.cs" />
     <Compile Include="Logics\GGate.cs" />
     <Compile Include="Logics\GLogicCall.cs" />
+    <Compile Include="Logics\GLogicProperty.cs" />
+    <Compile Include="Objects\GObjectCall.cs" />
     <Compile Include="Objects\GCompute.cs" />
     <Compile Include="Objects\GNumber.cs" />
     <Compile Include="Objects\GProperty.cs" />

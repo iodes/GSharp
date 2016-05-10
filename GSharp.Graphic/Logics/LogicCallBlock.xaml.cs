@@ -73,6 +73,14 @@ namespace GSharp.Graphic.Logics
             }
         }
 
+        public override GObject GObject
+        {
+            get
+            {
+                return GLogicCall;
+            }
+        }
+
         public override List<GBase> GObjectList
         {
             get

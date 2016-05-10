@@ -92,6 +92,9 @@
     <Compile Include="Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logics\LogicPropertyBlock.xaml.cs">
+      <DependentUpon>LogicPropertyBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\CustomBlock.cs" />
     <Compile Include="Objects\CustomVariableBlock.xaml.cs">
       <DependentUpon>CustomVariableBlock.xaml</DependentUpon>
@@ -111,6 +114,15 @@
     </Compile>
     <Compile Include="Objects\CustomPropertyBlock.xaml.cs">
       <DependentUpon>CustomPropertyBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\CustomCallBlock.xaml.cs">
+      <DependentUpon>CustomCallBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\NumberCallBlock.xaml.cs">
+      <DependentUpon>NumberCallBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\StringCallBlock.xaml.cs">
+      <DependentUpon>StringCallBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\StringPropertyBlock.xaml.cs">
       <DependentUpon>StringPropertyBlock.xaml</DependentUpon>
@@ -226,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Logics\LogicPropertyBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Objects\CustomVariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -247,6 +263,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\CustomPropertyBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\CustomCallBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\NumberCallBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\StringCallBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
