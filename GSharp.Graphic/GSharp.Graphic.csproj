@@ -109,6 +109,9 @@
     <Compile Include="Objects\MinusBlock.xaml.cs">
       <DependentUpon>MinusBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\CustomPropertyBlock.xaml.cs">
+      <DependentUpon>CustomPropertyBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\StringPropertyBlock.xaml.cs">
       <DependentUpon>StringPropertyBlock.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\MinusBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\CustomPropertyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

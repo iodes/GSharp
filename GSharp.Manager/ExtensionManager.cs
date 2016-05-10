@@ -186,6 +186,22 @@ namespace GSharp.Manager
             return target;
         }
 
+        private static Type[] numberTypes = new Type[] {
+            typeof(Char),
+
+            typeof(Int16),
+            typeof(UInt16),
+
+            typeof(Int32),
+            typeof(UInt32),
+
+            typeof(Int64),
+            typeof(UInt64),
+
+            typeof(Single),
+            typeof(Double),
+        };
+
         /// <summary>
         /// 모듈에 포함된 모든 함수를 블럭 배열로 변환합니다.
         /// </summary>
@@ -211,7 +227,19 @@ namespace GSharp.Manager
                         break;
 
                     case GCommand.CommandType.Property:
-                        blockList.Add(new StringPropertyBlock(command));
+                        if (numberTypes.Contains(command.ObjectType))
+                        {
+                            blockList.Add(new NumberPropertyBlock(command));
+                            break;
+                        }
+
+                        if (command.ObjectType == typeof(string))
+                        {
+                            blockList.Add(new StringPropertyBlock(command));
+                            break;
+                        }
+
+                        blockList.Add(new CustomPropertyBlock(command));
                         break;
                 }
             }

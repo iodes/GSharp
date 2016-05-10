@@ -57,8 +57,8 @@ namespace GSharp.Graphic.Holes
                     Foreground = new BrushConverter().ConvertFromString("#086748") as Brush
                 };
             }
-            // NumberHole
 
+            // NumberHole
             if (numberTypes.Contains(holeType))
             {
                 return new NumberHole();
