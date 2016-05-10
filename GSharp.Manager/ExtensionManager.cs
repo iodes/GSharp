@@ -110,6 +110,7 @@ namespace GSharp.Manager
                                     value.FullName,
                                     property.Name,
                                     command.Name,
+                                    property.GetMethod.ReturnType,
                                     GCommand.CommandType.Property
                                 )
                             );
@@ -130,6 +131,7 @@ namespace GSharp.Manager
                                     value.FullName,
                                     info.Name,
                                     command.Name,
+                                    info.ReturnType,
                                     info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic,
                                     (from parameter in info.GetParameters() select parameter.ParameterType).ToArray()
                                 )
@@ -167,6 +169,7 @@ namespace GSharp.Manager
                                     value.FullName,
                                     info.Name,
                                     command.Name,
+                                    eventDelegateMethod?.ReturnType,
                                     GCommand.CommandType.Event,
                                     eventDelegateMethod != null ? (from parameter in eventDelegateMethod.GetParameters() select parameter.ParameterType).ToArray() : null
                                 )

@@ -888,6 +888,7 @@ namespace GSharp.Graphic.Controls
                 writer.WriteAttributeString("NamespaceName", moduleBlock.GCommand.NamespaceName);
                 writer.WriteAttributeString("MethodName", moduleBlock.GCommand.MethodName);
                 writer.WriteAttributeString("MethodType", moduleBlock.GCommand.MethodType.ToString());
+                writer.WriteAttributeString("ObjectType", moduleBlock.GCommand.ObjectType.ToString());
 
                 if (moduleBlock.GCommand.Arguments?.Length > 0)
                 { 
@@ -1015,6 +1016,7 @@ namespace GSharp.Graphic.Controls
                     var namespaceName = element.GetAttribute("NamespaceName");
                     var methodName = element.GetAttribute("MethodName");
                     var methodType = (GCommand.CommandType) Enum.Parse(typeof(GCommand.CommandType), element.GetAttribute("MethodType"));
+                    var objectType = Type.GetType(element.GetAttribute("ObjectType"));
 
                     var commandArgList = new List<Type>();
 
@@ -1028,7 +1030,7 @@ namespace GSharp.Graphic.Controls
                         }
                     }
 
-                    var command = new GCommand(namespaceName, methodName, friendlyName, methodType, commandArgList.ToArray());
+                    var command = new GCommand(namespaceName, methodName, friendlyName, objectType, methodType, commandArgList.ToArray());
                     argList.Add(command);
                 }
 

@@ -23,14 +23,14 @@ namespace GSharpSample
             GVariable var = def.GetVariable();
             entry.Append(def);
 
-            GEvent main = new GEvent(new GCommand("this", "Loaded", GCommand.CommandType.Event));
+            GEvent main = new GEvent(new GCommand("this", "Loaded", typeof(void), GCommand.CommandType.Event));
             GSet setValue = new GSet(ref var, new GNumber(5));
             main.Append(setValue);
 
             GIF ifCheck = new GIF(new GCompare(var, GCompare.ConditionType.GREATER_THEN, new GNumber(3)));
             ifCheck.Append(
                 new GCall(
-                    new GCommand("Console", "WriteLine", GCommand.CommandType.Call),
+                    new GCommand("Console", "WriteLine", typeof(void), GCommand.CommandType.Call),
                     new GObject[] { new GCompute(new GString("A"), GCompute.OperatorType.PLUS, new GNumber(5)) }
                 )
             );
