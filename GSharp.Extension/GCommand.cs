@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace GSharp.Extension
@@ -25,6 +26,15 @@ namespace GSharp.Extension
             }
         }
         private Type[] _Arguments;
+
+        public Type ObjectType
+        {
+            get
+            {
+                return _ObjectType;
+            }
+        }
+        private Type _ObjectType;
 
         public string MethodName
         {
@@ -91,19 +101,18 @@ namespace GSharp.Extension
         #endregion
 
         #region 생성자
-        public GCommand(string methodName, CommandType methodType, Type[] arguments = null)
+        public GCommand(string methodName, Type objectType, CommandType methodType, Type[] arguments = null)
         {
+            _ObjectType = objectType;
             _MethodName = methodName;
-            _Arguments = arguments;
             _MethodType = methodType;
+            _Arguments = arguments;
 
-            // MD5 Hash
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            using (MD5 md5 = MD5.Create())
             {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(FullName);
+                byte[] inputBytes = Encoding.UTF8.GetBytes(FullName);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                // Convert the byte array to hexadecimal string
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < hashBytes.Length; i++)
                 {
@@ -114,20 +123,20 @@ namespace GSharp.Extension
             }
         }
 
-        public GCommand(string namespaceName, string methodName, CommandType methodType, Type[] arguments = null)
-            : this(methodName, methodType, arguments)
+        public GCommand(string namespaceName, string methodName, Type objectType, CommandType methodType, Type[] arguments = null)
+            : this(methodName, objectType, methodType, arguments)
         {
             _NamespaceName = namespaceName;
         }
 
-        public GCommand(string namespaceName, string methodName, string friendlyName, CommandType methodType, Type[] arguments = null)
-            : this(namespaceName, methodName, methodType, arguments)
+        public GCommand(string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, Type[] arguments = null)
+            : this(namespaceName, methodName, objectType, methodType, arguments)
         {
             _FriendlyName = friendlyName;
         }
 
-        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, CommandType methodType, Type[] arguments = null)
-            : this(namespaceName, methodName, friendlyName, methodType, arguments)
+        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, Type[] arguments = null)
+            : this(namespaceName, methodName, friendlyName, objectType, methodType, arguments)
         {
             _Parent = parent;
         }
