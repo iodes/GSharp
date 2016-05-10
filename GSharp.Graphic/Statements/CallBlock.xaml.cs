@@ -28,8 +28,25 @@ namespace GSharp.Graphic.Statements
     /// </summary>
     public partial class CallBlock : PrevStatementBlock, IModuleBlock
     {
-        #region Holes
-        // NextConnectHole
+        private List<BaseHole> holeList;
+
+        public GCommand GCommand { get; set; }
+        public GFunction GFunction { get; set; }
+
+        public CallBlock(GCommand command)
+        {
+            InitializeComponent();
+            GCommand = command;
+            holeList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, WrapContent);
+            holeList.Add(NextConnectHole);
+            InitializeBlock();
+        }
+
+        public CallBlock(GFunction function)
+        {
+            GFunction = function;
+        }
+
         public override NextConnectHole NextConnectHole
         {
             get
@@ -38,44 +55,45 @@ namespace GSharp.Graphic.Statements
             }
         }
 
-        // HoleList
-        public override List<BaseHole> HoleList
+        public override StatementBlock GetLastBlock()
         {
-            get
+            if (NextConnectHole.StatementBlock == null)
             {
-                return _HoleList;
+                return this;
             }
-        }
-        private List<BaseHole> _HoleList;
-        #endregion
 
-        #region Objects
-        public GCommand GCommand
-        {
-            get
-            {
-                return _GCommand;
-            }
+            return NextConnectHole.StatementBlock.GetLastBlock();
         }
-        private GCommand _GCommand;
-
-        public GFunction GFunction
-        {
-            get
-            {
-                return _GFunction;
-            }
-        }
-        private GFunction _GFunction;
 
         public GCall GCall
         {
             get
             {
-                return _GCall;
+                if (GFunction != null)
+                {
+                    return new GCall(GFunction, new GObject[] { });
+                }
+
+                List<GObject> objectList = new List<GObject>();
+
+                foreach (BaseHole hole in holeList)
+                {
+                    if (hole.ParentBlock != this) continue;
+
+                    if (!(hole is NextConnectHole) && hole.AttachedBlock == null)
+                    {
+                        throw new ToObjectException(GCommand.FriendlyName + " / " + hole.ToString() + "블럭이 완성되지 않았습니다.", this);
+                    }
+
+                    if (hole is BaseObjectHole)
+                    {
+                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.GObjectList[0] as GObject);
+                    }
+                }
+
+                return new GCall(GCommand, objectList.ToArray());
             }
         }
-        private GCall _GCall;
 
         public override GStatement GStatement
         {
@@ -99,65 +117,12 @@ namespace GSharp.Graphic.Statements
                 return baseList;
             }
         }
-        #endregion
 
-        public CallBlock(GCommand command)
+        public override List<BaseHole> HoleList
         {
-            // Initiailze Component
-            InitializeComponent();
-
-            // Initialize Hole List
-            _HoleList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, WrapContent);
-
-            // Initialize Objects
-            _GCommand = command;
-
-            var objectList = new List<GObject>();
-
-            foreach (BaseHole hole in _HoleList)
+            get
             {
-                hole.BlockAttached += ObjectHole_BlockChanged;
-                hole.BlockDetached += ObjectHole_BlockChanged;
-                objectList.Add(null);
-            }
-            _GCall = new GCall(command, objectList.ToArray());
-
-            _HoleList.Add(NextConnectHole);
-
-            // Initialize Block
-            InitializeBlock();
-        }
-
-        public CallBlock(GFunction function)
-        {
-            // Initiailze Component
-            InitializeComponent();
-
-            // Initialize Function
-            _GFunction = function;
-            _GCall = new GCall(function);
-
-            // Initialize Block
-            InitializeBlock();
-        }
-
-        public override StatementBlock GetLastBlock()
-        {
-            if (NextConnectHole.StatementBlock == null)
-            {
-                return this;
-            }
-
-            return NextConnectHole.StatementBlock.GetLastBlock();
-        }
-
-        private void ObjectHole_BlockChanged(BaseBlock block)
-        {
-            int idx = 0;
-            foreach (BaseHole hole in _HoleList)
-            {
-                if (hole is NextConnectHole) continue;
-                _GCall.targetArguments[idx++] = (hole as BaseObjectHole).BaseObjectBlock?.GObject;
+                return holeList;
             }
         }
     }
