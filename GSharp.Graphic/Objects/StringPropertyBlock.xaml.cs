@@ -21,9 +21,9 @@ using GSharp.Extension;
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// PropertyBlock.xaml에 대한 상호 작용 논리
+    /// StringPropertyBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PropertyBlock : ObjectBlock, IModuleBlock
+    public partial class StringPropertyBlock : StringBlock, IModuleBlock
     {
 
         public GCommand GCommand
@@ -62,7 +62,7 @@ namespace GSharp.Graphic.Objects
         private List<GBase> _GObjectList;
 
         // 생성자
-        public PropertyBlock(GCommand command)
+        public StringPropertyBlock(GCommand command)
         {
             InitializeComponent();
 

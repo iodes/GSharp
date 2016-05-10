@@ -109,6 +109,9 @@
     <Compile Include="Objects\MinusBlock.xaml.cs">
       <DependentUpon>MinusBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\StringPropertyBlock.xaml.cs">
+      <DependentUpon>StringPropertyBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\StringVariableBlock.xaml.cs">
       <DependentUpon>StringVariableBlock.xaml</DependentUpon>
     </Compile>
@@ -123,8 +126,8 @@
     <Compile Include="Objects\NumberConstBlock.xaml.cs">
       <DependentUpon>NumberConstBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\PropertyBlock.xaml.cs">
-      <DependentUpon>PropertyBlock.xaml</DependentUpon>
+    <Compile Include="Objects\NumberPropertyBlock.xaml.cs">
+      <DependentUpon>NumberPropertyBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\NumberVariableBlock.xaml.cs">
       <DependentUpon>NumberVariableBlock.xaml</DependentUpon>
@@ -240,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Objects\StringPropertyBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Objects\StringVariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -256,7 +263,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\PropertyBlock.xaml">
+    <Page Include="Objects\NumberPropertyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,14 @@
+﻿<local:StringBlock x:Class="GSharp.Graphic.Objects.StringPropertyBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GSharp.Graphic.Objects"
+             xmlns:core="clr-namespace:GSharp.Graphic.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+    <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
+        <TextBlock x:Name="PropertyName"></TextBlock>
+    </Border>
+</local:StringBlock>

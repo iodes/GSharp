@@ -208,7 +208,7 @@ namespace GSharp.Manager
                         break;
 
                     case GCommand.CommandType.Property:
-                        blockList.Add(new PropertyBlock(command));
+                        blockList.Add(new StringPropertyBlock(command));
                         break;
                 }
             }
