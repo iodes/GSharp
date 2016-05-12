@@ -3,12 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.CSharp;
 using GSharp.Base.Utilities;
-using System.Threading.Tasks;
 
 namespace GSharp.Compile
 {
@@ -265,7 +265,6 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        /// <returns></returns>
         public GCompilerResults Build(string path, bool isExecutable = false)
         {
             parameters.OutputAssembly = path;
@@ -296,6 +295,16 @@ namespace GSharp.Compile
             }
 
             return results;
+        }
+
+        /// <summary>
+        /// 소스를 빌드하여 컴파일된 파일을 비동기로 생성합니다.
+        /// </summary>
+        /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
+        /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
+        public async Task<GCompilerResults> BuildAsync(string path, bool isExecutable = false)
+        {
+            return await Task.Run(() => Build(path, isExecutable));
         }
         #endregion
     }
