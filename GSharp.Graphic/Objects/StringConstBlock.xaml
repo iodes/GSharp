@@ -7,5 +7,6 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Core"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <TextBox x:Name="StringText" VerticalAlignment="Center" Background="Transparent" HorizontalAlignment="Stretch" BorderThickness="0" Padding="2" TextAlignment="Center" TextChanged="StringText_TextChanged"></TextBox>
+
+    <TextBox x:Name="StringText" VerticalAlignment="Center" Foreground="White" Background="Transparent" HorizontalAlignment="Stretch" BorderThickness="0" Padding="2" TextAlignment="Center" TextChanged="StringText_TextChanged"/>
 </local:StringBlock>
