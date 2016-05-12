@@ -22,6 +22,24 @@ namespace GSharp.Manager
         public List<GExtension> Extensions { get; set; } = new List<GExtension>();
         #endregion
 
+        #region 객체
+        private static Type[] numberTypes = new Type[] {
+            typeof(char),
+
+            typeof(short),
+            typeof(ushort),
+
+            typeof(int),
+            typeof(uint),
+
+            typeof(long),
+            typeof(ulong),
+
+            typeof(float),
+            typeof(double),
+        };
+        #endregion
+
         #region 생성자
         public ExtensionManager()
         {
@@ -185,22 +203,6 @@ namespace GSharp.Manager
 
             return target;
         }
-
-        private static Type[] numberTypes = new Type[] {
-            typeof(Char),
-
-            typeof(Int16),
-            typeof(UInt16),
-
-            typeof(Int32),
-            typeof(UInt32),
-
-            typeof(Int64),
-            typeof(UInt64),
-
-            typeof(Single),
-            typeof(Double),
-        };
 
         /// <summary>
         /// 모듈에 포함된 모든 함수를 블럭 배열로 변환합니다.
