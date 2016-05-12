@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Microsoft.CSharp;
 using GSharp.Base.Utilities;
+using System.Threading.Tasks;
 
 namespace GSharp.Compile
 {
@@ -165,68 +166,77 @@ namespace GSharp.Compile
         /// <param name="path">외부 참조 파일의 경로입니다.</param>
         public void LoadReference(string path)
         {
-            // 참조 추가
             if (!IsNameContains(References, path))
             {
+                // 참조 추가
                 References.Add(path);
-            }
 
-            // 참조의 종속성 검사
-            foreach (AssemblyName assembly in Assembly.LoadFrom(path).GetReferencedAssemblies())
-            {
-                // 참조 종속성 검사
-                string referencesName = null;
-                string dllPath = string.Format(@"{0}\{1}.dll", Path.GetDirectoryName(path), assembly.Name);
-                if (File.Exists(dllPath))
+                // 참조의 종속성 검사
+                foreach (AssemblyName assembly in Assembly.LoadFrom(path).GetReferencedAssemblies())
                 {
-                    // 동일 경로에 존재
-                    referencesName = dllPath;
-                }
-                else
-                {
-                    // 동일 경로에 없음
-                    // 외부 종속성 중복 검사
-                    if ((from callingAssembly
-                         in Assembly.GetCallingAssembly().GetReferencedAssemblies()
-                         select callingAssembly.Name).Contains(assembly.Name))
+                    // 참조 종속성 검사
+                    string referencesName = null;
+                    string dllPath = string.Format(@"{0}\{1}.dll", Path.GetDirectoryName(path), assembly.Name);
+                    if (File.Exists(dllPath))
                     {
-                        continue;
-                    }
-
-                    // 글로벌 캐시에 존재 여부 검사
-                    string[] dllGAC =
-                        Directory.GetFiles
-                        (
-                            Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\assembly", assembly.Name + ".dll",
-                            SearchOption.AllDirectories
-                        );
-                    dllGAC = dllGAC.Where(dll => dll.IndexOf(GetPublicKeyToken(assembly)) != -1).ToArray();
-
-                    if (dllGAC.Length > 0)
-                    {
-                        // 글로벌 캐시에 존재
-                        // 시스템에 맞는 파일 검색
-                        if (dllGAC.Length == 1)
-                        {
-                            referencesName = dllGAC.First();
-                        }
-                        else
-                        {
-                            referencesName = dllGAC.Where(dll => dll.IndexOf(Environment.Is64BitOperatingSystem ? "GAC_64" : "GAC_32") != -1).First();
-                        }
+                        // 동일 경로에 존재
+                        referencesName = dllPath;
                     }
                     else
                     {
-                        referencesName = assembly.Name + ".dll";
+                        // 동일 경로에 없음
+                        // 외부 종속성 중복 검사
+                        if ((from callingAssembly
+                             in Assembly.GetCallingAssembly().GetReferencedAssemblies()
+                             select callingAssembly.Name).Contains(assembly.Name))
+                        {
+                            continue;
+                        }
+
+                        // 글로벌 캐시에 존재 여부 검사
+                        string[] dllGAC =
+                            Directory.GetFiles
+                            (
+                                Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\assembly", assembly.Name + ".dll",
+                                SearchOption.AllDirectories
+                            );
+                        dllGAC = dllGAC.Where(dll => dll.IndexOf(GetPublicKeyToken(assembly)) != -1).ToArray();
+
+                        if (dllGAC.Length > 0)
+                        {
+                            // 글로벌 캐시에 존재
+                            // 시스템에 맞는 파일 검색
+                            if (dllGAC.Length == 1)
+                            {
+                                referencesName = dllGAC.First();
+                            }
+                            else
+                            {
+                                referencesName = dllGAC.Where(dll => dll.IndexOf(Environment.Is64BitOperatingSystem ? "GAC_64" : "GAC_32") != -1).First();
+                            }
+                        }
+                        else
+                        {
+                            referencesName = assembly.Name + ".dll";
+                        }
+                    }
+
+                    // 참조의 종속성을 추가
+                    if (!IsNameContains(References, referencesName))
+                    {
+                        References.Add(referencesName);
                     }
                 }
-
-                // 참조의 종속성을 추가
-                if (!IsNameContains(References, referencesName))
-                {
-                    References.Add(referencesName);
-                }
             }
+        }
+
+        /// <summary>
+        /// 외부 참조를 비동기로 추가합니다.
+        /// </summary>
+        /// <param name="path">외부 참조 파일의 경로입니다.</param>
+        public async void LoadReferenceAsync(string path)
+        {
+            await Task.Run(() => LoadReference(path));
         }
 
         /// <summary>
@@ -239,6 +249,15 @@ namespace GSharp.Compile
             {
                 Dependencies.Add(path);
             }
+        }
+
+        /// <summary>
+        /// 실행시 필요한 추가 종속성을 비동기로 추가합니다.
+        /// </summary>
+        /// <param name="path">추가 종속성 파일의 경로입니다.</param>
+        public async void LoadDependenciesAsync(string path)
+        {
+            await Task.Run(() => LoadDependencies(path));
         }
 
         /// <summary>
