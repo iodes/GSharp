@@ -1,5 +1,6 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Graphic.Core;
+using GSharp.Graphic.Objects;
 using System;
 
 namespace GSharp.Graphic.Holes

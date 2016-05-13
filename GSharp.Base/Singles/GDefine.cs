@@ -22,10 +22,5 @@ namespace GSharp.Base.Singles
                     Name
                 );
         }
-
-        public GVariable GetVariable()
-        {
-            return new GVariable(Name);
-        }
     }
 }

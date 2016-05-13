@@ -7,34 +7,34 @@ namespace GSharp.Base.Utilities
 {
     public static class ConvertAssistant
     {
-        public static string ResolveType(GBase value)
-        {
-            string result = string.Empty;
+        //public static string ResolveType(GBase value)
+        //{
+        //    string result = string.Empty;
 
-            if (value.GetType() == typeof(GVariable))
-            {
-                switch ((value as GVariable).CurrentType)
-                {
-                    case GVariable.VariableType.STRING:
-                        result = "string";
-                        break;
+        //    if (value.GetType() == typeof(GVariable))
+        //    {
+        //        switch ((value as GVariable).CurrentType)
+        //        {
+        //            case GVariable.VariableType.STRING:
+        //                result = "string";
+        //                break;
 
-                    case GVariable.VariableType.NUMBER:
-                        result = "long";
-                        break;
-                }
-            }
-            else if (value.GetType() == typeof(GString))
-            {
-                result = "string";
-            }
-            else if (value.GetType() == typeof(GNumber))
-            {
-                result = "long";
-            }
+        //            case GVariable.VariableType.NUMBER:
+        //                result = "long";
+        //                break;
+        //        }
+        //    }
+        //    else if (value.GetType() == typeof(GString))
+        //    {
+        //        result = "string";
+        //    }
+        //    else if (value.GetType() == typeof(GNumber))
+        //    {
+        //        result = "long";
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public static string Indentation(string value, int step = 1)
         {

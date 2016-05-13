@@ -5,12 +5,15 @@ using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
 using GSharp.Graphic.Core;
-using GSharp.Graphic.Logics;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Statements;
 using GSharp.Extension.Abstracts;
 using GSharp.Extension.Attributes;
+using GSharp.Graphic.Objects.Strings;
+using GSharp.Graphic.Objects.Logics;
+using GSharp.Graphic.Objects.Customs;
+using GSharp.Graphic.Objects.Numbers;
 
 namespace GSharp.Manager
 {

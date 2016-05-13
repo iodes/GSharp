@@ -16,7 +16,6 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
-using GSharp.Base.Logics;
 
 namespace GSharp.Graphic.Statements
 {

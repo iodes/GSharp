@@ -19,10 +19,12 @@ using System.Xml;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Reflection;
-using GSharp.Graphic.Logics;
 using System.Text;
 using GSharp.Graphic.Statements;
 using GSharp.Extension;
+using GSharp.Graphic.Objects.Logics;
+using GSharp.Graphic.Objects.Strings;
+using GSharp.Graphic.Objects.Numbers;
 
 namespace GSharp.Graphic.Controls
 {
@@ -345,11 +347,6 @@ namespace GSharp.Graphic.Controls
                     continue;
                 }
 
-                if (block.Type != hole.Type)
-                {
-                    continue;
-                }
-
                 var position = hole.TranslatePoint(new Point(0, 0), Master);
 
                 if (GetDistance(position, block.Position) > 20)
@@ -598,12 +595,6 @@ namespace GSharp.Graphic.Controls
             if (MargnetTarget is CustomHole)
             {
                 var customHole = MargnetTarget as CustomHole;
-
-                // Type이 다르면 연결할 수 없음
-                if (customHole.Type != block.Type)
-                {
-                    return;
-                }
 
                 // 연결 대상에 이미 블럭이 존재하는 경우
                 if (customHole.CustomBlock != null)
@@ -858,9 +849,9 @@ namespace GSharp.Graphic.Controls
             writer.WriteStartElement("Block");
             writer.WriteAttributeString("Type", target.GetType().ToString());
 
-            if (target is CompareBlock)
+            if (target is ICompareBlock)
             {
-                writer.WriteAttributeString("Operator", (target as CompareBlock).GetConditionType().ToString());
+                writer.WriteAttributeString("Operator", (target as ICompareBlock).GetConditionString());
             }
             else if (target is GateBlock)
             {
@@ -877,7 +868,7 @@ namespace GSharp.Graphic.Controls
 
             if (target is IVariableBlock)
             {
-                writer.WriteAttributeString("Variable", (target as IVariableBlock).GVariable.Name);
+                writer.WriteAttributeString("Variable", (target as IVariableBlock).IVariable.Name);
             }
 
             if (target is IModuleBlock)

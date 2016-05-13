@@ -16,7 +16,7 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
-using GSharp.Base.Logics;
+using GSharp.Base.Objects;
 
 namespace GSharp.Graphic.Statements
 {
@@ -35,7 +35,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                GObject obj = ObjectHole?.ObjectBlock?.GObject;
+                GNumber obj = NumberHole?.NumberBlock?.GNumber;
                 if (obj == null)
                 {
                     throw new ToObjectException("반복문 블럭이 완성되지 않았습니다.", this);
@@ -84,7 +84,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return new List<BaseHole> { ObjectHole, NextConnectHole, ChildConnectHole };
+                return new List<BaseHole> { NumberHole, NextConnectHole, ChildConnectHole };
             }
         }
 

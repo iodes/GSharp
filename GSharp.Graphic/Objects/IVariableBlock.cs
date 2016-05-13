@@ -11,6 +11,6 @@ namespace GSharp.Graphic.Objects
 {
     public interface IVariableBlock
     {
-        GVariable GVariable { get; }
+        IVariable IVariable { get; }
     }
 }
