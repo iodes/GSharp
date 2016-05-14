@@ -29,7 +29,7 @@ namespace GSharpSample
             GSet<GNumberVariable, GNumber> setValue = new GSet<GNumberVariable, GNumber>(var, new GNumberConst(5));
             main.Append(setValue);
 
-            GIF ifCheck = new GIF(new GCompare<GNumber>(var, GCompare<GNumber>.ConditionType.GREATER_THEN, new GNumberConst(3)));
+            GIf ifCheck = new GIf(new GCompare<GNumber>(var, GCompare<GNumber>.ConditionType.GREATER_THEN, new GNumberConst(3)));
             ifCheck.Append(
                 new GVoidCall(
                     new GCommand("Console", "WriteLine", typeof(void), GCommand.CommandType.Call),

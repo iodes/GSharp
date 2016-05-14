@@ -20,17 +20,17 @@ using GSharp.Base.Cores;
 namespace GSharp.Graphic.Statements
 {
     /// <summary>
-    /// IfBlock.xaml에 대한 상호 작용 논리
+    /// IfElseBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class IfBlock : PrevStatementBlock, IContainChildBlock
+    public partial class IfElseBlock : PrevStatementBlock, IContainChildBlock
     {
-        public IfBlock()
+        public IfElseBlock()
         {
             InitializeComponent();
             InitializeBlock();
         }
 
-        public GIf GIf
+        public GIf GIF
         {
             get
             {
@@ -50,7 +50,7 @@ namespace GSharp.Graphic.Statements
             {
                 List<GBase> baseList = new List<GBase>();
 
-                GIf gif = GIf;
+                GIf gif = GIF;
 
                 List<GBase> childList = ChildConnectHole?.StatementBlock?.GObjectList;
                 if (childList != null)
@@ -77,7 +77,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return GIf;
+                return GIF;
             }
         }
 
@@ -85,7 +85,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return new List<BaseHole> { LogicHole, NextConnectHole, ChildConnectHole };
+                return new List<BaseHole> { LogicHole, NextConnectHole, IfChildConnectHole, ElseChildConnectHole };
             }
         }
 
@@ -97,11 +97,27 @@ namespace GSharp.Graphic.Statements
             }
         }
 
+        public NextConnectHole IfChildConnectHole
+        {
+            get
+            {
+                return RealIfChildConnectHole;
+            }
+        }
+
+        public NextConnectHole ElseChildConnectHole
+        {
+            get
+            {
+                return RealElseChildConnectHole;
+            }
+        }
+
         public NextConnectHole ChildConnectHole
         {
             get
             {
-                return RealChildConnectHole;
+                return IfChildConnectHole;
             }
         }
     }

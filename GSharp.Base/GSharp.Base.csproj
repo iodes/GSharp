@@ -79,6 +79,7 @@
     <Compile Include="Scopes\GFunction.cs" />
     <Compile Include="Scopes\GEvent.cs" />
     <Compile Include="Singles\GDefine.cs" />
+    <Compile Include="Statements\GIfElse.cs" />
     <Compile Include="Statements\GVoidCall.cs" />
     <Compile Include="Statements\GIF.cs" />
     <Compile Include="Statements\GLoop.cs" />

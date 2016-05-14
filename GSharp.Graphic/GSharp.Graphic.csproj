@@ -175,6 +175,9 @@
     <Compile Include="Scopes\EventBlock.xaml.cs">
       <DependentUpon>EventBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statements\IFElseBlock.xaml.cs">
+      <DependentUpon>IFElseBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statements\VoidCallBlock.xaml.cs">
       <DependentUpon>VoidCallBlock.xaml</DependentUpon>
     </Compile>
@@ -337,6 +340,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Scopes\EventBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statements\IFElseBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

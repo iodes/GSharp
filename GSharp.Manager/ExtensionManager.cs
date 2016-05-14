@@ -238,7 +238,7 @@ namespace GSharp.Manager
 
                         if (command.ObjectType == typeof(void))
                         {
-                            blockList.Add(new CallBlock(command));
+                            blockList.Add(new VoidCallBlock(command));
                             break;
                         }
 
