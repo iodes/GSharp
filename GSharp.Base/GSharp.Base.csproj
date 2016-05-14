@@ -51,7 +51,7 @@
     <Compile Include="Cores\GScope.cs" />
     <Compile Include="Cores\GSingle.cs" />
     <Compile Include="Cores\GStatement.cs" />
-    <Compile Include="Objects\ICall.cs" />
+    <Compile Include="Cores\ICall.cs" />
     <Compile Include="Objects\IProperty.cs" />
     <Compile Include="Objects\IVariable.cs" />
     <Compile Include="Objects\Logics\GNot.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="Scopes\GFunction.cs" />
     <Compile Include="Scopes\GEvent.cs" />
     <Compile Include="Singles\GDefine.cs" />
-    <Compile Include="Statements\GCall.cs" />
+    <Compile Include="Statements\GVoidCall.cs" />
     <Compile Include="Statements\GIF.cs" />
     <Compile Include="Statements\GLoop.cs" />
     <Compile Include="Statements\GSet.cs" />

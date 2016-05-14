@@ -31,7 +31,7 @@ namespace GSharpSample
 
             GIF ifCheck = new GIF(new GCompare<GNumber>(var, GCompare<GNumber>.ConditionType.GREATER_THEN, new GNumberConst(3)));
             ifCheck.Append(
-                new GCall(
+                new GVoidCall(
                     new GCommand("Console", "WriteLine", typeof(void), GCommand.CommandType.Call),
                     new GObject[] { new GStringCat(new GStringConst("A"), new GConvertNumberToString(new GNumberConst(5))) }
                 )

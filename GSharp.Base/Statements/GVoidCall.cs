@@ -7,7 +7,7 @@ using GSharp.Base.Scopes;
 namespace GSharp.Base.Statements
 {
     [Serializable]
-    public class GCall : GStatement
+    public class GVoidCall : GStatement, ICall
     {
         #region 객체
         private GFunction targetFunction;
@@ -16,22 +16,22 @@ namespace GSharp.Base.Statements
         #endregion
 
         #region 생성자
-        public GCall(GFunction valueFunction)
+        public GVoidCall(GFunction valueFunction)
         {
             targetFunction = valueFunction;
         }
 
-        public GCall(GFunction valueFunction, GObject[] valueArguments) : this(valueFunction)
+        public GVoidCall(GFunction valueFunction, GObject[] valueArguments) : this(valueFunction)
         {
             targetArguments = valueArguments;
         }
 
-        public GCall(GCommand valueCommand)
+        public GVoidCall(GCommand valueCommand)
         {
             targetCommand = valueCommand;
         }
 
-        public GCall(GCommand valueCommand, GObject[] valueArguments) : this(valueCommand)
+        public GVoidCall(GCommand valueCommand, GObject[] valueArguments) : this(valueCommand)
         {
             targetArguments = valueArguments;
         }

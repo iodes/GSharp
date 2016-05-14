@@ -24,9 +24,9 @@ using GSharp.Base.Scopes;
 namespace GSharp.Graphic.Statements
 {
     /// <summary>
-    /// ExtensionBlock.xaml에 대한 상호 작용 논리
+    /// VoidCallBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CallBlock : PrevStatementBlock, IModuleBlock
+    public partial class VoidCallBlock : PrevStatementBlock, ICallBlock
     {
         public override List<BaseHole> HoleList
         {
@@ -64,7 +64,15 @@ namespace GSharp.Graphic.Statements
             return NextConnectHole.StatementBlock.GetLastBlock();
         }
 
-        public GCall GCall
+        public ICall ICall
+        {
+            get
+            {
+                return GVoidCall;
+            }
+        }
+
+        public GVoidCall GVoidCall
         {
             get
             {
@@ -85,7 +93,7 @@ namespace GSharp.Graphic.Statements
                     }
                 }
 
-                return new GCall(GCommand, objectList.ToArray());
+                return new GVoidCall(GCommand, objectList.ToArray());
             }
         }
 
@@ -93,7 +101,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return GCall;
+                return GVoidCall;
             }
         }
 
@@ -112,7 +120,7 @@ namespace GSharp.Graphic.Statements
             }
         }
 
-        public CallBlock(GCommand command)
+        public VoidCallBlock(GCommand command)
         {
             InitializeComponent();
 

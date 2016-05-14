@@ -55,7 +55,7 @@
     <Compile Include="Core\BaseBlock.cs" />
     <Compile Include="Core\IModuleBlock.cs" />
     <Compile Include="Objects\IPropertyBlock.cs" />
-    <Compile Include="Objects\ICallBlock.cs" />
+    <Compile Include="Core\ICallBlock.cs" />
     <Compile Include="Objects\LogicBlock.cs" />
     <Compile Include="Core\ObjectBlock.cs" />
     <Compile Include="Core\ScopeBlock.cs" />
@@ -175,8 +175,8 @@
     <Compile Include="Scopes\EventBlock.xaml.cs">
       <DependentUpon>EventBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Statements\CallBlock.xaml.cs">
-      <DependentUpon>CallBlock.xaml</DependentUpon>
+    <Compile Include="Statements\VoidCallBlock.xaml.cs">
+      <DependentUpon>VoidCallBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\IContainChildBlock.cs" />
     <Compile Include="Statements\LoopInfinityBlock.xaml.cs">
@@ -340,7 +340,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\CallBlock.xaml">
+    <Page Include="Statements\VoidCallBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
