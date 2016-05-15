@@ -126,6 +126,10 @@ namespace GSharp.Compile
             result.AppendLine("                WindowStartupLocation = WindowStartupLocation.CenterScreen");
             result.AppendLine("            };");
             result.AppendLine("            window.Loaded += (s, e) => Initialize();");
+            result.AppendLine("            window.Closing += (s, e) =>");
+            result.AppendLine("            {");
+            result.AppendLine("                if (Closing != null) Closing();");
+            result.AppendLine("            };");
             result.AppendLine("            window.Show();");
             result.AppendLine("        }");
             result.AppendLine();
