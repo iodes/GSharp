@@ -24,7 +24,7 @@
         </Grid>
         <Border BorderThickness="1,0" BorderBrush="{StaticResource BorderColor}" Background="{StaticResource BodyColor}" Padding="10,3">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                <hole:ObjectHole x:Name="ObjectHole" VerticalAlignment="Center" Margin="0 0 3 0" Foreground="#FFA87E14"/>
+                <hole:NumberHole x:Name="NumberHole" VerticalAlignment="Center" Margin="0 0 3 0" Foreground="#FFA87E14"/>
                 <TextBlock Text="번 반복" VerticalAlignment="Center" FontWeight="Bold" Foreground="White" Margin="2,0,0,0"/>
             </StackPanel>
         </Border>

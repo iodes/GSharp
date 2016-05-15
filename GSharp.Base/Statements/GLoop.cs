@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
+using GSharp.Base.Objects;
 
 namespace GSharp.Base.Statements
 {
@@ -10,7 +11,7 @@ namespace GSharp.Base.Statements
     public class GLoop : GStatement
     {
         #region 속성
-        public GObject Object { get; set; }
+        public GNumber GNumber { get; set; }
         #endregion
 
         #region 객체
@@ -23,9 +24,9 @@ namespace GSharp.Base.Statements
 
         }
 
-        public GLoop(GObject obj)
+        public GLoop(GNumber number)
         {
-            Object = obj;
+            GNumber = number;
         }
         #endregion
 
@@ -40,10 +41,10 @@ namespace GSharp.Base.Statements
         {
             StringBuilder builderCode = new StringBuilder();
 
-            if (Object != null)
+            if (GNumber != null)
             {
                 string varName = "_" + GetHashCode();
-                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}; {0}++)\n{{\n", varName, Object.ToSource());
+                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}; {0}++)\n{{\n", varName, GNumber.ToSource());
             }
             else
             {

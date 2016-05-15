@@ -2,13 +2,15 @@
 using System.IO;
 using System.CodeDom.Compiler;
 using GSharp.Base.Cores;
-using GSharp.Base.Logics;
 using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Base.Objects;
 using GSharp.Base.Statements;
 using GSharp.Compile;
 using GSharp.Extension;
+using GSharp.Base.Objects.Numbers;
+using GSharp.Base.Objects.Logics;
+using GSharp.Base.Objects.Strings;
 
 namespace GSharpSample
 {
@@ -20,18 +22,18 @@ namespace GSharpSample
             GEntry entry = new GEntry();
 
             GDefine def = new GDefine("valueA");
-            GVariable var = def.GetVariable();
+            GNumberVariable var = new GNumberVariable("valueA");
             entry.Append(def);
 
             GEvent main = new GEvent(new GCommand("this", "Loaded", typeof(void), GCommand.CommandType.Event));
-            GSet setValue = new GSet(ref var, new GNumber(5));
+            GSet<GNumberVariable, GNumber> setValue = new GSet<GNumberVariable, GNumber>(var, new GNumberConst(5));
             main.Append(setValue);
 
-            GIF ifCheck = new GIF(new GCompare(var, GCompare.ConditionType.GREATER_THEN, new GNumber(3)));
+            GIf ifCheck = new GIf(new GCompare<GNumber>(var, GCompare<GNumber>.ConditionType.GREATER_THEN, new GNumberConst(3)));
             ifCheck.Append(
-                new GCall(
+                new GVoidCall(
                     new GCommand("Console", "WriteLine", typeof(void), GCommand.CommandType.Call),
-                    new GObject[] { new GCompute(new GString("A"), GCompute.OperatorType.PLUS, new GNumber(5)) }
+                    new GObject[] { new GStringCat(new GStringConst("A"), new GConvertNumberToString(new GNumberConst(5))) }
                 )
             );
 

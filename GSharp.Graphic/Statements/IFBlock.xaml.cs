@@ -16,22 +16,21 @@ using GSharp.Graphic.Core;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
-using GSharp.Base.Logics;
 
 namespace GSharp.Graphic.Statements
 {
     /// <summary>
-    /// IFBlock.xaml에 대한 상호 작용 논리
+    /// IfBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class IFBlock : PrevStatementBlock, IContainChildBlock
+    public partial class IfBlock : PrevStatementBlock, IContainChildBlock
     {
-        public IFBlock()
+        public IfBlock()
         {
             InitializeComponent();
             InitializeBlock();
         }
 
-        public GIF GIF
+        public GIf GIf
         {
             get
             {
@@ -41,7 +40,7 @@ namespace GSharp.Graphic.Statements
                     throw new ToObjectException("조건문 블럭이 완성되지 않았습니다.", this);
                 }
 
-                return new GIF(logic);
+                return new GIf(logic);
             }
         }
 
@@ -51,7 +50,7 @@ namespace GSharp.Graphic.Statements
             {
                 List<GBase> baseList = new List<GBase>();
 
-                GIF gif = GIF;
+                GIf gif = GIf;
 
                 List<GBase> childList = ChildConnectHole?.StatementBlock?.GObjectList;
                 if (childList != null)
@@ -78,7 +77,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return GIF;
+                return GIf;
             }
         }
 

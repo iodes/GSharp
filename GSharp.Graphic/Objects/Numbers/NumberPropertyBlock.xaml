@@ -1,0 +1,14 @@
+﻿<objects:NumberBlock x:Class="GSharp.Graphic.Objects.Numbers.NumberPropertyBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
+             xmlns:local="clr-namespace:GSharp.Graphic.Objects.Numbers"
+             xmlns:core="clr-namespace:GSharp.Graphic.Core"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+    <Border CornerRadius="2" Padding="3" Background="#FFEE7D16" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FFC15F06" BorderThickness="1">
+        <TextBlock x:Name="PropertyName" Foreground="White" FontWeight="Bold"/>
+    </Border>
+</objects:NumberBlock>

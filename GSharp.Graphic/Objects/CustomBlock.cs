@@ -1,4 +1,5 @@
-﻿using GSharp.Graphic.Core;
+﻿using GSharp.Base.Cores;
+using GSharp.Graphic.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace GSharp.Graphic.Objects
 {
     public abstract class CustomBlock : ObjectBlock
     {
+        public abstract GCustom GCustom { get; }
+
         public Type Type
         {
             get

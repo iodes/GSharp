@@ -1,4 +1,5 @@
 ﻿using GSharp.Base.Cores;
+using GSharp.Base.Objects;
 using GSharp.Graphic.Core;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace GSharp.Graphic.Objects
 {
     public abstract class NumberBlock : ObjectBlock
     {
+        public abstract GNumber GNumber { get; }
+
         public NumberBlock()
         {
 

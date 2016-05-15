@@ -18,21 +18,12 @@ using System.Windows.Shapes;
 namespace GSharp.Graphic.Holes
 {
     /// <summary>
-    /// VariableHole.xaml에 대한 상호 작용 논리
+    /// CustomHole.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class CustomHole : BaseObjectHole
     {
         public override event HoleEventArgs BlockAttached;
         public override event HoleEventArgs BlockDetached;
-
-        public Type Type
-        {
-            get
-            {
-                return _Type;
-            }
-        }
-        private Type _Type;
 
         public override BaseBlock AttachedBlock
         {
@@ -75,11 +66,6 @@ namespace GSharp.Graphic.Holes
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
 
-                if (value.Type != Type)
-                {
-                    throw new Exception("Type이 다른 블럭을 끼웠습니다.");
-                }
-
                 // 연결하려는 블럭을 부모에서 제거
                 value?.ParentHole?.DetachBlock();
 
@@ -90,17 +76,9 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public CustomHole(Type type)
+        public CustomHole()
         {
             InitializeComponent();
-            _Type = type;
-
-            Background = new SolidColorBrush(GetColor(type));
-        }
-
-        private Color GetColor(Type type)
-        {
-            return Colors.AliceBlue;
         }
 
         // 연결된 블럭을 제거

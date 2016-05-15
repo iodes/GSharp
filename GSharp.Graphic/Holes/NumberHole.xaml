@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
-             xmlns:object="clr-namespace:GSharp.Graphic.Objects"
+             xmlns:numbers="clr-namespace:GSharp.Graphic.Objects.Numbers"
              mc:Ignorable="d" Foreground="DarkGreen">
 
     <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" SnapsToDevicePixels="True">
         <Grid>
             <Border x:Name="BlockHole"/>
-            <object:NumberConstBlock x:Name="BlockNumber" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            <numbers:NumberConstBlock x:Name="BlockNumber" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
         </Grid>
     </Border>
 </local:BaseObjectHole>

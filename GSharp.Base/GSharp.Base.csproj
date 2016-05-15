@@ -42,27 +42,45 @@
   <ItemGroup>
     <Compile Include="Cores\GBase.cs" />
     <Compile Include="Cores\GEntry.cs" />
-    <Compile Include="Cores\GLogic.cs" />
+    <Compile Include="Objects\Customs\GCustomCall.cs" />
+    <Compile Include="Objects\Customs\GCustomProperty.cs" />
+    <Compile Include="Objects\Customs\GCustomVariable.cs" />
+    <Compile Include="Objects\GCustom.cs" />
+    <Compile Include="Objects\GLogic.cs" />
     <Compile Include="Cores\GObject.cs" />
     <Compile Include="Cores\GScope.cs" />
     <Compile Include="Cores\GSingle.cs" />
     <Compile Include="Cores\GStatement.cs" />
-    <Compile Include="Logics\GCompare.cs" />
-    <Compile Include="Logics\GGate.cs" />
-    <Compile Include="Logics\GLogicCall.cs" />
-    <Compile Include="Logics\GLogicProperty.cs" />
-    <Compile Include="Objects\GObjectCall.cs" />
-    <Compile Include="Objects\GCompute.cs" />
+    <Compile Include="Cores\ICall.cs" />
+    <Compile Include="Objects\IProperty.cs" />
+    <Compile Include="Objects\IVariable.cs" />
+    <Compile Include="Objects\Logics\GNot.cs" />
+    <Compile Include="Objects\Logics\GLogicVariable.cs" />
+    <Compile Include="Objects\Numbers\GNumberVariable.cs" />
+    <Compile Include="Objects\Numbers\GNumberProperty.cs" />
+    <Compile Include="Objects\Numbers\GLength.cs" />
+    <Compile Include="Objects\Strings\GConvertNumberToString.cs" />
+    <Compile Include="Objects\Strings\GStringCat.cs" />
+    <Compile Include="Objects\Strings\GStringVariable.cs" />
+    <Compile Include="Objects\Strings\GStringCall.cs" />
+    <Compile Include="Objects\Logics\GCompare.cs" />
+    <Compile Include="Objects\Logics\GGate.cs" />
+    <Compile Include="Objects\Logics\GLogicCall.cs" />
+    <Compile Include="Objects\Logics\GLogicProperty.cs" />
+    <Compile Include="Objects\Numbers\GNumberConst.cs" />
+    <Compile Include="Objects\Numbers\GNumberCall.cs" />
+    <Compile Include="Objects\Numbers\GCompute.cs" />
     <Compile Include="Objects\GNumber.cs" />
-    <Compile Include="Objects\GProperty.cs" />
+    <Compile Include="Objects\Strings\GStringProperty.cs" />
     <Compile Include="Objects\GString.cs" />
-    <Compile Include="Objects\GVariable.cs" />
+    <Compile Include="Objects\Strings\GStringConst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scopes\GBlank.cs" />
     <Compile Include="Scopes\GFunction.cs" />
     <Compile Include="Scopes\GEvent.cs" />
     <Compile Include="Singles\GDefine.cs" />
-    <Compile Include="Statements\GCall.cs" />
+    <Compile Include="Statements\GIfElse.cs" />
+    <Compile Include="Statements\GVoidCall.cs" />
     <Compile Include="Statements\GIF.cs" />
     <Compile Include="Statements\GLoop.cs" />
     <Compile Include="Statements\GSet.cs" />
@@ -74,6 +92,7 @@
       <Name>GSharp.Extension</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

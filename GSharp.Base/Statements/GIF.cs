@@ -7,7 +7,7 @@ using GSharp.Base.Utilities;
 namespace GSharp.Base.Statements
 {
     [Serializable]
-    public class GIF : GStatement
+    public class GIf : GStatement
     {
         #region 속성
         public GLogic Logic { get; set; }
@@ -18,7 +18,7 @@ namespace GSharp.Base.Statements
         #endregion
 
         #region 생성자
-        public GIF(GLogic logicValue)
+        public GIf(GLogic logicValue)
         {
             Logic = logicValue;
         }
