@@ -49,7 +49,7 @@ namespace GSharp.Base.Cores
                 source.AppendLine(ConvertAssistant.Indentation(evt.ToSource()));
             }
 
-            source.AppendLine(ConvertAssistant.Indentation("if (Loaded != null) Loaded();").TrimEnd());
+            source.AppendLine(ConvertAssistant.Indentation("Loaded?.Invoke();").TrimEnd());
             source.AppendLine("}");
 
             foreach (GFunction func in functionList)
