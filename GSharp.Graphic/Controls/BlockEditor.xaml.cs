@@ -46,6 +46,9 @@ namespace GSharp.Graphic.Controls
         // 선택한 블럭
         private BaseBlock SelectedBlock;
 
+        // 마지막 선택 블럭
+        private BaseBlock LastSelectedBlock;
+
         // 블럭을 잡은 마우스 위치
         private Point SelectedPosition;
 
@@ -96,6 +99,7 @@ namespace GSharp.Graphic.Controls
         {
             InitializeComponent();
 
+            ContextDelete.Click += ContextDelete_Click;
             BlockViewer.PreviewMouseMove += BlockViewer_PreviewMouseMove;
             BlockViewer.PreviewMouseDown += BlockViewer_PreviewMouseDown;
             BlockViewer.PreviewMouseUp += BlockViewer_PreviewMouseUp;
@@ -114,7 +118,13 @@ namespace GSharp.Graphic.Controls
             e.Handled = true;
 
             BaseBlock target = sender as BaseBlock;
+            LastSelectedBlock = target;
             StartBlockMove(target, e.GetPosition(target));
+        }
+
+        private void Block_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            LastSelectedBlock = sender as BaseBlock;
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -653,8 +663,9 @@ namespace GSharp.Graphic.Controls
         // 블럭 추가
         public void AddBlock(BaseBlock block)
         {
-            // 블럭 클린 이벤트 추가
+            // 블럭 클릭 이벤트 추가
             block.MouseLeftButtonDown += Block_MouseLeftButtonDown;
+            block.MouseRightButtonDown += Block_MouseRightButtonDown;
 
             // 블럭을 캔버스에 추가
             AttachToCanvas(block);
@@ -784,6 +795,13 @@ namespace GSharp.Graphic.Controls
             IsSelectedBlockMoved = false;
 
             Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
+        }
+        #endregion
+
+        #region 컨텍스트 메뉴
+        private void ContextDelete_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveBlock(LastSelectedBlock);
         }
         #endregion
 
