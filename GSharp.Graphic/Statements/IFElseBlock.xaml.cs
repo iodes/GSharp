@@ -30,7 +30,7 @@ namespace GSharp.Graphic.Statements
             InitializeBlock();
         }
 
-        public GIf GIF
+        public GIfElse GIfElse
         {
             get
             {
@@ -40,7 +40,7 @@ namespace GSharp.Graphic.Statements
                     throw new ToObjectException("조건문 블럭이 완성되지 않았습니다.", this);
                 }
 
-                return new GIf(logic);
+                return new GIfElse(logic);
             }
         }
 
@@ -48,22 +48,31 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                List<GBase> baseList = new List<GBase>();
+                var baseList = new List<GBase>();
 
-                GIf gif = GIF;
+                var gIfElse = GIfElse;
 
-                List<GBase> childList = ChildConnectHole?.StatementBlock?.GObjectList;
-                if (childList != null)
+                var ifChildList = IfChildConnectHole?.StatementBlock?.GObjectList;
+                if (ifChildList != null)
                 {
-                    foreach (GBase child in childList)
+                    foreach (var child in ifChildList)
                     {
-                        gif.Append((GStatement)child);
+                        gIfElse.AppendToIf(child as GStatement);
                     }
                 }
 
-                baseList.Add(gif);
+                var elseChildList = ElseChildConnectHole?.StatementBlock?.GObjectList;
+                if (elseChildList != null)
+                {
+                    foreach (var child in elseChildList)
+                    {
+                        gIfElse.AppendToElse(child as GStatement);
+                    }
+                }
 
-                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
+                baseList.Add(gIfElse);
+
+                var nextList = NextConnectHole?.StatementBlock?.GObjectList;
                 if (nextList != null)
                 {
                     baseList.AddRange(nextList);
@@ -77,7 +86,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return GIF;
+                return GIfElse;
             }
         }
 

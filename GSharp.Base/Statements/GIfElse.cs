@@ -62,7 +62,7 @@ namespace GSharp.Base.Statements
                 builderCode.AppendFormat("{0}", ConvertAssistant.Indentation(statement.ToSource()));
             };
 
-            builderCode.Append("}\nelse\n{");
+            builderCode.Append("}\nelse\n{\n");
 
             foreach (GStatement statement in elseChild)
             {
