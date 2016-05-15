@@ -76,7 +76,10 @@ namespace GSharp.Compile
 
             result.Add("System.dll");
             result.Add("System.Linq.dll");
-            result.Add("System.Windows.Forms.dll");
+            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xaml.dll");
+            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\WindowsBase.dll");
+            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationCore.dll");
+            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationFramework.dll");
 
             return result;
         }
@@ -90,7 +93,7 @@ namespace GSharp.Compile
             result.AppendLine("using System.Text;");
             result.AppendLine("using System.Threading.Tasks;");
             result.AppendLine("using System.Reflection;");
-            result.AppendLine("using System.Windows.Forms;");
+            result.AppendLine("using System.Windows;");
             result.AppendLine();
             result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
             result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");
@@ -100,29 +103,30 @@ namespace GSharp.Compile
             result.AppendLine("[assembly: AssemblyVersion(\"1.0.0.0\")]");
             result.AppendLine("[assembly: AssemblyFileVersion(\"1.0.0.0\")]");
             result.AppendLine();
-            result.AppendLine("namespace GSharp.Scenario");
+            result.AppendLine("namespace GSharp.Default");
             result.AppendLine("{");
-            result.AppendLine("    class Default");
+            result.AppendLine("    public partial class App : Application");
             result.AppendLine("    {");
             result.AppendLine("        [STAThread]");
-            result.AppendLine("        static void Main(string[] args)");
+            result.AppendLine("        public static void Main()");
             result.AppendLine("        {");
-            result.AppendLine("            Application.EnableVisualStyles();");
-            result.AppendLine("            Application.SetCompatibleTextRenderingDefault(false);");
-            result.AppendLine("            Application.Run(new DefaultForm());");
+            result.AppendLine("            App app = new App();");
+            result.AppendLine("            app.InitializeComponent();");
+            result.AppendLine("            app.Run();");
             result.AppendLine("        }");
-            result.AppendLine("    }");
             result.AppendLine();
-            result.AppendLine("    public partial class DefaultForm : Form");
-            result.AppendLine("    {");
-            result.AppendLine("        public DefaultForm()");
+            result.AppendLine("        public void InitializeComponent()");
             result.AppendLine("        {");
-            result.AppendLine("            Text = \"GSharp Runtime\";");
-            result.AppendLine("            MaximizeBox = false;");
-            result.AppendLine("            MinimizeBox = false;");
-            result.AppendLine("            StartPosition = FormStartPosition.CenterScreen;");
-            result.AppendLine("            FormBorderStyle = FormBorderStyle.FixedSingle;");
-            result.AppendLine("            Initialize();");
+            result.AppendLine("            Window window = new Window");
+            result.AppendLine("            {");
+            result.AppendLine("                Title = \"GSharp Runtime\",");
+            result.AppendLine("                Width = 200,");
+            result.AppendLine("                Height = 200,");
+            result.AppendLine("                ResizeMode = ResizeMode.NoResize,");
+            result.AppendLine("                WindowStartupLocation = WindowStartupLocation.CenterScreen");
+            result.AppendLine("            };");
+            result.AppendLine("            window.Loaded += (s, e) => Initialize();");
+            result.AppendLine("            window.Show();");
             result.AppendLine("        }");
             result.AppendLine();
             result.Append(ConvertAssistant.Indentation(source, 2));
