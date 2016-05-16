@@ -76,6 +76,8 @@ namespace GSharp.Manager
                     Extensions.Add(extension);
                 }
             }
+
+            Extensions = (from extension in Extensions orderby extension.Title ascending select extension).ToList();
         }
         #endregion
 
@@ -203,6 +205,8 @@ namespace GSharp.Manager
                     target.Controls.Add(new GControl(target, value, value.FullName));
                 }
             }
+
+            target.Commands = (from command in target.Commands orderby command.MethodType descending, command.FriendlyName ascending select command).ToList();
 
             return target;
         }
