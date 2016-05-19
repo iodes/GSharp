@@ -16,7 +16,7 @@ using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
-using GSharp.Base.Objects.Logics;
+using GSharp.Base.Objects.Strings;
 
 namespace GSharp.Graphic.Objects.Strings
 {

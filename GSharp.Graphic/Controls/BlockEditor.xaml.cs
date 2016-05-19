@@ -25,6 +25,11 @@ using GSharp.Extension;
 using GSharp.Graphic.Objects.Logics;
 using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Numbers;
+using GSharp.Base.Objects;
+using GSharp.Base.Objects.Logics;
+using GSharp.Base.Objects.Strings;
+using GSharp.Base.Objects.Numbers;
+using GSharp.Base.Objects.Customs;
 
 namespace GSharp.Graphic.Controls
 {
@@ -35,6 +40,9 @@ namespace GSharp.Graphic.Controls
     {
 
         #region 속성
+        /// <summary>
+        /// 모든 블럭 객체를 포함하는 최상위 객체를 가져옵니다.
+        /// </summary>
         public Grid Master
         {
             get
@@ -67,9 +75,6 @@ namespace GSharp.Graphic.Controls
             Fill = Brushes.Green
         };
 
-        // 자석 효과 대상 목록
-        //private List<BaseHole> HoleList = new List<BaseHole>();
-
         // Hole 목록
         // Statement Hole
         private List<NextConnectHole> NextConnectHoleList = new List<NextConnectHole>();
@@ -92,7 +97,11 @@ namespace GSharp.Graphic.Controls
         private bool IsSelectedBlockMoved = false;
 
         // 변수 목록
-        private Dictionary<string, GDefine> VariableList = new Dictionary<string, GDefine>();
+        public Dictionary<string, IVariable> VariableList { get; } = new Dictionary<string, IVariable>();
+        //private Dictionary<string, GStringVariable> StringVariableList = new Dictionary<string, GStringVariable>();
+        //private Dictionary<string, GNumberVariable> NumberVariableList = new Dictionary<string, GNumberVariable>();
+        //private Dictionary<string, GLogicVariable> LogicVariableList = new Dictionary<string, GLogicVariable>();
+        //private Dictionary<string, GCustomVariable> CustomVariableList = new Dictionary<string, GCustomVariable>();
 
         // 함수 목록
         private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
@@ -234,7 +243,7 @@ namespace GSharp.Graphic.Controls
         // 변수 선언
         public void DefineVariable(string varName)
         {
-            VariableList[varName] = new GDefine(varName);
+            //VariableList[varName] = new GDefine(varName);
         }
 
         // 변순 선언 해제
@@ -249,7 +258,7 @@ namespace GSharp.Graphic.Controls
             return VariableList.Keys.ToList();
         }
 
-        public List<GDefine> GetDefineList()
+        public List<IVariable> GetDefineList()
         {
             return VariableList.Values.ToList();
         }
@@ -656,7 +665,10 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 컨트롤 함수
-        // 블럭 추가
+        /// <summary>
+        /// 블럭 에디터에 블럭을 추가하고 필요한 내용을 추가합니다.
+        /// </summary>
+        /// <param name="block">추가할 블럭</param>
         public void AddBlock(BaseBlock block)
         {
             // 블럭 클릭 이벤트 추가

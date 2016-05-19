@@ -2,6 +2,7 @@
 using GSharp.Base.Objects.Customs;
 using GSharp.Base.Objects.Logics;
 using GSharp.Base.Objects.Numbers;
+using GSharp.Base.Objects.Strings;
 using GSharp.Extension;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
