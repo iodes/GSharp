@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System;
 using GSharp.Graphic.Objects;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Blocks
 {
@@ -47,7 +48,11 @@ namespace GSharp.Graphic.Blocks
             }
         }
 
-        // 블럭이 붙어 있는 Hole, null인 경우 BlockEditor
+        /// <summary>
+        /// 블럭이 포함된 캔버스
+        /// </summary>
+        public BlockEditor BlockEditor { get; set; }
+
         /// <summary>
         /// 자신이 끼워져 있는 구멍
         /// null인 경우 구멍에 끼워지지 않음

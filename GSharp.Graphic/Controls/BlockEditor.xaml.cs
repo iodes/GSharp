@@ -666,6 +666,9 @@ namespace GSharp.Graphic.Controls
             // 블럭을 캔버스에 추가
             AttachToCanvas(block);
 
+            // 블럭에 에디터 정보 저장
+            block.BlockEditor = this;
+
             // 블럭의 HoleList를 가져와 BlockEditor에 추가
             List<BaseHole> holeList = block.HoleList;
 
