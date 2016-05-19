@@ -28,15 +28,6 @@ namespace GSharp.Graphic.Scopes
     public partial class EventBlock : ScopeBlock, IModuleBlock
     {
         #region Holes
-        public override List<BaseHole> HoleList
-        {
-            get
-            {
-                return _HoleList;
-            }
-        }
-        private List<BaseHole> _HoleList;
-
         public override NextConnectHole NextConnectHole
         {
             get
@@ -94,20 +85,7 @@ namespace GSharp.Graphic.Scopes
             return new List<GBase> { GScope };
         }
         #endregion
-
-        #region ParameterBlock
-
-        public override List<IVariableBlock> AllowVariableList
-        {
-            get
-            {
-                return _AllowVariableList;
-            }
-        }
-        private List<IVariableBlock> _AllowVariableList;
-
-        #endregion
-
+        
         // Constructor
         public EventBlock(GCommand command)
         {
@@ -118,13 +96,11 @@ namespace GSharp.Graphic.Scopes
             StackContentText.Text = command.FriendlyName;
 
             // Initialize Hole List
-            _HoleList = new List<BaseHole> { NextConnectHole };
+            HoleList.Add(NextConnectHole);
             
-            _AllowVariableList = new List<IVariableBlock>();
-
             for (int i=0; i<command.Arguments.Length; i++)
             {
-                _AllowVariableList.Add(BlockUtils.CreateParameterVariable(command.Arguments[i], command.Arguments[i].ToString()));
+                AllowVariableList.Add(BlockUtils.CreateParameterVariable(command.Arguments[i], command.Arguments[i].ToString()));
             }
 
             // Initialize Block
