@@ -105,17 +105,7 @@ namespace GSharp.Graphic.Holes
                 return false;
             }
 
-            if (block.AllHoleList.Contains(this))
-            {
-                return false;
-            }
-
-            if (block is IVariableBlock && !ParentBlock.AllowVariableList.Contains(block as IVariableBlock))
-            {
-                return false;
-            }
-
-            return true;
+            return base.CanAttachBlock(block);
         }
     }
 }
