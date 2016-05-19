@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
@@ -58,12 +58,9 @@ namespace GSharp.Graphic.Objects.Strings
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
-            {
-                return _GObjectList;
-            }
+            return _GObjectList;
         }
         private List<GBase> _GObjectList;
 

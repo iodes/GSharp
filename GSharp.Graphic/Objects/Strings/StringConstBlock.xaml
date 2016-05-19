@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
              xmlns:local="clr-namespace:GSharp.Graphic.Objects.Strings"
-             xmlns:core="clr-namespace:GSharp.Graphic.Core"
+             xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top">
     <TextBox x:Name="StringText" VerticalAlignment="Center" Foreground="White" Background="Transparent" HorizontalAlignment="Stretch" BorderThickness="0" Padding="2" TextAlignment="Center" TextChanged="StringText_TextChanged" />

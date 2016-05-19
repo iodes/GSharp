@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Statements;

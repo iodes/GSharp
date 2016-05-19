@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
@@ -36,7 +36,7 @@ namespace GSharp.Graphic.Statements
             {
                 GLoop loop = new GLoop();
 
-                List<GBase> childList = ChildConnectHole?.StatementBlock?.GObjectList;
+                List<GBase> childList = ChildConnectHole?.StatementBlock?.ToGObjectList();
                 if (childList != null)
                 {
                     foreach (GBase child in childList)
@@ -49,20 +49,17 @@ namespace GSharp.Graphic.Statements
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
+            List<GBase> baseList = new List<GBase>() { GLoop };
+
+            List<GBase> nextList = NextConnectHole?.StatementBlock?.ToGObjectList();
+            if (nextList != null)
             {
-                List<GBase> baseList = new List<GBase>() { GLoop };
-
-                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
-                if (nextList != null)
-                {
-                    baseList.AddRange(nextList);
-                }
-
-                return baseList;
+                baseList.AddRange(nextList);
             }
+
+            return baseList;
         }
 
         public override GStatement GStatement

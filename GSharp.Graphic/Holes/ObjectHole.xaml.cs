@@ -1,5 +1,6 @@
 ﻿using GSharp.Base.Cores;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
+using GSharp.Graphic.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace GSharp.Graphic.Holes
                 
                 // 블럭 연결
                 value.ParentHole = this;
-                BlockAttached?.Invoke(value);
+                BlockAttached?.Invoke(this, value);
                 BlockHole.Child = value;
             }
         }
@@ -89,12 +90,32 @@ namespace GSharp.Graphic.Holes
             var block = AttachedBlock;
 
             // Detach 이벤트 호출
-            BlockDetached?.Invoke(block);
+            BlockDetached?.Invoke(this, block);
 
             // 블럭 연결 해제
             BlockHole.Child = null;
 
             return block;
+        }
+
+        public override bool CanAttachBlock(BaseBlock block)
+        {
+            if (!(block is ObjectBlock))
+            {
+                return false;
+            }
+
+            if (block.AllHoleList.Contains(this))
+            {
+                return false;
+            }
+
+            if (block is IVariableBlock && ParentBlock.AllowVariableList.Contains(block as IVariableBlock))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

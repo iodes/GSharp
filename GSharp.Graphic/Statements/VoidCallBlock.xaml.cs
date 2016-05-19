@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GSharp.Base.Cores;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Graphic.Objects;
@@ -89,7 +89,7 @@ namespace GSharp.Graphic.Statements
 
                     if (hole is BaseObjectHole)
                     {
-                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.GObjectList[0] as GObject);
+                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.ToGObjectList()[0] as GObject);
                     }
                 }
 
@@ -105,19 +105,16 @@ namespace GSharp.Graphic.Statements
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
+            List<GBase> baseList = new List<GBase> { GStatement };
+            List<GBase> nextList = NextConnectHole?.StatementBlock?.ToGObjectList();
+            if (nextList != null)
             {
-                List<GBase> baseList = new List<GBase> { GStatement };
-                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
-                if (nextList != null)
-                {
-                    baseList.AddRange(nextList);
-                }
-
-                return baseList;
+                baseList.AddRange(nextList);
             }
+
+            return baseList;
         }
 
         public VoidCallBlock(GCommand command)
@@ -126,7 +123,7 @@ namespace GSharp.Graphic.Statements
 
             _GCommand = command;
 
-            _HoleList = ModuleBlock.SetContent(command.FriendlyName, command.Arguments, WrapContent);
+            _HoleList = BlockUtils.SetContent(command, WrapContent);
             _HoleList.Add(NextConnectHole);
 
             InitializeBlock();

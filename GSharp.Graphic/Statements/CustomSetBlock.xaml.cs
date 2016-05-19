@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
@@ -30,6 +30,14 @@ namespace GSharp.Graphic.Statements
         {
             InitializeComponent();
             InitializeBlock();
+        }
+
+        public Type CustomType
+        {
+            get
+            {
+                return typeof(void);
+            }
         }
 
         public override NextConnectHole NextConnectHole
@@ -83,21 +91,18 @@ namespace GSharp.Graphic.Statements
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
+            List<GBase> baseList = new List<GBase>();
+            baseList.Add(GSet);
+
+            List<GBase> nextList = NextConnectHole?.StatementBlock?.ToGObjectList();
+            if (nextList != null)
             {
-                List<GBase> baseList = new List<GBase>();
-                baseList.Add(GSet);
-
-                List<GBase> nextList = NextConnectHole?.StatementBlock?.GObjectList;
-                if (nextList != null)
-                {
-                    baseList.AddRange(nextList);
-                }
-
-                return baseList;
+                baseList.AddRange(nextList);
             }
+
+            return baseList;
         }
     }
 }

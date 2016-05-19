@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using GSharp.Base.Cores;
 using GSharp.Base.Singles;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base;
 using GSharp.Base.Scopes;
@@ -83,8 +83,10 @@ namespace GSharp.Graphic.Controls
         private List<StringHole> StringHoleList = new List<StringHole>();
         private List<CustomHole> CustomHoleList = new List<CustomHole>();
 
+        private List<BaseHole> CanAttachHoleList = new List<BaseHole>();
+
         // Variable Hole
-        //private List<VariableHole> VariableHoleList = new List<VariableHole>();
+        //private list<variablehole> variableholelist = new list<variablehole>();
 
         // 선택된 대상이 움직였는지 체크
         private bool IsSelectedBlockMoved = false;
@@ -159,6 +161,7 @@ namespace GSharp.Graphic.Controls
             {
                 SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
             }
+
             if (SelectedBlock.Position.Y < 0)
             {
                 SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
@@ -186,6 +189,7 @@ namespace GSharp.Graphic.Controls
                 {
                     SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
                 }
+
                 if (SelectedBlock.Position.Y < 0)
                 {
                     SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
@@ -204,6 +208,7 @@ namespace GSharp.Graphic.Controls
             SelectedBlock = null;
             MargnetTarget = null;
             Highlighter.Visibility = Visibility.Hidden;
+            CanAttachHoleList.Clear();
 
             ReleaseMouseCapture();
 
@@ -663,6 +668,7 @@ namespace GSharp.Graphic.Controls
 
             // 블럭의 HoleList를 가져와 BlockEditor에 추가
             List<BaseHole> holeList = block.HoleList;
+
             foreach (BaseHole hole in holeList)
             {
                 Type type = hole.GetType();
@@ -784,6 +790,31 @@ namespace GSharp.Graphic.Controls
             SelectedBlock = target;
             SelectedPosition = position;
             IsSelectedBlockMoved = false;
+
+            if (target is NumberBlock)
+            {
+                CanAttachHoleList.AddRange(NumberHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is LogicBlock)
+            {
+                CanAttachHoleList.AddRange(LogicHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is StringBlock)
+            {
+                CanAttachHoleList.AddRange(StringHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is ObjectBlock)
+            {
+                CanAttachHoleList.AddRange(ObjectHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is CustomBlock)
+            {
+                CanAttachHoleList.AddRange(CustomHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is StatementBlock)
+            {
+                CanAttachHoleList.AddRange(NextConnectHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
 
             Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
         }

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Statements"
-             xmlns:core="clr-namespace:GSharp.Graphic.Core"
+             xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" SnapsToDevicePixels="True" HorizontalAlignment="Left" VerticalAlignment="Top">
 

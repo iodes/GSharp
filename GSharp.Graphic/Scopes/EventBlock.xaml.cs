@@ -12,21 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Scopes;
 using GSharp.Extension;
+using GSharp.Graphic.Objects;
+using GSharp.Graphic.Objects.Strings;
 
 namespace GSharp.Graphic.Scopes
 {
     /// <summary>
-    /// MethodBlock.xaml에 대한 상호 작용 논리
+    /// EventBlock.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class EventBlock : ScopeBlock, IModuleBlock
     {
         #region Holes
-        // Hole List
         public override List<BaseHole> HoleList
         {
             get
@@ -60,7 +61,7 @@ namespace GSharp.Graphic.Scopes
         {
             get
             {
-                List<GBase> content = NextConnectHole?.StatementBlock?.GObjectList;
+                List<GBase> content = NextConnectHole?.StatementBlock?.ToGObjectList();
                 if (content == null)
                 {
                     content = new List<GBase>();
@@ -88,13 +89,23 @@ namespace GSharp.Graphic.Scopes
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
+        {
+            return new List<GBase> { GScope };
+        }
+        #endregion
+
+        #region ParameterBlock
+
+        public override List<IVariableBlock> AllowVariableList
         {
             get
             {
-                return new List<GBase> { GScope };
+                return _AllowVariableList;
             }
         }
+        private List<IVariableBlock> _AllowVariableList;
+
         #endregion
 
         // Constructor
@@ -108,6 +119,13 @@ namespace GSharp.Graphic.Scopes
 
             // Initialize Hole List
             _HoleList = new List<BaseHole> { NextConnectHole };
+            
+            _AllowVariableList = new List<IVariableBlock>();
+
+            for (int i=0; i<command.Arguments.Length; i++)
+            {
+                _AllowVariableList.Add(BlockUtils.CreateParameterVariable(command.Arguments[i], command.Arguments[i].ToString()));
+            }
 
             // Initialize Block
             InitializeBlock();

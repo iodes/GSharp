@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GSharp.Graphic.Holes
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class BaseStatementHole : BaseHole
     {
     }

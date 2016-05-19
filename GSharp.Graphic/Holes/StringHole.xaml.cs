@@ -1,4 +1,4 @@
-﻿using GSharp.Graphic.Core;
+﻿using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Objects.Strings;
 using System;
@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 namespace GSharp.Graphic.Holes
 {
     /// <summary>
-    /// VariableHole.xaml에 대한 상호 작용 논리
+    /// StringHole.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class StringHole : BaseObjectHole
     {
@@ -80,7 +80,7 @@ namespace GSharp.Graphic.Holes
 
                 // 블럭 연결
                 value.ParentHole = this;
-                BlockAttached?.Invoke(value);
+                BlockAttached?.Invoke(this, value);
                 BlockHole.Child = value;
 
                 // 상수 블럭을 보이지 않도록 변경
@@ -103,7 +103,7 @@ namespace GSharp.Graphic.Holes
             }
 
             // Detach 이벤트 호출
-            BlockDetached?.Invoke(block);
+            BlockDetached?.Invoke(this, block);
 
             // 블럭 연결 해제
             BlockHole.Child = null;
@@ -112,6 +112,26 @@ namespace GSharp.Graphic.Holes
             BlockString.Visibility = Visibility.Visible;
 
             return block;
+        }
+
+        public override bool CanAttachBlock(BaseBlock block)
+        {
+            if (!(block is StringBlock))
+            {
+                return false;
+            }
+
+            if (block.AllHoleList.Contains(this))
+            {
+                return false;
+            }
+
+            if (block is IVariableBlock && ParentBlock.AllowVariableList.Contains(block as IVariableBlock))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

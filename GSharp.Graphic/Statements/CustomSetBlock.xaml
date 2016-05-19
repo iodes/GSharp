@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Statements"
-             xmlns:core="clr-namespace:GSharp.Graphic.Core"
+             xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" 
-             d:DesignHeight="80" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
+             d:DesignHeight="80" d:DesignWidth="300" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <StackPanel Orientation="Vertical">
         <Grid>
             <Border BorderBrush="#D5404D" BorderThickness="1,1,0,0" Margin="0,9,0,0" Width="5" Height="4" Background="White" CornerRadius="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
@@ -23,7 +24,7 @@
                     <ComboBoxItem>test1</ComboBoxItem>
                 </ComboBox>
                 <TextBlock VerticalAlignment="Center">을(를)</TextBlock>
-                <hole:CustomHole x:Name="CustomHole" VerticalAlignment="Center" Margin="3,0" />
+                <hole:CustomHole x:Name="CustomHole" CustomType="{StaticResource CustomType}" VerticalAlignment="Center" Margin="3,0" />
                 <TextBlock x:Name="TextAfterHole" VerticalAlignment="Center">로 설정</TextBlock>
             </StackPanel>
         </Border>

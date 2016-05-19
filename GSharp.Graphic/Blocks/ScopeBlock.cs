@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GSharp.Graphic.Core
+namespace GSharp.Graphic.Blocks
 {
     public abstract class ScopeBlock : BaseBlock
     {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
@@ -51,12 +51,9 @@ namespace GSharp.Graphic.Objects.Numbers
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
-            {
-                return new List<GBase> { GObject };
-            }
+            return new List<GBase> { GObject };
         }
         #endregion
         

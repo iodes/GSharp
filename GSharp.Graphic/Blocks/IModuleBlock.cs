@@ -1,6 +1,6 @@
 ﻿using GSharp.Extension;
 
-namespace GSharp.Graphic.Core
+namespace GSharp.Graphic.Blocks
 {
     public interface IModuleBlock
     {

@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Statements;
@@ -57,7 +57,7 @@ namespace GSharp.Graphic.Objects.Logics
 
                     if (hole is BaseObjectHole)
                     {
-                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.GObjectList[0] as GObject);
+                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.ToGObjectList()[0] as GObject);
                     }
                 }
 
@@ -81,12 +81,9 @@ namespace GSharp.Graphic.Objects.Logics
             }
         }
 
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
-            {
-                return _GObjectList;
-            }
+            return _GObjectList;
         }
 
         public ICall ICall
@@ -104,7 +101,7 @@ namespace GSharp.Graphic.Objects.Logics
             InitializeComponent();
 
             GCommand = command;
-            _HoleList = ModuleBlock.SetContent(GCommand.FriendlyName, GCommand.Arguments, WrapContent);
+            _HoleList = BlockUtils.SetContent(GCommand, WrapContent);
 
             _GObjectList = new List<GBase> { GLogic };
 
