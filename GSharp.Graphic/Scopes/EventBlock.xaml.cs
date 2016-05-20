@@ -100,11 +100,22 @@ namespace GSharp.Graphic.Scopes
             
             for (int i=0; i<command.Arguments.Length; i++)
             {
-                AllowVariableList.Add(BlockUtils.CreateParameterVariable(command.Arguments[i], command.Arguments[i].ToString()));
+                IVariableBlock variableBlock = BlockUtils.CreateParameterVariable(command.Arguments[i], command.Arguments[i].ToString());
+                BaseBlock baseBlock = variableBlock as BaseBlock;
+
+                baseBlock.MouseLeftButtonDown += BaseBlock_MouseLeftButtonDown;
+
+                AllowVariableList.Add(variableBlock);
+                ParameterBox.Children.Add(baseBlock);
             }
 
             // Initialize Block
             InitializeBlock();
+        }
+
+        private void BaseBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            BlockEditor.StartBlockMove(sender as BaseBlock);
         }
     }
 }
