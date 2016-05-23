@@ -1107,6 +1107,19 @@ namespace GSharp.Graphic.Controls
         #region 컨텍스트 메뉴
         private void ContextDelete_Click(object sender, RoutedEventArgs e)
         {
+            foreach (BaseHole hole in LastSelectedBlock.AllHoleList)
+            {
+                if (hole.AttachedBlock != null)
+                {
+                    if (MessageBox.Show("연결된 모든 블럭 및 내용이 삭제됩니다.\n정말로 해당 블럭을 삭제하시겠습니까?", "확인", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+
+                    break;
+                }
+            }
+
             RemoveBlock(LastSelectedBlock);
         }
         #endregion
