@@ -1107,7 +1107,7 @@ namespace GSharp.Graphic.Controls
         #region 컨텍스트 메뉴
         private void ContextDelete_Click(object sender, RoutedEventArgs e)
         {
-            foreach (BaseHole hole in LastSelectedBlock.AllHoleList)
+            foreach (BaseHole hole in LastSelectedBlock?.AllHoleList)
             {
                 if (hole.AttachedBlock != null)
                 {
