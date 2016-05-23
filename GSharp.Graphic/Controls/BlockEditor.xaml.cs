@@ -57,6 +57,9 @@ namespace GSharp.Graphic.Controls
         // 자석 효과 대상
         private BaseHole MargnetTarget;
 
+        // 마우스가 블럭 위에 있는지 여부
+        private bool IsMouseOnBlock = false;
+
         // 자석 효과 대상 하이라이팅 효과
         private Rectangle Highlighter = new Rectangle
         {
@@ -127,6 +130,16 @@ namespace GSharp.Graphic.Controls
         private void Block_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             LastSelectedBlock = sender as BaseBlock;
+        }
+
+        private void Block_MouseLeave(object sender, MouseEventArgs e)
+        {
+            IsMouseOnBlock = false;
+        }
+
+        private void Block_MouseEnter(object sender, MouseEventArgs e)
+        {
+            IsMouseOnBlock = true;
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -655,6 +668,8 @@ namespace GSharp.Graphic.Controls
         public void AddBlock(BaseBlock block)
         {
             // 블럭 클릭 이벤트 추가
+            block.MouseEnter += Block_MouseEnter;
+            block.MouseLeave += Block_MouseLeave;
             block.MouseLeftButtonDown += Block_MouseLeftButtonDown;
             block.MouseRightButtonDown += Block_MouseRightButtonDown;
 
@@ -808,7 +823,7 @@ namespace GSharp.Graphic.Controls
 
         private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.MiddleButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && !IsMouseOnBlock)
             {
                 BlockViewer.CaptureMouse();
                 vOffset = BlockViewer.VerticalOffset;
@@ -910,8 +925,6 @@ namespace GSharp.Graphic.Controls
                     }
                     writer.WriteEndElement();
                 }
-                //writer.WriteAttributeString("Content", target.GetHashCode().ToString());
-                //Serialize(System.IO.Path.GetDirectoryName(path) + "\\" + target.GetHashCode().ToString(), (target as IModuleBlock).Command);
             }
 
             if (target.HoleList.Any())
@@ -949,7 +962,6 @@ namespace GSharp.Graphic.Controls
             {
                 BlockToXML(writer, (target as PrevStatementBlock).NextConnectHole.AttachedBlock);
             }
-
         }
 
         public void Load(string path)
@@ -1116,26 +1128,5 @@ namespace GSharp.Graphic.Controls
 
             return block;
         }
-        
-        //private void Serialize(string path, object target)
-        //{
-        //    BinaryFormatter formatter = new BinaryFormatter();
-        //    using (FileStream stream = new FileStream(path, FileMode.Create))
-        //    {
-        //        formatter.Serialize(stream, target);
-        //    }
-        //}
-
-        //private object Deserialize(string path)
-        //{
-        //    object result;
-
-        //    BinaryFormatter formatter = new BinaryFormatter(); ;
-        //    using (FileStream stream = new FileStream(path, FileMode.Open))
-        //    {
-        //        result = formatter.Deserialize(stream);
-        //    }
-        //    return result;
-        //}
     }
 }
