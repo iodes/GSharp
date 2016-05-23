@@ -150,6 +150,19 @@ namespace GSharp.Graphic.Controls
                 return;
             }
 
+            // 마우스 캡쳐 상태 처리
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (!IsMouseCaptured)
+                {
+                    CaptureMouse();
+                }
+            }
+            else
+            {
+                ReleaseMouseCapture();
+            }
+
             if (!IsSelectedBlockMoved)
             {
                 // 부모가 캔버스가 아닐때만 (null -> canvas)
@@ -802,45 +815,6 @@ namespace GSharp.Graphic.Controls
 
             Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
         }
-        #endregion
-
-        #region 컨텍스트 메뉴
-        private void ContextDelete_Click(object sender, RoutedEventArgs e)
-        {
-            RemoveBlock(LastSelectedBlock);
-        }
-        #endregion
-
-        #region 스크롤 뷰어 드래그
-        double vOffset = 0;
-        double hOffset = 0;
-        Point scrollMousePoint = new Point();
-
-        private void BlockViewer_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            BlockViewer.ReleaseMouseCapture();
-        }
-
-        private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed && !IsMouseOnBlock)
-            {
-                BlockViewer.CaptureMouse();
-                vOffset = BlockViewer.VerticalOffset;
-                hOffset = BlockViewer.HorizontalOffset;
-                scrollMousePoint = e.GetPosition(BlockViewer);
-            }
-        }
-
-        private void BlockViewer_PreviewMouseMove(object sender, MouseEventArgs e)
-        {
-            if (BlockViewer.IsMouseCaptured)
-            {
-                BlockViewer.ScrollToVerticalOffset(vOffset + (scrollMousePoint.Y - e.GetPosition(BlockViewer).Y));
-                BlockViewer.ScrollToHorizontalOffset(hOffset + (scrollMousePoint.X - e.GetPosition(BlockViewer).X));
-            }
-        }
-        #endregion
 
         public void Save(string path)
         {
@@ -907,7 +881,7 @@ namespace GSharp.Graphic.Controls
             if (target is IModuleBlock)
             {
                 var moduleBlock = target as IModuleBlock;
-                
+
                 writer.WriteAttributeString("FriendlyName", moduleBlock.GCommand.FriendlyName);
                 writer.WriteAttributeString("NamespaceName", moduleBlock.GCommand.NamespaceName);
                 writer.WriteAttributeString("MethodName", moduleBlock.GCommand.MethodName);
@@ -915,7 +889,7 @@ namespace GSharp.Graphic.Controls
                 writer.WriteAttributeString("ObjectType", moduleBlock.GCommand.ObjectType.ToString());
 
                 if (moduleBlock.GCommand.Arguments?.Length > 0)
-                { 
+                {
                     writer.WriteStartElement("Arguments");
                     foreach (Type arg in moduleBlock.GCommand.Arguments)
                     {
@@ -968,7 +942,7 @@ namespace GSharp.Graphic.Controls
         {
             var document = new XmlDocument();
             document.Load(path);
-            
+
             foreach (XmlElement element in document.SelectNodes("/Canvas/Blocks"))
             {
                 var position = Point.Parse(element.GetAttribute("Position"));
@@ -984,7 +958,7 @@ namespace GSharp.Graphic.Controls
             BaseBlock prevBlock = null;
             BaseBlock firstBlock = null;
 
-            foreach(XmlElement element in parent.ChildNodes)
+            foreach (XmlElement element in parent.ChildNodes)
             {
                 var block = BlockFromXML(element);
 
@@ -1020,7 +994,7 @@ namespace GSharp.Graphic.Controls
             BaseBlock block;
 
             var constructorInfo = blockType.GetConstructor(Type.EmptyTypes);
-            
+
             if (constructorInfo != null)
             {
                 // 블럭 생성에 인자가 필요 없음
@@ -1036,7 +1010,7 @@ namespace GSharp.Graphic.Controls
                     var friendlyName = element.GetAttribute("FriendlyName");
                     var namespaceName = element.GetAttribute("NamespaceName");
                     var methodName = element.GetAttribute("MethodName");
-                    var methodType = (GCommand.CommandType) Enum.Parse(typeof(GCommand.CommandType), element.GetAttribute("MethodType"));
+                    var methodType = (GCommand.CommandType)Enum.Parse(typeof(GCommand.CommandType), element.GetAttribute("MethodType"));
                     var objectType = Type.GetType(element.GetAttribute("ObjectType"));
 
                     var commandArgList = new List<Type>();
@@ -1128,5 +1102,44 @@ namespace GSharp.Graphic.Controls
 
             return block;
         }
+        #endregion
+
+        #region 컨텍스트 메뉴
+        private void ContextDelete_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveBlock(LastSelectedBlock);
+        }
+        #endregion
+
+        #region 스크롤 뷰어 드래그
+        double vOffset = 0;
+        double hOffset = 0;
+        Point scrollMousePoint = new Point();
+
+        private void BlockViewer_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            BlockViewer.ReleaseMouseCapture();
+        }
+
+        private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && !IsMouseOnBlock)
+            {
+                BlockViewer.CaptureMouse();
+                vOffset = BlockViewer.VerticalOffset;
+                hOffset = BlockViewer.HorizontalOffset;
+                scrollMousePoint = e.GetPosition(BlockViewer);
+            }
+        }
+
+        private void BlockViewer_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (BlockViewer.IsMouseCaptured)
+            {
+                BlockViewer.ScrollToVerticalOffset(vOffset + (scrollMousePoint.Y - e.GetPosition(BlockViewer).Y));
+                BlockViewer.ScrollToHorizontalOffset(hOffset + (scrollMousePoint.X - e.GetPosition(BlockViewer).X));
+            }
+        }
+        #endregion
     }
 }
