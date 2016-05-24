@@ -57,9 +57,6 @@ namespace GSharp.Graphic.Controls
         // 자석 효과 대상
         private BaseHole MargnetTarget;
 
-        // 마우스가 블럭 위에 있는지 여부
-        private bool IsMouseOnBlock = false;
-
         // 자석 효과 대상 하이라이팅 효과
         private Rectangle Highlighter = new Rectangle
         {
@@ -130,16 +127,6 @@ namespace GSharp.Graphic.Controls
         private void Block_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             LastSelectedBlock = sender as BaseBlock;
-        }
-
-        private void Block_MouseLeave(object sender, MouseEventArgs e)
-        {
-            IsMouseOnBlock = false;
-        }
-
-        private void Block_MouseEnter(object sender, MouseEventArgs e)
-        {
-            IsMouseOnBlock = true;
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -674,6 +661,47 @@ namespace GSharp.Graphic.Controls
             Master.Children.Add(block);
             block.ParentHole = null;
         }
+
+        private DependencyObject GetParent(DependencyObject obj)
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+
+            ContentElement ce = obj as ContentElement;
+
+            if (ce != null)
+            {
+                DependencyObject parent = ContentOperations.GetParent(ce);
+
+                if (parent != null)
+                {
+                    return parent;
+                }
+
+                FrameworkContentElement fce = ce as FrameworkContentElement;
+                return fce != null ? fce.Parent : null;
+            }
+
+            return VisualTreeHelper.GetParent(obj);
+        }
+
+        private T FindAncestorOrSelf<T>(DependencyObject obj) where T : DependencyObject
+        {
+            while (obj != null)
+            {
+                T objTest = obj as T;
+                if (objTest != null)
+                {
+                    return objTest;
+                }
+
+                obj = GetParent(obj);
+            }
+
+            return null;
+        }
         #endregion
 
         #region 컨트롤 함수
@@ -681,8 +709,6 @@ namespace GSharp.Graphic.Controls
         public void AddBlock(BaseBlock block)
         {
             // 블럭 클릭 이벤트 추가
-            block.MouseEnter += Block_MouseEnter;
-            block.MouseLeave += Block_MouseLeave;
             block.MouseLeftButtonDown += Block_MouseLeftButtonDown;
             block.MouseRightButtonDown += Block_MouseRightButtonDown;
 
@@ -1136,7 +1162,7 @@ namespace GSharp.Graphic.Controls
 
         private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && !IsMouseOnBlock)
+            if (e.LeftButton == MouseButtonState.Pressed && FindAncestorOrSelf<BaseBlock>((DependencyObject)Mouse.DirectlyOver) == null)
             {
                 BlockViewer.CaptureMouse();
                 vOffset = BlockViewer.VerticalOffset;
