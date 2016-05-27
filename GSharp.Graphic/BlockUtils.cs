@@ -154,16 +154,18 @@ namespace GSharp.Graphic
         /// <summary>
         /// 매개변수 블럭을 생성해 주는 함수
         /// </summary>
-        /// <param name="variableType">매개변수의 자료형</param>
-        /// <param name="variableName">매개변수의 이름</param>
-        /// <returns>
+        /// <param name="variableName">
+        /// 매개변수의 이름
         /// 매개변수의 이름은 "param" + "매개변수의 이름(첫번째 글자만 대문자로 변경)"이 됩니다.
+        /// </param>
+        /// <param name="variableType">매개변수의 자료형</param>
+        /// <returns>
         /// 매개변수의 자료형이 string이면 StringVariableBlock을 반환
         /// 매개변수의 자료형이 bool이면 LogicVariableBlock을 반환
         /// 매개변수의 자료형이 숫자 형태(<see cref="numberTypes" />)인 경우 NumberVariableBlock을 반환
         /// 이 외의 경우 CustomVariableBlock을 반환합니다.
         /// </returns>
-        public static IVariableBlock CreateParameterVariable(Type variableType, string variableName)
+        public static IVariableBlock CreateParameterVariable(string variableName, Type variableType)
         {
             // 매개변수 이름을 첫번째 글자를 대문자로 바꾸고 param을 붙임
             variableName = "param" + variableName.First().ToString().ToUpper() + variableName.Substring(1);
@@ -193,18 +195,18 @@ namespace GSharp.Graphic
         /// <summary>
         /// 일반 변수 블럭을 생성하는 함수입니다.
         /// </summary>
-        /// <param name="variableType">변수의 자료형</param>
         /// <param name="variableName">
         /// 변수의 이름
         /// 매개변수의 이름은 "var" + "매개변수의 이름(첫번째 글자만 대문자로 변경)"이 됩니다.
         /// </param>
+        /// <param name="variableType">변수의 자료형</param>
         /// <returns>
         /// 매개변수의 자료형이 string이면 StringVariableBlock을 반환
         /// 매개변수의 자료형이 bool이면 LogicVariableBlock을 반환
         /// 매개변수의 자료형이 숫자 형태(<see cref="numberTypes" />)인 경우 NumberVariableBlock을 반환
         /// 이 외의 경우 CustomVariableBlock을 반환
         /// </returns>
-        public static IVariableBlock CreateVariableBlock(Type variableType, string variableName)
+        public static IVariableBlock CreateVariableBlock(string variableName, Type variableType)
         {
             // 매개변수 이름을 첫번째 글자를 대문자로 바꾸고 param을 붙임
             variableName = "var" + variableName.First().ToString().ToUpper() + variableName.Substring(1);

@@ -8,6 +8,14 @@ namespace GSharp.Base.Objects.Strings
     {
         #region 속성
         public string Name { get; set; }
+
+        public Type VariableType
+        {
+            get
+            {
+                return typeof(string);
+            }
+        }
         #endregion
 
         #region 생성자

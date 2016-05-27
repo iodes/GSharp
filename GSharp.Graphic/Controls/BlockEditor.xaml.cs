@@ -97,7 +97,7 @@ namespace GSharp.Graphic.Controls
         private bool IsSelectedBlockMoved = false;
 
         // 변수 목록
-        public Dictionary<string, IVariable> VariableList { get; } = new Dictionary<string, IVariable>();
+        public Dictionary<string, IVariableBlock> GlobalVariableBlockList { get; } = new Dictionary<string, IVariableBlock>();
         //private Dictionary<string, GStringVariable> StringVariableList = new Dictionary<string, GStringVariable>();
         //private Dictionary<string, GNumberVariable> NumberVariableList = new Dictionary<string, GNumberVariable>();
         //private Dictionary<string, GLogicVariable> LogicVariableList = new Dictionary<string, GLogicVariable>();
@@ -241,26 +241,32 @@ namespace GSharp.Graphic.Controls
 
         #region 변수 선언
         // 변수 선언
-        public void DefineVariable(string varName)
+        public bool DefineGlobalVariable(string varName, Type variableType)
         {
-            //VariableList[varName] = new GDefine(varName);
+            if (GlobalVariableBlockList.Keys.Contains(varName))
+            {
+                return false;
+            }
+
+            GlobalVariableBlockList[varName] = BlockUtils.CreateVariableBlock(varName, variableType);
+            return true;
         }
 
         // 변순 선언 해제
-        public void UnDefineVariable(string varName)
+        public void UndefineGlobalVariable(string varName)
         {
-            VariableList.Remove(varName);
+            GlobalVariableBlockList.Remove(varName);
         }
 
         // 변수 목록
-        public List<string> GetVariableNameList()
+        public List<string> GetGlobalVariableNameList()
         {
-            return VariableList.Keys.ToList();
+            return GlobalVariableBlockList.Keys.ToList();
         }
 
-        public List<IVariable> GetDefineList()
+        public List<IVariableBlock> GetGlobalVariableBlockList()
         {
-            return VariableList.Values.ToList();
+            return GlobalVariableBlockList.Values.ToList();
         }
         #endregion
 
@@ -776,9 +782,9 @@ namespace GSharp.Graphic.Controls
                 GEntry entry = new GEntry();
                 List<GBase> list = new List<GBase>();
 
-                foreach (GDefine define in VariableList.Values)
+                foreach (IVariableBlock variableBlock in GetGlobalVariableBlockList())
                 {
-                    entry.Append(define);
+                    entry.Append(new GDefine(variableBlock.IVariable));
                 }
 
                 foreach (var block in Master.Children)

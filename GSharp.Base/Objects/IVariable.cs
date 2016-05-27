@@ -9,5 +9,7 @@ namespace GSharp.Base.Objects
     public interface IVariable
     {
         string Name { get; set; }
+
+        Type VariableType { get; }
     }
 }

@@ -54,7 +54,7 @@ namespace GSharp.Graphic.Objects.Customs
         private List<GBase> _GObjectList;
 
         public CustomVariableBlock(GCustomVariable variable)
-            : base(variable.Type)
+            : base(variable.CustomType)
         {
             InitializeComponent();
 

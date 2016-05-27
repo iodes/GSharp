@@ -98,9 +98,9 @@ namespace GSharp.Graphic.Scopes
             // Initialize Hole List
             HoleList.Add(NextConnectHole);
             
-            for (int i=0; i<command.Arguments.Length; i++)
+            for (int i=0; i<command.Arguments?.Length; i++)
             {
-                IVariableBlock variableBlock = BlockUtils.CreateParameterVariable(command.Arguments[i], command.Arguments[i].ToString());
+                IVariableBlock variableBlock = BlockUtils.CreateParameterVariable(command.Arguments[i].ToString(), command.Arguments[i]);
                 BaseBlock baseBlock = variableBlock as BaseBlock;
 
                 baseBlock.MouseLeftButtonDown += BaseBlock_MouseLeftButtonDown;
@@ -115,7 +115,23 @@ namespace GSharp.Graphic.Scopes
 
         private void BaseBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            BlockEditor.StartBlockMove(sender as BaseBlock);
+            var block = sender as IVariableBlock;
+            var copiedBlock = Activator.CreateInstance(block.GetType(), new object[]{ block.IVariable }) as BaseBlock;
+
+            BlockEditor.AddBlock(copiedBlock);
+
+            var masterPosition = e.GetPosition(BlockEditor.Master);
+            var blockPosition = e.GetPosition(block as BaseBlock);
+
+            copiedBlock.Position = new Point
+            {
+                X = masterPosition.X - blockPosition.X,
+                Y = masterPosition.Y - blockPosition.Y
+            };
+
+            BlockEditor.StartBlockMove(copiedBlock, blockPosition);
+
+            e.Handled = true;
         }
     }
 }

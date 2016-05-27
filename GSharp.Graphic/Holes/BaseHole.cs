@@ -63,7 +63,7 @@ namespace GSharp.Graphic.Holes
             {
                 var varBlock = block as IVariableBlock;
 
-                if (!block.BlockEditor.VariableList.Values.Contains((block as IVariableBlock).IVariable) && !ParentBlock.AllowVariableList.Contains(block as IVariableBlock))
+                if (!block.BlockEditor.GetGlobalVariableBlockList().Contains(block as IVariableBlock) && !ParentBlock.AllowVariableList.Contains(block as IVariableBlock))
                 {
                     return false;
                 }

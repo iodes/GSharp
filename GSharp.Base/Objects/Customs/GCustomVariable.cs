@@ -7,22 +7,30 @@ namespace GSharp.Base.Objects.Customs
     public class GCustomVariable : GCustom, IVariable
     {
         #region 속성
-        public override Type Type
+        public override Type CustomType
         {
             get
             {
-                return _Type;
+                return VariableType;
             }
         }
-        private Type _Type;
+
+        public Type VariableType
+        {
+            get
+            {
+                return _VariableType;
+            }
+        }
+        private Type _VariableType;
 
         public string Name { get; set; }
         #endregion
 
         #region 생성자
-        public GCustomVariable(Type type, string valueName)
+        public GCustomVariable(Type variableType, string valueName)
         {
-            _Type = type;
+            _VariableType = variableType;
             Name = valueName;
         }
         #endregion
