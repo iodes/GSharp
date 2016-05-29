@@ -12,9 +12,20 @@
              d:DesignHeight="300" d:DesignWidth="300" UseLayoutRounding="True">
 
     <ScrollViewer x:Name="BlockViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid x:Name="BlockGrid">
+        <Grid x:Name="BlockGrid" Background="#00000000">
             <Grid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem x:Name="ContextVariable" Header="새로운 변수">
+                        <MenuItem.Icon>
+                            <Image Source="/GSharp.Graphic;component/Images/ContextVariable.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="ContextFunction" Header="새로운 함수">
+                        <MenuItem.Icon>
+                            <Image Source="/GSharp.Graphic;component/Images/ContextFunction.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator x:Name="ContextSeparator"/>
                     <MenuItem x:Name="ContextDelete" Header="삭제">
                         <MenuItem.Icon>
                             <Image Source="/GSharp.Graphic;component/Images/ContextDelete.gif"/>

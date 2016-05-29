@@ -102,18 +102,43 @@ namespace GSharp.Graphic.Controls
             InitializeComponent();
 
             ContextDelete.Click += ContextDelete_Click;
+            ContextVariable.Click += ContextVariable_Click;
+            ContextFunction.Click += ContextFunction_Click;
+
             BlockViewer.PreviewMouseMove += BlockViewer_PreviewMouseMove;
             BlockViewer.PreviewMouseDown += BlockViewer_PreviewMouseDown;
             BlockViewer.PreviewMouseUp += BlockViewer_PreviewMouseUp;
+            BlockViewer.ContextMenuOpening += BlockViewer_ContextMenuOpening;
 
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
             Master.Children.Add(Highlighter);
+        }
+
+        private void BlockViewer_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (MouseOnBlock())
+            {
+                ContextDelete.Visibility = Visibility.Visible;
+                ContextSeparator.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                ContextDelete.Visibility = Visibility.Collapsed;
+                ContextSeparator.Visibility = Visibility.Collapsed;
+            }
         }
         #endregion
 
         #region 이벤트
         public event BlockChangedEventHandler BlockChanged;
         public delegate void BlockChangedEventHandler();
+
+        public event CreateVariableRequestedHandler CreateVariableRequested;
+        public delegate void CreateVariableRequestedHandler();
+
+        public event CreateFunctionRequestedHandler CreateFunctionRequested;
+        public delegate void CreateFunctionRequestedHandler();
 
         private void Block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -640,6 +665,11 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 내부 함수
+        private bool MouseOnBlock()
+        {
+            return FindAncestorOrSelf<BaseBlock>((DependencyObject)Mouse.DirectlyOver) != null;
+        }
+
         private double GetDistance2(Point a, Point b)
         {
             return Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2);
@@ -1148,6 +1178,16 @@ namespace GSharp.Graphic.Controls
 
             RemoveBlock(LastSelectedBlock);
         }
+
+        private void ContextVariable_Click(object sender, RoutedEventArgs e)
+        {
+            CreateVariableRequested?.Invoke();
+        }
+
+        private void ContextFunction_Click(object sender, RoutedEventArgs e)
+        {
+            CreateFunctionRequested?.Invoke();
+        }
         #endregion
 
         #region 스크롤 뷰어 드래그
@@ -1162,7 +1202,7 @@ namespace GSharp.Graphic.Controls
 
         private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && FindAncestorOrSelf<BaseBlock>((DependencyObject)Mouse.DirectlyOver) == null)
+            if (e.LeftButton == MouseButtonState.Pressed && !MouseOnBlock())
             {
                 BlockViewer.CaptureMouse();
                 vOffset = BlockViewer.VerticalOffset;
