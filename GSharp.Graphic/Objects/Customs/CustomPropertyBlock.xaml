@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
 
-    <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
-        <TextBlock x:Name="PropertyName"></TextBlock>
+    <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
+        <TextBlock x:Name="PropertyName" Foreground="White" FontWeight="Bold"></TextBlock>
     </Border>
 </objects:CustomBlock>

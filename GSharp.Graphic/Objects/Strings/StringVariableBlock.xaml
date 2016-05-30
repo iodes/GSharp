@@ -8,7 +8,7 @@
              xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100" HorizontalAlignment="Left" VerticalAlignment="Top">
-    <Border CornerRadius="2" Padding="3" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#D5404D" BorderThickness="1">
-        <TextBlock x:Name="VariableName" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
+        <TextBlock x:Name="VariableName" Foreground="White" FontWeight="Bold" />
     </Border>
 </objects:StringBlock>

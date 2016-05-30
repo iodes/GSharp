@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
              mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top">
-
-    <Border CornerRadius="2" Padding="3" Background="#FFEE7D16" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FFC15F06" BorderThickness="1">
-        <TextBlock x:Name="PropertyName" Foreground="White" FontWeight="Bold"/>
-    </Border>
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Path Panel.ZIndex="1" Data="M 0,10 10,0 13,0 L 13,20 10, 20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
+            <Border Panel.ZIndex="2" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="0,1" Margin="0,0,-2,0">
+                <TextBlock x:Name="PropertyName" />
+            </Border>
+            <Path Panel.ZIndex="1" Data="M 0,0 3,0 13,10 L 3,20 0,20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
+        </StackPanel>
+    </StackPanel>
 </objects:LogicBlock>
