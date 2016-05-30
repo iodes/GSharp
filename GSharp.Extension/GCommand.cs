@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GSharp.Extension.Optionals;
+using System;
 using System.Drawing;
 using System.Security.Cryptography;
 using System.Text;
@@ -26,6 +27,15 @@ namespace GSharp.Extension
             }
         }
         private Type[] _Arguments;
+
+        public GOptional[] Optionals
+        {
+            get
+            {
+                return _Optionals;
+            }
+        }
+        private GOptional[] _Optionals;
 
         public Type ObjectType
         {
@@ -102,12 +112,13 @@ namespace GSharp.Extension
         #endregion
 
         #region 생성자
-        public GCommand(string methodName, Type objectType, CommandType methodType, Type[] arguments = null)
+        public GCommand(string methodName, Type objectType, CommandType methodType, Type[] arguments = null, GOptional[] optionals = null)
         {
             _ObjectType = objectType;
             _MethodName = methodName;
             _MethodType = methodType;
             _Arguments = arguments;
+            _Optionals = optionals;
 
             using (MD5 md5 = MD5.Create())
             {
@@ -124,20 +135,20 @@ namespace GSharp.Extension
             }
         }
 
-        public GCommand(string namespaceName, string methodName, Type objectType, CommandType methodType, Type[] arguments = null)
-            : this(methodName, objectType, methodType, arguments)
+        public GCommand(string namespaceName, string methodName, Type objectType, CommandType methodType, Type[] arguments = null, GOptional[] optionals = null)
+            : this(methodName, objectType, methodType, arguments, optionals)
         {
             _NamespaceName = namespaceName;
         }
 
-        public GCommand(string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, Type[] arguments = null)
-            : this(namespaceName, methodName, objectType, methodType, arguments)
+        public GCommand(string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, Type[] arguments = null, GOptional[] optionals = null)
+            : this(namespaceName, methodName, objectType, methodType, arguments, optionals)
         {
             _FriendlyName = friendlyName;
         }
 
-        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, Type[] arguments = null)
-            : this(namespaceName, methodName, friendlyName, objectType, methodType, arguments)
+        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, Type[] arguments = null, GOptional[] optionals = null)
+            : this(namespaceName, methodName, friendlyName, objectType, methodType, arguments, optionals)
         {
             _Parent = parent;
         }

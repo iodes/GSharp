@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
+using GSharp.Extension.Optionals;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Scopes;
-using GSharp.Graphic.Objects;
 using GSharp.Graphic.Statements;
 using GSharp.Extension.Abstracts;
 using GSharp.Extension.Attributes;
@@ -206,6 +206,17 @@ namespace GSharp.Manager
                         GCommandAttribute command = GetAttribute<GCommandAttribute>(enumeration);
                         if (command != null && enumeration.IsEnum)
                         {
+                            // 열거형 필드 분석
+                            List<GEnumeration> gEnumList = new List<GEnumeration>();
+                            foreach (FieldInfo enumerationField in enumeration.GetFields())
+                            {
+                                GFieldAttribute fieldCommand = GetAttribute<GFieldAttribute>(enumerationField);
+                                if (fieldCommand != null)
+                                {
+                                    gEnumList.Add(new GEnumeration(enumerationField.Name, $"{value.FullName}.{enumeration.Name}.{enumerationField.Name}", fieldCommand.Name));
+                                }
+                            }
+
                             // 커멘드 목록 추가
                             target.Commands.Add(
                                 new GCommand
@@ -215,7 +226,9 @@ namespace GSharp.Manager
                                     enumeration.Name,
                                     command.Name,
                                     enumeration,
-                                    GCommand.CommandType.Enum
+                                    GCommand.CommandType.Enum,
+                                    null,
+                                    gEnumList.ToArray()
                                 )
                             );
                         }

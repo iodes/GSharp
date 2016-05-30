@@ -47,9 +47,12 @@
     <Compile Include="Abstracts\GModule.cs" />
     <Compile Include="Abstracts\GView.cs" />
     <Compile Include="Attributes\GCommandAttribute.cs" />
+    <Compile Include="Attributes\GFieldAttribute.cs" />
     <Compile Include="GControl.cs" />
     <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />
+    <Compile Include="Optionals\GEnumeration.cs" />
+    <Compile Include="Optionals\GOptional.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
