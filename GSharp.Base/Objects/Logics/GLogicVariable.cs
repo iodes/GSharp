@@ -8,6 +8,14 @@ namespace GSharp.Base.Objects.Logics
     {
         #region 속성
         public string Name { get; set; }
+
+        public Type VariableType
+        {
+            get
+            {
+                return typeof(bool);
+            }
+        }
         #endregion
 
         #region 생성자

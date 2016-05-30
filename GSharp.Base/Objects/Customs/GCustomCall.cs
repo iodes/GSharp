@@ -10,7 +10,7 @@ namespace GSharp.Base.Objects.Customs
     public class GCustomCall : GCustom, ICall
     {
         #region 객체
-        public override Type Type
+        public override Type CustomType
         {
             get
             {

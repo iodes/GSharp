@@ -1,4 +1,6 @@
-﻿using GSharp.Graphic.Core;
+﻿using GSharp.Base.Objects;
+using GSharp.Graphic.Blocks;
+using GSharp.Graphic.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,62 +11,71 @@ using System.Windows.Media;
 
 namespace GSharp.Graphic.Holes
 {
+    /// <summary>
+    /// 모든 구멍들의 최상위 클래스로써 구멍에 필수적으로 필요한 내용을 정의
+    /// </summary>
     public abstract class BaseHole : UserControl
     {
-        // 부모 블럭
+        /// <summary>
+        /// 구멍이 붙어있는 블럭입니다.
+        /// </summary>
         public BaseBlock ParentBlock { get; set; }
 
-        // 연결된 블럭
+        /// <summary>
+        /// 구멍에 끼워져 있는 블럭입니다.
+        /// </summary>
         public abstract BaseBlock AttachedBlock { get; }
-        
-        public delegate void HoleEventArgs(BaseBlock block);
 
-        // 블럭이 연결되었을 때 이벤트
+        /// <summary>
+        /// 구멍에 블럭이 끼워지거나 떨어지는 이벤트의 대리자입니다.
+        /// </summary>
+        /// <param name="hole">이벤트가 발생한 구멍</param>
+        /// <param name="block">이벤트가 발생한 블럭</param>
+        public delegate void HoleEventArgs(BaseHole hole, BaseBlock block);
+
+
+        /// <summary>
+        /// 구멍에 블럭이 끼워졌을 때 이벤트입니다.
+        /// </summary>
         public virtual event HoleEventArgs BlockAttached;
 
-        // 블럭이 제거되었을 때 이벤트
+        /// <summary>
+        /// 구멍에 블럭이 떨어졌을 때 이벤트입니다.
+        /// </summary>
         public virtual event HoleEventArgs BlockDetached;
 
-        // 블럭 연결을 해제
-        public virtual BaseBlock DetachBlock()
+        /// <summary>
+        /// 구멍에 해당 블럭을 끼울 수 있는지 확인합니다.
+        /// </summary>
+        /// <param name="block">확인하고 싶은 블럭</param>
+        /// <returns>
+        /// <c>true</c>: 끼울 수 있을 때
+        /// <c>false</c>: 끼울 수 없을 때
+        /// </returns>
+        public virtual bool CanAttachBlock(BaseBlock block)
         {
-            return null;
-        }
-
-        private static Type[] numberTypes = new Type[] {
-            typeof(Char),
-
-            typeof(Int16),
-            typeof(UInt16),
-
-            typeof(Int32),
-            typeof(UInt32),
-
-            typeof(Int64),
-            typeof(UInt64),
-
-            typeof(Single),
-            typeof(Double),
-        };
-
-        public static BaseHole CreateHole(Type holeType)
-        {
-            // StringHole
-            if (holeType == typeof(string))
+            if (block.AllHoleList.Contains(this))
             {
-                return new StringHole
+                return false;
+            }
+            
+            if (block is IVariableBlock)
+            {
+                var varBlock = block as IVariableBlock;
+
+                if (!block.BlockEditor.GetGlobalVariableBlockList().Contains(block as IVariableBlock) && !ParentBlock.AllowVariableList.Contains(block as IVariableBlock))
                 {
-                    Foreground = new BrushConverter().ConvertFromString("#086748") as Brush
-                };
+                    return false;
+                }
             }
 
-            // NumberHole
-            if (numberTypes.Contains(holeType))
-            {
-                return new NumberHole();
-            }
-
-            return new CustomHole();
+            return true;
         }
+
+        /// <summary>
+        /// 끼워져 있는 블럭을 떨어트립니다.
+        /// </summary>
+        /// <returns>떨어진 블럭을 반환</returns>
+        public abstract BaseBlock DetachBlock();
     }
 }

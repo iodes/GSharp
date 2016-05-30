@@ -8,6 +8,14 @@ namespace GSharp.Base.Objects.Numbers
     {
         #region 속성
         public string Name { get; set; }
+
+        public Type VariableType
+        {
+            get
+            {
+                return typeof(double);
+            }
+        }
         #endregion
 
         #region 생성자

@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using GSharp.Base.Cores;
 using GSharp.Base.Singles;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base;
 using GSharp.Base.Scopes;
@@ -25,6 +25,11 @@ using GSharp.Extension;
 using GSharp.Graphic.Objects.Logics;
 using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Numbers;
+using GSharp.Base.Objects;
+using GSharp.Base.Objects.Logics;
+using GSharp.Base.Objects.Strings;
+using GSharp.Base.Objects.Numbers;
+using GSharp.Base.Objects.Customs;
 
 namespace GSharp.Graphic.Controls
 {
@@ -35,6 +40,9 @@ namespace GSharp.Graphic.Controls
     {
 
         #region 속성
+        /// <summary>
+        /// 모든 블럭 객체를 포함하는 최상위 객체를 가져옵니다.
+        /// </summary>
         public Grid Master
         {
             get
@@ -67,9 +75,6 @@ namespace GSharp.Graphic.Controls
             Fill = Brushes.Green
         };
 
-        // 자석 효과 대상 목록
-        //private List<BaseHole> HoleList = new List<BaseHole>();
-
         // Hole 목록
         // Statement Hole
         private List<NextConnectHole> NextConnectHoleList = new List<NextConnectHole>();
@@ -83,14 +88,20 @@ namespace GSharp.Graphic.Controls
         private List<StringHole> StringHoleList = new List<StringHole>();
         private List<CustomHole> CustomHoleList = new List<CustomHole>();
 
+        private List<BaseHole> CanAttachHoleList = new List<BaseHole>();
+
         // Variable Hole
-        //private List<VariableHole> VariableHoleList = new List<VariableHole>();
+        //private list<variablehole> variableholelist = new list<variablehole>();
 
         // 선택된 대상이 움직였는지 체크
         private bool IsSelectedBlockMoved = false;
 
         // 변수 목록
-        private Dictionary<string, GDefine> VariableList = new Dictionary<string, GDefine>();
+        public Dictionary<string, IVariableBlock> GlobalVariableBlockList { get; } = new Dictionary<string, IVariableBlock>();
+        //private Dictionary<string, GStringVariable> StringVariableList = new Dictionary<string, GStringVariable>();
+        //private Dictionary<string, GNumberVariable> NumberVariableList = new Dictionary<string, GNumberVariable>();
+        //private Dictionary<string, GLogicVariable> LogicVariableList = new Dictionary<string, GLogicVariable>();
+        //private Dictionary<string, GCustomVariable> CustomVariableList = new Dictionary<string, GCustomVariable>();
 
         // 함수 목록
         private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
@@ -197,6 +208,7 @@ namespace GSharp.Graphic.Controls
             {
                 SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
             }
+
             if (SelectedBlock.Position.Y < 0)
             {
                 SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
@@ -224,6 +236,7 @@ namespace GSharp.Graphic.Controls
                 {
                     SelectedBlock.Position = new Point(0, SelectedBlock.Position.Y);
                 }
+
                 if (SelectedBlock.Position.Y < 0)
                 {
                     SelectedBlock.Position = new Point(SelectedBlock.Position.X, 0);
@@ -242,6 +255,7 @@ namespace GSharp.Graphic.Controls
             SelectedBlock = null;
             MargnetTarget = null;
             Highlighter.Visibility = Visibility.Hidden;
+            CanAttachHoleList.Clear();
 
             ReleaseMouseCapture();
 
@@ -265,26 +279,32 @@ namespace GSharp.Graphic.Controls
 
         #region 변수 선언
         // 변수 선언
-        public void DefineVariable(string varName)
+        public bool DefineGlobalVariable(string varName, Type variableType)
         {
-            VariableList[varName] = new GDefine(varName);
+            if (GlobalVariableBlockList.Keys.Contains(varName))
+            {
+                return false;
+            }
+
+            GlobalVariableBlockList[varName] = BlockUtils.CreateVariableBlock(varName, variableType);
+            return true;
         }
 
         // 변순 선언 해제
-        public void UnDefineVariable(string varName)
+        public void UndefineGlobalVariable(string varName)
         {
-            VariableList.Remove(varName);
+            GlobalVariableBlockList.Remove(varName);
         }
 
         // 변수 목록
-        public List<string> GetVariableNameList()
+        public List<string> GetGlobalVariableNameList()
         {
-            return VariableList.Keys.ToList();
+            return GlobalVariableBlockList.Keys.ToList();
         }
 
-        public List<GDefine> GetDefineList()
+        public List<IVariableBlock> GetGlobalVariableBlockList()
         {
-            return VariableList.Values.ToList();
+            return GlobalVariableBlockList.Values.ToList();
         }
         #endregion
 
@@ -735,7 +755,10 @@ namespace GSharp.Graphic.Controls
         #endregion
 
         #region 컨트롤 함수
-        // 블럭 추가
+        /// <summary>
+        /// 블럭 에디터에 블럭을 추가하고 필요한 내용을 추가합니다.
+        /// </summary>
+        /// <param name="block">추가할 블럭</param>
         public void AddBlock(BaseBlock block)
         {
             // 블럭 클릭 이벤트 추가
@@ -745,8 +768,12 @@ namespace GSharp.Graphic.Controls
             // 블럭을 캔버스에 추가
             AttachToCanvas(block);
 
+            // 블럭에 에디터 정보 저장
+            block.BlockEditor = this;
+
             // 블럭의 HoleList를 가져와 BlockEditor에 추가
             List<BaseHole> holeList = block.HoleList;
+
             foreach (BaseHole hole in holeList)
             {
                 Type type = hole.GetType();
@@ -839,9 +866,9 @@ namespace GSharp.Graphic.Controls
                 GEntry entry = new GEntry();
                 List<GBase> list = new List<GBase>();
 
-                foreach (GDefine define in VariableList.Values)
+                foreach (IVariableBlock variableBlock in GetGlobalVariableBlockList())
                 {
-                    entry.Append(define);
+                    entry.Append(new GDefine(variableBlock.IVariable));
                 }
 
                 foreach (var block in Master.Children)
@@ -868,6 +895,31 @@ namespace GSharp.Graphic.Controls
             SelectedBlock = target;
             SelectedPosition = position;
             IsSelectedBlockMoved = false;
+
+            if (target is NumberBlock)
+            {
+                CanAttachHoleList.AddRange(NumberHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is LogicBlock)
+            {
+                CanAttachHoleList.AddRange(LogicHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is StringBlock)
+            {
+                CanAttachHoleList.AddRange(StringHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is ObjectBlock)
+            {
+                CanAttachHoleList.AddRange(ObjectHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is CustomBlock)
+            {
+                CanAttachHoleList.AddRange(CustomHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
+            else if (target is StatementBlock)
+            {
+                CanAttachHoleList.AddRange(NextConnectHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+            }
 
             Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
         }

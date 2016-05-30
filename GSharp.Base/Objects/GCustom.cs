@@ -6,6 +6,6 @@ namespace GSharp.Base.Cores
     [Serializable]
     public abstract class GCustom : GObject
     {
-        public abstract Type Type { get; }
+        public abstract Type CustomType { get; }
     }
 }

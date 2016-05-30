@@ -8,7 +8,7 @@ namespace GSharp.Base.Objects.Customs
     public class GCustomProperty : GCustom, IProperty
     {
         #region 속성
-        public override Type Type
+        public override Type CustomType
         {
             get
             {

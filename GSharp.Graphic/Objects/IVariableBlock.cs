@@ -1,6 +1,6 @@
 ﻿
 using GSharp.Base.Objects;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;

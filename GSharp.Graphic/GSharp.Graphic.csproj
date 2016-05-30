@@ -48,19 +48,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockUtils.cs" />
     <Compile Include="Controls\BlockEditor.xaml.cs">
       <DependentUpon>BlockEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\ModuleBlock.cs" />
-    <Compile Include="Core\BaseBlock.cs" />
-    <Compile Include="Core\IModuleBlock.cs" />
+    <Compile Include="Blocks\BaseBlock.cs" />
+    <Compile Include="Blocks\IModuleBlock.cs" />
     <Compile Include="Objects\IPropertyBlock.cs" />
-    <Compile Include="Core\ICallBlock.cs" />
+    <Compile Include="Blocks\ICallBlock.cs" />
     <Compile Include="Objects\LogicBlock.cs" />
-    <Compile Include="Core\ObjectBlock.cs" />
-    <Compile Include="Core\ScopeBlock.cs" />
-    <Compile Include="Core\StatementBlock.cs" />
-    <Compile Include="Core\ToObjectException.cs" />
+    <Compile Include="Blocks\ObjectBlock.cs" />
+    <Compile Include="Blocks\ScopeBlock.cs" />
+    <Compile Include="Blocks\StatementBlock.cs" />
+    <Compile Include="Blocks\ToObjectException.cs" />
     <Compile Include="Holes\BaseHole.cs" />
     <Compile Include="Holes\LogicHole.xaml.cs">
       <DependentUpon>LogicHole.xaml</DependentUpon>

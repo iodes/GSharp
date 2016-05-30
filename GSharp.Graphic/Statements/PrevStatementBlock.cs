@@ -1,4 +1,4 @@
-﻿using GSharp.Graphic.Core;
+﻿using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 
 namespace GSharp.Graphic.Statements

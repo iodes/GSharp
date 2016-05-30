@@ -1,5 +1,5 @@
 ﻿using GSharp.Base.Cores;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using System;
 using System.Collections.Generic;
 using System.Linq;

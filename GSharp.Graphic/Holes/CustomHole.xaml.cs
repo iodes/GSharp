@@ -1,4 +1,4 @@
-﻿using GSharp.Graphic.Core;
+﻿using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Objects;
 using System;
 using System.Collections.Generic;
@@ -41,13 +41,14 @@ namespace GSharp.Graphic.Holes
             }
         }
 
+        public Type CustomType { get; set; }
+
         public CustomBlock CustomBlock
         {
             get
             {
                 return BlockHole.Child as CustomBlock;
             }
-
             set
             {
                 // 제거는 DetachBlock으로
@@ -66,19 +67,20 @@ namespace GSharp.Graphic.Holes
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
 
+                // 붙일 수 없는 블럭이면
+                if (!CanAttachBlock(value))
+                {
+                    throw new Exception("연결할 수 없는 블럭입니다.");
+                }
+
                 // 연결하려는 블럭을 부모에서 제거
                 value?.ParentHole?.DetachBlock();
 
                 // 블럭 연결
                 value.ParentHole = this;
-                BlockAttached?.Invoke(value);
+                BlockAttached?.Invoke(this, value);
                 BlockHole.Child = value;
             }
-        }
-
-        public CustomHole()
-        {
-            InitializeComponent();
         }
 
         // 연결된 블럭을 제거
@@ -87,12 +89,38 @@ namespace GSharp.Graphic.Holes
             var block = AttachedBlock;
 
             // Detach 이벤트 호출
-            BlockDetached?.Invoke(block);
+            BlockDetached?.Invoke(this, block);
 
             // 블럭 연결 해제
             BlockHole.Child = null;
 
             return block;
+        }
+
+        public override bool CanAttachBlock(BaseBlock block)
+        {
+            if (!(block is CustomBlock))
+            { 
+                return false;
+            }
+
+            var customBlock = block as CustomBlock;
+            if (!CustomType.IsAssignableFrom(CustomBlock.Type))
+            {
+                return false;
+            }
+
+            return base.CanAttachBlock(block);
+        }
+
+        public CustomHole()
+        {
+            InitializeComponent();
+        }
+
+        public CustomHole(Type type) : this()
+        {
+            CustomType = type;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using GSharp.Extension;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Statements;
@@ -217,9 +217,9 @@ namespace GSharp.Manager
         /// <param name="target">블럭 배열로 변환할 모듈 객체입니다.</param>
         public BaseBlock[] ConvertToBlocks(GExtension target)
         {
-            List<BaseBlock> blockList = new List<BaseBlock>();
+            var blockList = new List<BaseBlock>();
             
-            foreach (GCommand command in target.Commands)
+            foreach (var command in target.Commands)
             {
                 switch (command.MethodType)
                 {

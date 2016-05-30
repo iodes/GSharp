@@ -21,8 +21,8 @@ namespace GSharpSample
             // 코드 생성
             GEntry entry = new GEntry();
 
-            GDefine def = new GDefine("valueA");
             GNumberVariable var = new GNumberVariable("valueA");
+            GDefine def = new GDefine(var);
             entry.Append(def);
 
             GEvent main = new GEvent(new GCommand("this", "Loaded", typeof(void), GCommand.CommandType.Event));

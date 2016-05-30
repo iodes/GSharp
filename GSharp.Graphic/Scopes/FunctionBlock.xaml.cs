@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GSharp.Graphic.Core;
+using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Scopes;
@@ -67,12 +67,9 @@ namespace GSharp.Graphic.Scopes
         }
 
         // GObjectList
-        public override List<GBase> GObjectList
+        public override List<GBase> ToGObjectList()
         {
-            get
-            {
-                return _GObjectList;
-            }
+            return _GObjectList;
         }
         private List<GBase> _GObjectList;
         #endregion
@@ -104,11 +101,11 @@ namespace GSharp.Graphic.Scopes
 
         #region Events
         // RealNextConnectHole BlockAttached & BlockDetached Event
-        private void RealNextConnectHole_BlockChanged(BaseBlock block)
+        private void RealNextConnectHole_BlockChanged(BaseHole hole, BaseBlock block)
         {
             _GFunction.Content.Clear();
 
-            List<GBase> content = NextConnectHole.StatementBlock?.GObjectList;
+            List<GBase> content = NextConnectHole.StatementBlock?.ToGObjectList();
             if (content == null) return;
 
             foreach (GBase gbase in content)
