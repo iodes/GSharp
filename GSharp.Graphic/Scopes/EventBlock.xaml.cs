@@ -98,9 +98,9 @@ namespace GSharp.Graphic.Scopes
             // Initialize Hole List
             HoleList.Add(NextConnectHole);
             
-            for (int i=0; i<command.Arguments?.Length; i++)
+            for (int i=0; i<command.Optionals?.Length; i++)
             {
-                IVariableBlock variableBlock = BlockUtils.CreateParameterVariable(command.Arguments[i].ToString(), command.Arguments[i]);
+                IVariableBlock variableBlock = BlockUtils.CreateParameterVariable(command.Optionals[i].ObjectType.ToString(), command.Optionals[i].ObjectType);
                 BaseBlock baseBlock = variableBlock as BaseBlock;
 
                 baseBlock.MouseLeftButtonDown += BaseBlock_MouseLeftButtonDown;

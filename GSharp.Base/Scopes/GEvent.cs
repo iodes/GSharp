@@ -34,9 +34,9 @@ namespace GSharp.Base.Scopes
 
             List<string> args = new List<string>();
             string argStr = "";
-            if (Command.Arguments != null)
+            if (Command.Optionals != null)
             {
-                for (int i = 0; i < Command.Arguments.Length; i++)
+                for (int i = 0; i < Command.Optionals.Length; i++)
                 {
                     args.Add("a" + i);
                 }

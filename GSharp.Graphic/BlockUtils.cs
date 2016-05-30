@@ -77,9 +77,9 @@ namespace GSharp.Graphic
                     var holeNumber = Command.FriendlyName.Substring(start + 1, i - start - 1);
 
                     int number;
-                    if (int.TryParse(holeNumber, out number) && 0 <= number && number < Command.Arguments.Length)
+                    if (int.TryParse(holeNumber, out number) && 0 <= number && number < Command.Optionals.Length)
                     {
-                        BaseHole hole = CreateHole(Command.Arguments[number]);
+                        BaseHole hole = CreateHole(Command.Optionals[number].ObjectType);
                         hole.Foreground = new BrushConverter().ConvertFromString("#086748") as Brush;
                         hole.VerticalAlignment = VerticalAlignment.Center;
 

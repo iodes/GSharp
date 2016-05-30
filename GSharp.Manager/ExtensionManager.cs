@@ -82,7 +82,7 @@ namespace GSharp.Manager
         #endregion
 
         #region 내부 함수
-        private T GetAttribute<T>(MemberInfo info)
+        private T GetAttribute<T>(ICustomAttributeProvider info)
         {
             object[] attributes = info.GetCustomAttributes(true);
             if (attributes.Length > 0)
@@ -97,6 +97,26 @@ namespace GSharp.Manager
             }
 
             return default(T);
+        }
+
+        private GParameter[] GetParameters(MethodInfo info)
+        {
+            List<GParameter> result = new List<GParameter>();
+
+            foreach (ParameterInfo infoParam in info.GetParameters())
+            {
+                GParameterAttribute paramCommand = GetAttribute<GParameterAttribute>(infoParam);
+                if (paramCommand != null)
+                {
+                    result.Add(new GParameter(infoParam.Name, infoParam.Name, paramCommand.Name, infoParam.ParameterType));
+                }
+                else
+                {
+                    result.Add(new GParameter(infoParam.Name, infoParam.Name, string.Empty, infoParam.ParameterType));
+                }
+            }
+
+            return result.ToArray();
         }
         #endregion
 
@@ -156,7 +176,7 @@ namespace GSharp.Manager
                                     command.Name,
                                     info.ReturnType,
                                     info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic,
-                                    (from parameter in info.GetParameters() select parameter.ParameterType).ToArray()
+                                    GetParameters(info)
                                 )
                             );
                         }
@@ -194,7 +214,7 @@ namespace GSharp.Manager
                                     command.Name,
                                     eventDelegateMethod?.ReturnType,
                                     GCommand.CommandType.Event,
-                                    eventDelegateMethod != null ? (from parameter in eventDelegateMethod.GetParameters() select parameter.ParameterType).ToArray() : null
+                                    eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
                                 )
                             );
                         }
@@ -213,7 +233,7 @@ namespace GSharp.Manager
                                 GFieldAttribute fieldCommand = GetAttribute<GFieldAttribute>(enumerationField);
                                 if (fieldCommand != null)
                                 {
-                                    gEnumList.Add(new GEnumeration(enumerationField.Name, $"{value.FullName}.{enumeration.Name}.{enumerationField.Name}", fieldCommand.Name));
+                                    gEnumList.Add(new GEnumeration(enumerationField.Name, $"{value.FullName}.{enumeration.Name}.{enumerationField.Name}", fieldCommand.Name, enumerationField.FieldType));
                                 }
                             }
 
@@ -227,7 +247,6 @@ namespace GSharp.Manager
                                     command.Name,
                                     enumeration,
                                     GCommand.CommandType.Enum,
-                                    null,
                                     gEnumList.ToArray()
                                 )
                             );

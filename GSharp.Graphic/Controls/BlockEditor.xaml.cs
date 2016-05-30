@@ -21,6 +21,7 @@ using GSharp.Graphic.Objects.Logics;
 using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Numbers;
 using GSharp.Extension;
+using GSharp.Extension.Optionals;
 
 namespace GSharp.Graphic.Controls
 {
@@ -987,13 +988,13 @@ namespace GSharp.Graphic.Controls
                 writer.WriteAttributeString("MethodType", moduleBlock.GCommand.MethodType.ToString());
                 writer.WriteAttributeString("ObjectType", moduleBlock.GCommand.ObjectType.ToString());
 
-                if (moduleBlock.GCommand.Arguments?.Length > 0)
+                if (moduleBlock.GCommand.Optionals?.Length > 0)
                 {
                     writer.WriteStartElement("Arguments");
-                    foreach (Type arg in moduleBlock.GCommand.Arguments)
+                    foreach (GOptional arg in moduleBlock.GCommand.Optionals)
                     {
                         writer.WriteStartElement("Argument");
-                        writer.WriteAttributeString("Type", arg.FullName);
+                        writer.WriteAttributeString("Type", arg.ObjectType.FullName);
                         writer.WriteEndElement();
                     }
                     writer.WriteEndElement();
@@ -1112,7 +1113,7 @@ namespace GSharp.Graphic.Controls
                     var methodType = (GCommand.CommandType)Enum.Parse(typeof(GCommand.CommandType), element.GetAttribute("MethodType"));
                     var objectType = Type.GetType(element.GetAttribute("ObjectType"));
 
-                    var commandArgList = new List<Type>();
+                    var commandArgList = new List<GOptional>();
 
                     XmlNodeList argNodeList;
                     if ((argNodeList = element.SelectSingleNode("Arguments")?.ChildNodes) != null)
@@ -1120,7 +1121,7 @@ namespace GSharp.Graphic.Controls
                         foreach (XmlElement argElem in argNodeList)
                         {
                             var argType = Type.GetType(argElem.GetAttribute("Type"));
-                            commandArgList.Add(argType);
+                            commandArgList.Add(new GOptional(string.Empty, string.Empty, string.Empty, argType));
                         }
                     }
 
