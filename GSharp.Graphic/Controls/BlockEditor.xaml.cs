@@ -104,7 +104,7 @@ namespace GSharp.Graphic.Controls
         //private Dictionary<string, GCustomVariable> CustomVariableList = new Dictionary<string, GCustomVariable>();
 
         // 함수 목록
-        private Dictionary<string, GFunction> FunctionList = new Dictionary<string, GFunction>();
+        private Dictionary<string, FunctionBlock> FunctionList = new Dictionary<string, FunctionBlock>();
         #endregion
 
         #region 생성자
@@ -310,9 +310,10 @@ namespace GSharp.Graphic.Controls
 
         #region 함수 선언
         // 함수 선언
-        public void DefineFunction(string funcName)
+        public FunctionBlock DefineFunction(string funcName)
         {
-            FunctionList[funcName] = new GFunction(funcName);
+            var function = new GFunction(funcName);
+            return FunctionList[funcName] = new FunctionBlock(function);
         }
 
         // 함수 선언 해제
@@ -328,13 +329,13 @@ namespace GSharp.Graphic.Controls
         }
 
         // 함수 목록
-        public List<GFunction> GetFunctionList()
+        public List<FunctionBlock> GetFunctionBlockList()
         {
             return FunctionList.Values.ToList();
         }
 
         // 함수 가져오기
-        public GFunction GetFunction(string funcName)
+        public FunctionBlock GetFunction(string funcName)
         {
             return FunctionList[funcName];
         }
