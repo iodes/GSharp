@@ -199,6 +199,27 @@ namespace GSharp.Manager
                             );
                         }
                     }
+
+                    // 열거형 분석
+                    foreach (Type enumeration in value.GetNestedTypes())
+                    {
+                        GCommandAttribute command = GetAttribute<GCommandAttribute>(enumeration);
+                        if (command != null && enumeration.IsEnum)
+                        {
+                            // 커멘드 목록 추가
+                            target.Commands.Add(
+                                new GCommand
+                                (
+                                    target,
+                                    value.FullName,
+                                    enumeration.Name,
+                                    command.Name,
+                                    enumeration,
+                                    GCommand.CommandType.Enum
+                                )
+                            );
+                        }
+                    }
                 }
                 else if (value.BaseType == typeof(GView))
                 {

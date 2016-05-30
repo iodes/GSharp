@@ -94,6 +94,7 @@ namespace GSharp.Extension
         public enum CommandType
         {
             Call,
+            Enum,
             Event,
             Logic,
             Property
