@@ -279,15 +279,15 @@ namespace GSharp.Graphic.Controls
 
         #region 변수 선언
         // 변수 선언
-        public bool DefineGlobalVariable(string varName, Type variableType)
+        public IVariableBlock DefineGlobalVariable(string varName, Type variableType)
         {
             if (GlobalVariableBlockList.Keys.Contains(varName))
             {
-                return false;
+                return null;
             }
 
             GlobalVariableBlockList[varName] = BlockUtils.CreateVariableBlock(varName, variableType);
-            return true;
+            return GlobalVariableBlockList[varName];
         }
 
         // 변순 선언 해제
