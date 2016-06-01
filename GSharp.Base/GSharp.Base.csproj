@@ -85,6 +85,7 @@
     <Compile Include="Statements\GLoop.cs" />
     <Compile Include="Statements\GSet.cs" />
     <Compile Include="Utilities\ConvertAssistant.cs" />
+    <Compile Include="Utilities\GSharpUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">

@@ -3,6 +3,7 @@ using GSharp.Base.Objects.Customs;
 using GSharp.Base.Objects.Logics;
 using GSharp.Base.Objects.Numbers;
 using GSharp.Base.Objects.Strings;
+using GSharp.Base.Utilities;
 using GSharp.Extension;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
@@ -27,23 +28,6 @@ namespace GSharp.Graphic
     /// </summary>
     public static class BlockUtils
     {
-        /// <summary>
-        /// 숫자 관련 자료형을 담은 배열
-        /// sbyte, byte, short, ushort, int, uint, long, ulong, float, double을 포함합니다.
-        /// </summary>
-        private static Type[] numberTypes = new Type[] {
-            typeof(sbyte), // SByte
-            typeof(byte), // Byte
-            typeof(short), // Int16
-            typeof(ushort), // UInt16
-            typeof(int), // Int32
-            typeof(uint), // UInt32
-            typeof(long), // Int64
-            typeof(ulong), // UInt64
-            typeof(float), // Single
-            typeof(double), // Double
-        };
-
         /// <summary>
         /// 모듈 블럭들에게 필요한 구멍을 자동으로 찾아서 생성하고 위치시킵니다.
         /// </summary>
@@ -120,7 +104,7 @@ namespace GSharp.Graphic
         /// <returns>
         /// 매개변수의 자료형이 string이면 StringHole을 반환
         /// 매개변수의 자료형이 bool이면 LogicHole을 반환
-        /// 매개변수의 자료형이 숫자 형태(<see cref="numberTypes" />)인 경우 NumberHole을 반환
+        /// 매개변수의 자료형이 숫자 형태인 경우 NumberHole을 반환
         /// 이 외의 경우 CustomHole을 반환합니다.
         /// </returns>
         public static BaseHole CreateHole(Type holeType)
@@ -141,7 +125,7 @@ namespace GSharp.Graphic
             }
 
             // 자료형이 숫자 형태인 경우
-            if (numberTypes.Contains(holeType))
+            if (GSharpUtils.numberTypes.Contains(holeType))
             {
                 return new NumberHole();
             }
@@ -150,87 +134,87 @@ namespace GSharp.Graphic
             return new CustomHole(holeType);
         }
 
-
         /// <summary>
-        /// 매개변수 블럭을 생성해 주는 함수
+        /// 변수 블럭을 생성해 주는 함수
         /// </summary>
-        /// <param name="variableName">
-        /// 매개변수의 이름
-        /// 매개변수의 이름은 "param" + "매개변수의 이름(첫번째 글자만 대문자로 변경)"이 됩니다.
-        /// </param>
+        /// <param name="variableName">C# 형태에서의 변수의 이름</param>
         /// <param name="variableType">매개변수의 자료형</param>
+        /// <param name="friendlyName">블럭으로 노출될 변수의 이름</param>
         /// <returns>
         /// 매개변수의 자료형이 string이면 StringVariableBlock을 반환
         /// 매개변수의 자료형이 bool이면 LogicVariableBlock을 반환
-        /// 매개변수의 자료형이 숫자 형태(<see cref="numberTypes" />)인 경우 NumberVariableBlock을 반환
+        /// 매개변수의 자료형이 숫자 형태인 경우 NumberVariableBlock을 반환
         /// 이 외의 경우 CustomVariableBlock을 반환합니다.
         /// </returns>
-        public static IVariableBlock CreateParameterVariable(string variableName, Type variableType)
+        public static IVariableBlock CreateVariableBlock(string variableName, Type variableType, string friendlyName = null)
         {
-            // 매개변수 이름을 첫번째 글자를 대문자로 바꾸고 param을 붙임
-            variableName = "param" + variableName.First().ToString().ToUpper() + variableName.Substring(1);
+            IVariable variable = GSharpUtils.CreateIVariable(variableName, variableType);
+
+            if (friendlyName == null)
+            {
+                friendlyName = variableName;
+            }
 
             // string인 경우
-            if (variableType == typeof(string))
+            if (variable is GStringVariable)
             {
-                return new StringVariableBlock(new GStringVariable(variableName));
+                return new StringVariableBlock(friendlyName, variable as GStringVariable);
             }
 
             // bool인 경우
-            if (variableType == typeof(bool))
+            if (variable is GLogicVariable)
             {
-                return new LogicVariableBlock(new GLogicVariable(variableName));
+                return new LogicVariableBlock(friendlyName, variable as GLogicVariable);
             }
 
             // 자료형이 숫자 형태인 경우
-            if (numberTypes.Contains(variableType))
+            if (variable is GNumberVariable)
             {
-                return new NumberVariableBlock(new GNumberVariable(variableName));
+                return new NumberVariableBlock(friendlyName, variable as GNumberVariable);
             }
 
-            // 이 외의 경우 모두 CustomHole로
-            return new CustomVariableBlock(new GCustomVariable(variableType, variableName));
+            // 이 외의 경우 모두 CustomVariable
+            return new CustomVariableBlock(friendlyName, variable as GCustomVariable);
         }
 
         /// <summary>
-        /// 일반 변수 블럭을 생성하는 함수입니다.
+        /// 변수 블럭을 생성해 주는 함수
         /// </summary>
-        /// <param name="variableName">
-        /// 변수의 이름
-        /// 매개변수의 이름은 "var" + "매개변수의 이름(첫번째 글자만 대문자로 변경)"이 됩니다.
-        /// </param>
-        /// <param name="variableType">변수의 자료형</param>
+        /// <param name="variable">IVariable 객체</param>
+        /// <param name="friendlyName">블럭으로 노출될 변수의 이름</param>
         /// <returns>
-        /// 매개변수의 자료형이 string이면 StringVariableBlock을 반환
-        /// 매개변수의 자료형이 bool이면 LogicVariableBlock을 반환
-        /// 매개변수의 자료형이 숫자 형태(<see cref="numberTypes" />)인 경우 NumberVariableBlock을 반환
-        /// 이 외의 경우 CustomVariableBlock을 반환
+        /// variable이 GStringVariable이면 StringVariableBlock을 반환
+        /// variable이 GLogicVariable이면 LogicVariableBlock을 반환
+        /// variable이 GNumberVariable이면 NumberVariableBlock을 반환
+        /// 이 외의 경우 CustomVariableBlock을 반환합니다.
         /// </returns>
-        public static IVariableBlock CreateVariableBlock(string variableName, Type variableType)
+        public static IVariableBlock CreateVariableBlock(IVariable variable, string friendlyName = null)
         {
-            // 매개변수 이름을 첫번째 글자를 대문자로 바꾸고 param을 붙임
-            variableName = "var" + variableName.First().ToString().ToUpper() + variableName.Substring(1);
+            if (friendlyName == null)
+            {
+                friendlyName = variable.Name;
+            }
 
             // string인 경우
-            if (variableType == typeof(string))
+            if (variable is GStringVariable)
             {
-                return new StringVariableBlock(new GStringVariable(variableName));
+                return new StringVariableBlock(friendlyName, variable as GStringVariable);
             }
 
             // bool인 경우
-            if (variableType == typeof(bool))
+            if (variable is GLogicVariable)
             {
-                return new LogicVariableBlock(new GLogicVariable(variableName));
+                return new LogicVariableBlock(friendlyName, variable as GLogicVariable);
             }
 
             // 자료형이 숫자 형태인 경우
-            if (numberTypes.Contains(variableType))
+            if (variable is GNumberVariable)
             {
-                return new NumberVariableBlock(new GNumberVariable(variableName));
+                return new NumberVariableBlock(friendlyName, variable as GNumberVariable);
             }
 
-            // 이 외의 경우 모두 CustomHole로
-            return new CustomVariableBlock(new GCustomVariable(variableType, variableName));
+            // 이 외의 경우 모두 CustomVariable
+            return new CustomVariableBlock(friendlyName, variable as GCustomVariable);
         }
     }
 }
