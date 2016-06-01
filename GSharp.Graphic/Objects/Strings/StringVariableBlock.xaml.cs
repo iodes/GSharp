@@ -25,6 +25,20 @@ namespace GSharp.Graphic.Objects.Strings
     /// </summary>
     public partial class StringVariableBlock : StringBlock, IVariableBlock
     {
+        public string FriendlyName
+        {
+            get
+            {
+                return _FriendlyName;
+            }
+            set
+            {
+                _FriendlyName = value;
+                VariableName.Text = value;
+            }
+        }
+        private string _FriendlyName;
+
         public GStringVariable GStringVariable
         {
             get
@@ -65,12 +79,12 @@ namespace GSharp.Graphic.Objects.Strings
         private List<GBase> _GObjectList;
 
         // 생성자
-        public StringVariableBlock(GStringVariable variable)
+        public StringVariableBlock(string friendlyName, GStringVariable variable)
         {
             InitializeComponent();
 
+            FriendlyName = friendlyName;
             _GStringVariable = variable;
-            VariableName.Text = variable.Name;
             _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();

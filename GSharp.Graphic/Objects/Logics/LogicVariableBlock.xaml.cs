@@ -25,7 +25,21 @@ namespace GSharp.Graphic.Objects.Logics
     /// VariableBlock.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class LogicVariableBlock : LogicBlock, IVariableBlock
-    {   
+    {
+        public string FriendlyName
+        {
+            get
+            {
+                return _FriendlyName;
+            }
+            set
+            {
+                _FriendlyName = value;
+                VariableName.Text = value;
+            }
+        }
+        private string _FriendlyName;
+
         public override GLogic GLogic
         {
             get
@@ -67,12 +81,12 @@ namespace GSharp.Graphic.Objects.Logics
         private List<GBase> _GObjectList;
         
         // 생성자
-        public LogicVariableBlock(GLogicVariable variable)
+        public LogicVariableBlock(string friendlyName, GLogicVariable variable)
         {
             InitializeComponent();
 
+            FriendlyName = friendlyName;
             _GLogicVariable = variable;
-            VariableName.Text = variable.Name;
             _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();

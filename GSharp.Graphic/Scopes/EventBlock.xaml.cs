@@ -43,34 +43,35 @@ namespace GSharp.Graphic.Scopes
         {
             get
             {
-                return _GCommand;
+                return GEvent.GCommand;
             }
         }
-        private GCommand _GCommand;
 
         public GEvent GEvent
         {
             get
             {
+                _GEvent.Clear();
+
                 List<GBase> content = NextConnectHole?.StatementBlock?.ToGObjectList();
                 if (content == null)
                 {
                     content = new List<GBase>();
                 }
-
-                GEvent evt = new GEvent(GCommand);
-
+                
                 foreach (GBase gbase in content)
                 {
                     if (gbase is GStatement)
                     {
-                        evt.Append(gbase as GStatement);
+                        _GEvent.Append(gbase as GStatement);
                     }
                 }
 
-                return evt;
+                return _GEvent;
+                
             }
         }
+        private GEvent _GEvent;
 
         public override GScope GScope
         {
@@ -92,15 +93,16 @@ namespace GSharp.Graphic.Scopes
             // Initialize Component
             InitializeComponent();
 
-            _GCommand = command;
             StackContentText.Text = command.FriendlyName;
+
+            _GEvent = new GEvent(command);
 
             // Initialize Hole List
             HoleList.Add(NextConnectHole);
             
-            for (int i=0; i<command.Optionals?.Length; i++)
+            for (int i=0; i<_GEvent.Arguments?.Count; i++)
             {
-                IVariableBlock variableBlock = BlockUtils.CreateParameterVariable(command.Optionals[i].ObjectType.ToString(), command.Optionals[i].ObjectType);
+                IVariableBlock variableBlock = BlockUtils.CreateVariableBlock(_GEvent.Arguments[i], command.Optionals[i].FriendlyName);
                 BaseBlock baseBlock = variableBlock as BaseBlock;
 
                 baseBlock.MouseLeftButtonDown += BaseBlock_MouseLeftButtonDown;
@@ -116,7 +118,7 @@ namespace GSharp.Graphic.Scopes
         private void BaseBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var block = sender as IVariableBlock;
-            var copiedBlock = Activator.CreateInstance(block.GetType(), new object[]{ block.IVariable }) as BaseBlock;
+            var copiedBlock = Activator.CreateInstance(block.GetType(), new object[]{ block.FriendlyName, block.IVariable }) as BaseBlock;
 
             BlockEditor.AddBlock(copiedBlock);
 

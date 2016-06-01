@@ -11,6 +11,7 @@ namespace GSharp.Graphic.Objects
 {
     public interface IVariableBlock
     {
+        string FriendlyName { get; set; }
         IVariable IVariable { get; }
     }
 }
