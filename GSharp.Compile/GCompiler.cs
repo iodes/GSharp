@@ -135,12 +135,12 @@ namespace GSharp.Compile
             result.Add("System.Linq.dll");
             if (Commons?.Length > 0)
             {
+                result.Add(Path.Combine(Commons, "System.Xaml.dll"));
+                result.Add(Path.Combine(Commons, "WindowsBase.dll"));
+                result.Add(Path.Combine(Commons, "PresentationCore.dll"));
+                result.Add(Path.Combine(Commons, "PresentationFramework.dll"));
                 result.Add(Path.Combine(Commons, "GSharp.Extension.dll"));
             }
-            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xaml.dll");
-            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\WindowsBase.dll");
-            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationCore.dll");
-            result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationFramework.dll");
 
             return result;
         }
