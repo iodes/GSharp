@@ -15,6 +15,19 @@ namespace GSharp.Compile
     public class GCompiler
     {
         #region 속성
+        public string XAML
+        {
+            get
+            {
+                return Base64Decode(_XAML);
+            }
+            set
+            {
+                _XAML = Base64Encode(value);
+            }
+        }
+        private string _XAML;
+
         public string Source { get; set; }
 
         public StringCollection References
@@ -49,6 +62,30 @@ namespace GSharp.Compile
         #endregion
 
         #region 내부 함수
+        private string Base64Encode(string plainText)
+        {
+            if (plainText?.Length > 0)
+            {
+                return Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        private string Base64Decode(string base64EncodedData)
+        {
+            if (base64EncodedData?.Length > 0)
+            {
+                return Encoding.UTF8.GetString(Convert.FromBase64String(base64EncodedData));
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         private bool IsNameContains(StringCollection references, string name)
         {
             return (from string dll
@@ -94,6 +131,7 @@ namespace GSharp.Compile
             result.AppendLine("using System.Threading.Tasks;");
             result.AppendLine("using System.Reflection;");
             result.AppendLine("using System.Windows;");
+            result.AppendLine("using System.Windows.Markup;");
             result.AppendLine();
             result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
             result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");
@@ -115,16 +153,35 @@ namespace GSharp.Compile
             result.AppendLine("            app.Run();");
             result.AppendLine("        }");
             result.AppendLine();
+            if (XAML.Length > 0)
+            {
+                result.AppendLine("        public string Decode(string value)");
+                result.AppendLine("        {");
+                result.AppendLine("            if (value != null && value.Length > 0)");
+                result.AppendLine("            {");
+                result.AppendLine("                return Encoding.UTF8.GetString(Convert.FromBase64String(value));");
+                result.AppendLine("            }");
+                result.AppendLine("            else");
+                result.AppendLine("            {");
+                result.AppendLine("                return string.Empty;");
+                result.AppendLine("            }");
+                result.AppendLine("        }");
+            }
+            result.AppendLine();
             result.AppendLine("        public void InitializeComponent()");
             result.AppendLine("        {");
-            result.AppendLine("            Window window = new Window");
-            result.AppendLine("            {");
-            result.AppendLine("                Title = \"GSharp Runtime\",");
-            result.AppendLine("                Width = 200,");
-            result.AppendLine("                Height = 200,");
-            result.AppendLine("                ResizeMode = ResizeMode.NoResize,");
-            result.AppendLine("                WindowStartupLocation = WindowStartupLocation.CenterScreen");
-            result.AppendLine("            };");
+            if (XAML.Length > 0)
+            {
+                result.AppendLine($@"            Window window = (XamlReader.Parse(Decode(""{_XAML}"")) as Window);");
+            }
+            else
+            {
+                result.AppendLine("            Window window = new Window();");
+                result.AppendLine("            window.Opacity = 0;");
+                result.AppendLine("            window.WindowStyle = WindowStyle.None;");
+                result.AppendLine("            window.AllowsTransparency = true;");
+                result.AppendLine("            window.ShowInTaskbar = false;");
+            }
             result.AppendLine("            window.Loaded += (s, e) => Initialize();");
             result.AppendLine("            window.Closing += (s, e) =>");
             result.AppendLine("            {");
