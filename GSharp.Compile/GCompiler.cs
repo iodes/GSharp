@@ -49,7 +49,7 @@ namespace GSharp.Compile
                 _Commons = value;
                 foreach (string reference in GetDefaultReference())
                 {
-                    if (!References.Contains(reference))
+                    if (!IsNameContains(References, reference))
                     {
                         References.Add(reference);
                     }
@@ -218,6 +218,12 @@ namespace GSharp.Compile
             result.AppendLine("                if (Closing != null) Closing();");
             result.AppendLine("            };");
             result.AppendLine("            window.Show();");
+            // 테스트
+            result.AppendLine(@"            FindControl(window, ""MyTestName"").Click += () =>");
+            result.AppendLine("            {");
+            result.AppendLine(@"                MessageBox.Show(""클릭 이벤트 발동"");");
+            result.AppendLine("            };");
+            // 테스트
             result.AppendLine("        }");
             result.AppendLine();
             result.Append(ConvertAssistant.Indentation(source, 2));
