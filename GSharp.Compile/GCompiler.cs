@@ -38,6 +38,26 @@ namespace GSharp.Compile
             }
         }
 
+        public string Commons
+        {
+            get
+            {
+                return _Commons;
+            }
+            set
+            {
+                _Commons = value;
+                foreach (string reference in GetDefaultReference())
+                {
+                    if (!References.Contains(reference))
+                    {
+                        References.Add(reference);
+                    }
+                }
+            }
+        }
+        private string _Commons;
+
         public List<string> Dependencies { get; set; } = new List<string>();
         #endregion
 
@@ -113,6 +133,10 @@ namespace GSharp.Compile
 
             result.Add("System.dll");
             result.Add("System.Linq.dll");
+            if (Commons?.Length > 0)
+            {
+                result.Add(Path.Combine(Commons, "GSharp.Extension.dll"));
+            }
             result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xaml.dll");
             result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\WindowsBase.dll");
             result.Add($@"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)}\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationCore.dll");
@@ -132,6 +156,7 @@ namespace GSharp.Compile
             result.AppendLine("using System.Reflection;");
             result.AppendLine("using System.Windows;");
             result.AppendLine("using System.Windows.Markup;");
+            result.AppendLine("using GSharp.Extension.Abstracts;");
             result.AppendLine();
             result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
             result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");
@@ -165,6 +190,11 @@ namespace GSharp.Compile
                 result.AppendLine("            {");
                 result.AppendLine("                return string.Empty;");
                 result.AppendLine("            }");
+                result.AppendLine("        }");
+                result.AppendLine();
+                result.AppendLine("        public GView FindControl(DependencyObject parent, string value)");
+                result.AppendLine("        {");
+                result.AppendLine("            return LogicalTreeHelper.FindLogicalNode(parent, value) as GView;");
                 result.AppendLine("        }");
             }
             result.AppendLine();
