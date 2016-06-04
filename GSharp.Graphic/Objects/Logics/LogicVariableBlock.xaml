@@ -12,7 +12,7 @@
         <StackPanel Orientation="Horizontal">
             <Path Panel.ZIndex="1" Data="M 0,10 10,0 13,0 L 13,20 10, 20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
             <Border Panel.ZIndex="2" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="0,1" Margin="0,0,-2,0">
-                <TextBlock x:Name="VariableName" />
+                <TextBlock x:Name="VariableName" Foreground="White" FontWeight="Bold" />
             </Border>
             <Path Panel.ZIndex="1" Data="M 0,0 3,0 13,10 L 3,20 0,20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
         </StackPanel>
