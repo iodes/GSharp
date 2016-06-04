@@ -337,6 +337,7 @@ namespace GSharp.Manager
 
                     // Enum은 블럭으로 만들지 않음
                     case GCommand.CommandType.Enum:
+                        blockList.Add(new EnumBlock(command));
                         break;
                 }
             }
