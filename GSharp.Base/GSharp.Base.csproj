@@ -78,6 +78,7 @@
     <Compile Include="Objects\Strings\GStringConst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scopes\GBlank.cs" />
+    <Compile Include="Scopes\GControlEvent.cs" />
     <Compile Include="Scopes\GFunction.cs" />
     <Compile Include="Scopes\GEvent.cs" />
     <Compile Include="Singles\GDefine.cs" />

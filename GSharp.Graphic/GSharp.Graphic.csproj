@@ -172,6 +172,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Scopes\ControlEventBlock.xaml.cs">
+      <DependentUpon>ControlEventBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Scopes\FunctionBlock.xaml.cs">
       <DependentUpon>FunctionBlock.xaml</DependentUpon>
     </Compile>
@@ -339,6 +342,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\Numbers\NumberVariableBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Scopes\ControlEventBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
