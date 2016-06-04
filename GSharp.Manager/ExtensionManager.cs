@@ -279,7 +279,7 @@ namespace GSharp.Manager
                     case GCommand.CommandType.Call:
                         if (numberTypes.Contains(command.ObjectType))
                         {
-                            blockList.Add(new NumberPropertyBlock(command));
+                            blockList.Add(new NumberCallBlock(command));
                             break;
                         }
 
@@ -333,6 +333,11 @@ namespace GSharp.Manager
                         }
 
                         blockList.Add(new CustomPropertyBlock(command));
+                        break;
+
+                    // Enum은 블럭으로 만들지 않음
+                    case GCommand.CommandType.Enum:
+                        blockList.Add(new EnumBlock(command));
                         break;
                 }
             }

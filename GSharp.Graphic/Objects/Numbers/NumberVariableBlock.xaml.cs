@@ -24,7 +24,21 @@ namespace GSharp.Graphic.Objects.Numbers
     /// VariableBlock.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class NumberVariableBlock : NumberBlock, IVariableBlock
-    {   
+    {
+        public string FriendlyName
+        {
+            get
+            {
+                return _FriendlyName;
+            }
+            set
+            {
+                _FriendlyName = value;
+                VariableName.Text = value;
+            }
+        }
+        private string _FriendlyName;
+
         public override GNumber GNumber
         {
             get
@@ -66,12 +80,12 @@ namespace GSharp.Graphic.Objects.Numbers
         private List<GBase> _GObjectList;
         
         // 생성자
-        public NumberVariableBlock(GNumberVariable variable)
+        public NumberVariableBlock(string friendlyName, GNumberVariable variable)
         {
             InitializeComponent();
 
+            FriendlyName = friendlyName;
             _GNumberVariable = variable;
-            VariableName.Text = variable.Name;
             _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();

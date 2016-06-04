@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Blocks\BaseBlock.cs" />
     <Compile Include="Blocks\IModuleBlock.cs" />
+    <Compile Include="Objects\Customs\CustomPropertyBlock.xaml.cs">
+      <DependentUpon>CustomPropertyBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\IPropertyBlock.cs" />
     <Compile Include="Blocks\ICallBlock.cs" />
     <Compile Include="Objects\LogicBlock.cs" />
@@ -121,8 +124,8 @@
     <Compile Include="Objects\Numbers\ComputeBlock.xaml.cs">
       <DependentUpon>ComputeBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Customs\CustomPropertyBlock.xaml.cs">
-      <DependentUpon>CustomPropertyBlock.xaml</DependentUpon>
+    <Compile Include="Objects\Customs\EnumBlock.xaml.cs">
+      <DependentUpon>EnumBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\Customs\CustomCallBlock.xaml.cs">
       <DependentUpon>CustomCallBlock.xaml</DependentUpon>
@@ -247,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Objects\Customs\CustomPropertyBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Objects\Logics\NotBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -291,7 +298,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Customs\CustomPropertyBlock.xaml">
+    <Page Include="Objects\Customs\EnumBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -42,9 +42,11 @@
   <ItemGroup>
     <Compile Include="Cores\GBase.cs" />
     <Compile Include="Cores\GEntry.cs" />
+    <Compile Include="Cores\IModule.cs" />
     <Compile Include="Objects\Customs\GCustomCall.cs" />
     <Compile Include="Objects\Customs\GCustomProperty.cs" />
     <Compile Include="Objects\Customs\GCustomVariable.cs" />
+    <Compile Include="Objects\Customs\GEnum.cs" />
     <Compile Include="Objects\GCustom.cs" />
     <Compile Include="Objects\GLogic.cs" />
     <Compile Include="Cores\GObject.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Statements\GLoop.cs" />
     <Compile Include="Statements\GSet.cs" />
     <Compile Include="Utilities\ConvertAssistant.cs" />
+    <Compile Include="Utilities\GSharpUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">

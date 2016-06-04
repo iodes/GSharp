@@ -14,6 +14,20 @@ namespace GSharp.Graphic.Objects.Customs
     /// </summary>
     public partial class CustomVariableBlock : CustomBlock, IVariableBlock
     {
+        public string FriendlyName
+        {
+            get
+            {
+                return _FriendlyName;
+            }
+            set
+            {
+                _FriendlyName = value;
+                VariableName.Text = value;
+            }
+        }
+        private string _FriendlyName;
+
         public override GCustom GCustom
         {
             get
@@ -53,19 +67,18 @@ namespace GSharp.Graphic.Objects.Customs
         }
         private List<GBase> _GObjectList;
 
-        public CustomVariableBlock(GCustomVariable variable)
+        public CustomVariableBlock(string friendlyName, GCustomVariable variable)
             : base(variable.CustomType)
         {
             InitializeComponent();
 
+            FriendlyName = friendlyName;
             _GCustomVariable = variable;
             _GObjectList = new List<GBase>() { GObject };
-
+            
             // Set background color
             Background = new SolidColorBrush(GetColor(Type));
-
-            VariableName.Text = variable.Name;
-
+            
             // Init block
             InitializeBlock();
         }
