@@ -10,13 +10,13 @@ namespace GSharp.Base.Cores
     [Serializable]
     public class GEntry : GBase
     {
-        private List<GEvent> eventList = new List<GEvent>();
+        private List<GScope> scopeList = new List<GScope>();
         private List<GDefine> defineList = new List<GDefine>();
         private List<GFunction> functionList = new List<GFunction>();
 
-        public void Append(GEvent evt)
+        public void Append(GScope evt)
         {
-            eventList.Add(evt);
+            scopeList.Add(evt);
         }
 
         public void Append(GDefine def)
@@ -47,9 +47,9 @@ namespace GSharp.Base.Cores
             source.AppendLine("public void Initialize()");
             source.AppendLine("{");
 
-            foreach (GEvent evt in eventList)
+            foreach (GScope scope in scopeList)
             {
-                source.AppendLine(ConvertAssistant.Indentation(evt.ToSource()));
+                source.AppendLine(ConvertAssistant.Indentation(scope.ToSource()));
             }
 
             source.AppendLine(ConvertAssistant.Indentation("if (Loaded != null) Loaded();").TrimEnd());

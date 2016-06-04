@@ -866,10 +866,10 @@ namespace GSharp.Graphic.Controls
 
                 foreach (var block in Master.Children)
                 {
-                    if (block is EventBlock)
+                    if (block is ScopeBlock)
                     {
-                        EventBlock scopeBlock = block as EventBlock;
-                        entry.Append(scopeBlock.GEvent);
+                        ScopeBlock scopeBlock = block as ScopeBlock;
+                        entry.Append(scopeBlock.GScope);
                     }
                 }
 
