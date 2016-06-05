@@ -25,6 +25,15 @@ namespace GSharp.Extension
         }
         private Type _Source;
 
+        public string FriendlyName
+        {
+            get
+            {
+                return _FriendlyName;
+            }
+        }
+        private string _FriendlyName;
+
         public string NamespaceName
         {
             get
@@ -36,14 +45,15 @@ namespace GSharp.Extension
         #endregion
 
         #region 생성자
-        public GControl(Type source, string namespaceName)
+        public GControl(Type source, string friendlyName, string namespaceName)
         {
             _Source = source;
+            _FriendlyName = friendlyName;
             _NamespaceName = namespaceName;
         }
 
-        public GControl(GExtension parent, Type source, string namespaceName)
-            : this(source, namespaceName)
+        public GControl(GExtension parent, Type source, string friendlyName, string namespaceName)
+            : this(source, friendlyName, namespaceName)
         {
             _Parent = parent;
         }

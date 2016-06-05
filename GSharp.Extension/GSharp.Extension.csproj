@@ -50,6 +50,7 @@
     <Compile Include="Attributes\GControlAttribute.cs" />
     <Compile Include="Attributes\GFieldAttribute.cs" />
     <Compile Include="Attributes\GParameterAttribute.cs" />
+    <Compile Include="Attributes\GViewAttribute.cs" />
     <Compile Include="GControl.cs" />
     <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />

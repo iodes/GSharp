@@ -255,7 +255,9 @@ namespace GSharp.Manager
                 }
                 else if (value.BaseType == typeof(GView))
                 {
-                    target.Controls.Add(new GControl(target, value, value.FullName));
+                    // 뷰 이름 분석
+                    GViewAttribute view = GetAttribute<GViewAttribute>(value);
+                    target.Controls.Add(new GControl(target, value, view != null ? view.Name : string.Empty, value.FullName));
                 }
             }
 
