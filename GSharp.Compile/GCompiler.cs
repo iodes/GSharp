@@ -170,6 +170,8 @@ namespace GSharp.Compile
             result.AppendLine("{");
             result.AppendLine("    public partial class App : Application");
             result.AppendLine("    {");
+            result.AppendLine("        public static Window window;");
+            result.AppendLine();
             result.AppendLine("        [STAThread]");
             result.AppendLine("        public static void Main()");
             result.AppendLine("        {");
@@ -202,11 +204,11 @@ namespace GSharp.Compile
             result.AppendLine("        {");
             if (XAML.Length > 0)
             {
-                result.AppendLine($@"            Window window = (XamlReader.Parse(Decode(""{_XAML}"")) as Window);");
+                result.AppendLine($@"            window = (XamlReader.Parse(Decode(""{_XAML}"")) as Window);");
             }
             else
             {
-                result.AppendLine("            Window window = new Window();");
+                result.AppendLine("            window = new Window();");
                 result.AppendLine("            window.Opacity = 0;");
                 result.AppendLine("            window.WindowStyle = WindowStyle.None;");
                 result.AppendLine("            window.AllowsTransparency = true;");
