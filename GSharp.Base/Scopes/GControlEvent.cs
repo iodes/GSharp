@@ -50,7 +50,7 @@ namespace GSharp.Base.Scopes
                 source.AppendLine(ConvertAssistant.Indentation(statement.ToSource()));
             }
 
-            source.AppendLine("}");
+            source.AppendLine("};");
 
             return source.ToString();
         }

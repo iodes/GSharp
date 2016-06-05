@@ -25,7 +25,7 @@ namespace GSharp.Graphic.Scopes
     /// <summary>
     /// EventBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ControlEventBlock : ScopeBlock, IModuleBlock
+    public partial class ControlEventBlock : ScopeBlock
     {
         #region Holes
         public override NextConnectHole NextConnectHole
@@ -38,19 +38,12 @@ namespace GSharp.Graphic.Scopes
         #endregion
 
         #region Objects
-        public GCommand GCommand
-        {
-            get
-            {
-                return _GControlEvent.GCommand;
-            }
-        }
 
         public GControlEvent GControlEvent
         {
             get
             {
-                _GControlEvent.Clear();
+                var controlEvent = new GControlEvent(new GCommand(ControlName.Text, "Click", typeof(void), GCommand.CommandType.Event));
                 
                 List<GBase> content = NextConnectHole?.StatementBlock?.ToGObjectList();
                 if (content == null)
@@ -62,15 +55,14 @@ namespace GSharp.Graphic.Scopes
                 {
                     if (gbase is GStatement)
                     {
-                        _GControlEvent.Append(gbase as GStatement);
+                        controlEvent.Append(gbase as GStatement);
                     }
                 }
 
-                return _GControlEvent;
+                return controlEvent;
             }
         }
-        private GControlEvent _GControlEvent;
-
+        
         public override GScope GScope
         {
             get
@@ -86,12 +78,10 @@ namespace GSharp.Graphic.Scopes
         #endregion
         
         // Constructor
-        public ControlEventBlock(GCommand command)
+        public ControlEventBlock()
         {
             // Initialize Component
             InitializeComponent();
-
-            _GControlEvent = new GControlEvent(command);
 
             // Initialize Hole List
             HoleList.Add(NextConnectHole);

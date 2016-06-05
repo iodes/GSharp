@@ -219,10 +219,10 @@ namespace GSharp.Compile
             result.AppendLine("            };");
             result.AppendLine("            window.Show();");
             // 테스트
-            result.AppendLine(@"            FindControl(window, ""MyTestName"").Click += () =>");
-            result.AppendLine("            {");
-            result.AppendLine(@"                MessageBox.Show(""클릭 이벤트 발동"");");
-            result.AppendLine("            };");
+            //result.AppendLine(@"            FindControl(window, ""MyTestName"").Click += () =>");
+            //result.AppendLine("            {");
+            //result.AppendLine(@"                MessageBox.Show(""클릭 이벤트 발동"");");
+            //result.AppendLine("            };");
             // 테스트
             result.AppendLine("        }");
             result.AppendLine();
