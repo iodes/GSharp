@@ -47,6 +47,7 @@
     <Compile Include="Abstracts\GModule.cs" />
     <Compile Include="Abstracts\GView.cs" />
     <Compile Include="Attributes\GCommandAttribute.cs" />
+    <Compile Include="Attributes\GControlAttribute.cs" />
     <Compile Include="Attributes\GFieldAttribute.cs" />
     <Compile Include="Attributes\GParameterAttribute.cs" />
     <Compile Include="GControl.cs" />
