@@ -35,7 +35,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                GNumber obj = NumberHole?.NumberBlock?.GNumber;
+                GObject obj = NumberHole?.NumberBlock?.GObject;
                 if (obj == null)
                 {
                     throw new ToObjectException("반복문 블럭이 완성되지 않았습니다.", this);

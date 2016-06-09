@@ -29,7 +29,7 @@ namespace GSharp.Graphic.Objects.Numbers
         {
             get
             {
-                GString obj1 = StringHole1.StringBlock?.GString;
+                GObject obj1 = StringHole1.StringBlock?.GObject;
 
                 return new GLength(obj1);
             }

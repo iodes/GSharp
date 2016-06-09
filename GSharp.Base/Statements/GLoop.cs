@@ -11,7 +11,7 @@ namespace GSharp.Base.Statements
     public class GLoop : GStatement
     {
         #region 속성
-        public GNumber GNumber { get; set; }
+        public GObject GNumber { get; set; }
         #endregion
 
         #region 객체
@@ -24,7 +24,7 @@ namespace GSharp.Base.Statements
 
         }
 
-        public GLoop(GNumber number)
+        public GLoop(GObject number)
         {
             GNumber = number;
         }
@@ -44,7 +44,7 @@ namespace GSharp.Base.Statements
             if (GNumber != null)
             {
                 string varName = "_" + GetHashCode();
-                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}; {0}++)\n{{\n", varName, GNumber.ToSource());
+                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToGNumber().Number; {0}++)\n{{\n", varName, GNumber.ToSource());
             }
             else
             {

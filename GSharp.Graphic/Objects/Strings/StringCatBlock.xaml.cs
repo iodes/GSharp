@@ -42,8 +42,8 @@ namespace GSharp.Graphic.Objects.Strings
         {
             get
             {
-                GString obj1 = StringHole1.StringBlock?.GString;
-                GString obj2 = StringHole2.StringBlock?.GString;
+                GObject obj1 = StringHole1.StringBlock?.GObject;
+                GObject obj2 = StringHole2.StringBlock?.GObject;
 
                 return new GStringCat(obj1, obj2);
             }

@@ -42,7 +42,7 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public StringBlock StringBlock
+        public ObjectBlock StringBlock
         {
             get
             {
@@ -112,16 +112,6 @@ namespace GSharp.Graphic.Holes
             BlockString.Visibility = Visibility.Visible;
 
             return block;
-        }
-
-        public override bool CanAttachBlock(BaseBlock block)
-        {
-            if (!(block is StringBlock))
-            {
-                return false;
-            }
-
-            return base.CanAttachBlock(block);
         }
     }
 }

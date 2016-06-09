@@ -43,8 +43,8 @@ namespace GSharp.Graphic.Objects.Logics
         {
             get
             {
-                GLogic logic1 = LogicHole1.LogicBlock.GLogic;
-                GLogic logic2 = LogicHole2.LogicBlock.GLogic;
+                GObject logic1 = LogicHole1.LogicBlock.GObject;
+                GObject logic2 = LogicHole2.LogicBlock.GObject;
 
                 GGate.GateType op = GetGateType();
 

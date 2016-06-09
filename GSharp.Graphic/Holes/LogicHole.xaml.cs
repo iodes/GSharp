@@ -28,7 +28,7 @@ namespace GSharp.Graphic.Holes
             }
         }
 
-        public LogicBlock LogicBlock
+        public ObjectBlock LogicBlock
         {
             get
             {
@@ -72,16 +72,6 @@ namespace GSharp.Graphic.Holes
             BlockHole.Child = null;
 
             return block;
-        }
-
-        public override bool CanAttachBlock(BaseBlock block)
-        {
-            if (!(block is LogicBlock))
-            {
-                return false;
-            }
-
-            return base.CanAttachBlock(block);
         }
     }
 }

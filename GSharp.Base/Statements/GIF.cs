@@ -11,7 +11,7 @@ namespace GSharp.Base.Statements
     public class GIf : GStatement
     {
         #region 속성
-        public GLogic Logic { get; set; }
+        public GObject Logic { get; set; }
         #endregion
 
         #region 객체
@@ -19,7 +19,7 @@ namespace GSharp.Base.Statements
         #endregion
 
         #region 생성자
-        public GIf(GLogic logicValue)
+        public GIf(GObject logicValue)
         {
             Logic = logicValue;
         }
@@ -37,7 +37,7 @@ namespace GSharp.Base.Statements
             StringBuilder builderCode = new StringBuilder();
             builderCode.AppendFormat
                 (
-                    "if ({0})\n{{\n",
+                    "if ({0}.ToGLogic().Logic)\n{{\n",
                     Logic.ToSource()
                 );
 
