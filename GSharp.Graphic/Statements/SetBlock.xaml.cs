@@ -17,27 +17,20 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Base.Statements;
-using GSharp.Base.Objects.Customs;
+using GSharp.Base.Objects.Numbers;
+using GSharp.Graphic.Objects;
 
 namespace GSharp.Graphic.Statements
 {
     /// <summary>
-    /// CustomSetBlock.xaml에 대한 상호 작용 논리
+    /// SetBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CustomSetBlock : PrevStatementBlock
+    public partial class SetBlock : PrevStatementBlock
     {
-        public CustomSetBlock()
+        public SetBlock()
         {
             InitializeComponent();
             InitializeBlock();
-        }
-
-        public Type CustomType
-        {
-            get
-            {
-                return typeof(void);
-            }
         }
 
         public override NextConnectHole NextConnectHole
@@ -58,20 +51,21 @@ namespace GSharp.Graphic.Statements
             return NextConnectHole.StatementBlock.GetLastBlock();
         }
 
-        public GSet<GCustomVariable, GCustom> GSet
+        public GSet GSet
         {
             get
             {
                 string variableName = VariableSelect.Text;
-                GCustomVariable variable = new GCustomVariable(typeof(void), variableName);
-                GCustom obj = CustomHole?.CustomBlock?.GCustom;
+                ISettable variable = new GVariable(variableName);
 
-                if (obj == null)
+                GObject number = NumberHole?.NumberBlock?.GObject;
+
+                if (number == null)
                 {
                     throw new ToObjectException("변수 설정 블럭이 완성되지 않았습니다.", this);
                 }
 
-                return new GSet<GCustomVariable, GCustom>(variable, obj);
+                return new GSet(variable, number);
             }
         }
 
@@ -87,7 +81,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return new List<BaseHole> { CustomHole, NextConnectHole };
+                return new List<BaseHole> { NumberHole, NextConnectHole };
             }
         }
 
