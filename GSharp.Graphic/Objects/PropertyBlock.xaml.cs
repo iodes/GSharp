@@ -19,12 +19,12 @@ using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Strings;
 
-namespace GSharp.Graphic.Objects.Strings
+namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// StringPropertyBlock.xaml에 대한 상호 작용 논리
+    /// PropertyBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class StringPropertyBlock : StringBlock, IModuleBlock
+    public partial class PropertyBlock : ObjectBlock, IModuleBlock
     {
 
         public GCommand GCommand
@@ -40,26 +40,18 @@ namespace GSharp.Graphic.Objects.Strings
         {
             get
             {
-                return GStringProperty;
+                return GProperty;
             }
         }
 
-        public override GString GString
+        public GProperty GProperty
         {
             get
             {
-                return GStringProperty;
+                return _GProperty;
             }
         }
-
-        public GStringProperty GStringProperty
-        {
-            get
-            {
-                return _GStringProperty;
-            }
-        }
-        private GStringProperty _GStringProperty;
+        private GProperty _GProperty;
 
         public override List<GBase> ToGObjectList()
         {
@@ -68,12 +60,12 @@ namespace GSharp.Graphic.Objects.Strings
         private List<GBase> _GObjectList;
 
         // 생성자
-        public StringPropertyBlock(GCommand command)
+        public PropertyBlock(GCommand command)
         {
             InitializeComponent();
 
             _GCommand = command;
-            _GStringProperty = new GStringProperty(command);
+            _GProperty = new GProperty(command);
             _GObjectList = new List<GBase> { GObject };
 
             PropertyName.Text = command.FriendlyName;
