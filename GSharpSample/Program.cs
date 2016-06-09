@@ -21,15 +21,15 @@ namespace GSharpSample
             // 코드 생성
             GEntry entry = new GEntry();
 
-            GNumberVariable var = new GNumberVariable("valueA");
+            GVariable var = new GVariable("valueA");
             GDefine def = new GDefine(var);
             entry.Append(def);
 
             GEvent main = new GEvent(new GCommand("this", "Loaded", typeof(void), GCommand.CommandType.Event));
-            GSet<GNumberVariable, GNumber> setValue = new GSet<GNumberVariable, GNumber>(var, new GNumberConst(5));
+            GSet setValue = new GSet(var, new GNumberConst(5));
             main.Append(setValue);
 
-            GIf ifCheck = new GIf(new GCompare<GNumber>(var, GCompare<GNumber>.ConditionType.GREATER_THEN, new GNumberConst(3)));
+            GIf ifCheck = new GIf(new GCompare(var, GCompare.ConditionType.GREATER_THEN, new GNumberConst(3)));
             ifCheck.Append(
                 new GVoidCall(
                     new GCommand("Console", "WriteLine", typeof(void), GCommand.CommandType.Call),
