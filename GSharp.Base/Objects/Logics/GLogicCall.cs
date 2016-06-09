@@ -27,7 +27,7 @@ namespace GSharp.Base.Objects.Logics
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToLogicSource()
         {
             if (targetArguments == null)
             {

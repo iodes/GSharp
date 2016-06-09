@@ -60,7 +60,7 @@ namespace GSharp.Base.Objects.Customs
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToCustomSource()
         {
             return GCommand.Optionals[SelectedIndex].FullName;
         }

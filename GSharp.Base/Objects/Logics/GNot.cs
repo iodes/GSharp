@@ -7,18 +7,18 @@ namespace GSharp.Base.Objects.Logics
     [Serializable]
     public class GNot : GLogic
     {
-        public GLogic TargetLogic { get; set; }
+        public GObject Target { get; set; }
 
         #region 생성자
-        public GNot(GLogic logic)
+        public GNot(GObject logic)
         {
-            TargetLogic = logic;
+            Target = logic;
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToLogicSource()
         {
-            return string.Format("!({0})",TargetLogic.ToSource());
+            return string.Format("!({0}.ToGLogic())", Target.ToSource());
         }
     }
 }

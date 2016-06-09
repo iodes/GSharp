@@ -26,7 +26,7 @@ namespace GSharp.Base.Objects.Strings
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToStringSource()
         {
             if (targetArguments == null)
             {

@@ -42,27 +42,14 @@ namespace GSharp.Base.Objects.Customs
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToCustomSource()
         {
-            if (targetArguments == null)
+            var argumentString = "";
+            if (targetArguments != null)
             {
-                return string.Format
-                (
-                    "{0}()",
-                    GCommand.FullName
-                );
+                argumentString = string.Join(", ", targetArguments.Select(element => element.ToSource()));
             }
-            else
-            {
-                var argumentStrings = targetArguments.Select(element => element.ToSource());
-            
-                return string.Format
-                (
-                    "{0}({1})",
-                    GCommand.FullName,
-                    string.Join(", ", argumentStrings)
-                );
-            }
+            return string.Format("{0}({1})", GCommand.FullName, argumentString);
         }
     }
 }

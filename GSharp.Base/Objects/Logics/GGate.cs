@@ -7,11 +7,31 @@ namespace GSharp.Base.Objects.Logics
     public class GGate : GLogic
     {
         #region 속성
-        public GLogic FirstPart { get; set; }
+        public GObject FirstPart { get; set; }
 
-        public GLogic SecondPart { get; set; }
+        public GObject SecondPart { get; set; }
 
         public GateType Gate { get; set; }
+
+        public string GateText
+        {
+            get
+            {
+                string gateText = string.Empty;
+                switch (Gate)
+                {
+                    case GateType.OR:
+                        gateText = "||";
+                        break;
+
+                    case GateType.AND:
+                        gateText = "&&";
+                        break;
+                }
+
+                return gateText;
+            }
+        }
         #endregion
 
         #region 열거형
@@ -23,7 +43,7 @@ namespace GSharp.Base.Objects.Logics
         #endregion
 
         #region 생성자
-        public GGate(GLogic firstPart, GateType gateType, GLogic secondPart)
+        public GGate(GObject firstPart, GateType gateType, GObject secondPart)
         {
             FirstPart = firstPart;
             SecondPart = secondPart;
@@ -31,25 +51,14 @@ namespace GSharp.Base.Objects.Logics
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToLogicSource()
         {
-            string gateText = string.Empty;
-            switch (Gate)
-            {
-                case GateType.OR:
-                    gateText = "||";
-                    break;
-
-                case GateType.AND:
-                    gateText = "&&";
-                    break;
-            }
 
             return string.Format
                 (
-                    "({0} {1} {2})",
+                    "({0}.ToGLogic().Logic {1} {2}.ToGLogic().Logic)",
                     FirstPart.ToSource(),
-                    gateText,
+                    GateText,
                     SecondPart.ToSource()
                 );
         }

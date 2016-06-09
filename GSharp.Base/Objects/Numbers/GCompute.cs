@@ -7,11 +7,43 @@ namespace GSharp.Base.Objects.Numbers
     public class GCompute : GNumber
     {
         #region 속성
-        public GNumber FirstPart { get; set; }
+        public GObject FirstPart { get; set; }
 
-        public GNumber SecondPart { get; set; }
+        public GObject SecondPart { get; set; }
 
         public OperatorType Operator { get; set; }
+
+        public string OperatorText
+        {
+            get
+            {
+                string operatorText = string.Empty;
+                switch (Operator)
+                {
+                    case OperatorType.PLUS:
+                        operatorText = "+";
+                        break;
+
+                    case OperatorType.MINUS:
+                        operatorText = "-";
+                        break;
+
+                    case OperatorType.MULTIPLY:
+                        operatorText = "*";
+                        break;
+
+                    case OperatorType.DIVISION:
+                        operatorText = "/";
+                        break;
+
+                    case OperatorType.MODULO:
+                        operatorText = "%";
+                        break;
+                }
+
+                return operatorText;
+            }
+        }
         #endregion
 
         #region 열거형
@@ -26,7 +58,7 @@ namespace GSharp.Base.Objects.Numbers
         #endregion
 
         #region 생성자
-        public GCompute(GNumber firstPart, OperatorType operatorType, GNumber secondPart)
+        public GCompute(GObject firstPart, OperatorType operatorType, GObject secondPart)
         {
             FirstPart = firstPart;
             SecondPart = secondPart;
@@ -34,39 +66,9 @@ namespace GSharp.Base.Objects.Numbers
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToNumberSource()
         {
-            string operatorText = string.Empty;
-            switch (Operator)
-            {
-                case OperatorType.PLUS:
-                    operatorText = "+";
-                    break;
-
-                case OperatorType.MINUS:
-                    operatorText = "-";
-                    break;
-
-                case OperatorType.MULTIPLY:
-                    operatorText = "*";
-                    break;
-
-                case OperatorType.DIVISION:
-                    operatorText = "/";
-                    break;
-
-                case OperatorType.MODULO:
-                    operatorText = "%";
-                    break;
-            }
-
-            return string.Format
-                (
-                    "({0} {1} {2})",
-                    FirstPart?.ToSource(),
-                    operatorText,
-                    SecondPart?.ToSource()
-                );
+            return string.Format("({0}.ToGNumber() {1} {2}.ToGNumber())", FirstPart?.ToSource(), OperatorText, SecondPart?.ToSource());
         }
     }
 }

@@ -26,7 +26,7 @@ namespace GSharp.Base.Objects.Numbers
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToNumberSource()
         {
             if (targetArguments == null)
             {

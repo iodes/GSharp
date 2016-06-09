@@ -8,21 +8,21 @@ namespace GSharp.Base.Objects.Strings
     [Serializable]
     public class GStringCat : GString, ICall
     {
-        public GString FirstPart { get; set; }
+        public GObject FirstPart { get; set; }
 
-        public GString SecondPart { get; set; }
+        public GObject SecondPart { get; set; }
 
         #region 생성자
-        public GStringCat(GString first, GString second)
+        public GStringCat(GObject first, GObject second)
         {
             FirstPart = first;
             SecondPart = second;
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToStringSource()
         {
-            return string.Format("({0} + {1})", FirstPart?.ToSource(), SecondPart?.ToSource());
+            return string.Format("new GString({0}.ToGString().String + {1}.ToGstring().String)", FirstPart?.ToSource(), SecondPart?.ToSource());
         }
     }
 }
