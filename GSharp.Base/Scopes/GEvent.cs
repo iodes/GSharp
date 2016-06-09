@@ -11,8 +11,12 @@ namespace GSharp.Base.Scopes
     [Serializable]
     public class GEvent : GScope
     {
+        private const string PREFIX_REAL_ARG = "r_";
+        private const string PREFIX_ARG = "param";
+
         public GCommand GCommand { get; }
-        public List<IVariable> Arguments { get; } = new List<IVariable>();
+        public List<GVariable> Arguments { get; } = new List<GVariable>();
+        public List<Type> ArgumentsType { get; } = new List<Type>();
 
         public List<GStatement> Content = new List<GStatement>();
 
@@ -23,10 +27,12 @@ namespace GSharp.Base.Scopes
             for (int i = 0; i < GCommand.Optionals?.Length; i++)
             {
                 string variableName = GCommand.Optionals[i].Name;
-                variableName = "param" + variableName[0].ToString().ToUpper() + variableName.Substring(1);
+                variableName = PREFIX_ARG + variableName[0].ToString().ToUpper() + variableName.Substring(1);
 
-                IVariable variable = GSharpUtils.CreateIVariable(variableName, GCommand.Optionals[i].ObjectType);
+                GVariable variable = GSharpUtils.CreateGVariable(variableName);
+
                 Arguments.Add(variable);
+                ArgumentsType.Add(GCommand.Optionals[i].ObjectType);
             }
         }
 
@@ -52,14 +58,19 @@ namespace GSharp.Base.Scopes
             var argumentList = new List<string>();
             foreach (var arg in Arguments)
             {
-                argumentList.Add(arg.Name);
+                argumentList.Add(PREFIX_REAL_ARG + arg.Name);
             }
 
             string argumentsStr = string.Join(",", argumentList.ToArray());
 
             source.AppendFormat("{0}.{1} += ({2}) => \n{{\n", GCommand.NamespaceName, GCommand.MethodName, argumentsStr);
 
-            foreach(GStatement statement in Content)
+            for (int i=0; i<Arguments.Count; i++)
+            {
+                source.AppendFormat("GObject {0} = ({1}){2}{0};\n" + Arguments[i].Name, GSharpUtils.GetCastString(ArgumentsType[i]), PREFIX_REAL_ARG);
+            }
+
+            foreach (GStatement statement in Content)
             {
                 source.AppendLine(ConvertAssistant.Indentation(statement.ToSource()));
             }

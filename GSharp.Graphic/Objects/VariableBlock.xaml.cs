@@ -56,7 +56,7 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return GVariable;
+                return _GVariable;
             }
         }
         private GVariable _GVariable;

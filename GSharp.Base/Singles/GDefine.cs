@@ -9,9 +9,9 @@ namespace GSharp.Base.Singles
     [Serializable]
     public class GDefine : GSingle
     {
-        public IVariable Variable { get; set; }
+        public GVariable Variable { get; set; }
 
-        public GDefine(IVariable variable)
+        public GDefine(GVariable variable)
         {
             Variable = variable;
         }
@@ -19,9 +19,8 @@ namespace GSharp.Base.Singles
         public override string ToSource()
         {
             var compiler = new CSharpCodeProvider();
-            var type = new CodeTypeReference(Variable.VariableType);
             
-            return string.Format("public {0} {1};", compiler.GetTypeOutput(type), Variable.Name);
+            return string.Format("public GObject {0} = new GString();", Variable.Name);
         }
     }
 }

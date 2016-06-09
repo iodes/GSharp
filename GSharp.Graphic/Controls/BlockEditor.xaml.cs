@@ -89,7 +89,7 @@ namespace GSharp.Graphic.Controls
         private bool IsSelectedBlockMoved = false;
 
         // 변수 목록
-        public Dictionary<string, IVariableBlock> GlobalVariableBlockList { get; } = new Dictionary<string, IVariableBlock>();
+        public Dictionary<string, VariableBlock> GlobalVariableBlockList { get; } = new Dictionary<string, VariableBlock>();
         //private Dictionary<string, GStringVariable> StringVariableList = new Dictionary<string, GStringVariable>();
         //private Dictionary<string, GNumberVariable> NumberVariableList = new Dictionary<string, GNumberVariable>();
         //private Dictionary<string, GLogicVariable> LogicVariableList = new Dictionary<string, GLogicVariable>();
@@ -271,14 +271,14 @@ namespace GSharp.Graphic.Controls
 
         #region 변수 선언
         // 변수 선언
-        public IVariableBlock DefineGlobalVariable(string varName, Type variableType)
+        public VariableBlock DefineGlobalVariable(string varName)
         {
             if (GlobalVariableBlockList.Keys.Contains(varName))
             {
                 return null;
             }
 
-            GlobalVariableBlockList[varName] = BlockUtils.CreateVariableBlock(varName, variableType);
+            GlobalVariableBlockList[varName] = BlockUtils.CreateVariableBlock(varName);
             return GlobalVariableBlockList[varName];
         }
 
@@ -294,7 +294,7 @@ namespace GSharp.Graphic.Controls
             return GlobalVariableBlockList.Keys.ToList();
         }
 
-        public List<IVariableBlock> GetGlobalVariableBlockList()
+        public List<VariableBlock> GetGlobalVariableBlockList()
         {
             return GlobalVariableBlockList.Values.ToList();
         }
@@ -859,9 +859,9 @@ namespace GSharp.Graphic.Controls
                 GEntry entry = new GEntry();
                 List<GBase> list = new List<GBase>();
 
-                foreach (IVariableBlock variableBlock in GetGlobalVariableBlockList())
+                foreach (VariableBlock variableBlock in GetGlobalVariableBlockList())
                 {
-                    entry.Append(new GDefine(variableBlock.IVariable));
+                    entry.Append(new GDefine(variableBlock.GVariable));
                 }
 
                 foreach (var block in Master.Children)
@@ -974,9 +974,9 @@ namespace GSharp.Graphic.Controls
                 writer.WriteAttributeString("String", (target as StringConstBlock).String.ToString());
             }
 
-            if (target is IVariableBlock)
+            if (target is VariableBlock)
             {
-                writer.WriteAttributeString("Variable", (target as IVariableBlock).IVariable.Name);
+                writer.WriteAttributeString("Variable", (target as VariableBlock).GVariable.Name);
             }
 
             if (target is IModuleBlock)

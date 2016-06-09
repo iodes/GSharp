@@ -14,6 +14,7 @@ using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Logics;
 using GSharp.Graphic.Objects.Customs;
 using GSharp.Graphic.Objects.Numbers;
+using GSharp.Graphic.Objects;
 
 namespace GSharp.Manager
 {
@@ -314,25 +315,7 @@ namespace GSharp.Manager
                         break;
 
                     case GCommand.CommandType.Property:
-                        if (numberTypes.Contains(command.ObjectType))
-                        {
-                            blockList.Add(new NumberPropertyBlock(command));
-                            break;
-                        }
-
-                        if (command.ObjectType == typeof(string))
-                        {
-                            blockList.Add(new StringPropertyBlock(command));
-                            break;
-                        }
-
-                        if (command.ObjectType == typeof(bool))
-                        {
-                            blockList.Add(new LogicPropertyBlock(command));
-                            break;
-                        }
-
-                        blockList.Add(new CustomPropertyBlock(command));
+                        blockList.Add(new PropertyBlock(command));
                         break;
 
                     // Enum은 블럭으로 만들지 않음

@@ -146,35 +146,16 @@ namespace GSharp.Graphic
         /// 매개변수의 자료형이 숫자 형태인 경우 NumberVariableBlock을 반환
         /// 이 외의 경우 CustomVariableBlock을 반환합니다.
         /// </returns>
-        public static IVariableBlock CreateVariableBlock(string variableName, Type variableType, string friendlyName = null)
+        public static VariableBlock CreateVariableBlock(string variableName, string friendlyName = null)
         {
-            IVariable variable = GSharpUtils.CreateIVariable(variableName, variableType);
+            GVariable variable = GSharpUtils.CreateGVariable(variableName);
 
             if (friendlyName == null)
             {
                 friendlyName = variableName;
             }
 
-            // string인 경우
-            if (variable is GStringVariable)
-            {
-                return new StringVariableBlock(friendlyName, variable as GStringVariable);
-            }
-
-            // bool인 경우
-            if (variable is GLogicVariable)
-            {
-                return new LogicVariableBlock(friendlyName, variable as GLogicVariable);
-            }
-
-            // 자료형이 숫자 형태인 경우
-            if (variable is GNumberVariable)
-            {
-                return new NumberVariableBlock(friendlyName, variable as GNumberVariable);
-            }
-
-            // 이 외의 경우 모두 CustomVariable
-            return new CustomVariableBlock(friendlyName, variable as GCustomVariable);
+            return new VariableBlock(friendlyName, variable);
         }
 
         /// <summary>
@@ -188,33 +169,14 @@ namespace GSharp.Graphic
         /// variable이 GNumberVariable이면 NumberVariableBlock을 반환
         /// 이 외의 경우 CustomVariableBlock을 반환합니다.
         /// </returns>
-        public static IVariableBlock CreateVariableBlock(IVariable variable, string friendlyName = null)
+        public static VariableBlock CreateVariableBlock(GVariable variable, string friendlyName = null)
         {
             if (friendlyName == null)
             {
                 friendlyName = variable.Name;
             }
 
-            // string인 경우
-            if (variable is GStringVariable)
-            {
-                return new StringVariableBlock(friendlyName, variable as GStringVariable);
-            }
-
-            // bool인 경우
-            if (variable is GLogicVariable)
-            {
-                return new LogicVariableBlock(friendlyName, variable as GLogicVariable);
-            }
-
-            // 자료형이 숫자 형태인 경우
-            if (variable is GNumberVariable)
-            {
-                return new NumberVariableBlock(friendlyName, variable as GNumberVariable);
-            }
-
-            // 이 외의 경우 모두 CustomVariable
-            return new CustomVariableBlock(friendlyName, variable as GCustomVariable);
+            return new VariableBlock(friendlyName, variable);
         }
     }
 }

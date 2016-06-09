@@ -59,9 +59,9 @@ namespace GSharp.Graphic.Holes
                 return false;
             }
             
-            if (block is IVariableBlock)
+            if (block is VariableBlock)
             {
-                var varBlock = block as IVariableBlock;
+                var varBlock = block as VariableBlock;
 
                 var globalVariableList = block.BlockEditor.GetGlobalVariableBlockList();
                 var allowVariableList = ParentBlock.AllowVariableList;

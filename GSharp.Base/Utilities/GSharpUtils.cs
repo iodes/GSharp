@@ -26,30 +26,31 @@ namespace GSharp.Base.Utilities
             typeof(double), // Double
         };
 
-        public static IVariable CreateIVariable(string variableName, Type variableType)
+        public static GVariable CreateGVariable(string variableName)
         {
             if (variableName?.Length <= 0) return null;
 
-            // string인 경우
-            if (variableType == typeof(string))
+            return new GVariable(variableName);
+        }
+
+        public static string GetCastString(Type type)
+        {
+            if (type == typeof(string))
             {
-                return new GStringVariable(variableName);
+                return "GString";
             }
 
-            // bool인 경우
-            if (variableType == typeof(bool))
+            if (type == typeof(bool))
             {
-                return new GLogicVariable(variableName);
+                return "GLogic";
             }
 
-            // 자료형이 숫자 형태인 경우
-            if (numberTypes.Contains(variableType))
+            if (numberTypes.Contains(type))
             {
-                return new GNumberVariable(variableName);
+                return "GNumber";
             }
 
-            // 이 외의 경우 모두 CustomVariable
-            return new GCustomVariable(variableType, variableName);
+            return "GCustom";
         }
     }
 }
