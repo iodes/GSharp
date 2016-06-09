@@ -5,14 +5,50 @@ using GSharp.Base.Utilities;
 namespace GSharp.Base.Objects.Logics
 {
     [Serializable]
-    public class GCompare<T> : GLogic where T : GObject
+    public class GCompare : GLogic
     {
         #region 속성
-        public T FirstPart { get; set; }
+        public GObject FirstPart { get; set; }
 
-        public T SecondPart { get; set; }
+        public GObject SecondPart { get; set; }
 
         public ConditionType Condition { get; set; }
+
+        public string ConditionText
+        {
+            get
+            {
+                string conditionText = string.Empty;
+                switch (Condition)
+                {
+                    case ConditionType.EQUAL:
+                        conditionText = "==";
+                        break;
+
+                    case ConditionType.NOT_EQUAL:
+                        conditionText = "!=";
+                        break;
+
+                    case ConditionType.LESS_THEN:
+                        conditionText = "<";
+                        break;
+
+                    case ConditionType.LESS_THEN_OR_EQUAL:
+                        conditionText = "<=";
+                        break;
+
+                    case ConditionType.GREATER_THEN:
+                        conditionText = ">";
+                        break;
+
+                    case ConditionType.GREATER_THEN_OR_EQUAL:
+                        conditionText = ">=";
+                        break;
+                }
+
+                return conditionText;
+            }
+        }
         #endregion
 
         #region 열거형
@@ -28,7 +64,7 @@ namespace GSharp.Base.Objects.Logics
         #endregion
 
         #region 생성자
-        public GCompare(T firstPart, ConditionType conditionType, T secondPart)
+        public GCompare(GObject firstPart, ConditionType conditionType, GObject secondPart)
         {
             FirstPart = firstPart;
             Condition = conditionType;
@@ -36,41 +72,13 @@ namespace GSharp.Base.Objects.Logics
         }
         #endregion
 
-        public override string ToSource()
+        public override string ToLogicSource()
         {
-            string conditionText = string.Empty;
-            switch (Condition)
-            {
-                case ConditionType.EQUAL:
-                    conditionText = "==";
-                    break;
-
-                case ConditionType.NOT_EQUAL:
-                    conditionText = "!=";
-                    break;
-
-                case ConditionType.LESS_THEN:
-                    conditionText = "<";
-                    break;
-
-                case ConditionType.LESS_THEN_OR_EQUAL:
-                    conditionText = "<=";
-                    break;
-
-                case ConditionType.GREATER_THEN:
-                    conditionText = ">";
-                    break;
-
-                case ConditionType.GREATER_THEN_OR_EQUAL:
-                    conditionText = ">=";
-                    break;
-            }
-
             return string.Format
             (
                 "({0} {1} {2})",
                 FirstPart.ToSource(),
-                conditionText,
+                ConditionText,
                 SecondPart.ToSource()
             );
         }
