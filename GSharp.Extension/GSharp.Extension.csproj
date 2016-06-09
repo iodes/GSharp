@@ -49,6 +49,12 @@
     <Compile Include="Attributes\GCommandAttribute.cs" />
     <Compile Include="Attributes\GFieldAttribute.cs" />
     <Compile Include="Attributes\GParameterAttribute.cs" />
+    <Compile Include="DataTypes\GCustom.cs" />
+    <Compile Include="DataTypes\GList.cs" />
+    <Compile Include="DataTypes\GLogic.cs" />
+    <Compile Include="DataTypes\GNumber.cs" />
+    <Compile Include="DataTypes\GObject.cs" />
+    <Compile Include="DataTypes\GString.cs" />
     <Compile Include="GControl.cs" />
     <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />
