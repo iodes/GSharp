@@ -21,9 +21,9 @@ using GSharp.Base.Objects;
 namespace GSharp.Graphic.Objects.Logics
 {
     /// <summary>
-    /// StringCompareBlock.xaml에 대한 상호 작용 논리
+    /// CompareBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class StringCompareBlock : LogicBlock, ICompareBlock
+    public partial class CompareBlock : LogicBlock, ICompareBlock
     {
         public override List<BaseHole> HoleList
         {
@@ -34,21 +34,21 @@ namespace GSharp.Graphic.Objects.Logics
         }
         private List<BaseHole> _HoleList;
 
-        public GCompare<GString> GCompare
+        public GCompare GCompare
         {
             get
             {
-                GString obj1 = StringHole1?.StringBlock?.GString;
-                GString obj2 = StringHole2?.StringBlock?.GString;
+                GObject obj1 = ObjectHole1?.ObjectBlock?.GObject;
+                GObject obj2 = ObjectHole2?.ObjectBlock?.GObject;
 
                 if (obj1 == null || obj2 == null)
                 {
                     throw new ToObjectException("블럭이 완성되지 않았습니다.", this);
                 }
 
-                GCompare<GString>.ConditionType op = GetConditionType();
+                GCompare.ConditionType op = GetConditionType();
 
-                return new GCompare<GString>(obj1, op, obj2);
+                return new GCompare(obj1, op, obj2);
             }
         }
 
@@ -65,43 +65,43 @@ namespace GSharp.Graphic.Objects.Logics
             return new List<GBase> { GLogic };
         }
 
-        public StringCompareBlock()
+        public CompareBlock()
         {
             InitializeComponent();
 
             _HoleList = new List<BaseHole>()
             {
-                StringHole1,
-                StringHole2
+                ObjectHole1,
+                ObjectHole2
             };
 
             InitializeBlock();
         }
 
-        public GCompare<GString>.ConditionType GetConditionType()
+        public GCompare.ConditionType GetConditionType()
         {
             switch (Operator.Text)
             {
                 case "=":
-                    return GCompare<GString>.ConditionType.EQUAL;
+                    return GCompare.ConditionType.EQUAL;
 
                 case "≠":
-                    return GCompare<GString>.ConditionType.NOT_EQUAL;
+                    return GCompare.ConditionType.NOT_EQUAL;
 
                 case "≤":
-                    return GCompare<GString>.ConditionType.LESS_THEN_OR_EQUAL;
+                    return GCompare.ConditionType.LESS_THEN_OR_EQUAL;
 
                 case "≥":
-                    return GCompare<GString>.ConditionType.GREATER_THEN_OR_EQUAL;
+                    return GCompare.ConditionType.GREATER_THEN_OR_EQUAL;
 
                 case "<":
-                    return GCompare<GString>.ConditionType.LESS_THEN;
+                    return GCompare.ConditionType.LESS_THEN;
 
                 case ">":
-                    return GCompare<GString>.ConditionType.GREATER_THEN;
+                    return GCompare.ConditionType.GREATER_THEN;
 
                 default:
-                    return GCompare<GString>.ConditionType.EQUAL;
+                    return GCompare.ConditionType.EQUAL;
             }
         }
 
