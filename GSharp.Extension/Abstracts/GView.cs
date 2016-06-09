@@ -5,7 +5,7 @@ namespace GSharp.Extension.Abstracts
     public abstract class GView : UserControl
     {
         #region 이벤트
-        public event ClickEventHandler Click;
+        public new event ClickEventHandler Click;
         public delegate void ClickEventHandler();
 
         public new event MouseMoveEventHandler MouseMove;
