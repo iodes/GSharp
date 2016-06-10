@@ -44,14 +44,14 @@ namespace GSharp.Graphic.Objects
             }
         }
 
-        public GCall GCall
+        public GObjectCall GCall
         {
             get
             {
                 return _GCall;
             }
         }
-        private GCall _GCall;
+        private GObjectCall _GCall;
 
         public override List<GBase> ToGObjectList()
         {
@@ -66,7 +66,7 @@ namespace GSharp.Graphic.Objects
             InitializeComponent();
 
             _GCommand = command;
-            _GCall = new GCall(command);
+            _GCall = new GObjectCall(command);
             _GObjectList = new List<GBase> { GObject };
 
             CallName.Text = command.FriendlyName;
