@@ -40,6 +40,10 @@ namespace GSharp.Graphic.Holes
             {
                 return ObjectBlock;
             }
+            set
+            {
+                ObjectBlock = value;
+            }
         }
 
         public ObjectBlock ObjectBlock

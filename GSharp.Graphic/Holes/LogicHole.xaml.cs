@@ -26,13 +26,17 @@ namespace GSharp.Graphic.Holes
             {
                 return LogicBlock;
             }
+            set
+            {
+                LogicBlock = value;
+            }
         }
 
         public ObjectBlock LogicBlock
         {
             get
             {
-                return BlockHole.Child as LogicBlock;
+                return BlockHole.Child as ObjectBlock;
             }
             set
             {
@@ -72,6 +76,11 @@ namespace GSharp.Graphic.Holes
             BlockHole.Child = null;
 
             return block;
+        }
+
+        public override string ToSource()
+        {
+            return string.Format("{0}.ToBool()", AttachedBlock?.ToGObjectList()[0]?.ToSource());
         }
     }
 }

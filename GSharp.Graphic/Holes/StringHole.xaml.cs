@@ -40,6 +40,10 @@ namespace GSharp.Graphic.Holes
             {
                 return StringBlock;
             }
+            set
+            {
+                StringBlock = value;
+            }
         }
 
         public ObjectBlock StringBlock
@@ -48,7 +52,7 @@ namespace GSharp.Graphic.Holes
             {
                 if (BlockHole.Child != null)
                 {
-                    return BlockHole.Child as StringBlock;
+                    return BlockHole.Child as ObjectBlock;
                 }
                 else
                 {
@@ -112,6 +116,11 @@ namespace GSharp.Graphic.Holes
             BlockString.Visibility = Visibility.Visible;
 
             return block;
+        }
+
+        public override string ToSource()
+        {
+            return string.Format("{0}.ToText()", AttachedBlock?.ToGObjectList()[0]?.ToSource());
         }
     }
 }

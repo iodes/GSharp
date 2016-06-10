@@ -39,15 +39,19 @@ namespace GSharp.Graphic.Holes
             {
                 return CustomBlock;
             }
+            set
+            {
+                CustomBlock = value;
+            }
         }
 
         public Type CustomType { get; set; }
 
-        public CustomBlock CustomBlock
+        public ObjectBlock CustomBlock
         {
             get
             {
-                return BlockHole.Child as CustomBlock;
+                return BlockHole.Child as ObjectBlock;
             }
             set
             {
@@ -95,22 +99,6 @@ namespace GSharp.Graphic.Holes
             BlockHole.Child = null;
 
             return block;
-        }
-
-        public override bool CanAttachBlock(BaseBlock block)
-        {
-            if (!(block is CustomBlock))
-            { 
-                return false;
-            }
-
-            var customBlock = block as CustomBlock;
-            if (!CustomType.IsAssignableFrom(CustomBlock.Type))
-            {
-                return false;
-            }
-
-            return base.CanAttachBlock(block);
         }
 
         public CustomHole()

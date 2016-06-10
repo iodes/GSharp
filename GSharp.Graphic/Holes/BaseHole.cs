@@ -80,5 +80,15 @@ namespace GSharp.Graphic.Holes
         /// </summary>
         /// <returns>떨어진 블럭을 반환</returns>
         public abstract BaseBlock DetachBlock();
+
+        /// <summary>
+        /// Hole에 끼인 블럭의 소스를 반환합니다.
+        /// Hole의 특성에 따라 조작될 수 있습니다.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string ToSource()
+        {
+            return AttachedBlock?.ToGObjectList()[0]?.ToSource();
+        }
     }
 }
