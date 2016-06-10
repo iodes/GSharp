@@ -202,6 +202,18 @@ namespace GSharp.Compile
             result.AppendLine();
             result.AppendLine("        public void InitializeComponent()");
             result.AppendLine("        {");
+            result.AppendLine("                Dispatcher.UnhandledException += (dS, dE) =>");
+            result.AppendLine("                {");
+            result.AppendLine("                    dE.Handled = true;");
+            result.AppendLine(@"                    if(MessageBox.Show(dE.Exception.Message + ""\n프로그램을 계속 진행 하시겠습니까?"", ""런타임 오류"", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.No)");
+            result.AppendLine(@"                    {");
+            result.AppendLine(@"                        Application.Current.Shutdown();");
+            result.AppendLine(@"                    }");
+            result.AppendLine("                };");
+            result.AppendLine("                Dispatcher.UnhandledExceptionFilter += (dS, dE) =>");
+            result.AppendLine("                {");
+            result.AppendLine("                    dE.RequestCatch = true;");
+            result.AppendLine("                };");
             if (XAML.Length > 0)
             {
                 result.AppendLine($@"            window = (XamlReader.Parse(Decode(""{_XAML}"")) as Window);");
@@ -220,12 +232,6 @@ namespace GSharp.Compile
             result.AppendLine("                if (Closing != null) Closing();");
             result.AppendLine("            };");
             result.AppendLine("            window.Show();");
-            // 테스트
-            //result.AppendLine(@"            FindControl(window, ""MyTestName"").Click += () =>");
-            //result.AppendLine("            {");
-            //result.AppendLine(@"                MessageBox.Show(""클릭 이벤트 발동"");");
-            //result.AppendLine("            };");
-            // 테스트
             result.AppendLine("        }");
             result.AppendLine();
             result.Append(ConvertAssistant.Indentation(source, 2));
