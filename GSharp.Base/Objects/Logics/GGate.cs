@@ -51,12 +51,12 @@ namespace GSharp.Base.Objects.Logics
         }
         #endregion
 
-        public override string ToLogicSource()
+        public override string ToSource()
         {
 
             return string.Format
                 (
-                    "({0}.ToGLogic().Logic {1} {2}.ToGLogic().Logic)",
+                    "({0}.ToBool() {1} {2}.ToBool())",
                     FirstPart.ToSource(),
                     GateText,
                     SecondPart.ToSource()

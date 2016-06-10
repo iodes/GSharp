@@ -66,9 +66,9 @@ namespace GSharp.Base.Objects.Numbers
         }
         #endregion
 
-        public override string ToNumberSource()
+        public override string ToSource()
         {
-            return string.Format("({0}.ToGNumber() {1} {2}.ToGNumber())", FirstPart?.ToSource(), OperatorText, SecondPart?.ToSource());
+            return string.Format("({0}.ToNumber() {1} {2}.ToNumber())", FirstPart?.ToSource(), OperatorText, SecondPart?.ToSource());
         }
     }
 }

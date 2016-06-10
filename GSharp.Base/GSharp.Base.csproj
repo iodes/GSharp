@@ -44,7 +44,7 @@
     <Compile Include="Cores\GEntry.cs" />
     <Compile Include="Cores\IModule.cs" />
     <Compile Include="Objects\Customs\GEnum.cs" />
-    <Compile Include="Objects\GCall.cs" />
+    <Compile Include="Objects\GObjectCall.cs" />
     <Compile Include="Objects\GCustom.cs" />
     <Compile Include="Objects\GLogic.cs" />
     <Compile Include="Cores\GObject.cs" />

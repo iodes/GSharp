@@ -17,9 +17,9 @@ namespace GSharp.Base.Objects.Numbers
         }
         #endregion
 
-        public override string ToNumberSource()
+        public override string ToSource()
         {
-            return string.Format("{0}.ToGString().String.Length", Target?.ToSource());
+            return string.Format("{0}.ToText().Length", Target?.ToSource());
         }
     }
 }

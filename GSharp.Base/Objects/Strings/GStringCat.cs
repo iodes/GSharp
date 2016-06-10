@@ -6,7 +6,7 @@ using GSharp.Extension;
 namespace GSharp.Base.Objects.Strings
 {
     [Serializable]
-    public class GStringCat : GString, ICall
+    public class GStringCat : GString
     {
         public GObject FirstPart { get; set; }
 
@@ -20,9 +20,9 @@ namespace GSharp.Base.Objects.Strings
         }
         #endregion
 
-        public override string ToStringSource()
+        public override string ToSource()
         {
-            return string.Format("new GString({0}.ToGString().String + {1}.ToGstring().String)", FirstPart?.ToSource(), SecondPart?.ToSource());
+            return string.Format("({0}.ToText() + {1}.ToText())", FirstPart?.ToSource(), SecondPart?.ToSource());
         }
     }
 }

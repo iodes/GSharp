@@ -20,7 +20,7 @@ namespace GSharp.Base.Objects.Strings
         }
         #endregion
 
-        public override string ToStringSource()
+        public override string ToSource()
         {
             return string.Format
                 (

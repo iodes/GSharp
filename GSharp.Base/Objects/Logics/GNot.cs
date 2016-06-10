@@ -16,9 +16,9 @@ namespace GSharp.Base.Objects.Logics
         }
         #endregion
 
-        public override string ToLogicSource()
+        public override string ToSource()
         {
-            return string.Format("!({0}.ToGLogic())", Target.ToSource());
+            return string.Format("(!{0}.ToBool())", Target.ToSource());
         }
     }
 }

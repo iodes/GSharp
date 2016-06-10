@@ -54,7 +54,6 @@
     </Compile>
     <Compile Include="Blocks\BaseBlock.cs" />
     <Compile Include="Blocks\IModuleBlock.cs" />
-    <Compile Include="Objects\IConstBlock.cs" />
     <Compile Include="Objects\ObjectCallBlock.xaml.cs">
       <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
     </Compile>

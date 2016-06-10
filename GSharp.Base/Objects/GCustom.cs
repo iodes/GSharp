@@ -8,12 +8,5 @@ namespace GSharp.Base.Objects
     public abstract class GCustom : GObject
     {
         public abstract Type CustomType { get; }
-
-        public abstract string ToCustomSource();
-
-        public override string ToSource()
-        {
-            return string.Format("((GCustom){0})", ToCustomSource());
-        }
     }
 }

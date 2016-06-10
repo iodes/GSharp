@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects
 {
-    public class GCall : GObject
+    public class GObjectCall : GObject
     {
         #region 객체
         private GCommand GCommand;
@@ -17,12 +17,12 @@ namespace GSharp.Base.Objects
         #endregion
 
         #region 생성자
-        public GCall(GCommand command)
+        public GObjectCall(GCommand command)
         {
             GCommand = command;
         }
 
-        public GCall(GCommand command, GObject[] arguments)
+        public GObjectCall(GCommand command, GObject[] arguments)
         {
             GCommand = command;
             Arguments = arguments;

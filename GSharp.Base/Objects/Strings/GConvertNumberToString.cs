@@ -16,9 +16,9 @@ namespace GSharp.Base.Objects.Strings
             TargetNumber = number;
         }
 
-        public override string ToStringSource()
+        public override string ToSource()
         {
-            return string.Format("{0}.ToGString()", TargetNumber?.ToSource());
+            return string.Format("{0}.ToText()", TargetNumber?.ToSource());
         }
     }
 }

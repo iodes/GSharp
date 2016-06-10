@@ -1,4 +1,5 @@
 ﻿using GSharp.Base.Cores;
+using GSharp.Base.Utilities;
 using GSharp.Extension;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace GSharp.Base.Objects
 
         public override string ToSource()
         {
-            return _GCommand.FullName;
+            return GCommand.FullName;
         }
     }
 }
