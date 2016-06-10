@@ -7,7 +7,7 @@ using GSharp.Base.Scopes;
 namespace GSharp.Base.Statements
 {
     [Serializable]
-    public class GVoidCall : GStatement, ICall
+    public class GVoidCall : GStatement
     {
         #region 객체
         private GFunction targetFunction;

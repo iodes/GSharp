@@ -20,12 +20,12 @@ using GSharp.Extension;
 using GSharp.Base.Objects.Numbers;
 using GSharp.Base.Objects.Customs;
 
-namespace GSharp.Graphic.Objects.Customs
+namespace GSharp.Graphic.Objects
 {
     /// <summary>
     /// CustomCallBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CustomCallBlock : CustomBlock, ICallBlock
+    public partial class ObjectCallBlock : ObjectBlock
     {
         public GCommand GCommand
         {
@@ -40,53 +40,36 @@ namespace GSharp.Graphic.Objects.Customs
         {
             get
             {
-                return GCustomCall;
+                return GCall;
             }
         }
 
-        public GCustomCall GCustomCall
+        public GCall GCall
         {
             get
             {
-                return _GCustomCall;
+                return _GCall;
             }
         }
-        private GCustomCall _GCustomCall;
+        private GCall _GCall;
 
         public override List<GBase> ToGObjectList()
         {
             return _GObjectList;
         }
 
-        public override GCustom GCustom
-        {
-            get
-            {
-                return GCustomCall;
-            }
-        }
-
-        public ICall ICall
-        {
-            get
-            {
-                return GCustomCall;
-            }
-        }
-
         private List<GBase> _GObjectList;
 
         // 생성자
-        public CustomCallBlock(GCommand command)
-            : base(command.ObjectType)
+        public ObjectCallBlock(GCommand command)
         {
             InitializeComponent();
 
             _GCommand = command;
-            _GCustomCall = new GCustomCall(command);
+            _GCall = new GCall(command);
             _GObjectList = new List<GBase> { GObject };
 
-            PropertyName.Text = command.FriendlyName;
+            CallName.Text = command.FriendlyName;
 
             InitializeBlock();
         }
