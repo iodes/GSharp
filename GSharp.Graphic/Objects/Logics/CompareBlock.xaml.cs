@@ -23,7 +23,7 @@ namespace GSharp.Graphic.Objects.Logics
     /// <summary>
     /// CompareBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CompareBlock : LogicBlock, ICompareBlock
+    public partial class CompareBlock : LogicBlock
     {
         public override List<BaseHole> HoleList
         {
