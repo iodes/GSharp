@@ -1,5 +1,6 @@
 ﻿using System;
 using GSharp.Extension.Abstracts;
+using GSharp.Extension.Exports;
 
 namespace GSharp.Extension
 {
@@ -7,6 +8,15 @@ namespace GSharp.Extension
     public class GControl
     {
         #region 속성
+        public GExport[] Exports
+        {
+            get
+            {
+                return _Exports;
+            }
+        }
+        private GExport[] _Exports;
+
         public GExtension Parent
         {
             get
@@ -45,15 +55,16 @@ namespace GSharp.Extension
         #endregion
 
         #region 생성자
-        public GControl(Type source, string friendlyName, string namespaceName)
+        public GControl(Type source, string friendlyName, string namespaceName, GExport[] exports = null)
         {
             _Source = source;
             _FriendlyName = friendlyName;
             _NamespaceName = namespaceName;
+            _Exports = exports;
         }
 
-        public GControl(GExtension parent, Type source, string friendlyName, string namespaceName)
-            : this(source, friendlyName, namespaceName)
+        public GControl(GExtension parent, Type source, string friendlyName, string namespaceName, GExport[] exports = null)
+            : this(source, friendlyName, namespaceName, exports)
         {
             _Parent = parent;
         }

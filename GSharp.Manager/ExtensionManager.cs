@@ -3,11 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using GSharp.Extension;
-using GSharp.Extension.Optionals;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Statements;
+using GSharp.Extension;
+using GSharp.Extension.Exports;
+using GSharp.Extension.Optionals;
 using GSharp.Extension.Abstracts;
 using GSharp.Extension.Attributes;
 using GSharp.Graphic.Objects.Strings;
@@ -137,26 +138,109 @@ namespace GSharp.Manager
             // 클래스 분석
             foreach (Type value in targetAssembly.GetExportedTypes())
             {
-                if (value.BaseType == typeof(GModule))
+                List<GExport> controlExports = null;
+
+                if (value.BaseType == typeof(GModule) || value.BaseType == typeof(GView))
                 {
+                    // 목록 생성
+                    if (value.BaseType == typeof(GView))
+                    {
+                        controlExports = new List<GExport>();
+                    }
+
                     // 속성 분석
                     foreach (PropertyInfo property in value.GetProperties())
                     {
                         GCommandAttribute command = GetAttribute<GCommandAttribute>(property);
-                        if (command != null)
+                        GControlAttribute control = GetAttribute<GControlAttribute>(property);
+                        if (command != null || control != null)
                         {
-                            // 커멘드 목록 추가
-                            target.Commands.Add(
-                                new GCommand
-                                (
-                                    target,
-                                    value.FullName,
-                                    property.Name,
-                                    command.Name,
-                                    property.GetMethod.ReturnType,
-                                    GCommand.CommandType.Property
-                                )
-                            );
+                            if (command != null)
+                            {
+                                // 커멘드 목록 추가
+                                target.Commands.Add(
+                                    new GCommand
+                                    (
+                                        target,
+                                        value.FullName,
+                                        property.Name,
+                                        command.Name,
+                                        property.GetMethod.ReturnType,
+                                        GCommand.CommandType.Property
+                                    )
+                                );
+                            }
+
+                            if (control != null)
+                            {
+                                // 컨트롤 목록 추가
+                                controlExports.Add(
+                                    new GExport
+                                    (
+                                        value.FullName,
+                                        property.Name,
+                                        control.Name,
+                                        property.GetMethod.ReturnType
+                                    )
+                                );
+                            }
+                        }
+                    }
+
+                    // 이벤트 분석
+                    foreach (EventInfo info in value.GetEvents())
+                    {
+                        GCommandAttribute command = GetAttribute<GCommandAttribute>(info);
+                        GControlAttribute control = GetAttribute<GControlAttribute>(info);
+                        if (command != null || control != null)
+                        {
+                            // 대리자 검색
+                            Type eventDelegate = null;
+                            MethodInfo eventDelegateMethod = null;
+                            foreach (Type typeDelegate in value.GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
+                            {
+                                if (typeDelegate == info.EventHandlerType)
+                                {
+                                    eventDelegate = typeDelegate;
+                                    break;
+                                }
+                            }
+                            if (eventDelegate != null)
+                            {
+                                eventDelegateMethod = eventDelegate.GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                            }
+
+                            if (command != null)
+                            {
+                                // 커멘드 목록 추가
+                                target.Commands.Add(
+                                    new GCommand
+                                    (
+                                        target,
+                                        value.FullName,
+                                        info.Name,
+                                        command.Name,
+                                        eventDelegateMethod?.ReturnType,
+                                        GCommand.CommandType.Event,
+                                        eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
+                                    )
+                                );
+                            }
+
+                            if (control != null)
+                            {
+                                // 컨트롤 목록 추가
+                                controlExports.Add(
+                                    new GExport
+                                    (
+                                        value.FullName,
+                                        info.Name,
+                                        control.Name,
+                                        eventDelegateMethod?.ReturnType,
+                                        eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
+                                    )
+                                );
+                            }
                         }
                     }
 
@@ -177,44 +261,6 @@ namespace GSharp.Manager
                                     info.ReturnType,
                                     info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic,
                                     GetParameters(info)
-                                )
-                            );
-                        }
-                    }
-
-                    // 이벤트 분석
-                    foreach (EventInfo info in value.GetEvents())
-                    {
-                        GCommandAttribute command = GetAttribute<GCommandAttribute>(info);
-                        if (command != null)
-                        {
-                            // 대리자 검색
-                            Type eventDelegate = null;
-                            MethodInfo eventDelegateMethod = null;
-                            foreach (Type typeDelegate in value.GetNestedTypes(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public))
-                            {
-                                if (typeDelegate == info.EventHandlerType)
-                                {
-                                    eventDelegate = typeDelegate;
-                                    break;
-                                }
-                            }
-                            if (eventDelegate != null)
-                            {
-                                eventDelegateMethod = eventDelegate.GetMethod("Invoke", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                            }
-
-                            // 커멘드 목록 추가
-                            target.Commands.Add(
-                                new GCommand
-                                (
-                                    target,
-                                    value.FullName,
-                                    info.Name,
-                                    command.Name,
-                                    eventDelegateMethod?.ReturnType,
-                                    GCommand.CommandType.Event,
-                                    eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
                                 )
                             );
                         }
@@ -253,11 +299,12 @@ namespace GSharp.Manager
                         }
                     }
                 }
-                else if (value.BaseType == typeof(GView))
+
+                if (value.BaseType == typeof(GView))
                 {
                     // 뷰 이름 분석
                     GViewAttribute view = GetAttribute<GViewAttribute>(value);
-                    target.Controls.Add(new GControl(target, value, view != null ? view.Name : string.Empty, value.FullName));
+                    target.Controls.Add(new GControl(target, value, view != null ? view.Name : value.FullName, value.FullName, controlExports.ToArray()));
                 }
             }
 
