@@ -22,7 +22,11 @@
                     <ComboBox x:Name="ControlName" SelectedIndex="0">
                         <ComboBoxItem>MyTestName</ComboBoxItem>
                     </ComboBox>
-                    <TextBlock x:Name="StackContentText" Text="가 클릭되었을 때" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,2"/>
+                    <TextBlock Text="을(를)" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0"/>
+                    <ComboBox x:Name="EventName" SelectedIndex="0">
+                        <ComboBoxItem>클릭</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Text="했을 때" Foreground="White"  VerticalAlignment="Center" FontWeight="Black" Margin="5,0,0,0"/>
                 </StackPanel>
             </Border>
             <Grid>
