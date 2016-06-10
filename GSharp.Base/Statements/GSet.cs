@@ -29,7 +29,7 @@ namespace GSharp.Base.Statements
             string valueName;
             if (Value is GLogic)
             {
-                valueName = "Logic";
+                valueName = "Bool";
             }
             else if (Value is GNumber)
             {
@@ -37,15 +37,15 @@ namespace GSharp.Base.Statements
             }
             else if (Value is GString)
             {
-                valueName = "String";
+                valueName = "Text";
             }
             else
             {
-                valueName = "Custom";
+                builder.AppendFormat("{0} = {1};\n", Variable.ToSource(), Value.ToSource());
+                return builder.ToString();
             }
-
-            builder.AppendFormat("{0} = {0}.ToG{1}();\n", Variable.ToSource(), valueName);
-            builder.AppendFormat("{0}.{1} = {2}.ToG{1}().{1};\n", Variable.ToSource(), valueName, Value.ToSource());
+            
+            builder.AppendFormat("{0} = {1}.To{2}();\n", Variable.ToSource(), Value.ToSource(), valueName);
 
             return builder.ToString();
         }

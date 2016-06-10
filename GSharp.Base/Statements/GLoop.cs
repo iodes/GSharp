@@ -44,7 +44,7 @@ namespace GSharp.Base.Statements
             if (GNumber != null)
             {
                 string varName = "_" + GetHashCode();
-                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToGNumber().Number; {0}++)\n{{\n", varName, GNumber.ToSource());
+                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToNumber(); {0}++)\n{{\n", varName, GNumber.ToSource());
             }
             else
             {

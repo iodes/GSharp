@@ -22,27 +22,27 @@ namespace GSharp.Base.Objects.Logics
                 switch (Condition)
                 {
                     case ConditionType.EQUAL:
-                        conditionText = "==";
+                        conditionText = "Equal";
                         break;
 
                     case ConditionType.NOT_EQUAL:
-                        conditionText = "!=";
+                        conditionText = "NotEqual";
                         break;
 
                     case ConditionType.LESS_THEN:
-                        conditionText = "<";
+                        conditionText = "Less";
                         break;
 
                     case ConditionType.LESS_THEN_OR_EQUAL:
-                        conditionText = "<=";
+                        conditionText = "LessEqual";
                         break;
 
                     case ConditionType.GREATER_THEN:
-                        conditionText = ">";
+                        conditionText = "Greater";
                         break;
 
                     case ConditionType.GREATER_THEN_OR_EQUAL:
-                        conditionText = ">=";
+                        conditionText = "GreaterEqual";
                         break;
                 }
 
@@ -72,11 +72,11 @@ namespace GSharp.Base.Objects.Logics
         }
         #endregion
 
-        public override string ToLogicSource()
+        public override string ToSource()
         {
             return string.Format
             (
-                "({0} {1} {2})",
+                "({0}.Is{1}Than{2})",
                 FirstPart.ToSource(),
                 ConditionText,
                 SecondPart.ToSource()

@@ -56,7 +56,7 @@ namespace GSharp.Base.Statements
         public override string ToSource()
         {
             StringBuilder builderCode = new StringBuilder();
-            builderCode.AppendFormat("if ({0}.ToGLogic().Logic)\n{{\n", Logic.ToSource());
+            builderCode.AppendFormat("if ({0}.ToBool())\n{{\n", Logic.ToSource());
 
             foreach (GStatement statement in ifChild)
             {

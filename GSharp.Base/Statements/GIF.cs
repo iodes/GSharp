@@ -37,7 +37,7 @@ namespace GSharp.Base.Statements
             StringBuilder builderCode = new StringBuilder();
             builderCode.AppendFormat
                 (
-                    "if ({0}.ToGLogic().Logic)\n{{\n",
+                    "if ({0}.ToBool())\n{{\n",
                     Logic.ToSource()
                 );
 

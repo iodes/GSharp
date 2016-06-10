@@ -9,7 +9,7 @@ namespace GSharp.Base.Singles
     [Serializable]
     public class GDefine : GSingle
     {
-        public GVariable Variable { get; set; }
+        public GVariable Variable { get; }
 
         public GDefine(GVariable variable)
         {
@@ -18,9 +18,7 @@ namespace GSharp.Base.Singles
 
         public override string ToSource()
         {
-            var compiler = new CSharpCodeProvider();
-            
-            return string.Format("public GObject {0} = new GString();", Variable.Name);
+            return string.Format("public object {0} = \"\";", Variable.Name);
         }
     }
 }
