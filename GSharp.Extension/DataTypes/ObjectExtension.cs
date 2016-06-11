@@ -25,7 +25,7 @@ namespace GSharp.Extension.DataTypes
 
         public static object ToCustom(this object obj)
         {
-            return null;
+            return obj;
         }
 
         public static List<object> ToList(this object obj)
