@@ -21,7 +21,8 @@ namespace GSharp.Base.Statements
 
         public override string ToSource()
         {
-            return string.Format("{0}.ListAdd({1});", List.ToSource(), Item.ToSource());
+            return string.Format("{0} = {0}.ToList();\n" +
+                                 "{0}.ToList().Add({1});\n", List.ToSource(), Item.ToSource());
         }
     }
 }
