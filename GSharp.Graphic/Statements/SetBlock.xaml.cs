@@ -56,7 +56,7 @@ namespace GSharp.Graphic.Statements
             get
             {
                 string variableName = VariableSelect.Text;
-                ISettable variable = new GVariable(variableName);
+                GSettableObject variable = new GVariable(variableName);
 
                 GObject number = NumberHole?.NumberBlock?.GObject;
 

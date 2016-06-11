@@ -55,7 +55,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                GObject list = ListHole?.ObjectBlock?.GObject;
+                GSettableObject list = SettableObjectHole?.SettableObjectBlock?.GSettableObject;
                 GObject obj = ObjectHole?.ObjectBlock?.GObject;
 
                 if (list == null || obj == null)
@@ -79,7 +79,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return new List<BaseHole> { ListHole, ObjectHole, NextConnectHole };
+                return new List<BaseHole> { SettableObjectHole, ObjectHole, NextConnectHole };
             }
         }
 

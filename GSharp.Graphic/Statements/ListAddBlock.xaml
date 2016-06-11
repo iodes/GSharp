@@ -19,7 +19,7 @@
         <Border Background="white" BorderBrush="#D5404D" BorderThickness="1,0" Padding="3 0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center">배열</TextBlock>
-                <hole:ObjectHole x:Name="ListHole" Margin="3,0" VerticalAlignment="Center" />
+                <hole:SettableObjectHole x:Name="SettableObjectHole" Margin="3,0" VerticalAlignment="Center" />
                 <TextBlock VerticalAlignment="Center">에</TextBlock>
                 <hole:ObjectHole x:Name="ObjectHole" Margin="3,0" VerticalAlignment="Center" />
                 <TextBlock VerticalAlignment="Center">추가</TextBlock>
