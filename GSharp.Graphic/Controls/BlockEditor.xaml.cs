@@ -73,6 +73,7 @@ namespace GSharp.Graphic.Controls
 
         // Object Hole
         private List<BaseObjectHole> ObjectHoleList = new List<BaseObjectHole>();
+        private List<SettableObjectHole> SettableObjectHoleList = new List<SettableObjectHole>();
 
         // 선택된 대상이 붙을 수 있는 Hole 목록
         private List<BaseHole> CanAttachHoleList = new List<BaseHole>();
@@ -327,22 +328,8 @@ namespace GSharp.Graphic.Controls
         {
             MargnetTarget = null;
             Highlighter.Visibility = Visibility.Hidden;
-
-            List<BaseHole> holeList;
-            if (SelectedBlock is StatementBlock)
-            {
-                holeList = NextConnectHoleList.ToList<BaseHole>();
-            }
-            else if (SelectedBlock is ObjectBlock)
-            {
-                holeList = ObjectHoleList.ToList<BaseHole>();
-            }
-            else
-            {
-                holeList = new List<BaseHole>();
-            }
             
-            foreach (var hole in holeList)
+            foreach (var hole in CanAttachHoleList)
             {
                 if (block.AllHoleList.Contains(hole))
                 {
@@ -397,34 +384,57 @@ namespace GSharp.Graphic.Controls
         // LogicBlock일때
         private void ConnectBlock(ObjectBlock block, MouseEventArgs e)
         {
-            // LogicHole 아니면 연결할 수 없음
-            if (!(MargnetTarget is BaseObjectHole))
+            if (SelectedBlock is SettableObjectBlock && MargnetTarget is SettableObjectHole)
             {
-                return;
-            }
+                var settableObjectBlock = block as SettableObjectBlock;
+                var settableObjectHole = MargnetTarget as SettableObjectHole;
 
-            var objectHole = MargnetTarget as BaseObjectHole;
-
-            // 연결 대상에 이미 블럭이 존재하는 경우
-            if (objectHole.BaseObjectBlock != null)
-            {
-                // 기존 블럭을 캔버스로 이동
-                var detachedBlock = objectHole.DetachBlock();
-
-                if (detachedBlock != null)
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (settableObjectHole.SettableObjectBlock != null)
                 {
-                    AttachToCanvas(detachedBlock);
+                    // 기존 블럭을 캔버스로 이동
+                    var detachedBlock = settableObjectHole.DetachBlock();
 
-                    detachedBlock.Position = block.Position;
+                    if (detachedBlock != null)
+                    {
+                        AttachToCanvas(detachedBlock);
+
+                        detachedBlock.Position = block.Position;
+                    }
                 }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                settableObjectHole.SettableObjectBlock = settableObjectBlock;
+                
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
             }
+            else if (MargnetTarget is BaseObjectHole)
+            {
+                var objectHole = MargnetTarget as BaseObjectHole;
 
-            // 블럭을 캔버스에서 연결 대상으로 이동
-            DetachFromCanvas(block);
-            objectHole.BaseObjectBlock = block;
+                // 연결 대상에 이미 블럭이 존재하는 경우
+                if (objectHole.BaseObjectBlock != null)
+                {
+                    // 기존 블럭을 캔버스로 이동
+                    var detachedBlock = objectHole.DetachBlock();
 
-            // 블럭 위치 재조정
-            block.Position = new Point(0, 0);
+                    if (detachedBlock != null)
+                    {
+                        AttachToCanvas(detachedBlock);
+
+                        detachedBlock.Position = block.Position;
+                    }
+                }
+
+                // 블럭을 캔버스에서 연결 대상으로 이동
+                DetachFromCanvas(block);
+                objectHole.BaseObjectBlock = block;
+
+                // 블럭 위치 재조정
+                block.Position = new Point(0, 0);
+            }
         }
         #endregion
 
@@ -526,6 +536,10 @@ namespace GSharp.Graphic.Controls
                 {
                     NextConnectHoleList.Add(hole as NextConnectHole);
                 }
+                else if (hole is SettableObjectHole)
+                {
+                    SettableObjectHoleList.Add(hole as SettableObjectHole);
+                }
                 else if (hole is BaseObjectHole)
                 {
                     ObjectHoleList.Add(hole as BaseObjectHole);
@@ -553,11 +567,13 @@ namespace GSharp.Graphic.Controls
             List<BaseHole> holeList = block.HoleList;
             foreach (BaseHole hole in holeList)
             {
-                Type type = hole.GetType();
-
                 if (hole is NextConnectHole)
                 {
                     NextConnectHoleList.Remove(hole as NextConnectHole);
+                }
+                else if (hole is SettableObjectHole)
+                {
+                    SettableObjectHoleList.Remove(hole as SettableObjectHole);
                 }
                 else if (hole is BaseObjectHole)
                 {
@@ -609,13 +625,18 @@ namespace GSharp.Graphic.Controls
             IsSelectedBlockMoved = false;
 
             CanAttachHoleList.Clear();
-            if (target is ObjectBlock)
+            if (SelectedBlock is ObjectBlock)
             {
-                CanAttachHoleList.AddRange(ObjectHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+                if (SelectedBlock is SettableObjectBlock)
+                {
+                    CanAttachHoleList.AddRange(SettableObjectHoleList.Where(e => e.CanAttachBlock(SelectedBlock)));
+                }
+
+                CanAttachHoleList.AddRange(ObjectHoleList.Where((e) => e.CanAttachBlock(SelectedBlock)));
             }
-            else if (target is StatementBlock)
+            else if (SelectedBlock is StatementBlock)
             {
-                CanAttachHoleList.AddRange(NextConnectHoleList.Where((e) => { return e.CanAttachBlock(SelectedBlock); }));
+                CanAttachHoleList.AddRange(NextConnectHoleList.Where((e) => e.CanAttachBlock(SelectedBlock)));
             }
 
             Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);

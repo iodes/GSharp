@@ -55,17 +55,15 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                string variableName = VariableSelect.Text;
-                GSettableObject variable = new GVariable(variableName);
-
-                GObject number = NumberHole?.NumberBlock?.GObject;
+                GSettableObject settableObject = SettableObjectHole.SettableObjectBlock.GSettableObject;
+                GObject number = ObjectHole?.ObjectBlock?.GObject;
 
                 if (number == null)
                 {
                     throw new ToObjectException("변수 설정 블럭이 완성되지 않았습니다.", this);
                 }
 
-                return new GSet(variable, number);
+                return new GSet(settableObject, number);
             }
         }
 
@@ -81,7 +79,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                return new List<BaseHole> { NumberHole, NextConnectHole };
+                return new List<BaseHole> { SettableObjectHole, ObjectHole, NextConnectHole };
             }
         }
 

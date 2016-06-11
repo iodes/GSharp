@@ -8,7 +8,7 @@ namespace GSharp.Graphic.Holes
     /// <summary>
     /// SettableObjectHole.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class SettableObjectHole : BaseObjectHole
+    public partial class SettableObjectHole : BaseHole
     {
         public override event HoleEventArgs BlockAttached;
         public override event HoleEventArgs BlockDetached;
@@ -17,18 +17,6 @@ namespace GSharp.Graphic.Holes
             get
             {
                 return SettableObjectBlock;
-            }
-        }
-
-        public override ObjectBlock BaseObjectBlock
-        {
-            get
-            {
-                return SettableObjectBlock;
-            }
-            set
-            {
-                SettableObjectBlock = value as SettableObjectBlock;
             }
         }
 
