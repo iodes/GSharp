@@ -27,7 +27,7 @@ namespace GSharp.Base.Statements
                 listStr += ".ToList()";
             }
 
-            return string.Format("{0}.Add({1})", listStr, Item.ToSource());
+            return string.Format("{0}.Add({1});", listStr, Item.ToSource());
         }
     }
 }
