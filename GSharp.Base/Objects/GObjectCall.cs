@@ -13,7 +13,7 @@ namespace GSharp.Base.Objects
     {
         #region 객체
         private GCommand GCommand;
-        private GObject[] Arguments;
+        private GObject[] Arguments = null;
         #endregion
 
         #region 생성자
@@ -32,12 +32,25 @@ namespace GSharp.Base.Objects
         public override string ToSource()
         {
             string argumentStrings = "";
+            var argumentList = new List<string>();
+            for(int i=0; i<GCommand.Optionals?.Length; i++)
+            {
+                if (i < Arguments.Length)
+                {
+                    argumentList.Add(GSharpUtils.CastParameterString(Arguments[i], GCommand.Optionals[i].ObjectType));
+                }
+                else
+                {
+                    argumentList.Add("null");
+                }
+            }
+
             if (Arguments != null)
             {
                 argumentStrings = string.Join(", ", Arguments.Select(element => element.ToSource()));
             }
 
-            return string.Format("(({0}){1}({2}))", GSharpUtils.GetCastString(GCommand.ObjectType), GCommand.FullName, argumentStrings);
+            return string.Format("({1}({2}))", GCommand.FullName, argumentStrings);
         }
     }
 }

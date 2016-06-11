@@ -67,7 +67,7 @@ namespace GSharp.Base.Scopes
 
             for (int i=0; i<Arguments.Count; i++)
             {
-                source.AppendFormat("GObject {0} = ({1}){2}{0};\n" + Arguments[i].Name, GSharpUtils.GetCastString(ArgumentsType[i]), PREFIX_REAL_ARG);
+                source.AppendFormat("object {0} = {1}{0};\n" + Arguments[i].Name, PREFIX_REAL_ARG);
             }
 
             foreach (GStatement statement in Content)
