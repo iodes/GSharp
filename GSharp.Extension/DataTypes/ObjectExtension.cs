@@ -10,16 +10,76 @@ namespace GSharp.Extension.DataTypes
     {
         public static double ToNumber(this object obj)
         {
+            if (obj is string)
+            {
+                return ((string)obj).ToNumber();
+            }
+
+            if (obj is double)
+            {
+                return ((double)obj).ToNumber();
+            }
+
+            if (obj is bool)
+            {
+                return ((bool)obj).ToNumber();
+            }
+
+            if (obj is List<object>)
+            {
+                return ((List<object>)obj).ToNumber();
+            }
+
             return 0;
         }
 
         public static string ToText(this object obj)
         {
-            return "";
+            if (obj is string)
+            {
+                return ((string)obj).ToText();
+            }
+
+            if (obj is double)
+            {
+                return ((double)obj).ToText();
+            }
+
+            if (obj is bool)
+            {
+                return ((bool)obj).ToText();
+            }
+
+            if (obj is List<object>)
+            {
+                return ((List<object>)obj).ToText();
+            }
+
+            return obj.ToString();
         }
 
         public static bool ToBool(this object obj)
         {
+            if (obj is string)
+            {
+                return ((string)obj).ToBool();
+            }
+
+            if (obj is double)
+            {
+                return ((double)obj).ToBool();
+            }
+
+            if (obj is bool)
+            {
+                return ((bool)obj).ToBool();
+            }
+
+            if (obj is List<object>)
+            {
+                return ((List<object>)obj).ToBool();
+            }
+
             return true;
         }
 
@@ -30,13 +90,27 @@ namespace GSharp.Extension.DataTypes
 
         public static List<object> ToList(this object obj)
         {
-            return new List<object>() { obj };
-        }
+            if (obj is string)
+            {
+                return ((string)obj).ToList();
+            }
 
-        public static void ListAdd(this object obj, object item)
-        {
-            obj = obj.ToList();
-            obj.ToList().Add(item);
+            if (obj is double)
+            {
+                return ((double)obj).ToList();
+            }
+
+            if (obj is bool)
+            {
+                return ((bool)obj).ToList();
+            }
+
+            if (obj is List<object>)
+            {
+                return ((List<object>)obj).ToList();
+            }
+
+            return new List<object>() { obj };
         }
 
         #region object, string 비교
