@@ -10,12 +10,12 @@ namespace GSharp.Base.Statements
     public class GSet : GStatement
     {
         #region 속성
-        public ISettable Variable { get; set; }
+        public GSettableObject Variable { get; set; }
         public GObject Value { get; set; }
         #endregion
 
         #region 생성자
-        public GSet(ISettable variable, GObject value)
+        public GSet(GSettableObject variable, GObject value)
         {
             Variable = variable;
             Value = value;

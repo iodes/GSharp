@@ -33,6 +33,12 @@ namespace GSharp.Extension.DataTypes
             return new List<object>() { obj };
         }
 
+        public static void ListAdd(this object obj, object item)
+        {
+            obj = obj.ToList();
+            obj.ToList().Add(item);
+        }
+
         #region object, string 비교
         // 이미 StringExtension에 정의됨
         public static bool IsEqualThan(this object target1, string target2)
