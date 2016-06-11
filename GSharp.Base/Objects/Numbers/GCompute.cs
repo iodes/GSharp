@@ -68,7 +68,19 @@ namespace GSharp.Base.Objects.Numbers
 
         public override string ToSource()
         {
-            return string.Format("({0}.ToNumber() {1} {2}.ToNumber())", FirstPart?.ToSource(), OperatorText, SecondPart?.ToSource());
+            string firstPartStr = FirstPart?.ToSource();
+            string secondPartStr = SecondPart?.ToSource();
+            if (!(FirstPart is GNumber))
+            {
+                firstPartStr += ".ToNumber()";
+            }
+
+            if (!(SecondPart is GNumber))
+            {
+                secondPartStr += ".ToNumber()";
+            }
+
+            return string.Format("({0} {1} {2})", firstPartStr, OperatorText, secondPartStr);
         }
     }
 }

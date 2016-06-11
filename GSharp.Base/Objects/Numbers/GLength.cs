@@ -19,7 +19,13 @@ namespace GSharp.Base.Objects.Numbers
 
         public override string ToSource()
         {
-            return string.Format("{0}.ToText().Length", Target?.ToSource());
+            string targetStr = Target?.ToSource();
+            if (!(Target is GString))
+            {
+                targetStr += ".ToNumber()";
+            }
+            
+            return string.Format("{0}.Length", targetStr);
         }
     }
 }

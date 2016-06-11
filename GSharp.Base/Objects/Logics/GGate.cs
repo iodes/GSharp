@@ -53,13 +53,25 @@ namespace GSharp.Base.Objects.Logics
 
         public override string ToSource()
         {
+            string firstPartStr = FirstPart?.ToSource();
+            string secondPartStr = SecondPart?.ToSource();
+            if (!(FirstPart is GLogic))
+            {
+                firstPartStr += ".ToBool()";
+            }
+
+            if (!(SecondPart is GLogic))
+            {
+                secondPartStr += ".ToBool()";
+            }
+
 
             return string.Format
                 (
-                    "({0}.ToBool() {1} {2}.ToBool())",
-                    FirstPart.ToSource(),
+                    "({0} {1} {2})",
+                    firstPartStr,
                     GateText,
-                    SecondPart.ToSource()
+                    secondPartStr
                 );
         }
     }

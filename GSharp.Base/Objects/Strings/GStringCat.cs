@@ -22,7 +22,19 @@ namespace GSharp.Base.Objects.Strings
 
         public override string ToSource()
         {
-            return string.Format("({0}.ToText() + {1}.ToText())", FirstPart?.ToSource(), SecondPart?.ToSource());
+            string firstPartStr = FirstPart?.ToSource();
+            string secondPartStr = SecondPart?.ToSource();
+            if (!(FirstPart is GString))
+            {
+                firstPartStr += ".ToText()";
+            }
+
+            if (!(SecondPart is GString))
+            {
+                secondPartStr += ".ToText()";
+            }
+
+            return string.Format("({0} + {1})", firstPartStr, secondPartStr);
         }
     }
 }

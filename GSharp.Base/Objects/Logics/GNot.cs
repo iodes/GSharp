@@ -18,7 +18,13 @@ namespace GSharp.Base.Objects.Logics
 
         public override string ToSource()
         {
-            return string.Format("(!{0}.ToBool())", Target.ToSource());
+            string targetStr = Target.ToSource();
+            if (!(Target is GLogic))
+            {
+                targetStr += ".ToBool()";
+            }
+
+            return string.Format("(!{0})", targetStr);
         }
     }
 }
