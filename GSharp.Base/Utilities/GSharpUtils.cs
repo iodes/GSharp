@@ -1,4 +1,5 @@
-﻿using GSharp.Base.Objects;
+﻿using GSharp.Base.Cores;
+using GSharp.Base.Objects;
 using GSharp.Base.Objects.Customs;
 using GSharp.Base.Objects.Logics;
 using GSharp.Base.Objects.Numbers;
@@ -26,30 +27,71 @@ namespace GSharp.Base.Utilities
             typeof(double), // Double
         };
 
-        public static IVariable CreateIVariable(string variableName, Type variableType)
+        public static GVariable CreateGVariable(string variableName)
         {
             if (variableName?.Length <= 0) return null;
 
-            // string인 경우
-            if (variableType == typeof(string))
+            return new GVariable(variableName);
+        }
+
+        public static string CastParameterString(GObject obj, Type type)
+        {
+            string castString = "";
+            if (numberTypes.Contains(type))
             {
-                return new GStringVariable(variableName);
+                if (obj is GNumber)
+                {
+                    if (type != typeof(double))
+                    {
+                        return string.Format("({0}){1}", castString, obj.ToSource());
+                    }
+
+                    return obj.ToSource();
+                }
+                else
+                {
+                    if (type != typeof(double))
+                    {
+                        return string.Format("({0}){1}.ToNumber()", castString, obj.ToSource());
+                    }
+
+                    return string.Format("{0}.ToNumber()", obj.ToSource());
+                }
             }
 
-            // bool인 경우
-            if (variableType == typeof(bool))
+            if (type == typeof(string))
             {
-                return new GLogicVariable(variableName);
+                if (obj is GString)
+                {
+                    return obj.ToSource();
+                }
+
+                return string.Format("{0}.ToText()", obj.ToSource());
             }
 
-            // 자료형이 숫자 형태인 경우
-            if (numberTypes.Contains(variableType))
+            if (type == typeof(bool))
             {
-                return new GNumberVariable(variableName);
+                if (obj is GLogic)
+                {
+                    return obj.ToSource();
+                }
+
+                return string.Format("{0}.ToBool()", obj.ToSource());
             }
 
-            // 이 외의 경우 모두 CustomVariable
-            return new GCustomVariable(variableType, variableName);
+            // is List
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
+            {
+                Type listType = type.GetGenericArguments()[0];
+                if (obj is GList)
+                {
+                    return string.Format("{0}.ToList<{1}>()", obj.ToSource(), listType.ToString());
+                }
+
+                return string.Format("{0}.ToList().ToList<{1}>()", obj.ToSource(), listType.ToString());
+            }
+
+            return string.Format("({0}){1}", type.ToString(), obj.ToSource());
         }
     }
 }

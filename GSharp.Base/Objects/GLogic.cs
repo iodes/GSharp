@@ -1,10 +1,10 @@
-﻿using System;
+﻿using GSharp.Base.Cores;
+using System;
 
-namespace GSharp.Base.Cores
+namespace GSharp.Base.Objects
 {
     [Serializable]
     public abstract class GLogic : GObject
     {
-
     }
 }

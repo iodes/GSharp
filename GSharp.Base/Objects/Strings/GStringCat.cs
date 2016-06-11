@@ -6,14 +6,14 @@ using GSharp.Extension;
 namespace GSharp.Base.Objects.Strings
 {
     [Serializable]
-    public class GStringCat : GString, ICall
+    public class GStringCat : GString
     {
-        public GString FirstPart { get; set; }
+        public GObject FirstPart { get; set; }
 
-        public GString SecondPart { get; set; }
+        public GObject SecondPart { get; set; }
 
         #region 생성자
-        public GStringCat(GString first, GString second)
+        public GStringCat(GObject first, GObject second)
         {
             FirstPart = first;
             SecondPart = second;
@@ -22,7 +22,19 @@ namespace GSharp.Base.Objects.Strings
 
         public override string ToSource()
         {
-            return string.Format("({0} + {1})", FirstPart?.ToSource(), SecondPart?.ToSource());
+            string firstPartStr = FirstPart?.ToSource();
+            string secondPartStr = SecondPart?.ToSource();
+            if (!(FirstPart is GString))
+            {
+                firstPartStr += ".ToText()";
+            }
+
+            if (!(SecondPart is GString))
+            {
+                secondPartStr += ".ToText()";
+            }
+
+            return string.Format("({0} + {1})", firstPartStr, secondPartStr);
         }
     }
 }

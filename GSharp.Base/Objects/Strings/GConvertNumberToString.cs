@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GSharp.Base.Cores;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,16 @@ namespace GSharp.Base.Objects.Strings
 {
     public class GConvertNumberToString : GString
     {
-        public GNumber TargetNumber { get; set; }
+        public GObject TargetNumber { get; set; }
 
-        public GConvertNumberToString(GNumber number)
+        public GConvertNumberToString(GObject number)
         {
             TargetNumber = number;
         }
 
         public override string ToSource()
         {
-            return string.Format("{0}.ToString()", TargetNumber?.ToSource());
+            return string.Format("{0}.ToText()", TargetNumber?.ToSource());
         }
     }
 }

@@ -54,11 +54,20 @@
     </Compile>
     <Compile Include="Blocks\BaseBlock.cs" />
     <Compile Include="Blocks\IModuleBlock.cs" />
-    <Compile Include="Objects\Customs\CustomPropertyBlock.xaml.cs">
-      <DependentUpon>CustomPropertyBlock.xaml</DependentUpon>
+    <Compile Include="Holes\SettableObjectHole.xaml.cs">
+      <DependentUpon>SettableObjectHole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\IPropertyBlock.cs" />
-    <Compile Include="Blocks\ICallBlock.cs" />
+    <Compile Include="Objects\Lists\ItemBlock.xaml.cs">
+      <DependentUpon>ItemBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\Lists\EmptyListBlock.xaml.cs">
+      <DependentUpon>EmptyListBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\ListBlock.cs" />
+    <Compile Include="Objects\ObjectCallBlock.xaml.cs">
+      <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\SettableObjectBlock.cs" />
     <Compile Include="Objects\LogicBlock.cs" />
     <Compile Include="Blocks\ObjectBlock.cs" />
     <Compile Include="Blocks\ScopeBlock.cs" />
@@ -88,36 +97,16 @@
       <DependentUpon>NumberHole.xaml</DependentUpon>
     </Compile>
     <Compile Include="Holes\BaseStatementHole.cs" />
-    <Compile Include="Objects\Logics\ICompareBlock.cs" />
     <Compile Include="Objects\Logics\NotBlock.xaml.cs">
       <DependentUpon>NotBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Logics\NumberCompareBlock.xaml.cs">
-      <DependentUpon>NumberCompareBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Logics\LogicVariableBlock.xaml.cs">
-      <DependentUpon>LogicVariableBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Logics\StringCompareBlock.xaml.cs">
-      <DependentUpon>StringCompareBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\Logics\GateBlock.xaml.cs">
       <DependentUpon>GateBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Logics\LogicCallBlock.xaml.cs">
-      <DependentUpon>LogicCallBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Logics\LogicCompareBlock.xaml.cs">
-      <DependentUpon>LogicCompareBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Logics\LogicPropertyBlock.xaml.cs">
-      <DependentUpon>LogicPropertyBlock.xaml</DependentUpon>
+    <Compile Include="Objects\Logics\CompareBlock.xaml.cs">
+      <DependentUpon>CompareBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\CustomBlock.cs" />
-    <Compile Include="Objects\Customs\CustomVariableBlock.xaml.cs">
-      <DependentUpon>CustomVariableBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\IVariableBlock.cs" />
     <Compile Include="Objects\Numbers\LengthBlock.xaml.cs">
       <DependentUpon>LengthBlock.xaml</DependentUpon>
     </Compile>
@@ -127,23 +116,14 @@
     <Compile Include="Objects\Customs\EnumBlock.xaml.cs">
       <DependentUpon>EnumBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Customs\CustomCallBlock.xaml.cs">
-      <DependentUpon>CustomCallBlock.xaml</DependentUpon>
+    <Compile Include="Objects\PropertyBlock.xaml.cs">
+      <DependentUpon>PropertyBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Numbers\NumberCallBlock.xaml.cs">
-      <DependentUpon>NumberCallBlock.xaml</DependentUpon>
+    <Compile Include="Objects\VariableBlock.xaml.cs">
+      <DependentUpon>VariableBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\Strings\StringCatBlock.xaml.cs">
       <DependentUpon>StringCatBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Strings\StringCallBlock.xaml.cs">
-      <DependentUpon>StringCallBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Strings\StringPropertyBlock.xaml.cs">
-      <DependentUpon>StringPropertyBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Strings\StringVariableBlock.xaml.cs">
-      <DependentUpon>StringVariableBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\StringBlock.cs" />
     <Compile Include="Objects\NumberBlock.cs" />
@@ -152,12 +132,6 @@
     </Compile>
     <Compile Include="Objects\Numbers\NumberConstBlock.xaml.cs">
       <DependentUpon>NumberConstBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Numbers\NumberPropertyBlock.xaml.cs">
-      <DependentUpon>NumberPropertyBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\Numbers\NumberVariableBlock.xaml.cs">
-      <DependentUpon>NumberVariableBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -181,8 +155,11 @@
     <Compile Include="Scopes\EventBlock.xaml.cs">
       <DependentUpon>EventBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Statements\IFElseBlock.xaml.cs">
-      <DependentUpon>IFElseBlock.xaml</DependentUpon>
+    <Compile Include="Statements\IfElseBlock.xaml.cs">
+      <DependentUpon>IfElseBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Statements\ListAddBlock.xaml.cs">
+      <DependentUpon>ListAddBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\VoidCallBlock.xaml.cs">
       <DependentUpon>VoidCallBlock.xaml</DependentUpon>
@@ -194,21 +171,12 @@
     <Compile Include="Statements\LoopNBlock.xaml.cs">
       <DependentUpon>LoopNBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Statements\IFBlock.xaml.cs">
-      <DependentUpon>IFBlock.xaml</DependentUpon>
+    <Compile Include="Statements\IfBlock.xaml.cs">
+      <DependentUpon>IfBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Statements\PrevStatementBlock.cs" />
-    <Compile Include="Statements\NumberSetBlock.xaml.cs">
-      <DependentUpon>NumberSetBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Statements\StringSetBlock.xaml.cs">
-      <DependentUpon>StringSetBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Statements\LogicSetBlock.xaml.cs">
-      <DependentUpon>LogicSetBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Statements\CustomSetBlock.xaml.cs">
-      <DependentUpon>CustomSetBlock.xaml</DependentUpon>
+    <Compile Include="Statements\SetBlock.xaml.cs">
+      <DependentUpon>SetBlock.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -224,6 +192,10 @@
     <Page Include="Controls\BlockEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Holes\SettableObjectHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Holes\LogicHole.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -253,7 +225,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Customs\CustomPropertyBlock.xaml">
+    <Page Include="Objects\Lists\ItemBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\Lists\EmptyListBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\ObjectCallBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -261,35 +241,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Logics\NumberCompareBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Logics\LogicVariableBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Logics\StringCompareBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Objects\Logics\GateBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Logics\LogicCallBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Logics\LogicCompareBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Logics\LogicPropertyBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Customs\CustomVariableBlock.xaml">
+    <Page Include="Objects\Logics\CompareBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -305,27 +261,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Customs\CustomCallBlock.xaml">
+    <Page Include="Objects\PropertyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Numbers\NumberCallBlock.xaml">
+    <Page Include="Objects\VariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\Strings\StringCatBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Strings\StringCallBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Strings\StringPropertyBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Strings\StringVariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -334,14 +278,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\Numbers\NumberConstBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Numbers\NumberPropertyBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\Numbers\NumberVariableBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -357,7 +293,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\IFElseBlock.xaml">
+    <Page Include="Statements\IfElseBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statements\ListAddBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -373,23 +313,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\IFBlock.xaml">
+    <Page Include="Statements\IfBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Statements\NumberSetBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Statements\StringSetBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Statements\LogicSetBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Statements\CustomSetBlock.xaml">
+    <Page Include="Statements\SetBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

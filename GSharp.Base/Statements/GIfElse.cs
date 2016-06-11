@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using GSharp.Base.Cores;
+using GSharp.Base.Objects;
 using GSharp.Base.Utilities;
+using GSharp.Base.Cores;
 
 namespace GSharp.Base.Statements
 {
@@ -10,7 +11,7 @@ namespace GSharp.Base.Statements
     public class GIfElse : GStatement
     {
         #region 속성
-        public GLogic Logic { get; set; }
+        public GObject Logic { get; set; }
         #endregion
 
         #region 객체
@@ -34,7 +35,7 @@ namespace GSharp.Base.Statements
         #endregion
 
         #region 생성자
-        public GIfElse(GLogic logicValue)
+        public GIfElse(GObject logicValue)
         {
             Logic = logicValue;
         }
@@ -55,7 +56,7 @@ namespace GSharp.Base.Statements
         public override string ToSource()
         {
             StringBuilder builderCode = new StringBuilder();
-            builderCode.AppendFormat("if ({0})\n{{\n", Logic.ToSource());
+            builderCode.AppendFormat("if ({0}.ToBool())\n{{\n", Logic.ToSource());
 
             foreach (GStatement statement in ifChild)
             {

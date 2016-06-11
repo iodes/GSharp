@@ -40,15 +40,19 @@ namespace GSharp.Graphic.Holes
             {
                 return NumberBlock;
             }
+            set
+            {
+                NumberBlock = value;
+            }
         }
 
-        public NumberBlock NumberBlock
+        public ObjectBlock NumberBlock
         {
             get
             {
                 if (BlockHole.Child != null)
                 {
-                    return BlockHole.Child as NumberBlock;
+                    return BlockHole.Child as ObjectBlock;
                 }
                 else
                 {
@@ -88,9 +92,27 @@ namespace GSharp.Graphic.Holes
             }
         }
 
+        private Type NumberType = typeof(double);
+
         public NumberHole()
         {
             InitializeComponent();
+        }
+
+        public NumberHole(double initialValue) : this()
+        {
+            BlockNumber.Number = initialValue;
+        }
+
+        public NumberHole(Type type) : this()
+        {
+            NumberType = type;
+        }
+
+        public NumberHole(Type type, double initialValue) :this()
+        {
+            BlockNumber.Number = initialValue;
+            NumberType = type;
         }
 
         public override BaseBlock DetachBlock()
@@ -112,16 +134,6 @@ namespace GSharp.Graphic.Holes
             BlockNumber.Visibility = Visibility.Visible;
 
             return block;
-        }
-
-        public override bool CanAttachBlock(BaseBlock block)
-        {
-            if (!(block is NumberBlock))
-            {
-                return false;
-            }
-
-            return CanAttachBlock(block);
         }
     }
 }

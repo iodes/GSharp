@@ -38,7 +38,7 @@ namespace GSharp.Graphic.Objects.Logics
         {
             get
             {
-                GLogic logic = LogicHole1?.LogicBlock?.GLogic;
+                GObject logic = LogicHole1?.LogicBlock?.GObject;
 
                 if (logic == null)
                 {

@@ -24,7 +24,7 @@ using GSharp.Base.Objects.Logics;
 namespace GSharp.Graphic.Objects.Logics
 {
     /// <summary>
-    /// CompareBlock.xaml에 대한 상호 작용 논리
+    /// GateBlock.xaml에 대한 상호 작용 논리
     /// </summary>
     public partial class GateBlock : LogicBlock
     {
@@ -43,8 +43,8 @@ namespace GSharp.Graphic.Objects.Logics
         {
             get
             {
-                GLogic logic1 = LogicHole1.LogicBlock.GLogic;
-                GLogic logic2 = LogicHole2.LogicBlock.GLogic;
+                GObject logic1 = LogicHole1.LogicBlock?.GObject;
+                GObject logic2 = LogicHole2.LogicBlock?.GObject;
 
                 GGate.GateType op = GetGateType();
 

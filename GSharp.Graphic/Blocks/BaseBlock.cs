@@ -24,9 +24,8 @@ namespace GSharp.Graphic.Blocks
         /// <summary>
         /// 블럭에 붙일 수 있는 변수 목록
         /// </summary>
-        public virtual List<IVariableBlock> AllowVariableList { get; } = new List<IVariableBlock>();
-
-
+        public virtual List<VariableBlock> AllowVariableList { get; } = new List<VariableBlock>();
+        
         /// <summary>
         /// 블럭을 GSharp Object로 변환
         /// </summary>

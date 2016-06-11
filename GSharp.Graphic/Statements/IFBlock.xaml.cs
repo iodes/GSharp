@@ -16,6 +16,7 @@ using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
+using GSharp.Base.Objects;
 
 namespace GSharp.Graphic.Statements
 {
@@ -34,7 +35,7 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                GLogic logic = LogicHole?.LogicBlock?.GLogic;
+                GObject logic = LogicHole?.LogicBlock?.GObject;
                 if (logic == null)
                 {
                     throw new ToObjectException("조건문 블럭이 완성되지 않았습니다.", this);

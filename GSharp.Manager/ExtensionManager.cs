@@ -15,6 +15,7 @@ using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Logics;
 using GSharp.Graphic.Objects.Customs;
 using GSharp.Graphic.Objects.Numbers;
+using GSharp.Graphic.Objects;
 
 namespace GSharp.Manager
 {
@@ -326,23 +327,6 @@ namespace GSharp.Manager
                 switch (command.MethodType)
                 {
                     case GCommand.CommandType.Call:
-                        if (numberTypes.Contains(command.ObjectType))
-                        {
-                            blockList.Add(new NumberCallBlock(command));
-                            break;
-                        }
-
-                        if (command.ObjectType == typeof(string))
-                        {
-                            blockList.Add(new StringCallBlock(command));
-                            break;
-                        }
-
-                        if (command.ObjectType == typeof(bool))
-                        {
-                            blockList.Add(new LogicCallBlock(command));
-                            break;
-                        }
 
                         if (command.ObjectType == typeof(void))
                         {
@@ -350,12 +334,11 @@ namespace GSharp.Manager
                             break;
                         }
 
-                        blockList.Add(new CustomCallBlock(command));
-
+                        blockList.Add(new ObjectCallBlock(command));
                         break;
 
                     case GCommand.CommandType.Logic:
-                        blockList.Add(new LogicCallBlock(command));
+                        blockList.Add(new ObjectCallBlock(command));
                         break;
 
                     case GCommand.CommandType.Event:
@@ -363,28 +346,9 @@ namespace GSharp.Manager
                         break;
 
                     case GCommand.CommandType.Property:
-                        if (numberTypes.Contains(command.ObjectType))
-                        {
-                            blockList.Add(new NumberPropertyBlock(command));
-                            break;
-                        }
-
-                        if (command.ObjectType == typeof(string))
-                        {
-                            blockList.Add(new StringPropertyBlock(command));
-                            break;
-                        }
-
-                        if (command.ObjectType == typeof(bool))
-                        {
-                            blockList.Add(new LogicPropertyBlock(command));
-                            break;
-                        }
-
-                        blockList.Add(new CustomPropertyBlock(command));
+                        blockList.Add(new PropertyBlock(command));
                         break;
-
-                    // Enum은 블럭으로 만들지 않음
+                        
                     case GCommand.CommandType.Enum:
                         blockList.Add(new EnumBlock(command));
                         break;

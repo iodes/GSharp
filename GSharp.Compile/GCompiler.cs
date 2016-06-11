@@ -157,6 +157,7 @@ namespace GSharp.Compile
             result.AppendLine("using System.Windows;");
             result.AppendLine("using System.Windows.Markup;");
             result.AppendLine("using GSharp.Extension.Abstracts;");
+            result.AppendLine("using GSharp.Extension.DataTypes;");
             result.AppendLine();
             result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
             result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");

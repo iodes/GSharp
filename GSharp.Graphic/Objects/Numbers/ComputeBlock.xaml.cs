@@ -29,8 +29,8 @@ namespace GSharp.Graphic.Objects.Numbers
         {
             get
             {
-                GNumber obj1 = NumberHole1.NumberBlock?.GNumber;
-                GNumber obj2 = NumberHole2.NumberBlock?.GNumber;
+                GObject obj1 = NumberHole1.NumberBlock?.GObject;
+                GObject obj2 = NumberHole2.NumberBlock?.GObject;
 
                 return new GCompute(obj1, OperatorType, obj2);
             }

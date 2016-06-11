@@ -7,23 +7,25 @@ namespace GSharp.Base.Objects.Numbers
     public class GLength : GNumber
     {
         #region 속성
-        public GString TargetString { get; set; }
+        public GObject Target { get; set; }
         #endregion
 
         #region 생성자
-        public GLength(GString target)
+        public GLength(GObject target)
         {
-            TargetString = target;
+            Target = target;
         }
         #endregion
 
         public override string ToSource()
         {
-            return string.Format
-                (
-                    "({0}).Length()",
-                    TargetString?.ToSource()
-                );
+            string targetStr = Target?.ToSource();
+            if (!(Target is GString))
+            {
+                targetStr += ".ToNumber()";
+            }
+            
+            return string.Format("{0}.Length", targetStr);
         }
     }
 }

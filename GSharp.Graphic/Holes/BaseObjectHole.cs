@@ -10,7 +10,7 @@ namespace GSharp.Graphic.Holes
 {
     public abstract class BaseObjectHole : BaseHole
     {
-        public abstract ObjectBlock BaseObjectBlock { get; }
+        public abstract ObjectBlock BaseObjectBlock { get; set; }
 
         public override BaseBlock AttachedBlock
         {

@@ -26,7 +26,7 @@ namespace GSharp.Graphic.Statements
     /// <summary>
     /// VoidCallBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class VoidCallBlock : PrevStatementBlock, ICallBlock
+    public partial class VoidCallBlock : PrevStatementBlock, IModuleBlock
     {
         public override List<BaseHole> HoleList
         {
@@ -64,14 +64,6 @@ namespace GSharp.Graphic.Statements
             return NextConnectHole.StatementBlock.GetLastBlock();
         }
 
-        public ICall ICall
-        {
-            get
-            {
-                return GVoidCall;
-            }
-        }
-
         public GVoidCall GVoidCall
         {
             get
@@ -89,7 +81,7 @@ namespace GSharp.Graphic.Statements
 
                     if (hole is BaseObjectHole)
                     {
-                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.ToGObjectList()[0] as GObject);
+                        objectList.Add((hole as BaseObjectHole)?.BaseObjectBlock?.ToGObjectList()[0] as GObject);
                     }
                 }
 

@@ -9,19 +9,16 @@ namespace GSharp.Base.Singles
     [Serializable]
     public class GDefine : GSingle
     {
-        public IVariable Variable { get; set; }
+        public GVariable Variable { get; }
 
-        public GDefine(IVariable variable)
+        public GDefine(GVariable variable)
         {
             Variable = variable;
         }
 
         public override string ToSource()
         {
-            var compiler = new CSharpCodeProvider();
-            var type = new CodeTypeReference(Variable.VariableType);
-            
-            return string.Format("public {0} {1};", compiler.GetTypeOutput(type), Variable.Name);
+            return string.Format("public object {0} = \"\";", Variable.Name);
         }
     }
 }
