@@ -1,4 +1,5 @@
-﻿using GSharp.Base.Objects;
+﻿using GSharp.Base.Cores;
+using GSharp.Base.Objects;
 using GSharp.Base.Objects.Customs;
 using GSharp.Base.Objects.Logics;
 using GSharp.Base.Objects.Numbers;
@@ -33,24 +34,64 @@ namespace GSharp.Base.Utilities
             return new GVariable(variableName);
         }
 
-        public static string GetCastString(Type type)
+        public static string CastParameterString(GObject obj, Type type)
         {
+            string castString = "";
+            if (numberTypes.Contains(type))
+            {
+                if (obj is GNumber)
+                {
+                    if (type != typeof(double))
+                    {
+                        return string.Format("({0}){1}", castString, obj.ToSource());
+                    }
+
+                    return obj.ToSource();
+                }
+                else
+                {
+                    if (type != typeof(double))
+                    {
+                        return string.Format("({0}){1}.ToNumber()", castString, obj.ToSource());
+                    }
+
+                    return string.Format("{0}.ToNumber()", obj.ToSource());
+                }
+            }
+
             if (type == typeof(string))
             {
-                return "GString";
+                if (obj is GString)
+                {
+                    return obj.ToSource();
+                }
+
+                return string.Format("{0}.ToText()", obj.ToSource());
             }
 
             if (type == typeof(bool))
             {
-                return "GLogic";
+                if (obj is GLogic)
+                {
+                    return obj.ToSource();
+                }
+
+                return string.Format("{0}.ToBool()", obj.ToSource());
             }
 
-            if (numberTypes.Contains(type))
+            // is List
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
             {
-                return "GNumber";
+                Type listType = type.GetGenericArguments()[0];
+                if (obj is GList)
+                {
+                    return string.Format("{0}.ToList<{1}>()", obj.ToSource(), listType.ToString());
+                }
+
+                return string.Format("{0}.ToList().ToList<{1}>()", obj.ToSource(), listType.ToString());
             }
 
-            return "GCustom";
+            return string.Format("({0}){1}", type.ToString(), obj.ToSource());
         }
     }
 }
