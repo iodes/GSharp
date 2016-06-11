@@ -10,23 +10,30 @@ namespace GSharp.Base.Objects.Lists
     public class GItem : GObject
     {
         private GObject Target;
-        private int index;
+        private GObject Index;
 
-        public GItem(GObject target, int idx)
+        public GItem(GObject target, GObject idx)
         {
             Target = target;
-            index = idx;
+            Index = idx;
         }
 
         public override string ToSource()
         {
             string targetStr = Target.ToSource();
+            string indexStr = Index.ToSource();
+
             if (!(Target is GList))
             {
                 targetStr += ".ToList()";
             }
 
-            return string.Format("{0}[{1}]", targetStr, index);
+            if (!(Index is GNumber))
+            {
+                indexStr += ".ToNumber()";
+            }
+
+            return string.Format("{0}[{1}]", targetStr, indexStr);
         }
     }
 }
