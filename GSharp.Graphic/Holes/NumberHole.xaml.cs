@@ -135,10 +135,5 @@ namespace GSharp.Graphic.Holes
 
             return block;
         }
-
-        public override string ToSource()
-        {
-            return string.Format("{0}.ToNumber()", AttachedBlock?.ToGObjectList()[0]?.ToSource());
-        }
     }
 }
