@@ -57,8 +57,8 @@
     <Compile Include="Objects\Lists\ItemBlock.xaml.cs">
       <DependentUpon>ItemBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Lists\EmptyList.xaml.cs">
-      <DependentUpon>EmptyList.xaml</DependentUpon>
+    <Compile Include="Objects\Lists\EmptyListBlock.xaml.cs">
+      <DependentUpon>EmptyListBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\ListBlock.cs" />
     <Compile Include="Objects\ObjectCallBlock.xaml.cs">
@@ -222,7 +222,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Lists\EmptyList.xaml">
+    <Page Include="Objects\Lists\EmptyListBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -23,9 +23,9 @@ using GSharp.Base.Objects.Lists;
 namespace GSharp.Graphic.Objects.Lists
 {
     /// <summary>
-    /// EmptyList.xaml에 대한 상호 작용 논리
+    /// EmptyListBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class EmptyList : ListBlock
+    public partial class EmptyListBlock : ListBlock
     {
         public override GList GList
         {
@@ -52,7 +52,7 @@ namespace GSharp.Graphic.Objects.Lists
         private List<GBase> _GObjectList;
 
         // 생성자
-        public EmptyList()
+        public EmptyListBlock()
         {
             InitializeComponent();
             _GEmptyList = new GEmptyList();
