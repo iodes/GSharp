@@ -31,8 +31,8 @@ namespace GSharp.Graphic.Objects.Lists
         {
             get
             {
-                var list = ListHole.ObjectBlock.GObject;
-                var index = NumberHole.NumberBlock.GObject;
+                var list = ListHole.ObjectBlock?.GObject;
+                var index = NumberHole.NumberBlock?.GObject;
                 return new GItem(list, index);
             }
         }
