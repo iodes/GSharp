@@ -10,14 +10,14 @@ namespace GSharp.Base.Statements
     public class GSet : GStatement
     {
         #region 속성
-        public GSettableObject Variable { get; set; }
+        public GSettableObject GSettableObject { get; set; }
         public GObject Value { get; set; }
         #endregion
 
         #region 생성자
-        public GSet(GSettableObject variable, GObject value)
+        public GSet(GSettableObject settableObject, GObject value)
         {
-            Variable = variable;
+            GSettableObject = settableObject;
             Value = value;
         }
         #endregion
@@ -41,11 +41,11 @@ namespace GSharp.Base.Statements
             }
             else
             {
-                builder.AppendFormat("{0} = {1};\n", Variable.ToSource(), Value.ToSource());
+                builder.AppendFormat("{0} = {1};\n", GSettableObject.ToSource(), Value.ToSource());
                 return builder.ToString();
             }
             
-            builder.AppendFormat("{0} = {1}.To{2}();\n", Variable.ToSource(), Value.ToSource(), valueName);
+            builder.AppendFormat("{0} = {1}.To{2}();\n", GSettableObject.ToSource(), Value.ToSource(), valueName);
 
             return builder.ToString();
         }
