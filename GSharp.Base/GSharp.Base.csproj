@@ -44,6 +44,7 @@
     <Compile Include="Cores\GEntry.cs" />
     <Compile Include="Cores\IModule.cs" />
     <Compile Include="Objects\Customs\GEnum.cs" />
+    <Compile Include="Objects\GList.cs" />
     <Compile Include="Objects\GObjectCall.cs" />
     <Compile Include="Objects\GCustom.cs" />
     <Compile Include="Objects\GLogic.cs" />
@@ -54,6 +55,8 @@
     <Compile Include="Objects\GProperty.cs" />
     <Compile Include="Objects\GVariable.cs" />
     <Compile Include="Objects\ISettable.cs" />
+    <Compile Include="Objects\Lists\GEmptyList.cs" />
+    <Compile Include="Objects\Lists\GItem.cs" />
     <Compile Include="Objects\Logics\GNot.cs" />
     <Compile Include="Objects\Numbers\GLength.cs" />
     <Compile Include="Objects\Strings\GConvertNumberToString.cs" />
