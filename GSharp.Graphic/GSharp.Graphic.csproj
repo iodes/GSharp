@@ -54,6 +54,10 @@
     </Compile>
     <Compile Include="Blocks\BaseBlock.cs" />
     <Compile Include="Blocks\IModuleBlock.cs" />
+    <Compile Include="Objects\Lists\EmptyList.xaml.cs">
+      <DependentUpon>EmptyList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Objects\ListBlock.cs" />
     <Compile Include="Objects\ObjectCallBlock.xaml.cs">
       <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
     </Compile>
@@ -148,6 +152,9 @@
     <Compile Include="Statements\IfElseBlock.xaml.cs">
       <DependentUpon>IfElseBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Statements\ListAddBlock.xaml.cs">
+      <DependentUpon>ListAddBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Statements\VoidCallBlock.xaml.cs">
       <DependentUpon>VoidCallBlock.xaml</DependentUpon>
     </Compile>
@@ -205,6 +212,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Holes\NumberHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\Lists\EmptyList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -269,6 +280,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Statements\IfElseBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Statements\ListAddBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
