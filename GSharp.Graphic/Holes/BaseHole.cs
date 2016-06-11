@@ -66,7 +66,7 @@ namespace GSharp.Graphic.Holes
                 var globalVariableList = block.BlockEditor.GetGlobalVariableBlockList();
                 var allowVariableList = ParentBlock.AllowVariableList;
 
-                if (!globalVariableList.Contains(varBlock) && !allowVariableList.Contains(varBlock))
+                if (!globalVariableList.Any(e => e.GVariable == varBlock.GVariable) && !allowVariableList.Any(e => e.GVariable == varBlock.GVariable))
                 {
                     return false;
                 }
