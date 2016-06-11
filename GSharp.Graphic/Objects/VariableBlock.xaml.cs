@@ -23,7 +23,7 @@ namespace GSharp.Graphic.Objects
     /// <summary>
     /// VariableBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class VariableBlock : ObjectBlock
+    public partial class VariableBlock : SettableObjectBlock
     {
         public string FriendlyName
         {
@@ -40,6 +40,14 @@ namespace GSharp.Graphic.Objects
         private string _FriendlyName;
 
         public override GObject GObject
+        {
+            get
+            {
+                return GVariable;
+            }
+        }
+
+        public override GSettableObject GSettableObject
         {
             get
             {

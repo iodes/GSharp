@@ -1,14 +1,13 @@
-﻿<blocks:ObjectBlock x:Class="GSharp.Graphic.Objects.PropertyBlock"
+﻿<local:SettableObjectBlock x:Class="GSharp.Graphic.Objects.PropertyBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
-             xmlns:local="clr-namespace:GSharp.Graphic.Objects.Strings"
+             xmlns:local="clr-namespace:GSharp.Graphic.Objects"
              xmlns:blocks="clr-namespace:GSharp.Graphic.Blocks"
              mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top">
 
     <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
         <TextBlock x:Name="PropertyName" Foreground="White" FontWeight="Bold"/>
     </Border>
-</blocks:ObjectBlock>
+</local:SettableObjectBlock>

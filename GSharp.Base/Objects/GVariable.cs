@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects
 {
-    public class GVariable : GObject, ISettable
+    public class GVariable : GSettableObject
     {
         public string Name
         {

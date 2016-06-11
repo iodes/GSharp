@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Blocks\BaseBlock.cs" />
     <Compile Include="Blocks\IModuleBlock.cs" />
+    <Compile Include="Holes\SettableObjectHole.xaml.cs">
+      <DependentUpon>SettableObjectHole.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\Lists\ItemBlock.xaml.cs">
       <DependentUpon>ItemBlock.xaml</DependentUpon>
     </Compile>
@@ -64,7 +67,7 @@
     <Compile Include="Objects\ObjectCallBlock.xaml.cs">
       <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\ISettableBlock.cs" />
+    <Compile Include="Objects\SettableObjectBlock.cs" />
     <Compile Include="Objects\LogicBlock.cs" />
     <Compile Include="Blocks\ObjectBlock.cs" />
     <Compile Include="Blocks\ScopeBlock.cs" />
@@ -189,6 +192,10 @@
     <Page Include="Controls\BlockEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Holes\SettableObjectHole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Holes\LogicHole.xaml">
       <Generator>MSBuild:Compile</Generator>

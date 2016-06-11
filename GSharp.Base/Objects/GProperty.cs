@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects
 {
-    public class GProperty : GObject, ISettable
+    public class GProperty : GSettableObject
     {
         public GCommand GCommand
         {

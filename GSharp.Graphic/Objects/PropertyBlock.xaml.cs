@@ -24,9 +24,8 @@ namespace GSharp.Graphic.Objects
     /// <summary>
     /// PropertyBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PropertyBlock : ObjectBlock, IModuleBlock
+    public partial class PropertyBlock : SettableObjectBlock, IModuleBlock
     {
-
         public GCommand GCommand
         {
             get
@@ -37,6 +36,14 @@ namespace GSharp.Graphic.Objects
         private GCommand _GCommand;
 
         public override GObject GObject
+        {
+            get
+            {
+                return GProperty;
+            }
+        }
+
+        public override GSettableObject GSettableObject
         {
             get
             {
