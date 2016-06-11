@@ -10,10 +10,10 @@ namespace GSharp.Base.Statements
 {
     public class GListAdd : GStatement
     {
-        public GObject List { get; set; }
+        public GSettableObject List { get; set; }
         public GObject Item { get; set; }
 
-        public GListAdd(GObject list, GObject item)
+        public GListAdd(GSettableObject list, GObject item)
         {
             List = list;
             Item = item;
@@ -21,13 +21,7 @@ namespace GSharp.Base.Statements
 
         public override string ToSource()
         {
-            string listStr = List.ToSource();
-            if (!(List is GList))
-            {
-                listStr += ".ToList()";
-            }
-
-            return string.Format("{0}.Add({1});", listStr, Item.ToSource());
+            return string.Format("{0}.ListAdd({1});", List.ToSource(), Item.ToSource());
         }
     }
 }
