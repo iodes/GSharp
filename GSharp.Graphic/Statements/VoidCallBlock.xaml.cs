@@ -81,7 +81,7 @@ namespace GSharp.Graphic.Statements
 
                     if (hole is BaseObjectHole)
                     {
-                        objectList.Add((hole as BaseObjectHole).BaseObjectBlock.ToGObjectList()[0] as GObject);
+                        objectList.Add((hole as BaseObjectHole)?.BaseObjectBlock?.ToGObjectList()[0] as GObject);
                     }
                 }
 

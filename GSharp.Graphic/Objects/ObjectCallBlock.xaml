@@ -9,6 +9,6 @@
              mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top">
 
     <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
-        <TextBlock x:Name="CallName" Foreground="White" FontWeight="Bold"/>
+        <WrapPanel x:Name="WrapContent"/>
     </Border>
 </core:ObjectBlock>

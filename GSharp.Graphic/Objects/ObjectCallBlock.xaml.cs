@@ -48,10 +48,16 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return _GCall;
+                var argumentList = new List<GObject>();
+
+                foreach(var hole in HoleList)
+                {
+                    argumentList.Add((hole as BaseObjectHole)?.BaseObjectBlock?.ToGObjectList()[0] as GObject);
+                }
+
+                return new GObjectCall(GCommand, argumentList.ToArray());
             }
         }
-        private GObjectCall _GCall;
 
         public override List<GBase> ToGObjectList()
         {
@@ -60,16 +66,24 @@ namespace GSharp.Graphic.Objects
 
         private List<GBase> _GObjectList;
 
+        public override List<BaseHole> HoleList
+        {
+            get
+            {
+                return _HoleList;
+            }
+        }
+        private List<BaseHole> _HoleList;
+
         // 생성자
         public ObjectCallBlock(GCommand command)
         {
             InitializeComponent();
 
             _GCommand = command;
-            _GCall = new GObjectCall(command);
-            _GObjectList = new List<GBase> { GObject };
 
-            CallName.Text = command.FriendlyName;
+            _HoleList = BlockUtils.SetContent(command, WrapContent);
+            _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();
         }
