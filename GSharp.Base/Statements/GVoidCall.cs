@@ -3,6 +3,8 @@ using System.Linq;
 using GSharp.Base.Cores;
 using GSharp.Extension;
 using GSharp.Base.Scopes;
+using System.Collections.Generic;
+using GSharp.Base.Utilities;
 
 namespace GSharp.Base.Statements
 {
@@ -10,56 +12,38 @@ namespace GSharp.Base.Statements
     public class GVoidCall : GStatement
     {
         #region 객체
-        private GFunction targetFunction;
-        private GCommand targetCommand;
-        public GObject[] targetArguments;
+        private GCommand GCommand;
+        public GObject[] Arguments;
         #endregion
 
         #region 생성자
-        public GVoidCall(GFunction valueFunction)
+        public GVoidCall(GCommand command)
         {
-            targetFunction = valueFunction;
+            GCommand = command;
         }
 
-        public GVoidCall(GFunction valueFunction, GObject[] valueArguments) : this(valueFunction)
+        public GVoidCall(GCommand command, GObject[] arguments) : this(command)
         {
-            targetArguments = valueArguments;
-        }
-
-        public GVoidCall(GCommand valueCommand)
-        {
-            targetCommand = valueCommand;
-        }
-
-        public GVoidCall(GCommand valueCommand, GObject[] valueArguments) : this(valueCommand)
-        {
-            targetArguments = valueArguments;
+            Arguments = arguments;
         }
         #endregion
 
         public override string ToSource()
         {
-            string valueTarget = targetFunction == null ? targetCommand.FullName : targetFunction.FunctionName;
-
-            if (targetArguments == null)
+            var argumentList = new List<string>();
+            for (int i = 0; i < GCommand.Optionals?.Length; i++)
             {
-                return string.Format
-                (
-                    "{0}();",
-                    valueTarget
-                );
+                if (i < Arguments?.Length)
+                {
+                    argumentList.Add(GSharpUtils.CastParameterString(Arguments[i], GCommand.Optionals[i].ObjectType));
+                }
+                else
+                {
+                    argumentList.Add("null");
+                }
             }
-            else
-            {
-                var argumentStrings = targetArguments.Select(element => element.ToSource());
 
-                return string.Format
-                (
-                    "{0}({1});",
-                    valueTarget,
-                    string.Join(", ", argumentStrings)
-                );
-            }
+            return string.Format("{0}({1});", GCommand.FullName, string.Join(", ", argumentList));
         }
     }
 }

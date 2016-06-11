@@ -31,11 +31,10 @@ namespace GSharp.Base.Objects
 
         public override string ToSource()
         {
-            string argumentStrings = "";
             var argumentList = new List<string>();
             for(int i=0; i<GCommand.Optionals?.Length; i++)
             {
-                if (i < Arguments.Length)
+                if (i < Arguments?.Length)
                 {
                     argumentList.Add(GSharpUtils.CastParameterString(Arguments[i], GCommand.Optionals[i].ObjectType));
                 }
@@ -45,12 +44,7 @@ namespace GSharp.Base.Objects
                 }
             }
 
-            if (Arguments != null)
-            {
-                argumentStrings = string.Join(", ", Arguments.Select(element => element.ToSource()));
-            }
-
-            return string.Format("({1}({2}))", GCommand.FullName, argumentStrings);
+            return string.Format("({0}({1}))", GCommand.FullName, string.Join(", ", argumentList));
         }
     }
 }
