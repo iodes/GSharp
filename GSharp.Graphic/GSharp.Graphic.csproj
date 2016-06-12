@@ -67,6 +67,9 @@
     <Compile Include="Objects\ObjectCallBlock.xaml.cs">
       <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\ControlPropertyBlock.xaml.cs">
+      <DependentUpon>ControlPropertyBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\SettableObjectBlock.cs" />
     <Compile Include="Objects\LogicBlock.cs" />
     <Compile Include="Blocks\ObjectBlock.cs" />
@@ -258,6 +261,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Objects\Customs\EnumBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Objects\ControlPropertyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
