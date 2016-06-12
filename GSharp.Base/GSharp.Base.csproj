@@ -52,8 +52,9 @@
     <Compile Include="Cores\GScope.cs" />
     <Compile Include="Cores\GSingle.cs" />
     <Compile Include="Cores\GStatement.cs" />
+    <Compile Include="Objects\GControlProperty.cs" />
     <Compile Include="Objects\GProperty.cs" />
-    <Compile Include="Objects\GSettable.cs" />
+    <Compile Include="Objects\GSettableObject.cs" />
     <Compile Include="Objects\GVariable.cs" />
     <Compile Include="Objects\Lists\GEmptyList.cs" />
     <Compile Include="Objects\Lists\GItem.cs" />

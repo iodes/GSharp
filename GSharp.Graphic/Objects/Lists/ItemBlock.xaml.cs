@@ -33,15 +33,20 @@ namespace GSharp.Graphic.Objects.Lists
             {
                 var list = ListHole.ObjectBlock?.GObject;
                 var index = NumberHole.NumberBlock?.GObject;
+
+                if (list == null || index == null)
+                {
+                    throw new ToObjectException("배열의 x번째 요소 블럭이 완성되지 않았습니다.", this);
+                }
+
                 return new GItem(list, index);
             }
         }
         
         public override List<GBase> ToGObjectList()
         {
-            return _GObjectList;
+            return new List<GBase>() { GObject };
         }
-        private List<GBase> _GObjectList;
 
         public override List<BaseHole> HoleList
         {
@@ -67,7 +72,6 @@ namespace GSharp.Graphic.Objects.Lists
             InitializeComponent();
 
             _HoleList = new List<BaseHole>() { ListHole, NumberHole };
-            _GObjectList = new List<GBase>() { GObject };
 
             InitializeBlock();
         }

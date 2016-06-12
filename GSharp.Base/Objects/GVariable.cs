@@ -9,6 +9,14 @@ namespace GSharp.Base.Objects
 {
     public class GVariable : GSettableObject
     {
+        public override Type SettableType
+        {
+            get
+            {
+                return typeof(object);
+            }
+        }
+
         public string Name
         {
             get

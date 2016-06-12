@@ -50,7 +50,19 @@ namespace GSharp.Graphic.Blocks
         /// <summary>
         /// 블럭이 포함된 캔버스
         /// </summary>
-        public BlockEditor BlockEditor { get; set; }
+        public BlockEditor BlockEditor
+        {
+            get
+            {
+                return _BlockEditor;
+            }
+            set
+            {
+                _BlockEditor = value;
+                OnBlockEditorChange();
+            }
+        }
+        private BlockEditor _BlockEditor;
 
         /// <summary>
         /// 자신이 끼워져 있는 구멍
@@ -73,6 +85,10 @@ namespace GSharp.Graphic.Blocks
                 hole.BlockAttached += OnBlockAttached;
                 hole.BlockDetached += OnBlockDetached;
             }
+        }
+
+        protected virtual void OnBlockEditorChange()
+        {
         }
 
         /// <summary>

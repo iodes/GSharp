@@ -26,28 +26,32 @@ namespace GSharp.Base.Statements
         {
             var builder = new StringBuilder();
 
-            string valueName;
-            if (Value is GLogic)
+            if (Variable.SettableType == typeof(object))
             {
-                valueName = "Bool";
+                return string.Format("{0} = {1};\n", Variable.ToSource(), Value.ToSource());
             }
-            else if (Value is GNumber)
-            {
-                valueName = "Number";
-            }
-            else if (Value is GString)
-            {
-                valueName = "Text";
-            }
-            else
-            {
-                builder.AppendFormat("{0} = {1};\n", GSettableObject.ToSource(), Value.ToSource());
-                return builder.ToString();
-            }
-            
-            builder.AppendFormat("{0} = {1}.To{2}();\n", GSettableObject.ToSource(), Value.ToSource(), valueName);
 
-            return builder.ToString();
+            else if (Variable.SettableType == typeof(bool))
+            {
+                return string.Format("{0} = {1}.ToBool();\n", Variable.ToSource(), Value.ToSource());
+            }
+
+            else if (Variable.SettableType == typeof(string))
+            {
+                return string.Format("{0} = {1}.ToText();\n", Variable.ToSource(), Value.ToSource());
+            }
+
+            else if (Variable.SettableType == typeof(double))
+            {
+                return string.Format("{0} = {1}.ToNumber();\n", Variable.ToSource(), Value.ToSource());
+            }
+
+            else if (GSharpUtils.IsNumberType(Variable.SettableType))
+            {
+                return string.Format("{0} = ({2}){1}.ToNumber();\n", Variable.ToSource(), Value.ToSource(), Variable.SettableType.FullName);
+            }
+
+            return string.Format("{0} = ({2}){1}.ToCustom<{2}>();\n", Variable.ToSource(), Value.ToSource(), Variable.SettableType.FullName);
         }
     }
 }
