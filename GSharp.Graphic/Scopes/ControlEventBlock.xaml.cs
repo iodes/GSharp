@@ -89,8 +89,11 @@ namespace GSharp.Graphic.Scopes
         protected override void OnBlockEditorChange()
         {
             ControlName.ItemsSource = BlockEditor.GControlList;
-            SelectedControl = BlockEditor.GControlList.First();
-            ControlName.SelectedIndex = 0;
+            if (BlockEditor.GControlList.Count > 0)
+            {
+                SelectedControl = BlockEditor.GControlList.First();
+                ControlName.SelectedIndex = 0;
+            }
         }
 
         public KeyValuePair<string, GControl> SelectedControl
