@@ -195,9 +195,9 @@ namespace GSharp.Compile
                 result.AppendLine("            }");
                 result.AppendLine("        }");
                 result.AppendLine();
-                result.AppendLine("        public GView FindControl(DependencyObject parent, string value)");
+                result.AppendLine("        public T FindControl<T>(DependencyObject parent, string value)");
                 result.AppendLine("        {");
-                result.AppendLine("            return LogicalTreeHelper.FindLogicalNode(parent, value) as GView;");
+                result.AppendLine("            return (T)(object)LogicalTreeHelper.FindLogicalNode(parent, value);");
                 result.AppendLine("        }");
             }
             result.AppendLine();
