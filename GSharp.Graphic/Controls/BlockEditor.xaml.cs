@@ -46,7 +46,7 @@ namespace GSharp.Graphic.Controls
 
         //public List<GExtension> GExtensionList { get; set; } = new List<GExtension>();
 
-        public Dictionary<string, GControl> GControlList { get; } = new Dictionary<string, GControl>();
+        public Dictionary<string, GControl> GControlList { get; set; } = new Dictionary<string, GControl>();
         #endregion
 
         #region 객체
