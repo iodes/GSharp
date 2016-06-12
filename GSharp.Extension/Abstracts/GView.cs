@@ -1,19 +1,24 @@
 ﻿using System.Windows.Controls;
+using GSharp.Extension.Attributes;
 
 namespace GSharp.Extension.Abstracts
 {
     public abstract class GView : UserControl
     {
         #region 이벤트
+        [GControl("클릭")]
         public new event ClickEventHandler Click;
         public delegate void ClickEventHandler();
 
+        [GControl("마우스 이동")]
         public new event MouseMoveEventHandler MouseMove;
         public delegate void MouseMoveEventHandler();
 
+        [GControl("마우스 이탈")]
         public new event MouseLeaveEventHandler MouseLeave;
         public delegate void MouseLeaveEventHandler();
 
+        [GControl("마우스 진입")]
         public new event MouseEnterEventHandler MouseEnter;
         public delegate void MouseEnterEventHandler();
         #endregion
