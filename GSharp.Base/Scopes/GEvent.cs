@@ -63,11 +63,12 @@ namespace GSharp.Base.Scopes
 
             string argumentsStr = string.Join(",", argumentList.ToArray());
 
-            source.AppendFormat("{0}.{1} += ({2}) => \n{{\n", GCommand.NamespaceName, GCommand.MethodName, argumentsStr);
+            source.AppendFormat("{0}.{1} += ({2}) => \n", GCommand.NamespaceName, GCommand.MethodName, argumentsStr);
+            source.AppendLine("{");
 
             for (int i=0; i<Arguments.Count; i++)
             {
-                source.AppendFormat("object {0} = {1}{0};\n" + Arguments[i].Name, PREFIX_REAL_ARG);
+                source.AppendFormat("object {0} = {1}{0};\n", Arguments[i].Name, PREFIX_REAL_ARG);
             }
 
             foreach (GStatement statement in Content)
