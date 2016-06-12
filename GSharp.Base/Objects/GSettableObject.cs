@@ -9,5 +9,6 @@ namespace GSharp.Base.Objects
 {
     public abstract class GSettableObject : GObject
     {
+        public abstract Type SettableType { get; }
     }
 }

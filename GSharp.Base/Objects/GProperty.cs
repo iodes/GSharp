@@ -11,6 +11,14 @@ namespace GSharp.Base.Objects
 {
     public class GProperty : GSettableObject
     {
+        public override Type SettableType
+        {
+            get
+            {
+                return GCommand.ObjectType;
+            }
+        }
+
         public GCommand GCommand
         {
             get
