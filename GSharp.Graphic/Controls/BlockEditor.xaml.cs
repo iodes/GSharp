@@ -22,6 +22,7 @@ using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Numbers;
 using GSharp.Extension;
 using GSharp.Extension.Optionals;
+using GSharp.Extension.Exports;
 
 namespace GSharp.Graphic.Controls
 {
@@ -42,6 +43,10 @@ namespace GSharp.Graphic.Controls
                 return BlockGrid;
             }
         }
+
+        //public List<GExtension> GExtensionList { get; set; } = new List<GExtension>();
+
+        public Dictionary<string, GControl> GControlList { get; } = new Dictionary<string, GControl>();
         #endregion
 
         #region 객체
@@ -104,6 +109,9 @@ namespace GSharp.Graphic.Controls
 
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
             Master.Children.Add(Highlighter);
+
+            // for Test Debug
+            GControlList.Add("MyTestName", new GControl(null, "버튼", "네임스페이스", new GExport[] { new GExport("네임", "메소드", "프렌드", null, new GOptional[] { new GOptional("이름", "전체이름", "친구이름", null) }) }));
         }
 
         private void BlockViewer_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -522,7 +530,6 @@ namespace GSharp.Graphic.Controls
             // 블럭을 캔버스에 추가
             AttachToCanvas(block);
 
-            // 블럭에 에디터 정보 저장
             block.BlockEditor = this;
 
             // 블럭의 HoleList를 가져와 BlockEditor에 추가

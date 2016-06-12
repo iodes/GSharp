@@ -37,7 +37,7 @@ namespace GSharp.Base.Utilities
         public static string CastParameterString(GObject obj, Type type)
         {
             string castString = "";
-            if (numberTypes.Contains(type))
+            if (IsNumberType(type))
             {
                 if (obj is GNumber)
                 {
@@ -92,6 +92,16 @@ namespace GSharp.Base.Utilities
             }
 
             return string.Format("({0}){1}", type.ToString(), obj.ToSource());
+        }
+
+        public static bool IsNumberType(Type type)
+        {
+            if (numberTypes.Contains(type))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

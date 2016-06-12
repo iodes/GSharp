@@ -19,6 +19,8 @@ using GSharp.Base.Scopes;
 using GSharp.Extension;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Objects.Strings;
+using GSharp.Extension.Exports;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Scopes
 {
@@ -38,13 +40,19 @@ namespace GSharp.Graphic.Scopes
         #endregion
 
         #region Objects
-
         public GControlEvent GControlEvent
         {
             get
             {
-                var controlEvent = new GControlEvent(new GCommand(ControlName.Text, "Click", typeof(void), GCommand.CommandType.Event));
-                
+                var control = SelectedControl.Value;
+                var export = SelectedEvent;
+
+                if (control == null || export == null)
+                {
+                    throw new ToObjectException("컨트롤 이벤트 블럭이 완성되지 않았습니다.", this);
+                }
+
+                var controlEvent = new GControlEvent(control, export);
                 List<GBase> content = NextConnectHole?.StatementBlock?.ToGObjectList();
                 if (content == null)
                 {
@@ -76,7 +84,38 @@ namespace GSharp.Graphic.Scopes
             return new List<GBase> { GScope };
         }
         #endregion
-        
+
+        #region ComboBox Binding
+        protected override void OnBlockEditorChange()
+        {
+            ControlName.ItemsSource = BlockEditor.GControlList;
+            SelectedControl = BlockEditor.GControlList.First();
+            ControlName.SelectedIndex = 0;
+        }
+
+        public KeyValuePair<string, GControl> SelectedControl
+        {
+            get
+            {
+                return _SelectedControl;
+            }
+            set
+            {
+                _SelectedControl = value;
+
+                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType != typeof(void));
+                EventName.ItemsSource = eventList;
+                if (eventList.Count() > 0)
+                {
+                    SelectedEvent = eventList.First();
+                    EventName.SelectedIndex = 0;
+                }
+            }
+        }
+        private KeyValuePair<string, GControl> _SelectedControl;
+        public GExport SelectedEvent { get; set; }
+        #endregion
+
         // Constructor
         public ControlEventBlock()
         {
@@ -85,7 +124,7 @@ namespace GSharp.Graphic.Scopes
 
             // Initialize Hole List
             HoleList.Add(NextConnectHole);
-            
+
             // Initialize Block
             InitializeBlock();
         }
