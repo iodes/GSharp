@@ -109,9 +109,6 @@ namespace GSharp.Graphic.Controls
 
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
             Master.Children.Add(Highlighter);
-
-            // for Test Debug
-            GControlList.Add("MyTestName", new GControl(null, "버튼", "네임스페이스", new GExport[] { new GExport("네임", "메소드", "프렌드", null, new GOptional[] { new GOptional("이름", "전체이름", "친구이름", null) }) }));
         }
 
         private void BlockViewer_ContextMenuOpening(object sender, ContextMenuEventArgs e)
