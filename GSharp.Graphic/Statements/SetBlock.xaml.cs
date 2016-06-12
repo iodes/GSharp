@@ -55,10 +55,10 @@ namespace GSharp.Graphic.Statements
         {
             get
             {
-                GSettableObject settableObject = SettableObjectHole.SettableObjectBlock.GSettableObject;
-                GObject number = ObjectHole?.ObjectBlock?.GObject;
+                GSettableObject settableObject = SettableObjectHole.SettableObjectBlock?.GSettableObject;
+                GObject number = ObjectHole.ObjectBlock?.GObject;
 
-                if (number == null)
+                if (settableObject == null || number == null)
                 {
                     throw new ToObjectException("변수 설정 블럭이 완성되지 않았습니다.", this);
                 }
