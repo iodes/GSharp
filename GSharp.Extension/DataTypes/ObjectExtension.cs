@@ -83,9 +83,17 @@ namespace GSharp.Extension.DataTypes
             return true;
         }
 
-        public static object ToCustom(this object obj)
+        public static object ToCustom<T>(this object obj)
         {
-            return obj;
+            object output;
+            try {
+                output = (T)obj;
+                return output;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static List<object> ToList(this object obj)
