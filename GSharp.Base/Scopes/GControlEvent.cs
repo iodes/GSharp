@@ -68,8 +68,8 @@ namespace GSharp.Base.Scopes
 
             string argumentsStr = string.Join(",", argumentList.ToArray());
 
-            source.AppendFormat($@"FindControl<{GExport.NamespaceName}>(window, ""{ControlName}"").{GExport.MethodName} += () => \n");
-            source.AppendLine("{");
+            source.AppendFormat($@"FindControl<{GExport.NamespaceName}>(window, ""{ControlName}"").{GExport.MethodName} += () =>");
+            source.AppendLine("\n{");
 
             for (int i = 0; i < Arguments.Count; i++)
             {

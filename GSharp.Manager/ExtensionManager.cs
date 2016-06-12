@@ -11,11 +11,8 @@ using GSharp.Extension.Exports;
 using GSharp.Extension.Optionals;
 using GSharp.Extension.Abstracts;
 using GSharp.Extension.Attributes;
-using GSharp.Graphic.Objects.Strings;
-using GSharp.Graphic.Objects.Logics;
-using GSharp.Graphic.Objects.Customs;
-using GSharp.Graphic.Objects.Numbers;
 using GSharp.Graphic.Objects;
+using GSharp.Graphic.Objects.Customs;
 
 namespace GSharp.Manager
 {
@@ -221,7 +218,7 @@ namespace GSharp.Manager
                                         value.FullName,
                                         info.Name,
                                         command.Name,
-                                        eventDelegateMethod?.ReturnType,
+                                        eventDelegateMethod != null ? eventDelegate.ReflectedType : typeof(void),
                                         GCommand.CommandType.Event,
                                         eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
                                     )
@@ -237,7 +234,7 @@ namespace GSharp.Manager
                                         value.FullName,
                                         info.Name,
                                         control.Name,
-                                        eventDelegateMethod?.ReturnType,
+                                        eventDelegateMethod != null ? eventDelegate.ReflectedType : typeof(void),
                                         eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
                                     )
                                 );
