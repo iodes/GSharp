@@ -976,7 +976,7 @@ namespace GSharp.Graphic.Controls
 
         private void BlockViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && !MouseOnBlock())
+            if (e.MiddleButton == MouseButtonState.Pressed && !MouseOnBlock())
             {
                 BlockViewer.CaptureMouse();
                 vOffset = BlockViewer.VerticalOffset;
