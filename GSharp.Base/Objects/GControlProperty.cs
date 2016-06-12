@@ -52,7 +52,7 @@ namespace GSharp.Base.Objects
 
         public override string ToSource()
         {
-            return string.Format("FindControl(window, {0}).{1}", ControlName, GExport.MethodName);
+            return string.Format(@"FindControl(window, ""{0}"").{1}", ControlName, GExport.MethodName);
         }
     }
 }
