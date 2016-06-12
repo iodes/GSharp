@@ -54,7 +54,7 @@ namespace GSharp.Graphic.Objects
                     throw new ToObjectException("Event가 선택되지 않았습니다.", this);
                 }
 
-                return new GControlProperty(export);
+                return new GControlProperty(SelectedControl.Key, export);
             }
         }
 
@@ -84,7 +84,7 @@ namespace GSharp.Graphic.Objects
             {
                 _SelectedControl = value;
 
-                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType == typeof(void));
+                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType != typeof(void));
                 EventName.ItemsSource = eventList;
                 if (eventList.Count() > 0)
                 {

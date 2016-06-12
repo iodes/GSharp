@@ -44,7 +44,7 @@ namespace GSharp.Graphic.Scopes
         {
             get
             {
-                var control = SelectedControl.Value;
+                var control = SelectedControl.Key;
                 var export = SelectedEvent;
 
                 if (control == null || export == null)
@@ -106,7 +106,7 @@ namespace GSharp.Graphic.Scopes
             {
                 _SelectedControl = value;
 
-                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType != typeof(void));
+                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType == typeof(void));
                 EventName.ItemsSource = eventList;
                 if (eventList.Count() > 0)
                 {

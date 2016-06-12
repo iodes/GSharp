@@ -17,22 +17,17 @@ namespace GSharp.Base.Scopes
         private const string PREFIX_REAL_ARG = "r_";
         private const string PREFIX_ARG = "param";
 
-        public GControl GControl { get; }
+        public string ControlName { get; }
         public GExport GExport { get; }
         public List<GVariable> Arguments { get; } = new List<GVariable>();
         public List<Type> ArgumentsType { get; } = new List<Type>();
 
         public List<GStatement> Content = new List<GStatement>();
 
-        public GControlEvent(GControl control, GExport export)
+        public GControlEvent(string controlName, GExport export)
         {
-            GControl = control;
+            ControlName = controlName;
             GExport = export;
-
-            if (!GControl.Exports.Contains(GExport))
-            {
-                throw new Exception("Not allowed event");
-            }
 
             for (int i = 0; i < GExport.Optionals?.Length; i++)
             {
@@ -46,7 +41,7 @@ namespace GSharp.Base.Scopes
             }
         }
 
-        public GControlEvent(GControl control, GExport export, List<GStatement> content) : this(control, export)
+        public GControlEvent(string controlName, GExport export, List<GStatement> content) : this(controlName, export)
         {
             Content = content;
         }
@@ -73,7 +68,7 @@ namespace GSharp.Base.Scopes
 
             string argumentsStr = string.Join(",", argumentList.ToArray());
 
-            source.AppendFormat("FindControl(window, \"{0}\").{1} += () => \n", GControl.NamespaceName, GExport.MethodName);
+            source.AppendFormat("FindControl(window, \"{0}\").{1} += () => \n", ControlName, GExport.MethodName);
             source.AppendLine("{");
 
             for (int i = 0; i < Arguments.Count; i++)

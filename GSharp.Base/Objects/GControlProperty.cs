@@ -20,6 +20,15 @@ namespace GSharp.Base.Objects
             }
         }
 
+        public string ControlName
+        {
+            get
+            {
+                return _ControlName;
+            }
+        }
+        private string _ControlName;
+
         public override Type SettableType
         {
             get
@@ -30,8 +39,9 @@ namespace GSharp.Base.Objects
 
         private GExport _GExport;
 
-        public GControlProperty(GExport export)
+        public GControlProperty(string controlName, GExport export)
         {
+            _ControlName = controlName;
             _GExport = export;
 
             if (export.ObjectType == typeof(void))
@@ -42,7 +52,7 @@ namespace GSharp.Base.Objects
 
         public override string ToSource()
         {
-            return string.Format("FindControl(window, {0}).{1}", GExport.NamespaceName, GExport.MethodName);
+            return string.Format("FindControl(window, {0}).{1}", ControlName, GExport.MethodName);
         }
     }
 }
