@@ -76,7 +76,7 @@ namespace GSharp.Base.Objects.Logics
         {
             return string.Format
             (
-                "({0}.Is{1}Than{2})",
+                "({0}.Is{1}Than({2}))",
                 FirstPart.ToSource(),
                 ConditionText,
                 SecondPart.ToSource()
