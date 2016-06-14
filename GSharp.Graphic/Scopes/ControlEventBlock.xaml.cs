@@ -86,15 +86,7 @@ namespace GSharp.Graphic.Scopes
         #endregion
 
         #region ComboBox Binding
-        protected override void OnBlockEditorChange()
-        {
-            ControlName.ItemsSource = BlockEditor.GControlList;
-            if (BlockEditor.GControlList.Count > 0)
-            {
-                SelectedControl = BlockEditor.GControlList.First();
-                ControlName.SelectedIndex = 0;
-            }
-        }
+        private object backTarget;
 
         public KeyValuePair<string, GControl> SelectedControl
         {
@@ -105,18 +97,54 @@ namespace GSharp.Graphic.Scopes
             set
             {
                 _SelectedControl = value;
-
-                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType == typeof(void));
-                EventName.ItemsSource = eventList;
-                if (eventList.Count() > 0)
-                {
-                    SelectedEvent = eventList.First();
-                    EventName.SelectedIndex = 0;
-                }
+                EventName.ItemsSource = SelectedControl.Value.Exports.Where(e => e.ObjectType == typeof(void));
+                EventName.SelectedIndex = 0;
             }
         }
         private KeyValuePair<string, GControl> _SelectedControl;
+
         public GExport SelectedEvent { get; set; }
+
+        private void UpdateSource()
+        {
+            backTarget = ControlName.SelectedItem;
+            ControlName.ItemsSource = BlockEditor.GControlList;
+            ControlName.Items.Refresh();
+
+            if (ControlName.Items.Contains(backTarget))
+            {
+                ControlName.SelectedItem = backTarget;
+            }
+            else
+            {
+                ControlName.SelectedIndex = 0;
+            }
+        }
+
+        protected override void OnBlockEditorChange()
+        {
+            UpdateSource();
+            BlockEditor.PropertyChanged += (s, e) =>
+            {
+                UpdateSource();
+            };
+        }
+
+        private void ControlName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ControlName.SelectedItem != null)
+            {
+                SelectedControl = (KeyValuePair<string, GControl>)ControlName.SelectedItem;
+            }
+        }
+
+        private void EventName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EventName.SelectedItem != null)
+            {
+                SelectedEvent = (GExport)EventName.SelectedItem;
+            }
+        }
         #endregion
 
         // Constructor

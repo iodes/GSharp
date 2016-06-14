@@ -23,13 +23,14 @@ using GSharp.Graphic.Objects.Numbers;
 using GSharp.Extension;
 using GSharp.Extension.Optionals;
 using GSharp.Extension.Exports;
+using System.ComponentModel;
 
 namespace GSharp.Graphic.Controls
 {
     /// <summary>
     /// BlockEditor.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class BlockEditor : UserControl
+    public partial class BlockEditor : UserControl, INotifyPropertyChanged
     {
 
         #region 속성
@@ -44,9 +45,19 @@ namespace GSharp.Graphic.Controls
             }
         }
 
-        //public List<GExtension> GExtensionList { get; set; } = new List<GExtension>();
-
-        public Dictionary<string, GControl> GControlList { get; set; } = new Dictionary<string, GControl>();
+        public Dictionary<string, GControl> GControlList
+        {
+            get
+            {
+                return _GControlList;
+            }
+            set
+            {
+                _GControlList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("GControlList"));
+            }
+        }
+        private Dictionary<string, GControl> _GControlList = new Dictionary<string, GControl>();
         #endregion
 
         #region 객체
@@ -135,6 +146,8 @@ namespace GSharp.Graphic.Controls
         public delegate void CreateVariableRequestedHandler();
 
         public event CreateFunctionRequestedHandler CreateFunctionRequested;
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public delegate void CreateFunctionRequestedHandler();
 
         private void Block_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

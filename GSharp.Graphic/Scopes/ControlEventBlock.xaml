@@ -19,7 +19,7 @@
             <Border BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" BorderBrush="{StaticResource BorderColor}" Height="5" Background="{StaticResource BodyColor}" CornerRadius="2,2,0,0" />
             <Border Background="{StaticResource BodyColor}" BorderThickness="1,0,1,0" BorderBrush="{StaticResource BorderColor}">
                 <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="3">
-                    <ComboBox x:Name="ControlName" SelectedItem="{Binding SelectedControl}">
+                    <ComboBox x:Name="ControlName" SelectionChanged="ControlName_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Key}" />
@@ -27,7 +27,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <TextBlock Text="을(를)" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0"/>
-                    <ComboBox x:Name="EventName">
+                    <ComboBox x:Name="EventName" SelectionChanged="EventName_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding FriendlyName}" />
