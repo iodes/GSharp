@@ -22,8 +22,8 @@ using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Objects.Numbers;
 using GSharp.Extension;
 using GSharp.Extension.Optionals;
-using GSharp.Extension.Exports;
 using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace GSharp.Graphic.Controls
 {
@@ -120,6 +120,22 @@ namespace GSharp.Graphic.Controls
 
             Panel.SetZIndex(Highlighter, int.MaxValue - 1);
             Master.Children.Add(Highlighter);
+
+            DispatcherTimer eventTimer = new DispatcherTimer();
+            eventTimer.Interval = TimeSpan.FromMilliseconds(100);
+            eventTimer.Tick += EventTimer_Tick;
+            eventTimer.Start();
+        }
+
+        string backSource;
+        private void EventTimer_Tick(object sender, EventArgs e)
+        {
+            string source = GetSource();
+            if (backSource != source)
+            {
+                backSource = source;
+                BlockChanged?.Invoke();
+            }
         }
 
         private void BlockViewer_ContextMenuOpening(object sender, ContextMenuEventArgs e)
@@ -257,22 +273,6 @@ namespace GSharp.Graphic.Controls
             CanAttachHoleList.Clear();
 
             ReleaseMouseCapture();
-
-            // 이벤트 발동
-            BlockChanged?.Invoke();
-        }
-
-        private void UserControl_PreviewKeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                BlockChanged?.Invoke();
-            }
-        }
-
-        private void UserControl_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            BlockChanged?.Invoke();
         }
         #endregion
 
@@ -562,9 +562,6 @@ namespace GSharp.Graphic.Controls
                     ObjectHoleList.Add(hole as BaseObjectHole);
                 }
             }
-
-            // 블럭 변경 이벤트 호출
-            BlockChanged?.Invoke();
         }
 
         // 블럭 삭제
@@ -599,8 +596,6 @@ namespace GSharp.Graphic.Controls
 
                 RemoveBlock(hole.AttachedBlock);
             }
-
-            BlockChanged?.Invoke();
         }
 
         // 컴파일
