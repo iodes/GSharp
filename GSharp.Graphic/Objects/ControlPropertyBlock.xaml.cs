@@ -27,6 +27,8 @@ namespace GSharp.Graphic.Objects
     /// </summary>
     public partial class ControlPropertyBlock : SettableObjectBlock
     {
+        private object backTarget;
+
         public override GObject GObject
         {
             get
@@ -63,15 +65,29 @@ namespace GSharp.Graphic.Objects
             return new List<GBase>() { GControlProperty };
         }
 
+        private void UpdateSource()
+        {
+            backTarget = ControlName.SelectedItem;
+            ControlName.ItemsSource = BlockEditor.GControlList;
+            ControlName.Items.Refresh();
+
+            if (ControlName.Items.Contains(backTarget))
+            {
+                ControlName.SelectedItem = backTarget;
+            }
+            else
+            {
+                ControlName.SelectedIndex = 0;
+            }
+        }
 
         protected override void OnBlockEditorChange()
         {
-            ControlName.ItemsSource = BlockEditor.GControlList;
-            if (BlockEditor.GControlList.Count > 0)
+            UpdateSource();
+            BlockEditor.PropertyChanged += (s, e) =>
             {
-                SelectedControl = BlockEditor.GControlList.First();
-                ControlName.SelectedIndex = 0;
-            }
+                UpdateSource();
+            };
         }
 
         public KeyValuePair<string, GControl> SelectedControl
@@ -83,14 +99,8 @@ namespace GSharp.Graphic.Objects
             set
             {
                 _SelectedControl = value;
-
-                var eventList = SelectedControl.Value.Exports.Where(e => e.ObjectType != typeof(void));
-                EventName.ItemsSource = eventList;
-                if (eventList.Count() > 0)
-                {
-                    SelectedEvent = eventList.First();
-                    EventName.SelectedIndex = 0;
-                }
+                EventName.ItemsSource = SelectedControl.Value.Exports.Where(e => e.ObjectType != typeof(void));
+                EventName.SelectedIndex = 0;
             }
         }
         private KeyValuePair<string, GControl> _SelectedControl;
@@ -101,8 +111,23 @@ namespace GSharp.Graphic.Objects
         public ControlPropertyBlock()
         {
             InitializeComponent();
-
             InitializeBlock();
+        }
+
+        private void ControlName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ControlName.SelectedItem != null)
+            {
+                SelectedControl = (KeyValuePair<string, GControl>)ControlName.SelectedItem;
+            }
+        }
+
+        private void EventName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EventName.SelectedItem != null)
+            {
+                SelectedEvent = (GExport)EventName.SelectedItem;
+            }
         }
     }
 }

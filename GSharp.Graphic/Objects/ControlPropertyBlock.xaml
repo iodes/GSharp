@@ -10,7 +10,7 @@
     <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
         <StackPanel Orientation="Horizontal">
 
-            <ComboBox x:Name="ControlName" SelectedItem="{Binding SelectedControl}">
+            <ComboBox x:Name="ControlName" SelectionChanged="ControlName_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Key}" />
@@ -18,7 +18,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Text="의" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0"/>
-            <ComboBox x:Name="EventName">
+            <ComboBox x:Name="EventName" SelectionChanged="EventName_SelectionChanged">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding FriendlyName}" />
