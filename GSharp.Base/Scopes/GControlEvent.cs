@@ -70,6 +70,8 @@ namespace GSharp.Base.Scopes
 
             source.AppendFormat($@"FindControl<{GExport.NamespaceName}>(window, ""{ControlName}"").{GExport.MethodName} += () =>");
             source.AppendLine("\n{");
+            source.AppendLine("    Dispatcher.Invoke(() =>");
+            source.AppendLine("    {");
 
             for (int i = 0; i < Arguments.Count; i++)
             {
@@ -78,9 +80,10 @@ namespace GSharp.Base.Scopes
 
             foreach (GStatement statement in Content)
             {
-                source.AppendLine(ConvertAssistant.Indentation(statement.ToSource()));
+                source.AppendLine(ConvertAssistant.Indentation(statement.ToSource(), 2));
             }
 
+            source.AppendLine("    });");
             source.AppendLine("};");
 
             return source.ToString();
