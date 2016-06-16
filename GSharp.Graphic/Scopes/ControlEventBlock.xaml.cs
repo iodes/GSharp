@@ -144,6 +144,20 @@ namespace GSharp.Graphic.Scopes
             if (EventName.SelectedItem != null)
             {
                 SelectedEvent = (GExport)EventName.SelectedItem;
+
+                AllowVariableList.Clear();
+                ParameterBox.Children.Clear();
+
+                for (int i = 0; i < SelectedEvent.Optionals?.Length; i++)
+                {
+                    VariableBlock variableBlock = BlockUtils.CreateVariableBlock(SelectedEvent.Optionals[i].Name, SelectedEvent.Optionals[i].FriendlyName);
+                    BaseBlock baseBlock = variableBlock as BaseBlock;
+
+                    baseBlock.MouseLeftButtonDown += BaseBlock_MouseLeftButtonDown;
+
+                    AllowVariableList.Add(variableBlock);
+                    ParameterBox.Children.Add(baseBlock);
+                }
             }
         }
         #endregion
@@ -181,6 +195,33 @@ namespace GSharp.Graphic.Scopes
             block.ControlName.SelectedItem = evt;
 
             return block;
+        }
+
+        private void BaseBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var block = sender as VariableBlock;
+            var copiedBlock = Activator.CreateInstance(block.GetType(), new object[] { block.FriendlyName, block.GVariable }) as BaseBlock;
+
+            BlockEditor.AddBlock(copiedBlock);
+
+            var masterPosition = e.GetPosition(BlockEditor.Master);
+            var blockPosition = e.GetPosition(block as BaseBlock);
+
+            copiedBlock.Position = new Point
+            {
+                X = masterPosition.X - blockPosition.X,
+                Y = masterPosition.Y - blockPosition.Y
+            };
+
+            BlockEditor.StartBlockMove(copiedBlock, blockPosition);
+
+            e.Handled = true;
+        }
+
+        protected override void DisableBlock()
+        {
+            base.DisableBlock();
+            ParameterBox.Visibility = Visibility.Collapsed;
         }
     }
 }

@@ -20,7 +20,7 @@
             <Border Background="{StaticResource BodyColor}" BorderThickness="1,0,1,0" BorderBrush="{StaticResource BorderColor}">
                 <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="3">
                     <TextBlock x:Name="StackContentText" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,2"/>
-                    <WrapPanel x:Name="ParameterBox" Orientation="Horizontal">
+                    <WrapPanel x:Name="ParameterBox" Orientation="Horizontal" VerticalAlignment="Center">
                     </WrapPanel>
                 </StackPanel>
             </Border>

@@ -34,7 +34,9 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <TextBlock Text="했을 때" Foreground="White"  VerticalAlignment="Center" FontWeight="Black" Margin="5,0,0,0"/>
+                    <TextBlock Text="했을 때" Foreground="White"  VerticalAlignment="Center" FontWeight="Black" Margin="5,0"/>
+                    <WrapPanel x:Name="ParameterBox" Orientation="Horizontal" VerticalAlignment="Center">
+                    </WrapPanel>
                 </StackPanel>
             </Border>
             <Grid>

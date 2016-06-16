@@ -143,5 +143,10 @@ namespace GSharp.Graphic.Holes
 
             return base.CanAttachBlock(block);
         }
+
+        protected override void DisableHole()
+        {
+            ConstText.IsEnabled = false;
+        }
     }
 }

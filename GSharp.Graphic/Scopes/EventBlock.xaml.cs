@@ -152,5 +152,11 @@ namespace GSharp.Graphic.Scopes
 
             return block;
         }
+
+        protected override void DisableBlock()
+        {
+            base.DisableBlock();
+            ParameterBox.Visibility = Visibility.Collapsed;
+        }
     }
 }

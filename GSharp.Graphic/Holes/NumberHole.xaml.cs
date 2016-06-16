@@ -148,5 +148,10 @@ namespace GSharp.Graphic.Holes
 
             return block;
         }
+
+        protected override void DisableHole()
+        {
+            NumberText.IsEnabled = false;
+        }
     }
 }

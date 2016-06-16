@@ -27,6 +27,19 @@ namespace GSharp.Graphic.Holes
         /// </summary>
         public abstract BaseBlock AttachedBlock { get; }
 
+        public bool IsPreview
+        {
+            set
+            {
+                DisableHole();
+            }
+        }
+
+        protected virtual void DisableHole()
+        {
+
+        }
+
         /// <summary>
         /// 구멍에 블럭이 끼워지거나 떨어지는 이벤트의 대리자입니다.
         /// </summary>

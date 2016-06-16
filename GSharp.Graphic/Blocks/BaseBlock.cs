@@ -33,6 +33,20 @@ namespace GSharp.Graphic.Blocks
         /// 블럭을 GSharp Object로 변환
         /// </summary>
         public abstract List<GBase> ToGObjectList();
+        
+
+        public bool IsPreview
+        {
+            set
+            {
+                DisableBlock();
+            }
+        }
+
+        protected virtual void DisableBlock()
+        {
+            HoleList.ForEach(e => e.IsPreview = true);
+        }
 
         // 블럭 위치
         /// <summary>
