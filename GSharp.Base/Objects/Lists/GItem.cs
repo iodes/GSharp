@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects.Lists
 {
-    public class GItem : GObject
+    public class GItem : GSettableObject
     {
         private GObject Target;
         private GObject Index;
+
+        public override Type SettableType
+        {
+            get
+            {
+                return typeof(object);
+            }
+        }
 
         public GItem(GObject target, GObject idx)
         {

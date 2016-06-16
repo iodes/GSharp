@@ -19,19 +19,21 @@ using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Customs;
 using GSharp.Base.Objects.Lists;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Lists
 {
     /// <summary>
     /// EmptyList.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ItemBlock : ObjectBlock
+    public partial class ItemBlock : SettableObjectBlock
     {
         public GItem GItem
         {
             get
             {
-                var list = ListHole.ObjectBlock?.GObject;
+                var list = ListHole.SettableObjectBlock?.GObject;
                 var index = NumberHole.NumberBlock?.GObject;
 
                 if (list == null || index == null)
@@ -64,6 +66,14 @@ namespace GSharp.Graphic.Objects.Lists
             }
         }
 
+        public override GSettableObject GSettableObject
+        {
+            get
+            {
+                return GItem;
+            }
+        }
+
         private List<BaseHole> _HoleList;
 
         // 생성자
@@ -74,6 +84,17 @@ namespace GSharp.Graphic.Objects.Lists
             _HoleList = new List<BaseHole>() { ListHole, NumberHole };
 
             InitializeBlock();
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var block = new ItemBlock();
+
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+            block.ListHole.SettableObjectBlock = LoadBlock(elementList[0].SelectSingleNode("Block") as XmlElement, blockEditor) as SettableObjectBlock;
+            block.NumberHole.BaseObjectBlock = LoadBlock(elementList[1].SelectSingleNode("Block") as XmlElement, blockEditor) as SettableObjectBlock;
+
+            return block;
         }
     }
 }

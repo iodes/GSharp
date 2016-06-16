@@ -1,4 +1,4 @@
-﻿<core:ObjectBlock x:Class="GSharp.Graphic.Objects.Lists.ItemBlock"
+﻿<objects:SettableObjectBlock x:Class="GSharp.Graphic.Objects.Lists.ItemBlock"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,11 +13,11 @@
     <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="배열" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
-            <hole:ObjectHole x:Name="ListHole" Margin="3,0" />
+            <hole:SettableObjectHole x:Name="ListHole" Margin="3,0" />
             <TextBlock Text="의" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
             <hole:NumberHole x:Name="NumberHole" Margin="3,0" />
             <TextBlock Text="번째 요소" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
         </StackPanel>
     </Border>
     
-</core:ObjectBlock>
+</objects:SettableObjectBlock>
