@@ -1,30 +1,18 @@
-﻿using System;
+﻿using GSharp.Base.Cores;
+using GSharp.Base.Objects;
+using GSharp.Base.Objects.Numbers;
+using GSharp.Graphic.Blocks;
+using GSharp.Graphic.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using GSharp.Graphic.Blocks;
-using GSharp.Graphic.Holes;
-using GSharp.Base.Cores;
-using GSharp.Base.Objects;
-using GSharp.Base.Objects.Numbers;
-using GSharp.Graphic.Objects;
+using System.Xml;
 
-namespace GSharp.Graphic.Objects.Numbers
+namespace GSharp.Graphic.Objects
 {
-    /// <summary>
-    /// NumberConstBlock.xaml에 대한 상호 작용 논리
-    /// </summary>
-    public partial class NumberConstBlock : NumberBlock
+    public class NumberConstBlock : NumberBlock
     {
         #region Objects
         // Number
@@ -78,28 +66,33 @@ namespace GSharp.Graphic.Objects.Numbers
         #endregion
 
         // Constructor
-        public NumberConstBlock()
+        public NumberConstBlock() : this(0)
         {
-            // Initialize Objects
-            _GNumberConst = new GNumberConst(_Number);
-            _GObjectList = new List<GBase> { GNumber };
-
-            InitializeComponent();
-            InitializeBlock();
         }
 
-        // NumberText TextChanged Event
-        private void NumberText_TextChanged(object sender, TextChangedEventArgs e)
+        public NumberConstBlock(double numberConst)
+        {
+            // Initialize Objects
+            _GNumberConst = new GNumberConst(numberConst);
+            _GObjectList = new List<GBase> { GNumber };
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Number", Number.ToString());
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
         {
             double number;
-            if (double.TryParse(NumberText.Text, out number))
+            var constNumber = element.GetAttribute("Number");
+
+            if (!double.TryParse(constNumber, out number))
             {
-                Number = number;
+                number = 0;
             }
-            else
-            {
-                // No!
-            }
+
+            return new NumberConstBlock(number);
         }
     }
 }

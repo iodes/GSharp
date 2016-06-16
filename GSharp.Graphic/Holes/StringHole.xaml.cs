@@ -56,7 +56,7 @@ namespace GSharp.Graphic.Holes
                 }
                 else
                 {
-                    return BlockString;
+                    return new StringConstBlock(StringText.Text);
                 }
             }
             set
@@ -78,6 +78,12 @@ namespace GSharp.Graphic.Holes
                 {
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
+                
+                if (value is StringConstBlock)
+                {
+                    StringText.Text = (value as StringConstBlock).String;
+                    return;
+                }
 
                 // 연결하려는 블럭을 부모에서 제거
                 value?.ParentHole?.DetachBlock();
@@ -88,7 +94,7 @@ namespace GSharp.Graphic.Holes
                 BlockHole.Child = value;
 
                 // 상수 블럭을 보이지 않도록 변경
-                BlockString.Visibility = Visibility.Hidden;
+                StringText.Visibility = Visibility.Hidden;
             }
         }
 
@@ -113,7 +119,7 @@ namespace GSharp.Graphic.Holes
             BlockHole.Child = null;
 
             // 상수 블럭을 보이도록 변경
-            BlockString.Visibility = Visibility.Visible;
+            StringText.Visibility = Visibility.Visible;
 
             return block;
         }

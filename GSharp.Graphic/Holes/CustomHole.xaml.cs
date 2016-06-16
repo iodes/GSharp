@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace GSharp.Graphic.Holes
 {
@@ -101,14 +102,15 @@ namespace GSharp.Graphic.Holes
             return block;
         }
 
-        public CustomHole()
+        public CustomHole(Type type)
         {
             InitializeComponent();
+            CustomType = type;
         }
 
-        public CustomHole(Type type) : this()
+        protected override void SaveHoleAttribute(XmlWriter writer)
         {
-            CustomType = type;
+            writer.WriteAttributeString("CustomType", CustomType.ToString());
         }
     }
 }

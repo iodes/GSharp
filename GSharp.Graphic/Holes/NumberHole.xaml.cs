@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace GSharp.Graphic.Holes
 {
@@ -56,7 +57,13 @@ namespace GSharp.Graphic.Holes
                 }
                 else
                 {
-                    return BlockNumber;
+                    double result;
+                    if (!double.TryParse(NumberText.Text, out result))
+                    {
+                        result = 0;
+                    }
+
+                    return new NumberConstBlock(result);
                 }
             }
             set
@@ -79,6 +86,12 @@ namespace GSharp.Graphic.Holes
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
 
+                if (value is NumberConstBlock)
+                {
+                    NumberText.Text = (value as NumberConstBlock).Number.ToString();
+                    return;
+                }
+
                 // 연결하려는 블럭을 부모에서 제거
                 value?.ParentHole?.DetachBlock();
 
@@ -88,7 +101,7 @@ namespace GSharp.Graphic.Holes
                 BlockHole.Child = value;
                 
                 // 상수 블럭을 보이지 않도록 변경
-                BlockNumber.Visibility = Visibility.Hidden;
+                NumberText.Visibility = Visibility.Hidden;
             }
         }
 
@@ -101,7 +114,7 @@ namespace GSharp.Graphic.Holes
 
         public NumberHole(double initialValue) : this()
         {
-            BlockNumber.Number = initialValue;
+            NumberText.Text = initialValue.ToString();
         }
 
         public NumberHole(Type type) : this()
@@ -111,7 +124,7 @@ namespace GSharp.Graphic.Holes
 
         public NumberHole(Type type, double initialValue) :this()
         {
-            BlockNumber.Number = initialValue;
+            NumberText.Text = initialValue.ToString();
             NumberType = type;
         }
 
@@ -131,7 +144,7 @@ namespace GSharp.Graphic.Holes
             BlockHole.Child = null;
 
             // 상수 블럭을 보이도록 변경
-            BlockNumber.Visibility = Visibility.Visible;
+            NumberText.Visibility = Visibility.Visible;
 
             return block;
         }

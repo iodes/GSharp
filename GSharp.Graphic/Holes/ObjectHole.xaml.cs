@@ -1,6 +1,8 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Objects;
+using GSharp.Graphic.Objects.Numbers;
+using GSharp.Graphic.Objects.Strings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,11 +52,26 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return BlockHole.Child as ObjectBlock;
+                if (BlockHole.Child != null)
+                {
+                    return BlockHole.Child as ObjectBlock;
+                }
+                else
+                {
+                    double result;
+                    if (double.TryParse(ConstText.Text, out result))
+                    {
+                        return new NumberConstBlock(result);
+                    }
+                    else
+                    {
+                        return new StringConstBlock(ConstText.Text);
+                    }
+                }
             }
             set
             {
-                var prevBlock = ObjectBlock;
+                var prevBlock = BlockHole.Child;
 
                 // 제거는 DetachBlock으로
                 if (value == null)
@@ -72,6 +89,18 @@ namespace GSharp.Graphic.Holes
                     throw new Exception("이미 블럭이 존재합니다.");
                 }
 
+                if (value is NumberConstBlock)
+                {
+                    ConstText.Text = (value as NumberConstBlock).Number.ToString();
+                    return;
+                }
+
+                if (value is StringConstBlock)
+                {
+                    ConstText.Text = (value as StringConstBlock).String;
+                    return;
+                }
+
                 // 연결하려는 블럭을 부모에서 제거
                 value?.ParentHole?.DetachBlock();
                 
@@ -79,6 +108,8 @@ namespace GSharp.Graphic.Holes
                 value.ParentHole = this;
                 BlockAttached?.Invoke(this, value);
                 BlockHole.Child = value;
+
+                ConstText.Visibility = Visibility.Hidden;
             }
         }
 
@@ -86,7 +117,6 @@ namespace GSharp.Graphic.Holes
         {
             InitializeComponent();
         }
-
 
         // 연결된 블럭을 제거
         public override BaseBlock DetachBlock()
@@ -98,6 +128,8 @@ namespace GSharp.Graphic.Holes
 
             // 블럭 연결 해제
             BlockHole.Child = null;
+
+            ConstText.Visibility = Visibility.Visible;
 
             return block;
         }
