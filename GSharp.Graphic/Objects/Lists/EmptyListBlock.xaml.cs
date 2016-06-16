@@ -19,6 +19,8 @@ using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Customs;
 using GSharp.Base.Objects.Lists;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Lists
 {
@@ -59,6 +61,11 @@ namespace GSharp.Graphic.Objects.Lists
             _GObjectList = new List<GBase>() { GObject };
 
             InitializeBlock();
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            return new EmptyListBlock();
         }
     }
 }

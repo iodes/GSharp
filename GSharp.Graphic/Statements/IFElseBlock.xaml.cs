@@ -17,6 +17,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Statements;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Statements
 {
@@ -126,6 +128,28 @@ namespace GSharp.Graphic.Statements
             {
                 return IfChildConnectHole;
             }
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            BlockUtils.SaveChildBlocks(writer, IfChildConnectHole.AttachedBlock, "IfChildBlocks");
+            BlockUtils.SaveChildBlocks(writer, ElseChildConnectHole.AttachedBlock, "ElseChildBlocks");
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var block = new IfElseBlock();
+
+            XmlNode node = element.SelectSingleNode("Holes/Hole/Block");
+            block.LogicHole.LogicBlock = LoadBlock(node as XmlElement, blockEditor) as ObjectBlock;
+
+            XmlNode childList = element.SelectSingleNode("IfChildBlocks");
+            block.IfChildConnectHole.StatementBlock = LoadChildBlocks(childList as XmlElement, blockEditor);
+
+            childList = element.SelectSingleNode("ElseChildBlocks");
+            block.ElseChildConnectHole.StatementBlock = LoadChildBlocks(childList as XmlElement, blockEditor);
+
+            return block;
         }
     }
 }

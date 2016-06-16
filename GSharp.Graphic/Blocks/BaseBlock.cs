@@ -6,6 +6,9 @@ using System.Windows.Controls;
 using System;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Controls;
+using System.Xml;
+using GSharp.Graphic.Statements;
+using System.Linq;
 
 namespace GSharp.Graphic.Blocks
 {
@@ -127,6 +130,79 @@ namespace GSharp.Graphic.Blocks
 
                 ParentHole?.ParentBlock?.OnBlockDetached(hole, block);
             }
+        }
+
+        public void SaveXML(XmlWriter writer)
+        {
+            writer.WriteStartElement("Block");
+            writer.WriteAttributeString("BlockType", GetType().ToString());
+            SaveBlockAttribute(writer);
+
+            var ObjectHoleList = HoleList.Where(e => !(e is NextConnectHole));
+
+            if (ObjectHoleList.Any())
+            {
+                writer.WriteStartElement("Holes");
+                foreach (var hole in ObjectHoleList)
+                {
+                   hole.SaveXML(writer);
+                }
+                writer.WriteEndElement(); // End Holes
+            }
+
+            writer.WriteEndElement(); // End Block
+
+            SaveNextBlock(writer);
+        }
+
+        protected virtual void SaveBlockAttribute(XmlWriter writer) { }
+        protected virtual void SaveNextBlock(XmlWriter writer) { }
+
+        public static BaseBlock LoadBlock(XmlElement element, BlockEditor blockEditor)
+        {
+            if (element == null)
+            {
+                return null;
+            }
+
+            var blockTypeString = element.GetAttribute("BlockType");
+            var blockType = Type.GetType(blockTypeString);
+
+            var baseBlock = blockType.GetMethod("LoadBlockFromXml")?.Invoke(null, new object[] { element, blockEditor }) as BaseBlock;
+            blockEditor.AddBlock(baseBlock);
+            blockEditor.DetachFromCanvas(baseBlock);
+
+            return baseBlock;
+        }
+
+        public static StatementBlock LoadChildBlocks(XmlElement element, BlockEditor blockEditor)
+        {
+            XmlNodeList blockElements = element.SelectNodes("Block");
+            
+            if (blockElements.Count <= 0)
+            {
+                return null;
+            }
+
+            var firstBlock = LoadBlock(blockElements[0] as XmlElement, blockEditor) as StatementBlock;
+            var prevBlock = firstBlock;
+
+            for (int i=1; i<blockElements.Count; i++)
+            {
+                if (prevBlock is PrevStatementBlock)
+                {
+                    var block = LoadBlock(blockElements[i] as XmlElement, blockEditor) as StatementBlock;
+                    (prevBlock as PrevStatementBlock).NextConnectHole.StatementBlock = block;
+
+                    prevBlock = block;
+                }
+                else
+                {
+                    throw new Exception("Statement를 붙일 수 없습니다.");
+                }
+            }
+
+            return firstBlock;
         }
     }
 }

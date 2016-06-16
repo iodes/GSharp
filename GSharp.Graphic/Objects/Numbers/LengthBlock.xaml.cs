@@ -5,6 +5,8 @@ using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Base.Objects.Numbers;
 using System;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Numbers
 {
@@ -70,5 +72,14 @@ namespace GSharp.Graphic.Objects.Numbers
             InitializeBlock();
         }
         #endregion
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            LengthBlock block = new LengthBlock();
+            XmlNode node = element.SelectSingleNode("Holes/Hole/Block");
+            block.StringHole1.StringBlock = LoadBlock(node as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
+        }
     }
 }

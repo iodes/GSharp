@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml;
 
 namespace GSharp.Graphic.Holes
 {
@@ -58,7 +59,7 @@ namespace GSharp.Graphic.Holes
             {
                 return false;
             }
-            
+
             if (block is VariableBlock)
             {
                 var varBlock = block as VariableBlock;
@@ -80,5 +81,19 @@ namespace GSharp.Graphic.Holes
         /// </summary>
         /// <returns>떨어진 블럭을 반환</returns>
         public abstract BaseBlock DetachBlock();
+
+
+        public void SaveXML(XmlWriter writer)
+        {
+            writer.WriteStartElement("Hole");
+            writer.WriteAttributeString("HoleType", GetType().ToString());
+
+            SaveHoleAttribute(writer);
+            AttachedBlock?.SaveXML(writer);
+
+            writer.WriteEndElement();
+        }
+
+        protected virtual void SaveHoleAttribute(XmlWriter writer) { }
     }
 }

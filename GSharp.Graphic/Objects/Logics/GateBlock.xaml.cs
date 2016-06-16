@@ -20,6 +20,8 @@ using GSharp.Base.Statements;
 using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Logics;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Logics
 {
@@ -45,10 +47,8 @@ namespace GSharp.Graphic.Objects.Logics
             {
                 GObject logic1 = LogicHole1.LogicBlock?.GObject;
                 GObject logic2 = LogicHole2.LogicBlock?.GObject;
-
-                GGate.GateType op = GetGateType();
-
-                return new GGate(logic1, op, logic2);
+                
+                return new GGate(logic1, GateType, logic2);
             }
         }
 
@@ -80,16 +80,56 @@ namespace GSharp.Graphic.Objects.Logics
             InitializeBlock();
         }
 
-        public GGate.GateType GetGateType()
+        public GateBlock(GGate.GateType gateType) : this()
         {
-            if (Operator.SelectedIndex == 0)
+            if (gateType == GGate.GateType.AND)
             {
-                return GGate.GateType.AND;
+                Operator.SelectedIndex = 0;
             }
             else
             {
-                return  GGate.GateType.OR;
+                Operator.SelectedIndex = 1;
             }
+        }
+
+        public GGate.GateType GateType
+        {
+            get
+            {
+                if (Operator.SelectedIndex == 0)
+                {
+                    return GGate.GateType.AND;
+                }
+                else
+                {
+                    return  GGate.GateType.OR;
+                }
+            }
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Gate", GateType.ToString());
+        }
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            GateBlock block;
+            GGate.GateType gateType;
+
+            var gateTypeString = element.GetAttribute("Gate");
+            if (Enum.TryParse(gateTypeString, out gateType))
+            {
+                block = new GateBlock(gateType);
+            }
+
+            block = new GateBlock();
+
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+            block.LogicHole1.LogicBlock = LoadBlock(elementList[0].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+            block.LogicHole2.LogicBlock = LoadBlock(elementList[1].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
         }
     }
 }

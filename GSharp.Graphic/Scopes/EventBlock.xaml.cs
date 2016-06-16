@@ -19,6 +19,8 @@ using GSharp.Base.Scopes;
 using GSharp.Extension;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Objects.Strings;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Scopes
 {
@@ -43,9 +45,10 @@ namespace GSharp.Graphic.Scopes
         {
             get
             {
-                return GEvent.GCommand;
+                return _GCommand;
             }
         }
+        private GCommand _GCommand;
 
         public GEvent GEvent
         {
@@ -95,7 +98,8 @@ namespace GSharp.Graphic.Scopes
 
             StackContentText.Text = command.FriendlyName;
 
-            _GEvent = new GEvent(command);
+            _GCommand = command;
+            _GEvent = new GEvent(_GCommand);
 
             // Initialize Hole List
             HoleList.Add(NextConnectHole);
@@ -134,6 +138,19 @@ namespace GSharp.Graphic.Scopes
             BlockEditor.StartBlockMove(copiedBlock, blockPosition);
 
             e.Handled = true;
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            BlockUtils.SaveGCommand(writer, GCommand);
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var command = BlockUtils.LoadGCommand(element);
+            var block = new EventBlock(command);
+
+            return block;
         }
     }
 }

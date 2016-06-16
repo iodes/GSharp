@@ -17,6 +17,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects.Logics;
 using GSharp.Base.Objects;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Logics
 {
@@ -69,6 +71,16 @@ namespace GSharp.Graphic.Objects.Logics
             _HoleList = new List<BaseHole>() { LogicHole1 };
 
             InitializeBlock();
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            NotBlock block = new NotBlock();
+
+            XmlNode node = element.SelectSingleNode("Holes/Hole/Block");
+            block.LogicHole1.LogicBlock = LoadBlock(node as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
         }
     }
 }

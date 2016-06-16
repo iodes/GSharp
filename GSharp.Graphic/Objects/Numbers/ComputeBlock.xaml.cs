@@ -5,6 +5,8 @@ using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Base.Objects.Numbers;
 using System;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Numbers
 {
@@ -112,5 +114,30 @@ namespace GSharp.Graphic.Objects.Numbers
             InitializeBlock();
         }
         #endregion
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Operator", OperatorType.ToString());
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            ComputeBlock block;
+            GCompute.OperatorType operatorType;
+
+            var gateTypeString = element.GetAttribute("Gate");
+            if (!Enum.TryParse(gateTypeString, out operatorType))
+            {
+                operatorType = GCompute.OperatorType.PLUS;
+            }
+
+            block = new ComputeBlock(operatorType);
+
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+            block.NumberHole1.NumberBlock = LoadBlock(elementList[0].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+            block.NumberHole2.NumberBlock = LoadBlock(elementList[1].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
+        }
     }
 }

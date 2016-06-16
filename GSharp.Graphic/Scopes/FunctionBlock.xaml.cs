@@ -17,6 +17,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Scopes;
 using GSharp.Extension;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Scopes
 {
@@ -117,5 +119,19 @@ namespace GSharp.Graphic.Scopes
             }
         }
         #endregion
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("FunctionName", GFunction.FunctionName);
+            BlockUtils.SaveChildBlocks(writer, NextConnectHole.AttachedBlock);
+        }
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var functionName = element.GetAttribute("FunctionName");
+            var block = new FunctionBlock(new GFunction(functionName));
+
+            return block;
+        }
     }
 }

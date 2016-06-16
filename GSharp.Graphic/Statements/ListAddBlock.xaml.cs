@@ -19,6 +19,8 @@ using GSharp.Base.Objects;
 using GSharp.Base.Statements;
 using GSharp.Base.Objects.Numbers;
 using GSharp.Graphic.Objects;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Statements
 {
@@ -95,6 +97,18 @@ namespace GSharp.Graphic.Statements
             }
 
             return baseList;
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var block = new ListAddBlock();
+
+            XmlNodeList nodeList = element.SelectNodes("Holes/Hole");
+
+            block.SettableObjectHole.SettableObjectBlock = LoadBlock(nodeList[0].SelectSingleNode("Block") as XmlElement, blockEditor) as SettableObjectBlock;
+            block.ObjectHole.ObjectBlock = LoadBlock(nodeList[1].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
         }
     }
 }

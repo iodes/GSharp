@@ -19,13 +19,15 @@ using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Numbers;
 using GSharp.Base.Objects.Customs;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects
 {
     /// <summary>
-    /// CustomCallBlock.xaml에 대한 상호 작용 논리
+    /// ObjectCallBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ObjectCallBlock : ObjectBlock
+    public partial class ObjectCallBlock : ObjectBlock, IModuleBlock
     {
         public GCommand GCommand
         {
@@ -86,6 +88,26 @@ namespace GSharp.Graphic.Objects
             _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            BlockUtils.SaveGCommand(writer, GCommand);
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            GCommand command = BlockUtils.LoadGCommand(element);
+
+            ObjectCallBlock block = new ObjectCallBlock(command);
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+
+            for (int i=0; i< block.HoleList.Count; i++)
+            {
+                BlockUtils.ConnectToHole(block.HoleList[i], LoadBlock(elementList[i].SelectSingleNode("Block") as XmlElement, blockEditor));
+            }
+
+            return block;
         }
     }
 }

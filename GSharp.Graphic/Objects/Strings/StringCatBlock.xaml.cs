@@ -18,6 +18,8 @@ using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Strings;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Strings
 {
@@ -79,6 +81,17 @@ namespace GSharp.Graphic.Objects.Strings
             _HoleList = new List<BaseHole> { StringHole1, StringHole2 };
 
             InitializeBlock();
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            StringCatBlock block = new StringCatBlock();
+            
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+            block.StringHole1.StringBlock = LoadBlock(elementList[0].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+            block.StringHole2.StringBlock = LoadBlock(elementList[1].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
         }
     }
 }

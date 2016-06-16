@@ -1,5 +1,6 @@
 ﻿using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
+using System.Xml;
 
 namespace GSharp.Graphic.Statements
 {
@@ -19,6 +20,11 @@ namespace GSharp.Graphic.Statements
             }
 
             return NextConnectHole.StatementBlock.GetLastBlock();
+        }
+
+        protected override sealed void SaveNextBlock(XmlWriter writer)
+        {
+            NextConnectHole.AttachedBlock?.SaveXML(writer);
         }
     }
 }

@@ -17,6 +17,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects.Logics;
 using GSharp.Base.Objects;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Logics
 {
@@ -45,10 +47,8 @@ namespace GSharp.Graphic.Objects.Logics
                 {
                     throw new ToObjectException("블럭이 완성되지 않았습니다.", this);
                 }
-
-                GCompare.ConditionType op = GetConditionType();
-
-                return new GCompare(obj1, op, obj2);
+                
+                return new GCompare(obj1, ConditionType, obj2);
             }
         }
 
@@ -78,36 +78,93 @@ namespace GSharp.Graphic.Objects.Logics
             InitializeBlock();
         }
 
-        public GCompare.ConditionType GetConditionType()
+        public CompareBlock(GCompare.ConditionType conditionType) : this()
         {
-            switch (Operator.Text)
+            var conditionString = GetConditionString(conditionType);
+            Operator.SelectedValue = conditionString;
+        }
+
+        public GCompare.ConditionType ConditionType
+        {
+            get
             {
-                case "=":
-                    return GCompare.ConditionType.EQUAL;
+                switch (Operator.Text)
+                {
+                    case "=":
+                        return GCompare.ConditionType.EQUAL;
 
-                case "≠":
-                    return GCompare.ConditionType.NOT_EQUAL;
+                    case "≠":
+                        return GCompare.ConditionType.NOT_EQUAL;
 
-                case "≤":
-                    return GCompare.ConditionType.LESS_THEN_OR_EQUAL;
+                    case "≤":
+                        return GCompare.ConditionType.LESS_THEN_OR_EQUAL;
 
-                case "≥":
-                    return GCompare.ConditionType.GREATER_THEN_OR_EQUAL;
+                    case "≥":
+                        return GCompare.ConditionType.GREATER_THEN_OR_EQUAL;
 
-                case "<":
-                    return GCompare.ConditionType.LESS_THEN;
+                    case "<":
+                        return GCompare.ConditionType.LESS_THEN;
 
-                case ">":
-                    return GCompare.ConditionType.GREATER_THEN;
+                    case ">":
+                        return GCompare.ConditionType.GREATER_THEN;
 
-                default:
-                    return GCompare.ConditionType.EQUAL;
+                    default:
+                        return GCompare.ConditionType.EQUAL;
+                }
             }
         }
 
-        public string GetConditionString()
+        public string GetConditionString(GCompare.ConditionType conditionType)
         {
-            return GetConditionType().ToString();
+            switch (conditionType)
+            {
+                case GCompare.ConditionType.EQUAL:
+                    return "=";
+
+                case GCompare.ConditionType.NOT_EQUAL:
+                    return "≠";
+
+                case GCompare.ConditionType.LESS_THEN_OR_EQUAL:
+                    return "≤";
+
+                case GCompare.ConditionType.GREATER_THEN_OR_EQUAL:
+                    return "≥";
+
+                case GCompare.ConditionType.LESS_THEN:
+                    return "<";
+
+                case GCompare.ConditionType.GREATER_THEN:
+                    return ">";
+
+                default:
+                    return "=";
+            }
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("Condition", ConditionType.ToString());
+        }
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            CompareBlock block;
+            GCompare.ConditionType conditionType;
+
+            var conditionTypeString = element.GetAttribute("Condition");
+            if (Enum.TryParse(conditionTypeString, out conditionType))
+            {
+                block = new CompareBlock(conditionType);
+            }
+            else {
+                block = new CompareBlock();
+            }
+
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+            block.ObjectHole1.ObjectBlock = LoadBlock(elementList[0].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+            block.ObjectHole2.ObjectBlock = LoadBlock(elementList[1].SelectSingleNode("Block") as XmlElement, blockEditor) as ObjectBlock;
+
+            return block;
         }
     }
 }

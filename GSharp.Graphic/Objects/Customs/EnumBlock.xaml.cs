@@ -18,6 +18,8 @@ using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Customs;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects.Customs
 {
@@ -93,6 +95,17 @@ namespace GSharp.Graphic.Objects.Customs
         private void EnumName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _GEnum.SelectedIndex = (sender as ComboBox).SelectedIndex;
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            BlockUtils.SaveGCommand(writer, GCommand);
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var command = BlockUtils.LoadGCommand(element);
+            return new EnumBlock(command);
         }
     }
 }

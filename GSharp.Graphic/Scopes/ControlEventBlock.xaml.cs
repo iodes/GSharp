@@ -21,6 +21,7 @@ using GSharp.Graphic.Objects;
 using GSharp.Graphic.Objects.Strings;
 using GSharp.Extension.Exports;
 using GSharp.Graphic.Controls;
+using System.Xml;
 
 namespace GSharp.Graphic.Scopes
 {
@@ -158,6 +159,28 @@ namespace GSharp.Graphic.Scopes
 
             // Initialize Block
             InitializeBlock();
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("SelectedControlName", SelectedControl.Key);
+            writer.WriteAttributeString("SelectedEventName", SelectedEvent.FullName);
+        }
+
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            ControlEventBlock block = new ControlEventBlock();
+
+            var controlName = element.GetAttribute("SelectedControlName");
+            var eventName = element.GetAttribute("SelectedEventName");
+
+            var control = block.BlockEditor.GControlList[controlName];
+            var evt = control.Exports.Where(e => e.FullName == eventName);
+
+            block.EventName.SelectedItem = control;
+            block.ControlName.SelectedItem = evt;
+
+            return block;
         }
     }
 }

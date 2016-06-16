@@ -18,6 +18,8 @@ using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Objects.Strings;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects
 {
@@ -78,6 +80,18 @@ namespace GSharp.Graphic.Objects
             PropertyName.Text = command.FriendlyName;
 
             InitializeBlock();
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            BlockUtils.SaveGCommand(writer, GCommand);
+        }
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            GCommand command = BlockUtils.LoadGCommand(element);
+
+            return new PropertyBlock(command);
         }
     }
 }

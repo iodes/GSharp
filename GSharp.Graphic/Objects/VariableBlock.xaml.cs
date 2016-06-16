@@ -17,6 +17,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Base.Objects.Numbers;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Objects
 {
@@ -81,6 +83,20 @@ namespace GSharp.Graphic.Objects
             _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            writer.WriteAttributeString("FriendlyName", FriendlyName);
+            writer.WriteAttributeString("VariableName", GVariable.Name);
+        }
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            var friendlyName = element.GetAttribute("FriendlyName");
+            var variableName = element.GetAttribute("VariableName");
+            
+            return new VariableBlock(friendlyName, new GVariable(variableName));
         }
     }
 }

@@ -5,6 +5,7 @@ using GSharp.Base.Objects.Numbers;
 using GSharp.Base.Objects.Strings;
 using GSharp.Base.Utilities;
 using GSharp.Extension;
+using GSharp.Extension.Optionals;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Holes;
 using GSharp.Graphic.Objects;
@@ -20,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Xml;
 
 namespace GSharp.Graphic
 {
@@ -177,6 +179,86 @@ namespace GSharp.Graphic
             }
 
             return new VariableBlock(friendlyName, variable);
+        }
+
+        public static void SaveGCommand(XmlWriter writer, GCommand command)
+        {
+            writer.WriteAttributeString("NamespaceName", command.NamespaceName);
+            writer.WriteAttributeString("MethodName", command.MethodName);
+            writer.WriteAttributeString("FriendlyName", command.FriendlyName);
+            writer.WriteAttributeString("MethodType", command.MethodType.ToString());
+            writer.WriteAttributeString("ObjectType", command.ObjectType.ToString());
+
+            if (command.Optionals != null)
+            {
+                writer.WriteStartElement("Optionals");
+
+                foreach (var option in command.Optionals)
+                {
+                    writer.WriteStartElement("Optional");
+
+                    writer.WriteAttributeString("Name", option.Name);
+                    writer.WriteAttributeString("FullName", option.FullName);
+                    writer.WriteAttributeString("FriendlyName", option.FriendlyName);
+                    writer.WriteAttributeString("ObjectType", option.ObjectType.ToString());
+
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndElement();
+            }
+        }
+
+        public static GCommand LoadGCommand(XmlElement element)
+        {
+            var namespaceName = element.GetAttribute("NamespaceName");
+            var methodName = element.GetAttribute("MethodName");
+            var friendlyName = element.GetAttribute("FriendlyName");
+            var methodType = element.GetAttribute("MethodType");
+            var objectType = element.GetAttribute("ObjectType");
+
+            GCommand.CommandType methodEnum;
+            if (!Enum.TryParse(methodType, out methodEnum))
+            {
+                throw new Exception("CommandType 로드에 실패했습니다.");
+            }
+
+            var options = new List<GOptional>();
+
+            foreach (XmlElement option in element.SelectNodes("Optionals/Optional"))
+            {
+                var optionName = option.GetAttribute("Name");
+                var optionFullName = option.GetAttribute("FullName");
+                var optionFriendlyName = option.GetAttribute("FriendlyName");
+                var optionObjectType = option.GetAttribute("ObjectType");
+
+                options.Add(new GOptional(optionName, optionFullName, optionFriendlyName, Type.GetType(optionObjectType)));
+            }
+
+            return new GCommand(namespaceName, methodName, friendlyName, Type.GetType(objectType), methodEnum, options.ToArray());
+        }
+
+        public static void SaveChildBlocks(XmlWriter writer, BaseBlock block, string tagName = "ChildBlocks")
+        {
+            writer.WriteStartElement(tagName);
+            block?.SaveXML(writer);
+            writer.WriteEndElement();
+        }
+
+        public static void ConnectToHole(BaseHole baseHole, BaseBlock baseBlock)
+        {
+            if (baseHole is BaseObjectHole)
+            {
+                (baseHole as BaseObjectHole).BaseObjectBlock = baseBlock as SettableObjectBlock;
+            }
+            else if (baseHole is SettableObjectHole)
+            {
+                (baseHole as SettableObjectHole).SettableObjectBlock = baseBlock as SettableObjectBlock;
+            }
+            else if (baseHole is NextConnectHole)
+            {
+                (baseHole as NextConnectHole).StatementBlock = baseBlock as StatementBlock;
+            }
         }
     }
 }

@@ -20,6 +20,8 @@ using GSharp.Graphic.Objects;
 using GSharp.Base.Objects;
 using GSharp.Extension;
 using GSharp.Base.Scopes;
+using System.Xml;
+using GSharp.Graphic.Controls;
 
 namespace GSharp.Graphic.Statements
 {
@@ -119,6 +121,26 @@ namespace GSharp.Graphic.Statements
             _HoleList.Add(NextConnectHole);
 
             InitializeBlock();
+        }
+
+        protected override void SaveBlockAttribute(XmlWriter writer)
+        {
+            BlockUtils.SaveGCommand(writer, GCommand);
+        }
+        
+        public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
+        {
+            GCommand command = BlockUtils.LoadGCommand(element);
+
+            VoidCallBlock block = new VoidCallBlock(command);
+            XmlNodeList elementList = element.SelectNodes("/Holes/Hole");
+
+            for (int i = 0; i < block.HoleList.Count; i++)
+            {
+                BlockUtils.ConnectToHole(block.HoleList[i], LoadBlock(elementList[i].SelectSingleNode("Block") as XmlElement, blockEditor));
+            }
+
+            return block;
         }
     }
 }

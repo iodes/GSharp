@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace GSharp.Graphic.Blocks
 {
@@ -16,6 +17,11 @@ namespace GSharp.Graphic.Blocks
 
         public ScopeBlock()
         {
+        }
+
+        protected override sealed void SaveNextBlock(XmlWriter writer)
+        {
+            NextConnectHole.AttachedBlock?.SaveXML(writer);
         }
     }
 }
