@@ -65,6 +65,8 @@ namespace GSharp.Base.Scopes
 
             source.AppendFormat("{0}.{1} += ({2}) => \n", GCommand.NamespaceName, GCommand.MethodName, argumentsStr);
             source.AppendLine("{");
+            source.AppendLine("    Dispatcher.Invoke(() =>");
+            source.AppendLine("    {");
 
             for (int i=0; i<Arguments.Count; i++)
             {
@@ -73,8 +75,10 @@ namespace GSharp.Base.Scopes
 
             foreach (GStatement statement in Content)
             {
-                source.AppendLine(ConvertAssistant.Indentation(statement.ToSource()));
+                source.AppendLine(ConvertAssistant.Indentation(statement.ToSource(), 2));
             }
+
+            source.AppendLine("    });");
             source.AppendLine("};");
 
             return source.ToString();

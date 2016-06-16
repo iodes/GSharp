@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows.Input;
+using System.Windows.Controls;
 using GSharp.Extension.Attributes;
 
 namespace GSharp.Extension.Abstracts
@@ -26,32 +27,32 @@ namespace GSharp.Extension.Abstracts
         #region 생성자
         public GView()
         {
-            PreviewMouseLeftButtonUp += GView_PreviewMouseLeftButtonUp;
+            base.MouseEnter += GView_MouseEnter;
+            base.MouseLeave += GView_MouseLeave;
             PreviewMouseMove += GView_PreviewMouseMove;
-            MouseLeave += GView_MouseLeave;
-            MouseEnter += GView_MouseEnter;
+            PreviewMouseLeftButtonUp += GView_PreviewMouseLeftButtonUp;
         }
         #endregion
 
         #region 기본 이벤트
-        private void GView_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void GView_MouseEnter(object sender, MouseEventArgs e)
         {
-            Click?.Invoke();
+            MouseEnter?.Invoke();
         }
 
-        private void GView_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            MouseMove?.Invoke();
-        }
-
-        private void GView_MouseLeave()
+        private void GView_MouseLeave(object sender, MouseEventArgs e)
         {
             MouseLeave?.Invoke();
         }
 
-        private void GView_MouseEnter()
+        private void GView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            MouseEnter?.Invoke();
+            MouseMove?.Invoke();
+        }
+
+        private void GView_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Click?.Invoke();
         }
         #endregion
     }
