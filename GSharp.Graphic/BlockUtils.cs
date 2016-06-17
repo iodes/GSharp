@@ -249,7 +249,7 @@ namespace GSharp.Graphic
         {
             if (baseHole is BaseObjectHole)
             {
-                (baseHole as BaseObjectHole).BaseObjectBlock = baseBlock as SettableObjectBlock;
+                (baseHole as BaseObjectHole).BaseObjectBlock = baseBlock as ObjectBlock;
             }
             else if (baseHole is SettableObjectHole)
             {

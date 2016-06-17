@@ -133,9 +133,10 @@ namespace GSharp.Graphic.Statements
             GCommand command = BlockUtils.LoadGCommand(element);
 
             VoidCallBlock block = new VoidCallBlock(command);
-            XmlNodeList elementList = element.SelectNodes("/Holes/Hole");
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+            var holeList = block.HoleList.Where(e => !(e is NextConnectHole));
 
-            for (int i = 0; i < block.HoleList.Count; i++)
+            for (int i = 0; i < holeList.Count(); i++)
             {
                 BlockUtils.ConnectToHole(block.HoleList[i], LoadBlock(elementList[i].SelectSingleNode("Block") as XmlElement, blockEditor));
             }
