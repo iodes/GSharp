@@ -10,24 +10,18 @@
              d:DesignHeight="30"
              d:DesignWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top"
              SnapsToDevicePixels="True">
-    <StackPanel Orientation="Vertical">
+    <Border HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="1" CornerRadius="2" Padding="3">
         <StackPanel Orientation="Horizontal">
-            <Path Panel.ZIndex="1" Data="M 0,10 10,0 13,0 L 13,20 10, 20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
-            <Border Panel.ZIndex="2" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="0,1" Margin="0,0,-2,0">
-                <StackPanel Orientation="Horizontal" Margin="2">
-                    <hole:ObjectHole x:Name="ObjectHole1" VerticalAlignment="Center" Foreground="#FF3B760B"/>
-                    <ComboBox x:Name="Operator" Margin="3,0" SelectedIndex="0" VerticalAlignment="Center">
-                        <ComboBoxItem Content="=" />
-                        <ComboBoxItem Content="≠" />
-                        <ComboBoxItem Content="≤" />
-                        <ComboBoxItem Content="≥" />
-                        <ComboBoxItem Content="&lt;" />
-                        <ComboBoxItem Content="&gt;" />
-                    </ComboBox>
-                    <hole:ObjectHole x:Name="ObjectHole2" VerticalAlignment="Center" Foreground="#FF3B760B"/>
-                </StackPanel>
-            </Border>
-            <Path Panel.ZIndex="1" Data="M 0,0 3,0 13,10 L 3,20 0,20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
+            <hole:ObjectHole x:Name="ObjectHole1" VerticalAlignment="Center" Foreground="#FF3B760B"/>
+            <ComboBox x:Name="Operator" Margin="3,0" SelectedIndex="0" VerticalAlignment="Center">
+                <ComboBoxItem Content="=" />
+                <ComboBoxItem Content="≠" />
+                <ComboBoxItem Content="≤" />
+                <ComboBoxItem Content="≥" />
+                <ComboBoxItem Content="&lt;" />
+                <ComboBoxItem Content="&gt;" />
+            </ComboBox>
+            <hole:ObjectHole x:Name="ObjectHole2" VerticalAlignment="Center" Foreground="#FF3B760B"/>
         </StackPanel>
-    </StackPanel>
+    </Border>
 </objects:LogicBlock>

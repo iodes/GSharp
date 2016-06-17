@@ -9,20 +9,15 @@
              mc:Ignorable="d"
              d:DesignHeight="200"
              d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
-    <StackPanel Orientation="Vertical">
+
+    <Border HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="1" CornerRadius="2" Padding="3">
         <StackPanel Orientation="Horizontal">
-            <Path Panel.ZIndex="1" Data="M 0,10 10,0 13,0 L 13,20 10, 20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
-            <Border Panel.ZIndex="2" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="0,1" Margin="0,0,-2,0">
-                <StackPanel Orientation="Horizontal" Margin="2">
-                    <hole:LogicHole x:Name="LogicHole1" VerticalAlignment="Center" Foreground="#FF3B760B" />
-                    <ComboBox Name="Operator" SelectedIndex="0" Margin="3,0" VerticalAlignment="Center">
-                        <ComboBoxItem>이면서</ComboBoxItem>
-                        <ComboBoxItem>이거나</ComboBoxItem>
-                    </ComboBox>
-                    <hole:LogicHole x:Name="LogicHole2" VerticalAlignment="Center" Foreground="#FF3B760B" />
-                </StackPanel>
-            </Border>
-            <Path Panel.ZIndex="1" Data="M 0,0 3,0 13,10 L 3,20 0,20 Z" StrokeThickness="1" StrokeLineJoin="Round" Width="10" Stretch="Fill" Margin="0,0,-2,0" Stroke="#FF4C970F" Fill="#FF5CB712" />
+            <hole:LogicHole x:Name="LogicHole1" VerticalAlignment="Center" Foreground="#FF3B760B" />
+            <ComboBox Name="Operator" SelectedIndex="0" Margin="3,0" VerticalAlignment="Center">
+                <ComboBoxItem>이면서</ComboBoxItem>
+                <ComboBoxItem>이거나</ComboBoxItem>
+            </ComboBox>
+            <hole:LogicHole x:Name="LogicHole2" VerticalAlignment="Center" Foreground="#FF3B760B" />
         </StackPanel>
-    </StackPanel>
+    </Border>
 </objects:LogicBlock>
