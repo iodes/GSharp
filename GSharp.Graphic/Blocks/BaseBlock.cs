@@ -118,10 +118,8 @@ namespace GSharp.Graphic.Blocks
         {
             if (block != null)
             {
-                foreach (var holeItem in block.HoleList)
-                {
-                    AllHoleList.Add(hole);
-                }
+                AllHoleList.AddRange(block.HoleList);
+                block.AllowVariableList.AddRange(AllowVariableList);
 
                 ParentHole?.ParentBlock?.OnBlockAttached(hole, block);
             }
@@ -139,7 +137,12 @@ namespace GSharp.Graphic.Blocks
             {
                 foreach (var holeItem in block.HoleList)
                 {
-                    AllHoleList.Remove(hole);
+                    AllHoleList.Remove(holeItem);
+                }
+
+                foreach (var allowVariable in AllowVariableList)
+                {
+                    block.AllowVariableList.Remove(allowVariable);
                 }
 
                 ParentHole?.ParentBlock?.OnBlockDetached(hole, block);
