@@ -83,16 +83,15 @@ namespace GSharp.Extension.DataTypes
             return true;
         }
 
-        public static object ToCustom<T>(this object obj)
+        public static T ToCustom<T>(this object obj)
         {
-            object output;
-            try {
-                output = (T)obj;
-                return output;
+            try
+            {
+                return (T)Convert.ChangeType(obj, typeof(T));
             }
             catch
             {
-                return null;
+                return default(T);
             }
         }
 
