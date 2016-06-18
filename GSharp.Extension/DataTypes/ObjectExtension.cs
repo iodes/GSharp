@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GSharp.Extension.DataTypes
 {
@@ -273,7 +274,7 @@ namespace GSharp.Extension.DataTypes
             }
             else
             {
-                return target1 == target2;
+                return target1.Equals(target2);
             }
         }
 
@@ -297,7 +298,7 @@ namespace GSharp.Extension.DataTypes
             }
             else
             {
-                return target1 != target2;
+                return !target1.Equals(target2);
             }
         }
 
@@ -321,7 +322,7 @@ namespace GSharp.Extension.DataTypes
             }
             else
             {
-                return target1 == target2;
+                return target1.IsEqualThan(target2);
             }
         }
 
@@ -345,7 +346,7 @@ namespace GSharp.Extension.DataTypes
             }
             else
             {
-                return target1 == target2;
+                return target1.IsEqualThan(target2);
             }
         }
 
@@ -369,7 +370,7 @@ namespace GSharp.Extension.DataTypes
             }
             else
             {
-                return target1 != target2;
+                return target1.IsNotEqualThan(target2);
             }
         }
 
@@ -393,7 +394,7 @@ namespace GSharp.Extension.DataTypes
             }
             else
             {
-                return target1 != target2;
+                return target1.IsNotEqualThan(target2);
             }
         }
         #endregion
