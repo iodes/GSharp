@@ -7,8 +7,8 @@
              mc:Ignorable="d" Foreground="DarkGreen">
     <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" MinWidth="20" MinHeight="20">
         <Grid>
-            <Border x:Name="BlockHole" />
             <TextBox x:Name="ConstText" Background="Transparent" BorderThickness="0" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" />
+            <Border x:Name="BlockHole" />
         </Grid>
     </Border>
     
