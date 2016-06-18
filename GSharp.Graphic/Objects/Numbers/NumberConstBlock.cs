@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace GSharp.Graphic.Objects
+namespace GSharp.Graphic.Objects.Numbers
 {
     public class NumberConstBlock : NumberBlock
     {

@@ -64,7 +64,7 @@
       <DependentUpon>EmptyListBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\ListBlock.cs" />
-    <Compile Include="Objects\NumberConstBlock.cs" />
+    <Compile Include="Objects\Numbers\NumberConstBlock.cs" />
     <Compile Include="Objects\ObjectCallBlock.xaml.cs">
       <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
     </Compile>
