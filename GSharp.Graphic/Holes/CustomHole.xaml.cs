@@ -1,5 +1,7 @@
 ﻿using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Objects;
+using GSharp.Graphic.Objects.Numbers;
+using GSharp.Graphic.Objects.Strings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +54,22 @@ namespace GSharp.Graphic.Holes
         {
             get
             {
-                return BlockHole.Child as ObjectBlock;
+                if (BlockHole.Child != null)
+                {
+                    return BlockHole.Child as ObjectBlock;
+                }
+                else
+                {
+                    double result;
+                    if (double.TryParse(ConstText.Text, out result))
+                    {
+                        return new NumberConstBlock(result);
+                    }
+                    else
+                    {
+                        return new StringConstBlock(ConstText.Text);
+                    }
+                }
             }
             set
             {
