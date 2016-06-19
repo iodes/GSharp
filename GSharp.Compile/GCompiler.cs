@@ -15,6 +15,22 @@ namespace GSharp.Compile
     public class GCompiler
     {
         #region 속성
+        /// <summary>
+        /// 컴파일 대상의 소스입니다.
+        /// </summary>
+        public string Source { get; set; }
+
+        public StringCollection References
+        {
+            get
+            {
+                return parameters.ReferencedAssemblies;
+            }
+        }
+
+        /// <summary>
+        /// 컴파일 대상 창의 디자인 소스입니다.
+        /// </summary>
         public string XAML
         {
             get
@@ -28,16 +44,14 @@ namespace GSharp.Compile
         }
         private string _XAML;
 
-        public string Source { get; set; }
+        /// <summary>
+        /// 사용자가 불러온 참조의 목록입니다.
+        /// </summary>
+        public List<string> LoadedReferences { get; set; } = new List<string>();
 
-        public StringCollection References
-        {
-            get
-            {
-                return parameters.ReferencedAssemblies;
-            }
-        }
-
+        /// <summary>
+        /// 컴파일시 필요한 공용 저장소의 경로입니다.
+        /// </summary>
         public string Commons
         {
             get
@@ -58,6 +72,9 @@ namespace GSharp.Compile
         }
         private string _Commons;
 
+        /// <summary>
+        /// 컴파일시 복사될 의존성의 목록입니다.
+        /// </summary>
         public List<string> Dependencies { get; set; } = new List<string>();
         #endregion
 
@@ -108,10 +125,10 @@ namespace GSharp.Compile
 
         private bool IsNameContains(StringCollection references, string name)
         {
-            return (from string dll
-                    in references
-                    where Path.GetFileName(dll) == Path.GetFileName(name)
-                    select dll).ToArray().Count() > 0;
+            lock (references)
+            {
+                return (from string dll in references where Path.GetFileName(dll) == Path.GetFileName(name) select dll).Count() > 0;
+            }
         }
 
         private string GetPublicKeyToken(AssemblyName assembly)
@@ -280,6 +297,7 @@ namespace GSharp.Compile
             {
                 // 참조 추가
                 References.Add(path);
+                LoadedReferences.Add(path);
 
                 // 참조의 종속성 검사
                 foreach (AssemblyName assembly in Assembly.LoadFrom(path).GetReferencedAssemblies())

@@ -20,6 +20,7 @@ using GSharp.Graphic.Statements;
 using GSharp.Extension;
 using System.ComponentModel;
 using System.Windows.Threading;
+using GSharp.Compile;
 
 namespace GSharp.Graphic.Controls
 {
@@ -155,6 +156,9 @@ namespace GSharp.Graphic.Controls
 
         public event LoadRequestedHandler LoadRequested;
         public delegate void LoadRequestedHandler(string xaml);
+
+        public event LoadCompletedHandler LoadCompleted;
+        public delegate void LoadCompletedHandler(string[] references, string[] dependencies);
 
         public event CreateVariableRequestedHandler CreateVariableRequested;
         public delegate void CreateVariableRequestedHandler();
@@ -652,8 +656,10 @@ namespace GSharp.Graphic.Controls
             Panel.SetZIndex(SelectedBlock, int.MaxValue - 2);
         }
 
-        public void Save(string path, string designXML)
+        public void Save(string path, string designXML, GCompiler compiler)
         {
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
             FileStream stream = new FileStream(path, FileMode.Create);
             XmlTextWriter writer = new XmlTextWriter(stream, Encoding.UTF8)
             {
@@ -686,6 +692,30 @@ namespace GSharp.Graphic.Controls
 
             writer.WriteEndElement(); // End Design
 
+            writer.WriteStartElement("Extension");
+
+            foreach (string reference in compiler.LoadedReferences)
+            {
+                if (reference != null && reference.Length > 0 && File.Exists(reference))
+                {
+                    writer.WriteStartElement("Reference");
+                    writer.WriteAttributeString("Path", reference.Replace(appData, "%APPDATA%"));
+                    writer.WriteEndElement();
+                }
+            }
+
+            foreach (string dependencies in compiler.Dependencies)
+            {
+                if (dependencies != null && dependencies.Length > 0 && Directory.Exists(dependencies))
+                {
+                    writer.WriteStartElement("Dependencies");
+                    writer.WriteAttributeString("Path", dependencies.Replace(appData, "%APPDATA%"));
+                    writer.WriteEndElement();
+                }
+            }
+
+            writer.WriteEndElement(); // End Extension
+
             writer.WriteEndElement(); // End Canvas
 
             writer.WriteEndDocument();
@@ -696,6 +726,8 @@ namespace GSharp.Graphic.Controls
 
         public void Load(string path)
         {
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
             var document = new XmlDocument();
             document.Load(path);
 
@@ -710,6 +742,20 @@ namespace GSharp.Graphic.Controls
                 AttachToCanvas(block);
                 block.Position = position;
             }
+
+            List<string> references = new List<string>();
+            foreach (XmlElement element in document.SelectNodes("/Canvas/Extension/Reference"))
+            {
+                references.Add(element.GetAttribute("Path").Replace("%APPDATA%", appData));
+            }
+
+            List<string> dependencies = new List<string>();
+            foreach (XmlElement element in document.SelectNodes("/Canvas/Extension/Dependencies"))
+            {
+                dependencies.Add(element.GetAttribute("Path").Replace("%APPDATA%", appData));
+            }
+
+            LoadCompleted?.Invoke(references.ToArray(), dependencies.ToArray());
         }
 
         private BaseBlock BlocksFromXML(XmlElement element)

@@ -322,6 +322,10 @@
       <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
       <Name>GSharp.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GSharp.Compile\GSharp.Compile.csproj">
+      <Project>{90E2619F-084D-483A-90D8-82ACFA733CD6}</Project>
+      <Name>GSharp.Compile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">
       <Project>{e9a37265-4972-42b8-a144-7dbe3cdab526}</Project>
       <Name>GSharp.Extension</Name>
