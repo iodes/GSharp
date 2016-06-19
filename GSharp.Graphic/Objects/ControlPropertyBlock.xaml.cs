@@ -151,12 +151,12 @@ namespace GSharp.Graphic.Objects
             if (controlName.Length > 0)
             {
                 var control = block.BlockEditor.GControlList[controlName];
-                block.EventName.SelectedItem = control;
+                block.ControlName.SelectedItem = control;
 
                 if (eventName.Length > 0)
                 {
                     var evt = control.Exports.Where(e => e.FullName == eventName);
-                    block.ControlName.SelectedItem = evt;
+                    block.EventName.SelectedItem = evt;
                 }
             }
 

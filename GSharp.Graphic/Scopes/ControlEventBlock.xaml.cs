@@ -187,6 +187,7 @@ namespace GSharp.Graphic.Scopes
         public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
         {
             ControlEventBlock block = new ControlEventBlock();
+            block.BlockEditor = blockEditor;
 
             var controlName = element.GetAttribute("SelectedControlName");
             var eventName = element.GetAttribute("SelectedEventName");
@@ -194,12 +195,13 @@ namespace GSharp.Graphic.Scopes
             if (controlName.Length > 0)
             {
                 var control = blockEditor.GControlList[controlName];
-                block.EventName.SelectedItem = control;
-
-                var evt = control.Exports.Where(e => e.FullName == eventName);
+                block.ControlName.SelectedItem = control;
+                
+                var evtList = control.Exports.Where(e => e.ObjectType == typeof(void));
+                var evt = evtList.Where(e => e.FullName == eventName).First();
                 if (eventName.Length > 0)
                 {
-                    block.ControlName.SelectedItem = evt;
+                    block.EventName.SelectedItem = evt;
                 }
             }
 
