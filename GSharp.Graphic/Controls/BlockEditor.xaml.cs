@@ -157,6 +157,9 @@ namespace GSharp.Graphic.Controls
         public event BlockChangedEventHandler BlockChanged;
         public delegate void BlockChangedEventHandler();
 
+        public event LoadRequestedHandler LoadRequested;
+        public delegate void LoadRequestedHandler(string xaml);
+
         public event CreateVariableRequestedHandler CreateVariableRequested;
         public delegate void CreateVariableRequestedHandler();
 
@@ -711,7 +714,7 @@ namespace GSharp.Graphic.Controls
             var design = document.SelectSingleNode("/Canvas/Design");
             
             byte[] arr = Convert.FromBase64String(design.InnerText);
-            string designCode = Encoding.UTF8.GetString(arr);
+            LoadRequested?.Invoke(Encoding.UTF8.GetString(arr));
         }
 
         private BaseBlock BlocksFromXML(XmlElement element)
