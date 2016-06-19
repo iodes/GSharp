@@ -188,7 +188,7 @@ namespace GSharp.Graphic.Scopes
             var controlName = element.GetAttribute("SelectedControlName");
             var eventName = element.GetAttribute("SelectedEventName");
 
-            var control = block.BlockEditor.GControlList[controlName];
+            var control = blockEditor.GControlList[controlName];
             var evt = control.Exports.Where(e => e.FullName == eventName);
 
             block.EventName.SelectedItem = control;

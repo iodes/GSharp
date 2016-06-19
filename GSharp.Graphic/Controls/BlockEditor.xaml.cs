@@ -703,6 +703,10 @@ namespace GSharp.Graphic.Controls
             var document = new XmlDocument();
             document.Load(path);
 
+            var design = document.SelectSingleNode("/Canvas/Design");
+            byte[] arr = Convert.FromBase64String(design.InnerText);
+            LoadRequested?.Invoke(Encoding.UTF8.GetString(arr));
+
             foreach (XmlElement element in document.SelectNodes("/Canvas/Code/Blocks"))
             {
                 var position = Point.Parse(element.GetAttribute("Position"));
@@ -710,11 +714,6 @@ namespace GSharp.Graphic.Controls
                 AttachToCanvas(block);
                 block.Position = position;
             }
-
-            var design = document.SelectSingleNode("/Canvas/Design");
-            
-            byte[] arr = Convert.FromBase64String(design.InnerText);
-            LoadRequested?.Invoke(Encoding.UTF8.GetString(arr));
         }
 
         private BaseBlock BlocksFromXML(XmlElement element)
