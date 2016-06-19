@@ -707,6 +707,11 @@ namespace GSharp.Graphic.Controls
                 AttachToCanvas(block);
                 block.Position = position;
             }
+
+            var design = document.SelectSingleNode("/Canvas/Design");
+            
+            byte[] arr = Convert.FromBase64String(design.InnerText);
+            string designCode = Encoding.UTF8.GetString(arr);
         }
 
         private BaseBlock BlocksFromXML(XmlElement element)
