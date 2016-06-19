@@ -18,7 +18,7 @@
                             <Image Source="/GSharp.Graphic;component/Images/ContextVariable.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem x:Name="ContextFunction" Header="새로운 함수">
+                    <MenuItem x:Name="ContextFunction" Header="새로운 함수" Visibility="Collapsed">
                         <MenuItem.Icon>
                             <Image Source="/GSharp.Graphic;component/Images/ContextFunction.png"/>
                         </MenuItem.Icon>
