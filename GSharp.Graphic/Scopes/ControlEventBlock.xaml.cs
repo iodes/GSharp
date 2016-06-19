@@ -177,8 +177,11 @@ namespace GSharp.Graphic.Scopes
 
         protected override void SaveBlockAttribute(XmlWriter writer)
         {
-            writer.WriteAttributeString("SelectedControlName", SelectedControl.Key);
-            writer.WriteAttributeString("SelectedEventName", SelectedEvent.FullName);
+            if (SelectedControl.Key?.Length > 0 && SelectedEvent.FullName?.Length > 0)
+            {
+                writer.WriteAttributeString("SelectedControlName", SelectedControl.Key);
+                writer.WriteAttributeString("SelectedEventName", SelectedEvent.FullName);
+            }
         }
 
         public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
@@ -188,11 +191,17 @@ namespace GSharp.Graphic.Scopes
             var controlName = element.GetAttribute("SelectedControlName");
             var eventName = element.GetAttribute("SelectedEventName");
 
-            var control = blockEditor.GControlList[controlName];
-            var evt = control.Exports.Where(e => e.FullName == eventName);
+            if (controlName.Length > 0)
+            {
+                var control = blockEditor.GControlList[controlName];
+                block.EventName.SelectedItem = control;
 
-            block.EventName.SelectedItem = control;
-            block.ControlName.SelectedItem = evt;
+                var evt = control.Exports.Where(e => e.FullName == eventName);
+                if (eventName.Length > 0)
+                {
+                    block.ControlName.SelectedItem = evt;
+                }
+            }
 
             return block;
         }
