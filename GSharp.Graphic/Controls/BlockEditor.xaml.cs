@@ -17,11 +17,7 @@ using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Objects;
 using GSharp.Graphic.Statements;
-using GSharp.Graphic.Objects.Logics;
-using GSharp.Graphic.Objects.Strings;
-using GSharp.Graphic.Objects.Numbers;
 using GSharp.Extension;
-using GSharp.Extension.Optionals;
 using System.ComponentModel;
 using System.Windows.Threading;
 
