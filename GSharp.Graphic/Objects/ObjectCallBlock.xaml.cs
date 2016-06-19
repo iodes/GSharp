@@ -17,6 +17,7 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Extension;
+
 using GSharp.Base.Objects.Numbers;
 using GSharp.Base.Objects.Customs;
 using System.Xml;
@@ -84,7 +85,7 @@ namespace GSharp.Graphic.Objects
 
             _GCommand = command;
 
-            _HoleList = BlockUtils.SetContent(command, WrapContent);
+            _HoleList = BlockUtils.SetContent(command, WrapContent, new BrushConverter().ConvertFromString("#FF79297E") as Brush);
             _GObjectList = new List<GBase> { GObject };
 
             InitializeBlock();

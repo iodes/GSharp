@@ -9,7 +9,7 @@
     
     <StackPanel Orientation="Horizontal">
         <TextBlock Foreground="White" FontWeight="Bold">"</TextBlock>
-        <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" MinWidth="20" MinHeight="20">
+        <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" Padding="3" MinWidth="20">
             <Grid>
                 <TextBox x:Name="StringText" BorderThickness="0" Background="Transparent" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" />
                 <Border x:Name="BlockHole"/>

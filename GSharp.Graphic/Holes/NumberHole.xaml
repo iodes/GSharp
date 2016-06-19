@@ -7,7 +7,7 @@
              xmlns:numbers="clr-namespace:GSharp.Graphic.Objects.Numbers"
              mc:Ignorable="d" Foreground="DarkGreen">
 
-    <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" SnapsToDevicePixels="True">
+    <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" SnapsToDevicePixels="True" Padding="3" MinWidth="20">
         <Grid>
             <Border x:Name="BlockHole"/>
             <TextBox x:Name="NumberText" BorderThickness="0" Background="Transparent" HorizontalContentAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="0" Foreground="White" />

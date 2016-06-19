@@ -13,9 +13,9 @@
     <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="배열" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
-            <hole:SettableObjectHole x:Name="ListHole" Margin="3,0" />
+            <hole:SettableObjectHole x:Name="ListHole" Margin="3,0" Foreground="#FF79297E" />
             <TextBlock Text="의" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
-            <hole:NumberHole x:Name="NumberHole" Margin="3,0" />
+            <hole:NumberHole x:Name="NumberHole" Margin="3,0" Foreground="#FF79297E" />
             <TextBlock Text="번째 요소" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
         </StackPanel>
     </Border>

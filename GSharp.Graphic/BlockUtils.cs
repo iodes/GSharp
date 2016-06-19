@@ -36,7 +36,7 @@ namespace GSharp.Graphic
         /// <param name="Command">모듈을 호출하기 위해 필요한 GCommand 객체</param>
         /// <param name="Content">생성한 구멍과 내용을 추가할 Panel 객체</param>
         /// <returns>생성한 모든 구멍을 반환</returns>
-        public static List<BaseHole> SetContent(GCommand Command, Panel Content)
+        public static List<BaseHole> SetContent(GCommand Command, Panel Content, Brush brush = null)
         {
             // 기존 패널에 있는 내용 삭제
             Content.Children.Clear();
@@ -66,7 +66,13 @@ namespace GSharp.Graphic
                     if (int.TryParse(holeNumber, out number) && 0 <= number && number < Command.Optionals.Length)
                     {
                         BaseHole hole = CreateHole(Command.Optionals[number].ObjectType);
-                        hole.Foreground = new BrushConverter().ConvertFromString("#086748") as Brush;
+
+                        if (brush == null)
+                        {
+                            brush = new BrushConverter().ConvertFromString("#086748") as Brush;
+                        }
+
+                        hole.Foreground = brush;
                         hole.VerticalAlignment = VerticalAlignment.Center;
 
                         Content.Children.Add(new TextBlock
