@@ -785,6 +785,8 @@ namespace GSharp.Graphic.Controls
                 {
                     throw new Exception("Statement를 붙일 수 없습니다.");
                 }
+
+                prevBlock = block;
             }
 
             return firstBlock;
