@@ -135,22 +135,22 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessEqualThan(this object target1, string target2)
         {
-            return target2.IsLessEqualThan(target1);
+            return target2.IsGreaterEqualThan(target1);
         }
 
         public static bool IsGreaterEqualThan(this object target1, string target2)
         {
-            return target2.IsGreaterEqualThan(target1);
+            return target2.IsLessEqualThan(target1);
         }
 
         public static bool IsLessThan(this object target1, string target2)
         {
-            return target2.IsLessThan(target1);
+            return target2.IsGreaterThan(target1);
         }
 
         public static bool IsGreaterThan(this object target1, string target2)
         {
-            return target2.IsGreaterThan(target1);
+            return target2.IsLessThan(target1);
         }
         #endregion
 
@@ -168,22 +168,22 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessEqualThan(this object target1, bool target2)
         {
-            return target2.IsLessEqualThan(target1);
+            return target2.IsGreaterEqualThan(target1);
         }
 
         public static bool IsGreaterEqualThan(this object target1, bool target2)
         {
-            return target2.IsGreaterEqualThan(target1);
+            return target2.IsLessEqualThan(target1);
         }
 
         public static bool IsLessThan(this object target1, bool target2)
         {
-            return target2.IsLessThan(target1);
+            return target2.IsGreaterThan(target1);
         }
 
         public static bool IsGreaterThan(this object target1, bool target2)
         {
-            return target2.IsGreaterThan(target1);
+            return target2.IsLessThan(target1);
         }
         #endregion
 
@@ -201,22 +201,22 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessEqualThan(this object target1, double target2)
         {
-            return target2.IsLessEqualThan(target1);
+            return target2.IsGreaterEqualThan(target1);
         }
 
         public static bool IsGreaterEqualThan(this object target1, double target2)
         {
-            return target2.IsGreaterEqualThan(target1);
+            return target2.IsLessEqualThan(target1);
         }
 
         public static bool IsLessThan(this object target1, double target2)
         {
-            return target2.IsLessThan(target1);
+            return target2.IsGreaterThan(target1);
         }
 
         public static bool IsGreaterThan(this object target1, double target2)
         {
-            return target2.IsGreaterThan(target1);
+            return target2.IsLessThan(target1);
         }
         #endregion
 
@@ -234,39 +234,39 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessEqualThan(this object target1, List<object> target2)
         {
-            return target2.IsLessEqualThan(target1);
+            return target2.IsGreaterEqualThan(target1);
         }
 
         public static bool IsGreaterEqualThan(this object target1, List<object> target2)
         {
-            return target2.IsGreaterEqualThan(target1);
+            return target2.IsLessEqualThan(target1);
         }
 
         public static bool IsLessThan(this object target1, List<object> target2)
         {
-            return target2.IsLessThan(target1);
+            return target2.IsGreaterThan(target1);
         }
 
         public static bool IsGreaterThan(this object target1, List<object> target2)
         {
-            return target2.IsGreaterThan(target1);
+            return target2.IsLessThan(target1);
         }
         #endregion
 
         #region object, object 비교
         public static bool IsEqualThan(this object target1, object target2)
         {
-            if (target2 is double)
+            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
             {
-                return target1.IsEqualThan((double)target2);
+                return target1.IsEqualThan(Convert.ToDouble(target2));
             }
             else if (target2 is string)
             {
-                return target1.IsEqualThan((string)target2);
+                return target1.IsEqualThan(Convert.ToString(target2));
             }
             else if (target2 is bool)
             {
-                return target1.IsEqualThan((bool)target2);
+                return target1.IsEqualThan(Convert.ToBoolean(target2));
             }
             else if (target2 is List<object>)
             {
@@ -280,17 +280,17 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsNotEqualThan(this object target1, object target2)
         {
-            if (target2 is double)
+            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
             {
-                return target1.IsNotEqualThan((double)target2);
+                return target1.IsNotEqualThan(Convert.ToDouble(target2));
             }
             else if (target2 is string)
             {
-                return target1.IsNotEqualThan((string)target2);
+                return target1.IsNotEqualThan(Convert.ToString(target2));
             }
             else if (target2 is bool)
             {
-                return target1.IsNotEqualThan((bool)target2);
+                return target1.IsNotEqualThan(Convert.ToBoolean(target2));
             }
             else if (target2 is List<object>)
             {
@@ -304,17 +304,17 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessEqualThan(this object target1, object target2)
         {
-            if (target2 is double)
+            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
             {
-                return target1.IsLessEqualThan((double)target2);
+                return target1.IsLessEqualThan(Convert.ToDouble(target2));
             }
             else if (target2 is string)
             {
-                return target1.IsLessEqualThan((string)target2);
+                return target1.IsLessEqualThan(Convert.ToString(target2));
             }
             else if (target2 is bool)
             {
-                return target1.IsLessEqualThan((bool)target2);
+                return target1.IsLessEqualThan(Convert.ToBoolean(target2));
             }
             else if (target2 is List<object>)
             {
@@ -328,17 +328,17 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsGreaterEqualThan(this object target1, object target2)
         {
-            if (target2 is double)
+            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
             {
-                return target1.IsGreaterEqualThan((double)target2);
+                return target1.IsGreaterEqualThan(Convert.ToDouble(target2));
             }
             else if (target2 is string)
             {
-                return target1.IsGreaterEqualThan((string)target2);
+                return target1.IsGreaterEqualThan(Convert.ToString(target2));
             }
             else if (target2 is bool)
             {
-                return target1.IsGreaterEqualThan((bool)target2);
+                return target1.IsGreaterEqualThan(Convert.ToBoolean(target2));
             }
             else if (target2 is List<object>)
             {
@@ -352,17 +352,17 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessThan(this object target1, object target2)
         {
-            if (target2 is double)
+            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
             {
-                return target1.IsLessThan((double)target2);
+                return target1.IsLessThan(Convert.ToDouble(target2));
             }
             else if (target2 is string)
             {
-                return target1.IsLessThan((string)target2);
+                return target1.IsLessThan(Convert.ToString(target2));
             }
             else if (target2 is bool)
             {
-                return target1.IsLessThan((bool)target2);
+                return target1.IsLessThan(Convert.ToBoolean(target2));
             }
             else if (target2 is List<object>)
             {
@@ -376,17 +376,17 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsGreaterThan(this object target1, object target2)
         {
-            if (target2 is double)
+            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
             {
-                return target1.IsGreaterThan((double)target2);
+                return target1.IsGreaterThan(Convert.ToDouble(target2));
             }
             else if (target2 is string)
             {
-                return target1.IsGreaterThan((string)target2);
+                return target1.IsGreaterThan(Convert.ToString(target2));
             }
             else if (target2 is bool)
             {
-                return target1.IsGreaterThan((bool)target2);
+                return target1.IsGreaterThan(Convert.ToBoolean(target2));
             }
             else if (target2 is List<object>)
             {
