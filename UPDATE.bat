@@ -1,7 +1,7 @@
 @echo off
 COLOR 3E
 TITLE DLL UPDATE
-MODE con:cols=42 lines=30
+MODE con:cols=42 lines=42
 
 rem ---------------------- SETTINGS ----------------------
 set BIN=bin\Debug
@@ -34,6 +34,9 @@ copy %GSHARP%\GSharp.Compile\%BIN%\GSharp.Compile.dll %ENTRA_STUDIO%\GSharp.Comp
 copy %GSHARP%\GSharp.Extension\%BIN%\GSharp.Extension.dll %ENTRA_STUDIO%\GSharp.Extension.dll
 copy %GSHARP%\GSharp.Graphic\%BIN%\GSharp.Graphic.dll %ENTRA_STUDIO%\GSharp.Graphic.dll
 copy %GSHARP%\GSharp.Manager\%BIN%\GSharp.Manager.dll %ENTRA_STUDIO%\GSharp.Manager.dll
+
+copy %GSHARP%\GSharp.Extension\%BIN%\GSharp.Extension.dll "%appdata%\Lynx Studio\Commons\GSharp.Extension.dll"
+for /f %%G in ('dir "%appdata%\Lynx Studio\Extensions" /b') do copy %GSHARP%\GSharp.Extension\%BIN%\GSharp.Extension.dll "%appdata%\Lynx Studio\Extensions\%%G\GSharp.Extension.dll"
 
 echo.
 echo            DLL UPDATE COMPLETE!
