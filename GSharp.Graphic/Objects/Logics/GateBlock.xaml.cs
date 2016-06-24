@@ -40,6 +40,12 @@ namespace GSharp.Graphic.Objects.Logics
         }
         private List<BaseHole> _HoleList;
 
+        public Dictionary<GGate.GateType, string> GateList = new Dictionary<GGate.GateType, string>()
+        {
+            { GGate.GateType.AND, "그리고" },
+            { GGate.GateType.OR, "또는" },
+        };
+
         // Gate Object
         public GGate GGate
         {
@@ -78,32 +84,20 @@ namespace GSharp.Graphic.Objects.Logics
             };
 
             InitializeBlock();
+
+            Operator.ItemsSource = GateList;
         }
 
         public GateBlock(GGate.GateType gateType) : this()
         {
-            if (gateType == GGate.GateType.AND)
-            {
-                Operator.SelectedIndex = 0;
-            }
-            else
-            {
-                Operator.SelectedIndex = 1;
-            }
+            Operator.SelectedItem = GateList.Where(e => e.Key == gateType).First();
         }
 
         public GGate.GateType GateType
         {
             get
             {
-                if (Operator.SelectedIndex == 0)
-                {
-                    return GGate.GateType.AND;
-                }
-                else
-                {
-                    return  GGate.GateType.OR;
-                }
+                return ((KeyValuePair<GGate.GateType, string>)Operator.SelectedItem).Key;
             }
         }
 
