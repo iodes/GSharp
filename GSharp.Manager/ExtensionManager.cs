@@ -126,7 +126,7 @@ namespace GSharp.Manager
         /// <param name="pathValue">확장 모듈의 전체 경로입니다.</param>
         public GExtension LoadExtension(string pathValue)
         {
-            Assembly targetAssembly = Assembly.LoadFile(pathValue);
+            Assembly targetAssembly = Assembly.LoadFrom(pathValue);
             AssemblyName[] name = targetAssembly.GetReferencedAssemblies();
 
             // 객체 생성
