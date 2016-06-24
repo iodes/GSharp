@@ -20,16 +20,13 @@ namespace GSharp.Graphic.Objects.Numbers
         {
             get
             {
-                return _Number;
+                return GNumberConst.Number;
             }
             set
             {
-                _Number = value;
                 GNumberConst.Number = value;
             }
         }
-        private double _Number = .0;
-
         public override GNumber GNumber
         {
             get
