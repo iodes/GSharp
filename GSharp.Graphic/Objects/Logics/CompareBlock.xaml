@@ -14,12 +14,11 @@
         <StackPanel Orientation="Horizontal">
             <hole:ObjectHole x:Name="ObjectHole1" VerticalAlignment="Center" Foreground="#FF3B760B"/>
             <ComboBox x:Name="Operator" Margin="3,0" SelectedIndex="0" VerticalAlignment="Center">
-                <ComboBoxItem Content="=" />
-                <ComboBoxItem Content="≠" />
-                <ComboBoxItem Content="≤" />
-                <ComboBoxItem Content="≥" />
-                <ComboBoxItem Content="&lt;" />
-                <ComboBoxItem Content="&gt;" />
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Value}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
             <hole:ObjectHole x:Name="ObjectHole2" VerticalAlignment="Center" Foreground="#FF3B760B"/>
         </StackPanel>

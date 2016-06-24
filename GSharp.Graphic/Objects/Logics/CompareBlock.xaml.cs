@@ -36,6 +36,16 @@ namespace GSharp.Graphic.Objects.Logics
         }
         private List<BaseHole> _HoleList;
 
+        public Dictionary<GCompare.ConditionType, string> ConditionList = new Dictionary<GCompare.ConditionType, string>()
+        {
+            { GCompare.ConditionType.EQUAL, "=" },
+            { GCompare.ConditionType.NOT_EQUAL, "≠" },
+            { GCompare.ConditionType.LESS_THEN_OR_EQUAL, "≤" },
+            { GCompare.ConditionType.GREATER_THEN_OR_EQUAL, "≥" },
+            { GCompare.ConditionType.LESS_THEN, "<" },
+            { GCompare.ConditionType.GREATER_THEN, ">" },
+        };
+
         public GCompare GCompare
         {
             get
@@ -76,69 +86,28 @@ namespace GSharp.Graphic.Objects.Logics
             };
 
             InitializeBlock();
+
+            Operator.ItemsSource = ConditionList;
+            Operator.Items.Refresh();
         }
 
         public CompareBlock(GCompare.ConditionType conditionType) : this()
         {
             var conditionString = GetConditionString(conditionType);
-            Operator.SelectedValue = conditionString;
+            Operator.SelectedItem = ConditionList.Where(e => e.Key == conditionType).First();
         }
 
         public GCompare.ConditionType ConditionType
         {
             get
             {
-                switch (Operator.Text)
-                {
-                    case "=":
-                        return GCompare.ConditionType.EQUAL;
-
-                    case "≠":
-                        return GCompare.ConditionType.NOT_EQUAL;
-
-                    case "≤":
-                        return GCompare.ConditionType.LESS_THEN_OR_EQUAL;
-
-                    case "≥":
-                        return GCompare.ConditionType.GREATER_THEN_OR_EQUAL;
-
-                    case "<":
-                        return GCompare.ConditionType.LESS_THEN;
-
-                    case ">":
-                        return GCompare.ConditionType.GREATER_THEN;
-
-                    default:
-                        return GCompare.ConditionType.EQUAL;
-                }
+                return ((KeyValuePair<GCompare.ConditionType, string>)Operator.SelectedItem).Key;
             }
         }
 
         public string GetConditionString(GCompare.ConditionType conditionType)
         {
-            switch (conditionType)
-            {
-                case GCompare.ConditionType.EQUAL:
-                    return "=";
-
-                case GCompare.ConditionType.NOT_EQUAL:
-                    return "≠";
-
-                case GCompare.ConditionType.LESS_THEN_OR_EQUAL:
-                    return "≤";
-
-                case GCompare.ConditionType.GREATER_THEN_OR_EQUAL:
-                    return "≥";
-
-                case GCompare.ConditionType.LESS_THEN:
-                    return "<";
-
-                case GCompare.ConditionType.GREATER_THEN:
-                    return ">";
-
-                default:
-                    return "=";
-            }
+            return ConditionList[conditionType];
         }
 
         protected override void SaveBlockAttribute(XmlWriter writer)
