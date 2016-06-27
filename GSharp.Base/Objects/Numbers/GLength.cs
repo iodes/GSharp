@@ -22,7 +22,7 @@ namespace GSharp.Base.Objects.Numbers
             string targetStr = Target?.ToSource();
             if (!(Target is GString))
             {
-                targetStr += ".ToNumber()";
+                targetStr += ".ToText()";
             }
             
             return string.Format("{0}.Length", targetStr);
