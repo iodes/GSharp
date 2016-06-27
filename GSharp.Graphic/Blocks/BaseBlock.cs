@@ -37,11 +37,17 @@ namespace GSharp.Graphic.Blocks
 
         public bool IsPreview
         {
+            get
+            {
+                return _IsPreview;
+            }
             set
             {
+                _IsPreview = value;
                 DisableBlock();
             }
         }
+        private bool _IsPreview = false;
 
         protected virtual void DisableBlock()
         {
