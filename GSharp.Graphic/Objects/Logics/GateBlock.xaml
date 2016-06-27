@@ -6,18 +6,20 @@
              xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
              xmlns:local="clr-namespace:GSharp.Graphic.Objects.Logics"
              xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d"
-             d:DesignHeight="200"
-             d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True"
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
+    <objects:LogicBlock.Resources>
+        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml"/>
+    </objects:LogicBlock.Resources>
+    
     <Border HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="1" CornerRadius="2" Padding="3">
         <StackPanel Orientation="Horizontal">
             <hole:LogicHole x:Name="LogicHole1" VerticalAlignment="Center" Foreground="#FF3B760B" />
-            <ComboBox Name="Operator" SelectedIndex="0" Margin="3,0" VerticalAlignment="Center">
+            <ComboBox Name="Operator" SelectedIndex="0" Margin="3,0" VerticalAlignment="Center" Background="#FF3B760B" Foreground="White" Style="{StaticResource ComboBoxStyle}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Value}"></TextBlock>
+                        <TextBlock Text="{Binding Value}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

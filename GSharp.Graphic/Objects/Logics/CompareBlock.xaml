@@ -10,13 +10,18 @@
              d:DesignHeight="30"
              d:DesignWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top"
              SnapsToDevicePixels="True">
+
+    <objects:LogicBlock.Resources>
+        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml"/>
+    </objects:LogicBlock.Resources>
+    
     <Border HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="1" CornerRadius="2" Padding="3">
         <StackPanel Orientation="Horizontal">
             <hole:ObjectHole x:Name="ObjectHole1" VerticalAlignment="Center" Foreground="#FF3B760B"/>
-            <ComboBox x:Name="Operator" Margin="3,0" SelectedIndex="0" VerticalAlignment="Center">
+            <ComboBox x:Name="Operator" Margin="3,0" SelectedIndex="0" VerticalAlignment="Center" Background="#FF3B760B" Foreground="White" Style="{StaticResource ComboBoxStyle}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Value}"></TextBlock>
+                        <TextBlock Text="{Binding Value}"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
