@@ -17,18 +17,17 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Extension;
-
-using GSharp.Base.Objects.Numbers;
-using GSharp.Base.Objects.Customs;
+using GSharp.Base.Objects.Strings;
 using System.Xml;
 using GSharp.Graphic.Controls;
+using GSharp.Base.Objects.Customs;
 
-namespace GSharp.Graphic.Objects
+namespace GSharp.Graphic.Objects.Customs
 {
     /// <summary>
-    /// ObjectCallBlock.xaml에 대한 상호 작용 논리
+    /// PropertyBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ObjectCallBlock : ObjectBlock, IModuleBlock
+    public partial class PropertyBlock : SettableObjectBlock, IModuleBlock
     {
         public GCommand GCommand
         {
@@ -43,50 +42,43 @@ namespace GSharp.Graphic.Objects
         {
             get
             {
-                return GCall;
+                return GProperty;
             }
         }
 
-        public GObjectCall GCall
+        public override GSettableObject GSettableObject
         {
             get
             {
-                var argumentList = new List<GObject>();
-
-                foreach(var hole in HoleList)
-                {
-                    argumentList.Add((hole as BaseObjectHole)?.BaseObjectBlock?.ToGObjectList()[0] as GObject);
-                }
-
-                return new GObjectCall(GCommand, argumentList.ToArray());
+                return GProperty;
             }
         }
+
+        public GProperty GProperty
+        {
+            get
+            {
+                return _GProperty;
+            }
+        }
+        private GProperty _GProperty;
 
         public override List<GBase> ToGObjectList()
         {
             return _GObjectList;
         }
-
         private List<GBase> _GObjectList;
 
-        public override List<BaseHole> HoleList
-        {
-            get
-            {
-                return _HoleList;
-            }
-        }
-        private List<BaseHole> _HoleList;
-
         // 생성자
-        public ObjectCallBlock(GCommand command)
+        public PropertyBlock(GCommand command)
         {
             InitializeComponent();
 
             _GCommand = command;
-
-            _HoleList = BlockUtils.SetContent(command, WrapContent, new BrushConverter().ConvertFromString("#FF79297E") as Brush);
+            _GProperty = new GProperty(command);
             _GObjectList = new List<GBase> { GObject };
+
+            PropertyName.Text = command.FriendlyName;
 
             InitializeBlock();
         }
@@ -95,20 +87,12 @@ namespace GSharp.Graphic.Objects
         {
             BlockUtils.SaveGCommand(writer, GCommand);
         }
-
+        
         public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
         {
             GCommand command = BlockUtils.LoadGCommand(element);
 
-            ObjectCallBlock block = new ObjectCallBlock(command);
-            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
-
-            for (int i=0; i< block.HoleList.Count; i++)
-            {
-                BlockUtils.ConnectToHole(block.HoleList[i], LoadBlock(elementList[i].SelectSingleNode("Block") as XmlElement, blockEditor));
-            }
-
-            return block;
+            return new PropertyBlock(command);
         }
     }
 }

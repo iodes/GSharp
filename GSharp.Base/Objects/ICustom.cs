@@ -4,9 +4,8 @@ using System;
 
 namespace GSharp.Base.Objects
 {
-    [Serializable]
-    public abstract class GCustom : GObject
+    public interface ICustom
     {
-        public abstract Type CustomType { get; }
+        Type CustomType { get; }
     }
 }

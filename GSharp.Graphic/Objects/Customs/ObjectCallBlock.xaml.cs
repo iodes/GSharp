@@ -17,6 +17,8 @@ using GSharp.Graphic.Holes;
 using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Extension;
+
+using GSharp.Base.Objects.Numbers;
 using GSharp.Base.Objects.Customs;
 using System.Xml;
 using GSharp.Graphic.Controls;
@@ -24,9 +26,9 @@ using GSharp.Graphic.Controls;
 namespace GSharp.Graphic.Objects.Customs
 {
     /// <summary>
-    /// NumberPropertyBlock.xaml에 대한 상호 작용 논리
+    /// ObjectCallBlock.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class EnumBlock : ObjectBlock, ICustomBlock, IModuleBlock
+    public partial class ObjectCallBlock : ObjectBlock, ICustomBlock, IModuleBlock
     {
         public GCommand GCommand
         {
@@ -41,25 +43,40 @@ namespace GSharp.Graphic.Objects.Customs
         {
             get
             {
-                return GEnum;
+                return GCall;
             }
         }
 
-        public GEnum GEnum
+        public GObjectCall GCall
         {
             get
             {
-                return _GEnum;
+                var argumentList = new List<GObject>();
+
+                foreach(var hole in HoleList)
+                {
+                    argumentList.Add((hole as BaseObjectHole)?.BaseObjectBlock?.ToGObjectList()[0] as GObject);
+                }
+
+                return new GObjectCall(GCommand, argumentList.ToArray());
             }
         }
-        private GEnum _GEnum;
 
         public override List<GBase> ToGObjectList()
         {
-             return _GObjectList;
+            return _GObjectList;
         }
+
         private List<GBase> _GObjectList;
 
+        public override List<BaseHole> HoleList
+        {
+            get
+            {
+                return _HoleList;
+            }
+        }
+        private List<BaseHole> _HoleList;
 
         public Type CustomType
         {
@@ -70,30 +87,16 @@ namespace GSharp.Graphic.Objects.Customs
         }
 
         // 생성자
-        public EnumBlock(GCommand command)
+        public ObjectCallBlock(GCommand command)
         {
             InitializeComponent();
 
             _GCommand = command;
-            _GEnum = new GEnum(command);
+
+            _HoleList = BlockUtils.SetContent(command, WrapContent, new BrushConverter().ConvertFromString("#FF79297E") as Brush);
             _GObjectList = new List<GBase> { GObject };
 
-            if (command.Optionals != null)
-            {
-                foreach(var opt in command.Optionals)
-                {
-                    EnumName.Items.Add(opt);
-                }
-            }
-
-            EnumName.SelectedIndex = 0;
-
             InitializeBlock();
-        }
-
-        private void EnumName_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _GEnum.SelectedIndex = (sender as ComboBox).SelectedIndex;
         }
 
         protected override void SaveBlockAttribute(XmlWriter writer)
@@ -103,8 +106,17 @@ namespace GSharp.Graphic.Objects.Customs
 
         public static BaseBlock LoadBlockFromXml(XmlElement element, BlockEditor blockEditor)
         {
-            var command = BlockUtils.LoadGCommand(element);
-            return new EnumBlock(command);
+            GCommand command = BlockUtils.LoadGCommand(element);
+
+            ObjectCallBlock block = new ObjectCallBlock(command);
+            XmlNodeList elementList = element.SelectNodes("Holes/Hole");
+
+            for (int i=0; i< block.HoleList.Count; i++)
+            {
+                BlockUtils.ConnectToHole(block.HoleList[i], LoadBlock(elementList[i].SelectSingleNode("Block") as XmlElement, blockEditor));
+            }
+
+            return block;
         }
     }
 }

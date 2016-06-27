@@ -8,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GSharp.Base.Objects
+namespace GSharp.Base.Objects.Customs
 {
-    public class GControlProperty : GSettableObject
+    public class GControlProperty : GSettableObject, ICustom
     {
         public GExport GExport
         {
@@ -19,6 +19,7 @@ namespace GSharp.Base.Objects
                 return _GExport;
             }
         }
+        private GExport _GExport;
 
         public string ControlName
         {
@@ -37,7 +38,13 @@ namespace GSharp.Base.Objects
             }
         }
 
-        private GExport _GExport;
+        public Type CustomType
+        {
+            get
+            {
+                return GExport.ObjectType;
+            }
+        }
 
         public GControlProperty(string controlName, GExport export)
         {

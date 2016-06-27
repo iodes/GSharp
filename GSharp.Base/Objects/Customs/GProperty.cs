@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GSharp.Base.Objects
+namespace GSharp.Base.Objects.Customs
 {
-    public class GProperty : GSettableObject
+    public class GProperty : GSettableObject, ICustom
     {
         public override Type SettableType
         {
@@ -26,6 +26,15 @@ namespace GSharp.Base.Objects
                 return _GCommand;
             }
         }
+
+        public Type CustomType
+        {
+            get
+            {
+                return GCommand.ObjectType;
+            }
+        }
+
         private GCommand _GCommand;
 
         public GProperty(GCommand command)

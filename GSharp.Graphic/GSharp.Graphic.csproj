@@ -58,6 +58,9 @@
     <Compile Include="Holes\SettableObjectHole.xaml.cs">
       <DependentUpon>SettableObjectHole.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Customs\EnumBlock.xaml.cs">
+      <DependentUpon>EnumBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Objects\Lists\ItemBlock.xaml.cs">
       <DependentUpon>ItemBlock.xaml</DependentUpon>
     </Compile>
@@ -66,10 +69,10 @@
     </Compile>
     <Compile Include="Objects\ListBlock.cs" />
     <Compile Include="Objects\Numbers\NumberConstBlock.cs" />
-    <Compile Include="Objects\ObjectCallBlock.xaml.cs">
+    <Compile Include="Objects\Customs\ObjectCallBlock.xaml.cs">
       <DependentUpon>ObjectCallBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\ControlPropertyBlock.xaml.cs">
+    <Compile Include="Objects\Customs\ControlPropertyBlock.xaml.cs">
       <DependentUpon>ControlPropertyBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\SettableObjectBlock.cs" />
@@ -111,17 +114,14 @@
     <Compile Include="Objects\Logics\CompareBlock.xaml.cs">
       <DependentUpon>CompareBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\CustomBlock.cs" />
+    <Compile Include="Objects\ICustomBlock.cs" />
     <Compile Include="Objects\Numbers\LengthBlock.xaml.cs">
       <DependentUpon>LengthBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\Numbers\ComputeBlock.xaml.cs">
       <DependentUpon>ComputeBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Customs\EnumBlock.xaml.cs">
-      <DependentUpon>EnumBlock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Objects\PropertyBlock.xaml.cs">
+    <Compile Include="Objects\Customs\PropertyBlock.xaml.cs">
       <DependentUpon>PropertyBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Objects\Strings\StringConstBlock.cs" />
@@ -225,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Objects\Customs\EnumBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Objects\Lists\ItemBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -233,7 +237,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\ObjectCallBlock.xaml">
+    <Page Include="Objects\Customs\ObjectCallBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -257,15 +261,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\Customs\EnumBlock.xaml">
+    <Page Include="Objects\Customs\ControlPropertyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Objects\ControlPropertyBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Objects\PropertyBlock.xaml">
+    <Page Include="Objects\Customs\PropertyBlock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

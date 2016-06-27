@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace GSharp.Base.Objects.Customs
 {
     [Serializable]
-    public class GEnum : GCustom, IModule
+    public class GEnum : GObject, ICustom, IModule
     {
         #region 속성
-        public override Type CustomType
+        public Type CustomType
         {
             get
             {

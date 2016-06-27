@@ -7,13 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GSharp.Base.Objects
+namespace GSharp.Base.Objects.Customs
 {
-    public class GObjectCall : GObject
+    public class GObjectCall : GObject, ICustom
     {
         #region 객체
         private GCommand GCommand;
         private GObject[] Arguments = null;
+
+        public Type CustomType
+        {
+            get
+            {
+                return GCommand.ObjectType;
+            }
+        }
         #endregion
 
         #region 생성자

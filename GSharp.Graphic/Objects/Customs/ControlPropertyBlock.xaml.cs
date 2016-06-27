@@ -21,8 +21,9 @@ using GSharp.Base.Objects.Strings;
 using GSharp.Extension.Exports;
 using System.Xml;
 using GSharp.Graphic.Controls;
+using GSharp.Base.Objects.Customs;
 
-namespace GSharp.Graphic.Objects
+namespace GSharp.Graphic.Objects.Customs
 {
     /// <summary>
     /// ControlPropertyBlock.xaml에 대한 상호 작용 논리

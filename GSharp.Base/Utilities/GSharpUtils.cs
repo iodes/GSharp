@@ -54,7 +54,7 @@ namespace GSharp.Base.Utilities
                 obj is GString && type == typeof(string) ||
                 obj is GLogic && type == typeof(bool) ||
                 obj is GList && type == typeof(List<object>) ||
-                obj is GCustom && type == (obj as GCustom).CustomType
+                obj is ICustom && type == (obj as ICustom).CustomType
             )
             {
                 return obj?.ToSource();
@@ -91,7 +91,7 @@ namespace GSharp.Base.Utilities
             {
                 Type listType = type.GetGenericArguments()[0];
 
-                if (obj is GList || obj is GCustom && IsListType((obj as GCustom).CustomType))
+                if (obj is GList || obj is ICustom && IsListType((obj as ICustom).CustomType))
                 {
                     return string.Format("{0}.Select(e => e.ToCustom<{1}>()).ToList()", obj?.ToSource(), listType.ToString());
                 }
