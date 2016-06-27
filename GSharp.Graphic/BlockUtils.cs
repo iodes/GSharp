@@ -242,7 +242,7 @@ namespace GSharp.Graphic
                 var optionName = option.GetAttribute("Name");
                 var optionFullName = option.GetAttribute("FullName");
                 var optionFriendlyName = option.GetAttribute("FriendlyName");
-                var optionObjectTypeString = element.GetAttribute("ObjectType");
+                var optionObjectTypeString = option.GetAttribute("ObjectType");
                 var optionObjectType = Type.GetType(optionObjectTypeString);
 
                 if (optionObjectType == null)
