@@ -193,7 +193,7 @@ namespace GSharp.Graphic
             writer.WriteAttributeString("MethodName", command.MethodName);
             writer.WriteAttributeString("FriendlyName", command.FriendlyName);
             writer.WriteAttributeString("MethodType", command.MethodType.ToString());
-            writer.WriteAttributeString("ObjectType", command.ObjectType.ToString());
+            writer.WriteAttributeString("ObjectType", command.ObjectType.AssemblyQualifiedName);
 
             if (command.Optionals != null)
             {
