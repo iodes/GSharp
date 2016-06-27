@@ -218,7 +218,7 @@ namespace GSharp.Manager
                                         value.FullName,
                                         info.Name,
                                         command.Name,
-                                        eventDelegateMethod != null ? eventDelegate.ReflectedType : typeof(void),
+                                        eventDelegateMethod != null ? eventDelegateMethod.ReturnType : typeof(void),
                                         GCommand.CommandType.Event,
                                         eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
                                     )
@@ -234,7 +234,7 @@ namespace GSharp.Manager
                                         value.FullName,
                                         info.Name,
                                         control.Name,
-                                        eventDelegateMethod != null ? eventDelegate.ReflectedType : typeof(void),
+                                        eventDelegateMethod != null ? eventDelegateMethod.ReturnType : typeof(void),
                                         eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
                                     )
                                 );
