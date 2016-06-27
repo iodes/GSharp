@@ -150,7 +150,7 @@ namespace GSharp.Graphic.Objects
 
             if (controlName.Length > 0)
             {
-                var control = block.BlockEditor.GControlList[controlName];
+                var control = blockEditor.GControlList[controlName];
                 block.ControlName.SelectedItem = control;
 
                 if (eventName.Length > 0)
