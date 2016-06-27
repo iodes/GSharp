@@ -18,7 +18,7 @@
             <Border BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" BorderBrush="{StaticResource BlueBorderColor}" Height="5" Background="{StaticResource BlueBodyColor}" CornerRadius="2,2,0,0" />
             <Border Background="{StaticResource BlueBodyColor}" BorderThickness="1,0,1,0" BorderBrush="{StaticResource BlueBorderColor}">
                 <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="3">
-                    <ComboBox x:Name="ControlName" SelectionChanged="ControlName_SelectionChanged" Background="#FF1B7DAE" Foreground="White" Style="{StaticResource ComboBoxStyle}">
+                    <ComboBox x:Name="ControlName" Height="20" SelectionChanged="ControlName_SelectionChanged" Background="#FF1B7DAE" Foreground="White" Style="{StaticResource ComboBoxStyle}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Key}" />
@@ -26,7 +26,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <TextBlock Text="을(를)" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,0"/>
-                    <ComboBox x:Name="EventName" SelectionChanged="EventName_SelectionChanged" Background="#FF1B7DAE" Foreground="White" Style="{StaticResource ComboBoxStyle}">
+                    <ComboBox x:Name="EventName" Height="20" SelectionChanged="EventName_SelectionChanged" Background="#FF1B7DAE" Foreground="White" Style="{StaticResource ComboBoxStyle}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding FriendlyName}"/>
