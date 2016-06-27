@@ -362,7 +362,7 @@ namespace GSharp.Compile
         /// 외부 참조를 비동기로 추가합니다.
         /// </summary>
         /// <param name="path">외부 참조 파일의 경로입니다.</param>
-        public async void LoadReferenceAsync(string path)
+        public async Task LoadReferenceAsync(string path)
         {
             await Task.Run(() => LoadReference(path));
         }
@@ -383,7 +383,7 @@ namespace GSharp.Compile
         /// 실행시 필요한 추가 종속성을 비동기로 추가합니다.
         /// </summary>
         /// <param name="path">추가 종속성 파일의 경로입니다.</param>
-        public async void LoadDependenciesAsync(string path)
+        public async Task LoadDependenciesAsync(string path)
         {
             await Task.Run(() => LoadDependencies(path));
         }
