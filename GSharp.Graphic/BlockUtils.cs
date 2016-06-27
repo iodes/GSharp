@@ -221,12 +221,18 @@ namespace GSharp.Graphic
             var methodName = element.GetAttribute("MethodName");
             var friendlyName = element.GetAttribute("FriendlyName");
             var methodType = element.GetAttribute("MethodType");
-            var objectType = element.GetAttribute("ObjectType");
+            var objectTypeString = element.GetAttribute("ObjectType");
+            var objectType = Type.GetType(objectTypeString);
 
             GCommand.CommandType methodEnum;
             if (!Enum.TryParse(methodType, out methodEnum))
             {
                 throw new Exception("CommandType 로드에 실패했습니다.");
+            }
+
+            if (objectType == null)
+            {
+                throw new Exception("ObjectType 로드에 실패했습니다.");
             }
 
             var options = new List<GOptional>();
@@ -236,12 +242,18 @@ namespace GSharp.Graphic
                 var optionName = option.GetAttribute("Name");
                 var optionFullName = option.GetAttribute("FullName");
                 var optionFriendlyName = option.GetAttribute("FriendlyName");
-                var optionObjectType = option.GetAttribute("ObjectType");
+                var optionObjectTypeString = element.GetAttribute("ObjectType");
+                var optionObjectType = Type.GetType(optionObjectTypeString);
 
-                options.Add(new GOptional(optionName, optionFullName, optionFriendlyName, Type.GetType(optionObjectType)));
+                if (optionObjectType == null)
+                {
+                    throw new Exception("Option의 ObjectType 로드에 실패했습니다.");
+                }
+
+                options.Add(new GOptional(optionName, optionFullName, optionFriendlyName, optionObjectType));
             }
 
-            return new GCommand(namespaceName, methodName, friendlyName, Type.GetType(objectType), methodEnum, options.ToArray());
+            return new GCommand(namespaceName, methodName, friendlyName, objectType, methodEnum, options.ToArray());
         }
 
         public static void SaveChildBlocks(XmlWriter writer, BaseBlock block, string tagName = "ChildBlocks")
