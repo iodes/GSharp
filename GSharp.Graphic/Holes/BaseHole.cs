@@ -29,11 +29,17 @@ namespace GSharp.Graphic.Holes
 
         public bool IsPreview
         {
+            get
+            {
+                return _IsPreview;
+            }
             set
             {
+                _IsPreview = value;
                 DisableHole();
             }
         }
+        private bool _IsPreview = false;
 
         protected virtual void DisableHole()
         {
