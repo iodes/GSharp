@@ -115,7 +115,7 @@ namespace GSharp.Base.Utilities
             return string.Format("{0}.ToCustom<{1}>()", obj?.ToSource(), castString);
         }
 
-        private static bool IsListType(Type type)
+        public static bool IsListType(Type type)
         {
             return type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>));
         }

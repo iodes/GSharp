@@ -26,32 +26,7 @@ namespace GSharp.Base.Statements
         {
             var builder = new StringBuilder();
 
-            if (GSettableObject?.SettableType == typeof(object))
-            {
-                return string.Format("{0} = {1};\n", GSettableObject?.ToSource(), Value?.ToSource());
-            }
-
-            else if (GSettableObject?.SettableType == typeof(bool))
-            {
-                return string.Format("{0} = {1}.ToBool();\n", GSettableObject?.ToSource(), Value?.ToSource());
-            }
-
-            else if (GSettableObject?.SettableType == typeof(string))
-            {
-                return string.Format("{0} = {1}.ToText();\n", GSettableObject?.ToSource(), Value?.ToSource());
-            }
-
-            else if (GSettableObject?.SettableType == typeof(double))
-            {
-                return string.Format("{0} = {1}.ToNumber();\n", GSettableObject?.ToSource(), Value?.ToSource());
-            }
-
-            else if (GSharpUtils.IsNumberType(GSettableObject?.SettableType))
-            {
-                return string.Format("{0} = ({2}){1}.ToNumber();\n", GSettableObject?.ToSource(), Value?.ToSource(), GSettableObject?.SettableType.FullName);
-            }
-
-            return string.Format("{0} = ({2}){1}.ToCustom<{2}>();\n", GSettableObject?.ToSource(), Value?.ToSource(), GSettableObject?.SettableType.FullName);
+            return string.Format("{0} = {1};\n", GSettableObject?.ToSource(), GSharpUtils.CastParameterString(Value, GSettableObject?.SettableType));
         }
     }
 }
