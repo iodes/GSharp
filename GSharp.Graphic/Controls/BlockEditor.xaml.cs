@@ -282,13 +282,15 @@ namespace GSharp.Graphic.Controls
         // 변수 선언
         public VariableBlock DefineGlobalVariable(string varName)
         {
-            if (GlobalVariableBlockList.Keys.Contains(varName))
+            string input = varName.Replace(" ", "_");
+
+            if (GlobalVariableBlockList.Keys.Contains(input))
             {
                 return null;
             }
 
-            GlobalVariableBlockList[varName] = BlockUtils.CreateVariableBlock(varName);
-            return GlobalVariableBlockList[varName];
+            GlobalVariableBlockList[input] = BlockUtils.CreateVariableBlock(input, varName);
+            return GlobalVariableBlockList[input];
         }
 
         // 변순 선언 해제
