@@ -14,6 +14,6 @@
     </core:ObjectBlock.Resources>
 
     <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
-        <ComboBox x:Name="EnumName" Height="20" FontWeight="Bold" DisplayMemberPath="FriendlyName" SelectionChanged="EnumName_SelectionChanged" Background="#FF79297E" Foreground="White" Style="{StaticResource ComboBoxStyle}"/>
+        <ComboBox x:Name="EnumName" Height="20" DisplayMemberPath="FriendlyName" SelectionChanged="EnumName_SelectionChanged" Background="#FF79297E" Foreground="White" Style="{StaticResource ComboBoxStyle}"/>
     </Border>
 </core:ObjectBlock>
