@@ -106,5 +106,12 @@ namespace GSharp.Graphic.Objects.Customs
             var command = BlockUtils.LoadGCommand(element);
             return new EnumBlock(command);
         }
+
+        protected override void DisableBlock()
+        {
+            base.DisableBlock();
+
+            EnumName.IsEnabled = false;
+        }
     }
 }

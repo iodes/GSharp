@@ -232,6 +232,9 @@ namespace GSharp.Graphic.Scopes
         protected override void DisableBlock()
         {
             base.DisableBlock();
+
+            EventName.IsEnabled = false;
+            ControlName.IsEnabled = false;
             ParameterBox.Visibility = Visibility.Collapsed;
         }
     }

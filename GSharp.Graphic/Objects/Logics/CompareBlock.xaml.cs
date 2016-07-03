@@ -135,5 +135,12 @@ namespace GSharp.Graphic.Objects.Logics
 
             return block;
         }
+
+        protected override void DisableBlock()
+        {
+            base.DisableBlock();
+
+            Operator.IsEnabled = false;
+        }
     }
 }

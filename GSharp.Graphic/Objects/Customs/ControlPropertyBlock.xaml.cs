@@ -163,5 +163,13 @@ namespace GSharp.Graphic.Objects.Customs
 
             return block;
         }
+
+        protected override void DisableBlock()
+        {
+            base.DisableBlock();
+
+            EventName.IsEnabled = false;
+            ControlName.IsEnabled = false;
+        }
     }
 }
