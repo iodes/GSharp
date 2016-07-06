@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GSharp.Graphic.Holes"
              mc:Ignorable="d" Foreground="DarkGreen">
+
+    <local:BaseObjectHole.Resources>
+        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml"/>
+    </local:BaseObjectHole.Resources>
+
     <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" MinWidth="20" MinHeight="20">
         <Grid>
-            <TextBox x:Name="ConstText" Background="Transparent" BorderThickness="0" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" />
-            <Border x:Name="BlockHole" />
+            <TextBox x:Name="ConstText" Background="Transparent" BorderThickness="0" TextAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White" Style="{StaticResource TextBoxStyle}"/>
+            <Border x:Name="BlockHole"/>
         </Grid>
     </Border>
-    
 </local:BaseObjectHole>
