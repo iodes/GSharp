@@ -206,7 +206,7 @@ namespace GSharp.Graphic
                     writer.WriteAttributeString("Name", option.Name);
                     writer.WriteAttributeString("FullName", option.FullName);
                     writer.WriteAttributeString("FriendlyName", option.FriendlyName);
-                    writer.WriteAttributeString("ObjectType", option.ObjectType.ToString());
+                    writer.WriteAttributeString("ObjectType", option.ObjectType.AssemblyQualifiedName);
 
                     writer.WriteEndElement();
                 }
