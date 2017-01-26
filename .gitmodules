@@ -1,0 +1,6 @@
+[submodule "GSharp.Builder"]
+	path = GSharp.Builder
+	url = https://github.com/iodes/GSharp.Builder
+[submodule "GSharp.Modules"]
+	path = GSharp.Modules
+	url = https://github.com/iodes/GSharp.Modules
