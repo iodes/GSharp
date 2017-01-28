@@ -53,8 +53,8 @@ namespace GSharp.Graphic.Holes
         }
         private Brush _BorderColor = Brushes.DarkOrange;
 
-        public override event HoleEventArgs BlockAttached;
-        public override event HoleEventArgs BlockDetached;
+        public override event HoleEventHandler BlockAttached;
+        public override event HoleEventHandler BlockDetached;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public override BaseBlock AttachedBlock

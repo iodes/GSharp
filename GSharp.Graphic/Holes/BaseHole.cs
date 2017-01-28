@@ -51,18 +51,17 @@ namespace GSharp.Graphic.Holes
         /// </summary>
         /// <param name="hole">이벤트가 발생한 구멍</param>
         /// <param name="block">이벤트가 발생한 블럭</param>
-        public delegate void HoleEventArgs(BaseHole hole, BaseBlock block);
-
+        public delegate void HoleEventHandler(BaseHole hole, BaseBlock block);
 
         /// <summary>
         /// 구멍에 블럭이 끼워졌을 때 이벤트입니다.
         /// </summary>
-        public virtual event HoleEventArgs BlockAttached;
+        public virtual event HoleEventHandler BlockAttached;
 
         /// <summary>
         /// 구멍에 블럭이 떨어졌을 때 이벤트입니다.
         /// </summary>
-        public virtual event HoleEventArgs BlockDetached;
+        public virtual event HoleEventHandler BlockDetached;
 
         /// <summary>
         /// 구멍에 해당 블럭을 끼울 수 있는지 확인합니다.

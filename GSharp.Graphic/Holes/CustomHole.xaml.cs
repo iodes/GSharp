@@ -25,8 +25,8 @@ namespace GSharp.Graphic.Holes
     /// </summary>
     public partial class CustomHole : BaseObjectHole
     {
-        public override event HoleEventArgs BlockAttached;
-        public override event HoleEventArgs BlockDetached;
+        public override event HoleEventHandler BlockAttached;
+        public override event HoleEventHandler BlockDetached;
 
         public override BaseBlock AttachedBlock
         {
