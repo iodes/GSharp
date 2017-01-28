@@ -15,6 +15,18 @@ namespace GSharp.Graphic.Blocks
     public abstract class BaseBlock : UserControl
     {
         /// <summary>
+        /// 블록이 변경되었음을 알리는 핸들러
+        /// </summary>
+        /// <param name="block">이벤트가 발생한 블록</param>
+        /// <param name="original">변경된 블록</param>
+        public delegate void BlockChangedHandler(BaseBlock block, BaseBlock original);
+
+        /// <summary>
+        /// 블록이 변경되었음을 알리는 이벤트
+        /// </summary>
+        public event BlockChangedHandler BlockChanged;
+
+        /// <summary>
         /// 자신의 하위 요소를 모두 포함하여 블럭에 붙어있는 구멍 목록
         /// </summary>
         public List<BaseHole> AllHoleList { get; } = new List<BaseHole>();
@@ -54,7 +66,6 @@ namespace GSharp.Graphic.Blocks
             HoleList.ForEach(e => e.IsPreview = true);
         }
 
-        // 블럭 위치
         /// <summary>
         /// 캔버스를 기준으로 하는 블럭의 위치
         /// </summary>
@@ -155,6 +166,10 @@ namespace GSharp.Graphic.Blocks
             }
         }
 
+        /// <summary>
+        /// XML 형식으로 블록을 저장하는 메소드
+        /// </summary>
+        /// <param name="writer">블록 XML을 쓸 XmlWriter 객체</param>
         public void SaveXML(XmlWriter writer)
         {
             writer.WriteStartElement("Block");
@@ -181,6 +196,12 @@ namespace GSharp.Graphic.Blocks
         protected virtual void SaveBlockAttribute(XmlWriter writer) { }
         protected virtual void SaveNextBlock(XmlWriter writer) { }
 
+        /// <summary>
+        /// XML 형식에서 블록을 불러오는 메소드
+        /// </summary>
+        /// <param name="element">블록을 불러올 XmlElement 객체</param>
+        /// <param name="blockEditor">불러온 블록을 추가할 BlockEditor 컨트롤</param>
+        /// <returns></returns>
         public static BaseBlock LoadBlock(XmlElement element, BlockEditor blockEditor)
         {
             if (element == null)
@@ -198,7 +219,13 @@ namespace GSharp.Graphic.Blocks
             return baseBlock;
         }
 
-        public static StatementBlock LoadChildBlocks(XmlElement element, BlockEditor blockEditor)
+        /// <summary>
+        /// 자식 블록들을 포함하는 블록의 XML에서 자식 블록들을 불러오는 메소드
+        /// </summary>
+        /// <param name="element">자식 블록을 포함하는 블록이 저장된 XmlElement 객체</param>
+        /// <param name="blockEditor">불러온 블록을 추가할 BlockEditor 컨트롤</param>
+        /// <returns></returns>
+        protected static StatementBlock LoadChildBlocks(XmlElement element, BlockEditor blockEditor)
         {
             XmlNodeList blockElements = element.SelectNodes("Block");
             
