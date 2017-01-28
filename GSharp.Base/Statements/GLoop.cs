@@ -10,6 +10,15 @@ namespace GSharp.Base.Statements
     [Serializable]
     public class GLoop : GStatement
     {
+        #region 반복 번호
+        private static int loopNo = 0;
+
+        public static void InitLoopNo()
+        {
+            loopNo = 0;
+        }
+        #endregion
+
         #region 속성
         public GObject GNumber { get; set; }
         #endregion
@@ -43,7 +52,7 @@ namespace GSharp.Base.Statements
 
             if (GNumber != null)
             {
-                string varName = "_" + GetHashCode();
+                string varName = "_" + loopNo++;
                 builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToNumber(); {0}++)\n{{\n", varName, GNumber.ToSource());
             }
             else

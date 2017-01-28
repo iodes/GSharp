@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Base.Utilities;
+using GSharp.Base.Statements;
 
 namespace GSharp.Base.Cores
 {
@@ -31,6 +32,8 @@ namespace GSharp.Base.Cores
         
         public override string ToSource()
         {
+            GLoop.InitLoopNo();
+
             StringBuilder source = new StringBuilder();
 
             foreach (GDefine def in defineList)
