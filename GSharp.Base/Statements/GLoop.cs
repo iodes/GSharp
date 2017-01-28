@@ -53,11 +53,13 @@ namespace GSharp.Base.Statements
             if (GNumber != null)
             {
                 string varName = "_" + loopNo++;
-                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToNumber(); {0}++)\n{{\n", varName, GNumber.ToSource());
+                builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToNumber(); {0}++)\n", varName, GNumber.ToSource());
+                builderCode.AppendLine("{");
             }
             else
             {
-                builderCode.AppendLine("while (true)\n{\n");
+                builderCode.AppendLine("while (true)");
+                builderCode.AppendLine("{");
             }
 
             foreach (GStatement statement in listStatement)
@@ -65,7 +67,7 @@ namespace GSharp.Base.Statements
                 builderCode.Append(ConvertAssistant.Indentation(statement.ToSource()));
             };
 
-            builderCode.Append("};");
+            builderCode.AppendLine("};");
 
             return builderCode.ToString();
         }
