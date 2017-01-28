@@ -23,6 +23,11 @@ namespace GSharp.Extension.DataTypes
             typeof(double)
         };
 
+        public static bool IsNumeric(object obj)
+        {
+            return NumberTypes.Contains(obj.GetType());
+        }
+
         public static double ToNumber(this double number)
         {
             return number;
@@ -180,7 +185,7 @@ namespace GSharp.Extension.DataTypes
         #region number, object 비교
         public static bool IsEqualThan(this double target1, object target2)
         {
-            if (NumberTypes.Contains(target2.GetType()))
+            if (IsNumeric(target2))
             {
                 return target1.IsEqualThan(Convert.ToDouble(target2));
             }
@@ -204,7 +209,7 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsNotEqualThan(this double target1, object target2)
         {
-            if (NumberTypes.Contains(target2.GetType()))
+            if (IsNumeric(target2))
             {
                 return target1.IsNotEqualThan(Convert.ToDouble(target2));
             }
@@ -228,7 +233,7 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessEqualThan(this double target1, object target2)
         {
-            if (NumberTypes.Contains(target2.GetType()))
+            if (IsNumeric(target2))
             {
                 return target1.IsLessEqualThan(Convert.ToDouble(target2));
             }
@@ -252,7 +257,7 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsGreaterEqualThan(this double target1, object target2)
         {
-            if (NumberTypes.Contains(target2.GetType()))
+            if (IsNumeric(target2))
             {
                 return target1.IsGreaterEqualThan(Convert.ToDouble(target2));
             }
@@ -276,7 +281,7 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsLessThan(this double target1, object target2)
         {
-            if (NumberTypes.Contains(target2.GetType()))
+            if (IsNumeric(target2))
             {
                 return target1.IsLessThan(Convert.ToDouble(target2));
             }
@@ -300,7 +305,7 @@ namespace GSharp.Extension.DataTypes
 
         public static bool IsGreaterThan(this double target1, object target2)
         {
-            if (NumberTypes.Contains(target2.GetType()))
+            if (IsNumeric(target2))
             {
                 return target1.IsGreaterThan(Convert.ToDouble(target2));
             }
