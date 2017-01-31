@@ -52,11 +52,6 @@
     <Compile Include="Attributes\GParameterAttribute.cs" />
     <Compile Include="Attributes\GViewAttribute.cs" />
     <Compile Include="Exports\GExport.cs" />
-    <Compile Include="DataTypes\BoolExtension.cs" />
-    <Compile Include="DataTypes\ListExtension.cs" />
-    <Compile Include="DataTypes\NumberExtension.cs" />
-    <Compile Include="DataTypes\ObjectExtension.cs" />
-    <Compile Include="DataTypes\StringExtension.cs" />
     <Compile Include="GControl.cs" />
     <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />

@@ -40,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\BoolExtension.cs" />
+    <Compile Include="DataTypes\ListExtension.cs" />
+    <Compile Include="DataTypes\NumberExtension.cs" />
+    <Compile Include="DataTypes\ObjectExtension.cs" />
+    <Compile Include="DataTypes\StringExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

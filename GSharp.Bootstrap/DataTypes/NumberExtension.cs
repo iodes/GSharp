@@ -1,173 +1,182 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GSharp.Extension.DataTypes
+namespace GSharp.Bootstrap.DataTypes
 {
-    public static class BoolExtension
+    public static class NumberExtension
     {
-        public static double ToNumber(this bool logic)
+        public static readonly List<Type> NumberTypes = new List<Type>()
         {
-            return logic ? 1 : 0;
+            typeof(sbyte),
+            typeof(byte),
+            typeof(short),
+            typeof(ushort),
+            typeof(int),
+            typeof(uint),
+            typeof(long),
+            typeof(ulong),
+            typeof(float),
+            typeof(double)
+        };
+
+        public static double ToNumber(this double number)
+        {
+            return number;
         }
 
-        public static string ToText(this bool logic)
+        public static string ToText(this double number)
         {
-            return logic ? "참" : "거짓";
+            return number.ToString();
         }
 
-        public static bool ToBool(this bool logic)
+        public static bool ToBool(this double number)
         {
-            return logic;
+            return number != 0;
         }
 
-        public static object ToCustom(this bool logic)
+        public static object ToCustom(this double number)
         {
             return null;
         }
 
-        public static List<object> ToList(this bool logic)
+        public static List<object> ToList(this double number)
         {
-            return new List<object>() { logic };
+            return new List<object>() { number };
         }
 
-
-        #region bool, string 비교
+        #region number, string 비교
         // 이미 StringExtension에서 정의함
-        public static bool IsEqualThan(this bool target1, string target2)
+        public static bool IsEqualThan(this double target1, string target2)
         {
             return target2.IsEqualThan(target1);
         }
 
-        public static bool IsNotEqualThan(this bool target1, string target2)
+        public static bool IsNotEqualThan(this double target1, string target2)
         {
             return target2.IsNotEqualThan(target1);
         }
 
-        public static bool IsLessEqualThan(this bool target1, string target2)
+        public static bool IsLessEqualThan(this double target1, string target2)
         {
             return target2.IsLessEqualThan(target1);
         }
 
-        public static bool IsGreaterEqualThan(this bool target1, string target2)
+        public static bool IsGreaterEqualThan(this double target1, string target2)
         {
             return target2.IsGreaterEqualThan(target1);
         }
 
-        public static bool IsLessThan(this bool target1, string target2)
+        public static bool IsLessThan(this double target1, string target2)
         {
             return target2.IsLessThan(target1);
         }
 
-        public static bool IsGreaterThan(this bool target1, string target2)
+        public static bool IsGreaterThan(this double target1, string target2)
         {
             return target2.IsGreaterThan(target1);
         }
         #endregion
 
-        #region bool, bool 비교
-        public static bool IsEqualThan(this bool target1, bool target2)
+        #region number, bool 비교
+        public static bool IsEqualThan(this double target1, bool target2)
+        {
+            return target1.ToBool() == target2;
+        }
+
+        public static bool IsNotEqualThan(this double target1, bool target2)
+        {
+            return target1.ToBool() != target2;
+        }
+
+        public static bool IsLessEqualThan(this double target1, bool target2)
+        {
+            return target1.IsEqualThan(target2);
+        }
+
+        public static bool IsGreaterEqualThan(this double target1, bool target2)
+        {
+            return target1.IsEqualThan(target2);
+        }
+
+        public static bool IsLessThan(this double target1, bool target2)
+        {
+            return target1.IsNotEqualThan(target2);
+        }
+
+        public static bool IsGreaterThan(this double target1, bool target2)
+        {
+            return target1.IsNotEqualThan(target2);
+        }
+        #endregion
+
+        #region number, number 비교
+        public static bool IsEqualThan(this double target1, double target2)
         {
             return target1 == target2;
         }
 
-        public static bool IsNotEqualThan(this bool target1, bool target2)
+        public static bool IsNotEqualThan(this double target1, double target2)
         {
             return target1 != target2;
         }
 
-        public static bool IsLessEqualThan(this bool target1, bool target2)
+        public static bool IsLessEqualThan(this double target1, double target2)
         {
-            return target1.IsEqualThan(target2);
+            return target1 <= target2;
         }
 
-        public static bool IsGreaterEqualThan(this bool target1, bool target2)
+        public static bool IsGreaterEqualThan(this double target1, double target2)
         {
-            return target1.IsEqualThan(target2);
+            return target1 >= target2;
         }
 
-        public static bool IsLessThan(this bool target1, bool target2)
+        public static bool IsLessThan(this double target1, double target2)
         {
-            return target1.IsNotEqualThan(target2);
+            return target1 < target2;
         }
 
-        public static bool IsGreaterThan(this bool target1, bool target2)
+        public static bool IsGreaterThan(this double target1, double target2)
         {
-            return target1.IsNotEqualThan(target2);
-        }
-        #endregion
-
-        #region bool, number 비교
-        // 이미 NumberExtension에서 정의함
-        public static bool IsEqualThan(this bool target1, double target2)
-        {
-            return target2.IsEqualThan(target1);
-        }
-
-        public static bool IsNotEqualThan(this bool target1, double target2)
-        {
-            return target2.IsNotEqualThan(target1);
-        }
-
-        public static bool IsLessEqualThan(this bool target1, double target2)
-        {
-            return target2.IsLessEqualThan(target1);
-        }
-
-        public static bool IsGreaterEqualThan(this bool target1, double target2)
-        {
-            return target2.IsGreaterEqualThan(target1);
-        }
-
-        public static bool IsLessThan(this bool target1, double target2)
-        {
-            return target2.IsLessThan(target1);
-        }
-
-        public static bool IsGreaterThan(this bool target1, double target2)
-        {
-            return target2.IsGreaterThan(target1);
+            return target1 > target2;
         }
         #endregion
 
-        #region bool, list 비교
-        public static bool IsEqualThan(this bool target1, List<object> target2)
+        #region number, list 비교
+        public static bool IsEqualThan(this double target1, List<object> target2)
         {
-            return target1 == target2.ToBool();
+            return target1 == target2.Count;
         }
 
-        public static bool IsNotEqualThan(this bool target1, List<object> target2)
+        public static bool IsNotEqualThan(this double target1, List<object> target2)
         {
-            return target1 == target2.ToBool();
+            return target1 != target2.Count;
         }
 
-        public static bool IsLessEqualThan(this bool target1, List<object> target2)
+        public static bool IsLessEqualThan(this double target1, List<object> target2)
         {
-            return target1.IsEqualThan(target2);
+            return target1 <= target2.Count;
         }
 
-        public static bool IsGreaterEqualThan(this bool target1, List<object> target2)
+        public static bool IsGreaterEqualThan(this double target1, List<object> target2)
         {
-            return target1.IsEqualThan(target2);
+            return target1 >= target2.Count;
         }
 
-        public static bool IsLessThan(this bool target1, List<object> target2)
+        public static bool IsLessThan(this double target1, List<object> target2)
         {
-            return target1.IsNotEqualThan(target2);
+            return target1 < target2.Count;
         }
 
-        public static bool IsGreaterThan(this bool target1, List<object> target2)
+        public static bool IsGreaterThan(this double target1, List<object> target2)
         {
-            return target1.IsNotEqualThan(target2);
+            return target1 > target2.Count;
         }
         #endregion
 
-        #region bool, object 비교
-        public static bool IsEqualThan(this bool target1, object target2)
+        #region number, object 비교
+        public static bool IsEqualThan(this double target1, object target2)
         {
-            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
+            if (NumberTypes.Contains(target2.GetType()))
             {
                 return target1.IsEqualThan(Convert.ToDouble(target2));
             }
@@ -189,9 +198,9 @@ namespace GSharp.Extension.DataTypes
             }
         }
 
-        public static bool IsNotEqualThan(this bool target1, object target2)
+        public static bool IsNotEqualThan(this double target1, object target2)
         {
-            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
+            if (NumberTypes.Contains(target2.GetType()))
             {
                 return target1.IsNotEqualThan(Convert.ToDouble(target2));
             }
@@ -213,9 +222,9 @@ namespace GSharp.Extension.DataTypes
             }
         }
 
-        public static bool IsLessEqualThan(this bool target1, object target2)
+        public static bool IsLessEqualThan(this double target1, object target2)
         {
-            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
+            if (NumberTypes.Contains(target2.GetType()))
             {
                 return target1.IsLessEqualThan(Convert.ToDouble(target2));
             }
@@ -237,9 +246,9 @@ namespace GSharp.Extension.DataTypes
             }
         }
 
-        public static bool IsGreaterEqualThan(this bool target1, object target2)
+        public static bool IsGreaterEqualThan(this double target1, object target2)
         {
-            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
+            if (NumberTypes.Contains(target2.GetType()))
             {
                 return target1.IsGreaterEqualThan(Convert.ToDouble(target2));
             }
@@ -261,9 +270,9 @@ namespace GSharp.Extension.DataTypes
             }
         }
 
-        public static bool IsLessThan(this bool target1, object target2)
+        public static bool IsLessThan(this double target1, object target2)
         {
-            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
+            if (NumberTypes.Contains(target2.GetType()))
             {
                 return target1.IsLessThan(Convert.ToDouble(target2));
             }
@@ -285,9 +294,9 @@ namespace GSharp.Extension.DataTypes
             }
         }
 
-        public static bool IsGreaterThan(this bool target1, object target2)
+        public static bool IsGreaterThan(this double target1, object target2)
         {
-            if (NumberExtension.NumberTypes.Contains(target2.GetType()))
+            if (NumberTypes.Contains(target2.GetType()))
             {
                 return target1.IsGreaterThan(Convert.ToDouble(target2));
             }

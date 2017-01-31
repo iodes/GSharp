@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GSharp.Extension.DataTypes
+namespace GSharp.Bootstrap.DataTypes
 {
     public static class ListExtension
     {
@@ -34,7 +32,7 @@ namespace GSharp.Extension.DataTypes
         {
             return list;
         }
-        
+
         #region list, string 비교
         // 이미 StringExtension에 정의됨
         public static bool IsEqualThan(this List<object> target1, string target2)
@@ -143,7 +141,7 @@ namespace GSharp.Extension.DataTypes
                 return false;
             }
 
-            for(int i=0; i<cnt; i++)
+            for (int i = 0; i < cnt; i++)
             {
                 if (!target1.IsEqualThan(target2))
                 {
