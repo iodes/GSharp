@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharpSample", "GSharpSample\GSharpSample.csproj", "{730CDA8B-9911-4CBC-95F8-5D62CC838692}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Extension", "GSharp.Extension\GSharp.Extension.csproj", "{E9A37265-4972-42B8-A144-7DBE3CDAB526}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Manager", "GSharp.Manager\GSharp.Manager.csproj", "{962E1900-9EA0-4E71-B75D-3890973BA34A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Bootstrap", "GSharp.Bootstrap\GSharp.Bootstrap.csproj", "{1461F1A5-ED06-4852-A48F-08C62FD9C56E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{962E1900-9EA0-4E71-B75D-3890973BA34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{962E1900-9EA0-4E71-B75D-3890973BA34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{962E1900-9EA0-4E71-B75D-3890973BA34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
