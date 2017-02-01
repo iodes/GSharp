@@ -59,5 +59,55 @@ namespace GSharp.Compile.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static byte[] GSharp_Bootstrap {
+            get {
+                object obj = ResourceManager.GetObject("GSharp_Bootstrap", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static byte[] PresentationCore {
+            get {
+                object obj = ResourceManager.GetObject("PresentationCore", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static byte[] PresentationFramework {
+            get {
+                object obj = ResourceManager.GetObject("PresentationFramework", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static byte[] System_Xaml {
+            get {
+                object obj = ResourceManager.GetObject("System_Xaml", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Byte[] 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static byte[] WindowsBase {
+            get {
+                object obj = ResourceManager.GetObject("WindowsBase", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

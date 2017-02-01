@@ -61,6 +61,21 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GSharp.Bootstrap.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PresentationCore.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PresentationFramework.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\System.Xaml.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WindowsBase.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

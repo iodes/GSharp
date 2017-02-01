@@ -1,14 +1,17 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using GSharp.Base.Utilities;
+using GSharp.Compile.Properties;
+using Microsoft.CSharp;
+using System;
 using System.CodeDom.Compiler;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using Microsoft.CSharp;
-using GSharp.Base.Utilities;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GSharp.Compile
 {
@@ -48,29 +51,6 @@ namespace GSharp.Compile
         /// 사용자가 불러온 참조의 목록입니다.
         /// </summary>
         public List<string> LoadedReferences { get; set; } = new List<string>();
-
-        /// <summary>
-        /// 컴파일시 필요한 공용 저장소의 경로입니다.
-        /// </summary>
-        public string Commons
-        {
-            get
-            {
-                return _Commons;
-            }
-            set
-            {
-                _Commons = value;
-                foreach (string reference in GetDefaultReference())
-                {
-                    if (!IsNameContains(References, reference))
-                    {
-                        References.Add(reference);
-                    }
-                }
-            }
-        }
-        private string _Commons;
 
         /// <summary>
         /// 컴파일시 복사될 의존성의 목록입니다.
@@ -150,13 +130,13 @@ namespace GSharp.Compile
 
             result.Add("System.dll");
             result.Add("System.Linq.dll");
-            if (Commons?.Length > 0)
+
+            var resources = Resources.ResourceManager.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
+            foreach (DictionaryEntry resource in resources)
             {
-                result.Add(Path.Combine(Commons, "System.Xaml.dll"));
-                result.Add(Path.Combine(Commons, "WindowsBase.dll"));
-                result.Add(Path.Combine(Commons, "PresentationCore.dll"));
-                result.Add(Path.Combine(Commons, "PresentationFramework.dll"));
-                result.Add(Path.Combine(Commons, "GSharp.Extension.dll"));
+                var path = Path.GetTempPath() + $"{(resource.Key as string).Replace('_', '.')}.dll";
+                File.WriteAllBytes(path, resource.Value as byte[]);
+                result.Add(path);
             }
 
             return result;
@@ -173,8 +153,7 @@ namespace GSharp.Compile
             result.AppendLine("using System.Reflection;");
             result.AppendLine("using System.Windows;");
             result.AppendLine("using System.Windows.Markup;");
-            result.AppendLine("using GSharp.Extension.Abstracts;");
-            result.AppendLine("using GSharp.Extension.DataTypes;");
+            result.AppendLine("using GSharp.Bootstrap.DataTypes;");
             result.AppendLine();
             result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
             result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");
@@ -410,7 +389,11 @@ namespace GSharp.Compile
             {
                 if (File.Exists(dll))
                 {
-                    File.Copy(dll, string.Format(@"{0}\{1}", Path.GetDirectoryName(path), Path.GetFileName(dll)), true);
+                    var destination = $@"{Path.GetDirectoryName(path)}\{Path.GetFileName(dll)}";
+                    if (dll != destination)
+                    {
+                        File.Copy(dll, destination, true);
+                    }
                 }
             }
 
