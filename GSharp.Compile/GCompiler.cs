@@ -129,6 +129,7 @@ namespace GSharp.Compile
             List<string> result = new List<string>();
 
             result.Add("System.dll");
+            result.Add("System.Core.dll");
             result.Add("System.Linq.dll");
 
             var resources = Resources.ResourceManager.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
@@ -142,7 +143,7 @@ namespace GSharp.Compile
             return result;
         }
 
-        private string ConvertToFullSource(string source)
+        private string ConvertToFullSource(string source, bool isEmbedded = false)
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("using System;");
@@ -172,13 +173,42 @@ namespace GSharp.Compile
             result.AppendLine("        [STAThread]");
             result.AppendLine("        public static void Main()");
             result.AppendLine("        {");
+            if (isEmbedded)
+            {
+                result.AppendLine("            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(Resolve);");
+            }
             result.AppendLine("            App app = new App();");
             result.AppendLine("            app.InitializeComponent();");
             result.AppendLine("            app.Run();");
             result.AppendLine("        }");
-            result.AppendLine();
+            if (isEmbedded)
+            {
+                result.AppendLine();
+                result.AppendLine("        public static Assembly Resolve(object sender, ResolveEventArgs args)");
+                result.AppendLine("        {");
+                result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
+                result.AppendLine(@"            var name = args.Name.Substring(0, args.Name.IndexOf(',')) + "".dll"";");
+                result.AppendLine("            var files = current.GetManifestResourceNames().Where(s => s.EndsWith(name));");
+                result.AppendLine();
+                result.AppendLine("            if (files.Count() > 0)");
+                result.AppendLine("            {");
+                result.AppendLine("                using (var stream = current.GetManifestResourceStream(files.First()))");
+                result.AppendLine("                {");
+                result.AppendLine("                    if (stream != null)");
+                result.AppendLine("                    {");
+                result.AppendLine("                        var data = new byte[stream.Length];");
+                result.AppendLine("                        stream.Read(data, 0, data.Length);");
+                result.AppendLine("                        return Assembly.Load(data);");
+                result.AppendLine("                    }");
+                result.AppendLine("                }");
+                result.AppendLine("            }");
+                result.AppendLine();
+                result.AppendLine("            return null;");
+                result.AppendLine("        }");
+            }
             if (XAML.Length > 0)
             {
+                result.AppendLine();
                 result.AppendLine("        public string Decode(string value)");
                 result.AppendLine("        {");
                 result.AppendLine("            if (value != null && value.Length > 0)");
@@ -372,27 +402,29 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public GCompilerResults Build(string path, bool isExecutable = false)
+        public GCompilerResults Build(string path, bool isExecutable = false, bool isEmbedded = false)
         {
             parameters.OutputAssembly = path;
             parameters.GenerateExecutable = isExecutable;
             parameters.CompilerOptions = "/platform:x86 /target:winexe";
-            string fullSource = ConvertToFullSource(Source);
-
-            GCompilerResults results = new GCompilerResults
-            {
-                Source = fullSource,
-                Results = provider.CompileAssemblyFromSource(parameters, fullSource)
-            };
+            parameters.EmbeddedResources.Clear();
+            string fullSource = ConvertToFullSource(Source, isEmbedded);
 
             foreach (string dll in References)
             {
                 if (File.Exists(dll))
                 {
-                    var destination = $@"{Path.GetDirectoryName(path)}\{Path.GetFileName(dll)}";
-                    if (dll != destination)
+                    if (isEmbedded)
                     {
-                        File.Copy(dll, destination, true);
+                        parameters.EmbeddedResources.Add(dll);
+                    }
+                    else
+                    {
+                        var destination = $@"{Path.GetDirectoryName(path)}\{Path.GetFileName(dll)}";
+                        if (dll != destination)
+                        {
+                            File.Copy(dll, destination, true);
+                        }
                     }
                 }
             }
@@ -405,6 +437,12 @@ namespace GSharp.Compile
                 }
             }
 
+            GCompilerResults results = new GCompilerResults
+            {
+                Source = fullSource,
+                Results = provider.CompileAssemblyFromSource(parameters, fullSource)
+            };
+
             return results;
         }
 
@@ -413,9 +451,9 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public async Task<GCompilerResults> BuildAsync(string path, bool isExecutable = false)
+        public async Task<GCompilerResults> BuildAsync(string path, bool isExecutable = false, bool isEmbedded = false)
         {
-            return await Task.Run(() => Build(path, isExecutable));
+            return await Task.Run(() => Build(path, isExecutable, isEmbedded));
         }
         #endregion
     }
