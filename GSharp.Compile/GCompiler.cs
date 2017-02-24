@@ -402,10 +402,9 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public GCompilerResults Build(string path, bool isExecutable = false, bool isEmbedded = false)
+        public GCompilerResults Build(string path, bool isEmbedded = false)
         {
             parameters.OutputAssembly = path;
-            parameters.GenerateExecutable = isExecutable;
             parameters.CompilerOptions = "/platform:x86 /target:winexe";
             parameters.EmbeddedResources.Clear();
             string fullSource = ConvertToFullSource(Source, isEmbedded);
@@ -451,9 +450,9 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public async Task<GCompilerResults> BuildAsync(string path, bool isExecutable = false, bool isEmbedded = false)
+        public async Task<GCompilerResults> BuildAsync(string path, bool isEmbedded = false)
         {
-            return await Task.Run(() => Build(path, isExecutable, isEmbedded));
+            return await Task.Run(() => Build(path, isEmbedded));
         }
         #endregion
     }
