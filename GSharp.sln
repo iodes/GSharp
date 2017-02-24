@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Manager", "GSharp.Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Bootstrap", "GSharp.Bootstrap\GSharp.Bootstrap.csproj", "{1461F1A5-ED06-4852-A48F-08C62FD9C56E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GSharp.Compressor", "GSharp.Compressor\GSharp.Compressor.csproj", "{BCBE6EBF-CE0B-4628-BE9C-BEAEBC5A429C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1461F1A5-ED06-4852-A48F-08C62FD9C56E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCBE6EBF-CE0B-4628-BE9C-BEAEBC5A429C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCBE6EBF-CE0B-4628-BE9C-BEAEBC5A429C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCBE6EBF-CE0B-4628-BE9C-BEAEBC5A429C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCBE6EBF-CE0B-4628-BE9C-BEAEBC5A429C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
