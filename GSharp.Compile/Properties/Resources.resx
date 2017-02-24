@@ -121,6 +121,9 @@
   <data name="GSharp_Bootstrap" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GSharp.Bootstrap.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="GSharp_Compressor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GSharp.Compressor.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="PresentationCore" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PresentationCore.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

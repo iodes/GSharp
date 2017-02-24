@@ -54,6 +54,10 @@
       <Project>{21886de1-feb9-43f7-ac71-ed118bde30fc}</Project>
       <Name>GSharp.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GSharp.Compressor\GSharp.Compressor.csproj">
+      <Project>{bcbe6ebf-ce0b-4628-be9c-beaebc5a429c}</Project>
+      <Name>GSharp.Compressor</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -75,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WindowsBase.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GSharp.Compressor.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
