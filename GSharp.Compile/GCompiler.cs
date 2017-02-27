@@ -172,6 +172,11 @@ namespace GSharp.Compile
             result.AppendLine("    public partial class App : Application");
             result.AppendLine("    {");
             result.AppendLine("        public static Window window;");
+            if (isEmbedded && isCompressed)
+            {
+                result.AppendLine("        public static Assembly compressor;");
+                result.AppendLine("        public static MethodInfo compressorMethod;");
+            }
             result.AppendLine();
             result.AppendLine("        [STAThread]");
             result.AppendLine("        public static void Main()");
@@ -179,6 +184,20 @@ namespace GSharp.Compile
             if (isEmbedded || isCompressed)
             {
                 result.AppendLine("            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(Resolve);");
+                if (isEmbedded && isCompressed)
+                {
+                    result.AppendLine();
+                    result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
+                    result.AppendLine(@"            var files = current.GetManifestResourceNames().Where(s => s.EndsWith(""GSharp.Compressor.dll""));");
+                    result.AppendLine("            using (var stream = current.GetManifestResourceStream(files.First()))");
+                    result.AppendLine("            {");
+                    result.AppendLine("                var data = new byte[stream.Length];");
+                    result.AppendLine("                stream.Read(data, 0, data.Length);");
+                    result.AppendLine("                compressor = Assembly.Load(data);");
+                    result.AppendLine(@"                compressorMethod = compressor.GetType(""GSharp.Compressor.GCompressor"").GetMethod(""Decompress"", new Type[] { typeof(Stream) });");
+                    result.AppendLine("            }");
+                    result.AppendLine();
+                }
             }
             result.AppendLine("            App app = new App();");
             result.AppendLine("            app.InitializeComponent();");
@@ -211,7 +230,7 @@ namespace GSharp.Compile
                     result.AppendLine("                    {");
                     if (isCompressed)
                     {
-                        result.AppendLine("                        var data = GCompressor.Decompress(stream);");
+                        result.AppendLine("                        var data = compressorMethod.Invoke(null, new object[] { stream }) as byte[];");
                         result.AppendLine("                        return Assembly.Load(data);");
                     }
                     else
