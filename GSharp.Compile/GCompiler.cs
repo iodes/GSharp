@@ -466,8 +466,15 @@ namespace GSharp.Compile
                     string target = dll;
                     if (isCompressed && Path.GetFileNameWithoutExtension(target) != "GSharp.Compressor")
                     {
-                        var targetCompressed = $@"{Path.GetDirectoryName(target)}\{Path.GetFileNameWithoutExtension(target)}.pak";
-                        GCompressor.Compress(target, targetCompressed);
+                        var tempFileName = Path.GetTempFileName();
+                        var targetCompressed = Path.GetTempPath() + $"{Path.GetFileNameWithoutExtension(target)}.pak";
+
+                        if (!Path.GetTempPath().StartsWith(Path.GetDirectoryName(target)))
+                        {
+                            File.Copy(target, tempFileName, true);
+                        }
+                                                
+                        GCompressor.Compress(tempFileName, targetCompressed);
                         target = targetCompressed;
                     }
 
