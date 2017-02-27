@@ -179,19 +179,6 @@ namespace GSharp.Compile
             if (isEmbedded || isCompressed)
             {
                 result.AppendLine("            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(Resolve);");
-                if (isEmbedded && isCompressed)
-                {
-                    result.AppendLine();
-                    result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
-                    result.AppendLine(@"            var files = current.GetManifestResourceNames().Where(s => s.EndsWith(""GSharp.Compressor.dll""));");
-                    result.AppendLine("            using (var stream = current.GetManifestResourceStream(files.First()))");
-                    result.AppendLine("            {");
-                    result.AppendLine("                var data = new byte[stream.Length];");
-                    result.AppendLine("                stream.Read(data, 0, data.Length);");
-                    result.AppendLine("                Assembly.Load(data);");
-                    result.AppendLine("            }");
-                    result.AppendLine();
-                }
             }
             result.AppendLine("            App app = new App();");
             result.AppendLine("            app.InitializeComponent();");
