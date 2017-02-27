@@ -179,6 +179,19 @@ namespace GSharp.Compile
             if (isEmbedded || isCompressed)
             {
                 result.AppendLine("            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(Resolve);");
+                if (isEmbedded && isCompressed)
+                {
+                    result.AppendLine();
+                    result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
+                    result.AppendLine(@"            var files = current.GetManifestResourceNames().Where(s => s.EndsWith(""GSharp.Compressor.dll""));");
+                    result.AppendLine("            using (var stream = current.GetManifestResourceStream(files.First()))");
+                    result.AppendLine("            {");
+                    result.AppendLine("                var data = new byte[stream.Length];");
+                    result.AppendLine("                stream.Read(data, 0, data.Length);");
+                    result.AppendLine("                Assembly.Load(data);");
+                    result.AppendLine("            }");
+                    result.AppendLine();
+                }
             }
             result.AppendLine("            App app = new App();");
             result.AppendLine("            app.InitializeComponent();");
@@ -189,6 +202,7 @@ namespace GSharp.Compile
                 result.AppendLine();
                 result.AppendLine("        public static Assembly Resolve(object sender, ResolveEventArgs args)");
                 result.AppendLine("        {");
+                result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
                 if (isCompressed)
                 {
                     result.AppendLine(@"            var name = args.Name.Substring(0, args.Name.IndexOf(',')) + "".pak"";");
@@ -200,7 +214,6 @@ namespace GSharp.Compile
 
                 if (isEmbedded)
                 {
-                    result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
                     result.AppendLine("            var files = current.GetManifestResourceNames().Where(s => s.EndsWith(name));");
                     result.AppendLine();
                     result.AppendLine("            if (files.Count() > 0)");
@@ -211,7 +224,8 @@ namespace GSharp.Compile
                     result.AppendLine("                    {");
                     if (isCompressed)
                     {
-                        // 스트림 압축 해제 및 반환 구현 필요
+                        result.AppendLine("                        var data = GCompressor.Decompress(stream);");
+                        result.AppendLine("                        return Assembly.Load(data);");
                     }
                     else
                     {
@@ -223,18 +237,15 @@ namespace GSharp.Compile
                     result.AppendLine("                }");
                     result.AppendLine("            }");
                 }
-                else if (isCompressed)
+                else
                 {
-                    // 임시 코드
-                    // 압축 해제 후 스트림 반환 필요
                     result.AppendLine();
-                    result.AppendLine("            var decompress = Path.GetTempFileName();");
-                    result.AppendLine("            GCompressor.Decompress(AppDomain.CurrentDomain.BaseDirectory + name, decompress);");
-                    result.AppendLine("            return Assembly.LoadFrom(decompress);");
+                    result.AppendLine("            var data = GCompressor.Decompress(AppDomain.CurrentDomain.BaseDirectory + name);");
+                    result.AppendLine("            return Assembly.Load(data);");
                 }
-                result.AppendLine();
                 if (isEmbedded)
                 {
+                    result.AppendLine();
                     result.AppendLine("            return null;");
                 }
                 result.AppendLine("        }");
