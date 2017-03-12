@@ -1,0 +1,33 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GSharpSample"
+        xmlns:Controls="clr-namespace:GSharp.Graphic.Controls;assembly=GSharp.Graphic" x:Class="GSharpSample.MainWindow"
+        mc:Ignorable="d"
+        Title="GSharpSample" Height="750" Width="1000" WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Background="#FF46A4D1" Orientation="Horizontal">
+            <Button x:Name="btnConvert" Content="코드로 변환" Width="100" Margin="10,10,5,10"/>
+            <Button x:Name="btnStdCompile" Content="표준 컴파일" Width="100" Margin="5,10"/>
+            <Button x:Name="btnCompCompile" Content="압축 컴파일" Width="100" Margin="5,10"/>
+        </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ListBox Grid.Column="0" x:Name="listBlock" HorizontalContentAlignment="Center" UseLayoutRounding="True" Background="#FFE2F2F9"/>
+            <Controls:BlockEditor Grid.Column="1" x:Name="blockEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFF8FAFB"/>
+        </Grid>
+    </Grid>
+</Window>
