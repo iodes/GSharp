@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("GSharp.Graphic")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Kodnix")]
 [assembly: AssemblyProduct("GSharp.Graphic")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © Kodnix. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
