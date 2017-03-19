@@ -99,6 +99,10 @@
       <Project>{21886DE1-FEB9-43F7-AC71-ED118BDE30FC}</Project>
       <Name>GSharp.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GSharp.Compile\GSharp.Compile.csproj">
+      <Project>{90e2619f-084d-483a-90d8-82acfa733cd6}</Project>
+      <Name>GSharp.Compile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GSharp.Extension\GSharp.Extension.csproj">
       <Project>{E9A37265-4972-42B8-A144-7DBE3CDAB526}</Project>
       <Name>GSharp.Extension</Name>

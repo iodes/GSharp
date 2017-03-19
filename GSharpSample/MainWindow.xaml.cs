@@ -1,4 +1,5 @@
 ﻿using GSharp.Base.Objects.Numbers;
+using GSharp.Compile;
 using GSharp.Extension;
 using GSharp.Graphic.Blocks;
 using GSharp.Graphic.Objects.Lists;
@@ -7,20 +8,8 @@ using GSharp.Graphic.Objects.Numbers;
 using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Statements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Win32;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GSharpSample
 {
@@ -67,6 +56,40 @@ namespace GSharpSample
             {
                 block.Margin = new Thickness(0, 0, 0, 10);
             }
+        }
+
+        private void Compile(bool isCompressed)
+        {
+            var compiler = new GCompiler
+            {
+                Source = blockEditor.GetSource()
+            };
+
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "응용 프로그램 (*.exe)|*.exe"
+            };
+
+            if (saveDialog.ShowDialog().Value)
+            {
+                var result = compiler.Build(saveDialog.FileName, isCompressed, isCompressed);
+                MessageBox.Show(result.IsSuccess ? "컴파일 성공" : "컴파일 실패", "결과", MessageBoxButton.OK, result.IsSuccess ? MessageBoxImage.Information : MessageBoxImage.Error);
+            }
+        }
+
+        private void btnConvert_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(blockEditor.GetSource());
+        }
+
+        private void btnStdCompile_Click(object sender, RoutedEventArgs e)
+        {
+            Compile(false);
+        }
+
+        private void btnCompCompile_Click(object sender, RoutedEventArgs e)
+        {
+            Compile(true);
         }
     }
 }

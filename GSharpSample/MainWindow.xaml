@@ -15,9 +15,9 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Background="#FF46A4D1" Orientation="Horizontal">
-            <Button x:Name="btnConvert" Content="코드로 변환" Width="100" Margin="10,10,5,10"/>
-            <Button x:Name="btnStdCompile" Content="표준 컴파일" Width="100" Margin="5,10"/>
-            <Button x:Name="btnCompCompile" Content="압축 컴파일" Width="100" Margin="5,10"/>
+            <Button x:Name="btnConvert" Content="코드로 변환" Width="100" Margin="10,10,5,10" Click="btnConvert_Click"/>
+            <Button x:Name="btnStdCompile" Content="표준 컴파일" Width="100" Margin="5,10" Click="btnStdCompile_Click"/>
+            <Button x:Name="btnCompCompile" Content="압축 컴파일" Width="100" Margin="5,10" Click="btnCompCompile_Click"/>
         </StackPanel>
         
         <Grid Grid.Row="1">
