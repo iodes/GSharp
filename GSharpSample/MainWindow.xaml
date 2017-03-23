@@ -27,7 +27,7 @@
             </Grid.ColumnDefinitions>
 
             <ListBox Grid.Column="0" x:Name="listBlock" HorizontalContentAlignment="Center" UseLayoutRounding="True" Background="#FFE2F2F9"/>
-            <Controls:BlockEditor Grid.Column="1" x:Name="blockEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFF8FAFB"/>
+            <Controls:BlockEditor Grid.Column="1" x:Name="blockEditor" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFF8FAFB" AllowDrop="True" Drop="blockEditor_Drop" DragEnter="blockEditor_DragEnter"/>
         </Grid>
     </Grid>
 </Window>
