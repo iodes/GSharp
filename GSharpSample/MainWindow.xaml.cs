@@ -9,9 +9,12 @@ using GSharp.Graphic.Objects.Numbers;
 using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Statements;
+using GSharp.Manager;
 using Microsoft.Win32;
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -32,6 +35,7 @@ namespace GSharpSample
         private Window dragEffectWindow;
         private BaseBlock lastDragBlock;
         private Point startPoint;
+        private GCompiler compiler = new GCompiler();
         #endregion
 
         #region 생성자
@@ -45,6 +49,7 @@ namespace GSharpSample
         #region 이벤트
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // 기본 블럭 추가
             listBlock.Items.Add(new EventBlock(new GCommand("this", "Loaded", "프로그램이 시작될 때", typeof(void), GCommand.CommandType.Event)));
             listBlock.Items.Add(new EventBlock(new GCommand("this", "Closing", "프로그램이 종료될 때", typeof(void), GCommand.CommandType.Event)));
 
@@ -71,6 +76,17 @@ namespace GSharpSample
             listBlock.Items.Add(new LoopInfinityBlock());
             listBlock.Items.Add(new LoopNBlock());
 
+            // 확장 블럭 추가
+            var extension = new ExtensionManager("Extensions");
+            foreach (var target in extension.Extensions)
+            {
+                foreach (BaseBlock block in extension.ConvertToBlocks(target))
+                {
+                    listBlock.Items.Add(block);
+                }
+            }
+
+            // 간격 및 이벤트 설정
             foreach (BaseBlock block in listBlock.Items)
             {
                 block.Margin = new Thickness(0, 0, 0, 10);
@@ -97,10 +113,7 @@ namespace GSharpSample
         #region 내부 함수
         private void Compile(bool isCompressed)
         {
-            var compiler = new GCompiler
-            {
-                Source = blockEditor.GetSource()
-            };
+            compiler.Source = blockEditor.GetSource();
 
             var saveDialog = new SaveFileDialog
             {
@@ -114,7 +127,7 @@ namespace GSharpSample
             }
         }
 
-        private BaseBlock CopyBlock(object value)
+        private async Task<BaseBlock> CopyBlock(object value)
         {
             object[] args = null;
 
@@ -137,7 +150,17 @@ namespace GSharpSample
             {
                 args = new object[] { (value as ComputeBlock).OperatorType };
             }
-
+            
+            if (value.GetType().GetInterfaces().Contains(typeof(IModuleBlock)))
+            {
+                var moduleBlock = value as IModuleBlock;
+                if (moduleBlock.GCommand.Parent != null)
+                {
+                    await compiler.LoadReferenceAsync(moduleBlock.GCommand.Parent.Path);
+                    await compiler.LoadDependenciesAsync(moduleBlock.GCommand.Parent.Dependencies);
+                }
+            }
+            
             return Activator.CreateInstance(value.GetType(), args) as BaseBlock;
         }
 
@@ -204,15 +227,15 @@ namespace GSharpSample
             dropComplete = false;
             lastDragBlock = null;
         }
-
-        private void blockEditor_DragEnter(object sender, DragEventArgs e)
+        
+        private async void blockEditor_DragEnter(object sender, DragEventArgs e)
         {
             if (!dropComplete)
             {
                 var originalBlock = e.Data.GetData("DragSource") as BaseBlock;
                 if (originalBlock != null)
                 {
-                    lastDragBlock = CopyBlock(originalBlock);
+                    lastDragBlock = await CopyBlock(originalBlock);
                     lastDragBlock.Position = e.GetPosition(blockEditor.Master);
 
                     blockEditor.AddBlock(lastDragBlock);
