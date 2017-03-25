@@ -82,6 +82,7 @@ namespace GSharpSample
             {
                 foreach (BaseBlock block in extension.ConvertToBlocks(target))
                 {
+                    block.IsPreview = true;
                     listBlock.Items.Add(block);
                 }
             }
