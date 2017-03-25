@@ -150,7 +150,7 @@ namespace GSharpSample
             {
                 args = new object[] { (value as ComputeBlock).OperatorType };
             }
-
+            
             if (value.GetType().GetInterfaces().Contains(typeof(IModuleBlock)))
             {
                 var moduleBlock = value as IModuleBlock;
@@ -160,7 +160,7 @@ namespace GSharpSample
                     await compiler.LoadDependenciesAsync(moduleBlock.GCommand.Parent.Dependencies);
                 }
             }
-
+            
             return Activator.CreateInstance(value.GetType(), args) as BaseBlock;
         }
 
@@ -227,7 +227,7 @@ namespace GSharpSample
             dropComplete = false;
             lastDragBlock = null;
         }
-
+        
         private async void blockEditor_DragEnter(object sender, DragEventArgs e)
         {
             if (!dropComplete)
