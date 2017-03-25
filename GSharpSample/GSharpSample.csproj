@@ -111,6 +111,10 @@
       <Project>{F99B0618-39F7-4C5E-8A21-3257AEEA5DDE}</Project>
       <Name>GSharp.Graphic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GSharp.Manager\GSharp.Manager.csproj">
+      <Project>{962e1900-9ea0-4e71-b75d-3890973ba34a}</Project>
+      <Name>GSharp.Manager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
