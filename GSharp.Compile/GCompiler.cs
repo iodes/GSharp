@@ -131,6 +131,11 @@ namespace GSharp.Compile
 
             result.Add("System.dll");
             result.Add("System.Core.dll");
+            result.Add("System.Data.dll");
+            result.Add("System.Data.DataSetExtensions.dll");
+            result.Add("System.Net.Http.dll");
+            result.Add("System.Xml.dll");
+            result.Add("System.Xml.Linq.dll");
             result.Add("System.Linq.dll");
 
             var resources = Resources.ResourceManager.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
