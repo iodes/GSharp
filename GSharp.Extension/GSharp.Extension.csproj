@@ -56,6 +56,7 @@
     <Compile Include="GControl.cs" />
     <Compile Include="GExtension.cs" />
     <Compile Include="GCommand.cs" />
+    <Compile Include="GTranslation.cs" />
     <Compile Include="Optionals\GEnumeration.cs" />
     <Compile Include="Optionals\GOptional.cs" />
     <Compile Include="Optionals\GParameter.cs" />

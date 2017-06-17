@@ -82,7 +82,16 @@ namespace GSharp.Manager
         #region 내부 함수
         private T GetAttribute<T>(ICustomAttributeProvider info)
         {
-            return GetAttributes<T>(info).First();
+            var results = GetAttributes<T>(info);
+
+            if (results.Count() > 0)
+            {
+                return results.First();
+            }
+            else
+            {
+                return default(T);
+            }
         }
 
         private T[] GetAttributes<T>(ICustomAttributeProvider info)
