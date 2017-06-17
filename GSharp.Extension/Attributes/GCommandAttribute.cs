@@ -7,9 +7,16 @@ namespace GSharp.Extension.Attributes
     {
         public string Name { get; set; }
 
+        public bool Translated { get; set; }
+
         public GCommandAttribute(string name)
         {
             Name = name;
+        }
+
+        public GCommandAttribute(bool isTranslated = false)
+        {
+            Translated = isTranslated;
         }
     }
 }
