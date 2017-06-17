@@ -28,6 +28,15 @@ namespace GSharp.Extension
         }
         private GOptional[] _Optionals;
 
+        public GTranslation[] Translations
+        {
+            get
+            {
+                return _Translations;
+            }
+        }
+        private GTranslation[] _Translations;
+
         public Type ObjectType
         {
             get
@@ -103,12 +112,13 @@ namespace GSharp.Extension
         #endregion
 
         #region 생성자
-        public GCommand(string methodName, Type objectType, CommandType methodType, GOptional[] optionals = null)
+        public GCommand(string methodName, Type objectType, CommandType methodType, GOptional[] optionals = null, GTranslation[] translations = null)
         {
             _ObjectType = objectType;
             _MethodName = methodName;
             _MethodType = methodType;
             _Optionals = optionals;
+            _Translations = translations;
 
             using (MD5 md5 = MD5.Create())
             {
@@ -125,20 +135,20 @@ namespace GSharp.Extension
             }
         }
 
-        public GCommand(string namespaceName, string methodName, Type objectType, CommandType methodType, GOptional[] optionals = null)
-            : this(methodName, objectType, methodType, optionals)
+        public GCommand(string namespaceName, string methodName, Type objectType, CommandType methodType, GOptional[] optionals = null, GTranslation[] translations = null)
+            : this(methodName, objectType, methodType, optionals, translations)
         {
             _NamespaceName = namespaceName;
         }
 
-        public GCommand(string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, GOptional[] optionals = null)
-            : this(namespaceName, methodName, objectType, methodType, optionals)
+        public GCommand(string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, GOptional[] optionals = null, GTranslation[] translations = null)
+            : this(namespaceName, methodName, objectType, methodType, optionals, translations)
         {
             _FriendlyName = friendlyName;
         }
 
-        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, GOptional[] optionals = null)
-            : this(namespaceName, methodName, friendlyName, objectType, methodType, optionals)
+        public GCommand(GExtension parent, string namespaceName, string methodName, string friendlyName, Type objectType, CommandType methodType, GOptional[] optionals = null, GTranslation[] translations = null)
+            : this(namespaceName, methodName, friendlyName, objectType, methodType, optionals, translations)
         {
             _Parent = parent;
         }

@@ -11,7 +11,6 @@ using GSharp.Extension.Exports;
 using GSharp.Extension.Optionals;
 using GSharp.Extension.Abstracts;
 using GSharp.Extension.Attributes;
-using GSharp.Graphic.Objects;
 using GSharp.Graphic.Objects.Customs;
 
 namespace GSharp.Manager
@@ -83,6 +82,13 @@ namespace GSharp.Manager
         #region 내부 함수
         private T GetAttribute<T>(ICustomAttributeProvider info)
         {
+            return GetAttributes<T>(info).First();
+        }
+
+        private T[] GetAttributes<T>(ICustomAttributeProvider info)
+        {
+            var results = new List<T>();
+
             object[] attributes = info.GetCustomAttributes(true);
             if (attributes.Length > 0)
             {
@@ -90,12 +96,12 @@ namespace GSharp.Manager
                 {
                     if (attribute.GetType() == typeof(T))
                     {
-                        return (T)attribute;
+                        results.Add((T)attribute);
                     }
                 }
             }
 
-            return default(T);
+            return results.ToArray();
         }
 
         private GParameter[] GetParameters(MethodInfo info)
@@ -117,6 +123,18 @@ namespace GSharp.Manager
 
             return result.ToArray();
         }
+
+        private GTranslation[] GetTranslations(ICustomAttributeProvider attr)
+        {
+            var results = new List<GTranslation>();
+
+            foreach (var translation in GetAttributes<GTranslationAttribute>(attr))
+            {
+                results.Add(new GTranslation(translation.Name, translation.Locale));
+            }
+
+            return results.ToArray();
+        }
         #endregion
 
         #region 사용자 함수
@@ -124,6 +142,8 @@ namespace GSharp.Manager
         /// 확장 모듈을 불러옵니다.
         /// </summary>
         /// <param name="pathValue">확장 모듈의 전체 경로입니다.</param>
+        // TODO GExport 클래스에도 번역 추가 필요
+        // TODO GEnumeration 클래스에도 번역 추가 필요
         public GExtension LoadExtension(string pathValue)
         {
             Assembly targetAssembly = Assembly.LoadFrom(pathValue);
@@ -164,7 +184,8 @@ namespace GSharp.Manager
                                         property.Name,
                                         command.Name,
                                         property.GetMethod.ReturnType,
-                                        GCommand.CommandType.Property
+                                        GCommand.CommandType.Property,
+                                        translations: command.Translated ? GetTranslations(property) : null
                                     )
                                 );
                             }
@@ -220,7 +241,8 @@ namespace GSharp.Manager
                                         command.Name,
                                         eventDelegateMethod != null ? eventDelegateMethod.ReturnType : typeof(void),
                                         GCommand.CommandType.Event,
-                                        eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null
+                                        eventDelegateMethod != null ? GetParameters(eventDelegateMethod) : null,
+                                        translations: command.Translated ? GetTranslations(info) : null
                                     )
                                 );
                             }
@@ -258,7 +280,8 @@ namespace GSharp.Manager
                                     command.Name,
                                     info.ReturnType,
                                     info.ReturnType == typeof(void) ? GCommand.CommandType.Call : GCommand.CommandType.Logic,
-                                    GetParameters(info)
+                                    GetParameters(info),
+                                    translations: command.Translated ? GetTranslations(info) : null
                                 )
                             );
                         }
@@ -291,7 +314,8 @@ namespace GSharp.Manager
                                     command.Name,
                                     enumeration,
                                     GCommand.CommandType.Enum,
-                                    gEnumList.ToArray()
+                                    gEnumList.ToArray(),
+                                    translations: command.Translated ? GetTranslations(enumeration) : null
                                 )
                             );
                         }
