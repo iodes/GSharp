@@ -151,8 +151,9 @@ namespace GSharp.Manager
         /// 확장 모듈을 불러옵니다.
         /// </summary>
         /// <param name="pathValue">확장 모듈의 전체 경로입니다.</param>
-        // TODO GExport 클래스에도 번역 추가 필요
-        // TODO GEnumeration 클래스에도 번역 추가 필요
+        // TODO GExport 부분도 번역 분석 필요
+        // TODO GEnumeration 부분도 번역 분석 필요
+        // TODO GCommand 이외의 다른 속성도 Translated 옵션 구현 필요
         public GExtension LoadExtension(string pathValue)
         {
             Assembly targetAssembly = Assembly.LoadFrom(pathValue);

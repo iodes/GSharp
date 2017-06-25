@@ -16,6 +16,15 @@ namespace GSharp.Extension.Exports
         }
         private GOptional[] _Optionals;
 
+        public GTranslation[] Translations
+        {
+            get
+            {
+                return _Translations;
+            }
+        }
+        private GTranslation[] _Translations;
+
         public Type ObjectType
         {
             get
@@ -34,6 +43,7 @@ namespace GSharp.Extension.Exports
         }
         private string _MethodName;
 
+        // TODO 번역 존재시 올바른 언어 반환 필요
         public string FriendlyName
         {
             get
@@ -62,13 +72,14 @@ namespace GSharp.Extension.Exports
         #endregion
 
         #region 생성자
-        public GExport(string namespaceName, string methodName, string friendlyName, Type objectType, GOptional[] optionals = null)
+        public GExport(string namespaceName, string methodName, string friendlyName, Type objectType, GOptional[] optionals = null, GTranslation[] translations = null)
         {
             _NamespaceName = namespaceName;
             _MethodName = methodName;
             _FriendlyName = friendlyName;
             _ObjectType = objectType;
             _Optionals = optionals;
+            _Translations = translations;
         }
         #endregion
     }
