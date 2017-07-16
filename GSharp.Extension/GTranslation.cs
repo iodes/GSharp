@@ -29,7 +29,7 @@ namespace GSharp.Extension
         #region 생성자
         public GTranslation(string friendlyName, Locale locale)
         {
-            _Locale = Locale;
+            _Locale = locale;
             _FriendlyName = friendlyName;
         }
         #endregion
