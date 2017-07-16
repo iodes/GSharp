@@ -24,12 +24,18 @@ namespace GSharp.Extension.Optionals
         }
         private string _FullName;
 
-        // TODO 번역 존재시 올바른 언어 반환 필요
         public string FriendlyName
         {
             get
             {
-                return _FriendlyName;
+                if (Translations?.Length > 0)
+                {
+                    return GTranslationSupport.GetTranslation(Translations).FriendlyName;
+                }
+                else
+                {
+                    return _FriendlyName;
+                }
             }
         }
         private string _FriendlyName;

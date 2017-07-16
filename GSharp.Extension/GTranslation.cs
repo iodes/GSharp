@@ -1,4 +1,6 @@
 ﻿using GSharp.Extension.Attributes;
+using System.Globalization;
+using System.Linq;
 
 namespace GSharp.Extension
 {
@@ -31,5 +33,21 @@ namespace GSharp.Extension
             _FriendlyName = friendlyName;
         }
         #endregion
+    }
+
+    public static class GTranslationSupport
+    {
+        public static GTranslation GetTranslation(GTranslation[] translations)
+        {
+            foreach (var translation in translations)
+            {
+                if (translation.Locale.ToString() == CultureInfo.CurrentUICulture.Name.ToUpper().Replace('-', '_'))
+                {
+                    return translation;
+                }
+            }
+
+            return translations.First();
+        }
     }
 }
