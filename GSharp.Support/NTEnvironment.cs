@@ -10,7 +10,7 @@ namespace GSharp.Support
         {
             get
             {
-                return NativeMethods.GetModuleHandle("ntdll.dll") == IntPtr.Zero;
+                return NativeMethods.GetModuleHandle("ntdll.dll") != IntPtr.Zero;
             }
         }
 
