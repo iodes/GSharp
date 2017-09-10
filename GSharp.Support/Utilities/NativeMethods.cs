@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace GSharp.Support
+namespace GSharp.Support.Utilities
 {
     public static class NativeMethods
     {
@@ -10,6 +10,5 @@ namespace GSharp.Support
 
         [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
     }
 }

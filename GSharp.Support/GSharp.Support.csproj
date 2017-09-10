@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IEnvironment.cs" />
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Base\IEnvironment.cs" />
     <Compile Include="NTEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\EnvironmentUtility.cs" />
+    <Compile Include="Utilities\NativeMethods.cs" />
+    <Compile Include="WineEnvironment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,4 @@
-﻿namespace GSharp.Support.Interfaces
+﻿namespace GSharp.Support.Base
 {
     public interface IEnvironment
     {
