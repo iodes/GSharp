@@ -51,7 +51,7 @@ namespace GSharpSample
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // 환경 검사
-            MessageBox.Show(EnvironmentUtility.GetEnvironment().ToString());
+            MessageBox.Show($"Environment : {EnvironmentUtility.GetEnvironment().ToString()}");
 
             // 기본 블럭 추가
             listBlock.Items.Add(new EventBlock(new GCommand("this", "Loaded", "프로그램이 시작될 때", typeof(void), GCommand.CommandType.Event)));
