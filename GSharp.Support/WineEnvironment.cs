@@ -14,9 +14,9 @@ namespace GSharp.Support
         {
             get
             {
-                if (new NTEnvironment().IsEnvironment)
+                if (new NTEnvironment().IsEnvironment && GetWineVersion() != null)
                 {
-
+                    return true;
                 }
 
                 return false;
@@ -27,7 +27,12 @@ namespace GSharp.Support
         {
             get
             {
-                return GetWineVersion();
+                if (IsEnvironment)
+                {
+                    return GetWineVersion();
+                }
+
+                throw new InvalidOperationException();
             }
         }
 
