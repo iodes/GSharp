@@ -10,7 +10,7 @@ using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Statements;
 using GSharp.Manager;
-using GSharp.Support;
+using GSharp.Support.Utilities;
 using Microsoft.Win32;
 using System;
 using System.Linq;
@@ -51,7 +51,7 @@ namespace GSharpSample
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // 환경 검사
-            MessageBox.Show(new WineEnvironment().Version);
+            MessageBox.Show(EnvironmentUtility.GetEnvironment().ToString());
 
             // 기본 블럭 추가
             listBlock.Items.Add(new EventBlock(new GCommand("this", "Loaded", "프로그램이 시작될 때", typeof(void), GCommand.CommandType.Event)));
