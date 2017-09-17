@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GSharp.Support.Utilities
+﻿namespace GSharp.Support.Utilities
 {
     public static class EnvironmentUtility
     {
         public enum Environment
         {
             Wine,
-            Native
+            Native,
+            Unknown
         }
 
         public static Environment GetEnvironment()
         {
-            return Environment.Native;
+            if (new WineEnvironment().IsEnvironment)
+            {
+                return Environment.Wine;
+            }
+            else if (new NTEnvironment().IsEnvironment)
+            {
+                return Environment.Native;
+            }
+            else
+            {
+                return Environment.Unknown;
+            }
         }
     }
 }
