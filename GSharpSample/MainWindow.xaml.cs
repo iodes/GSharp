@@ -12,6 +12,7 @@ using GSharp.Graphic.Statements;
 using GSharp.Manager;
 using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -77,13 +78,16 @@ namespace GSharpSample
             listBlock.Items.Add(new LoopNBlock());
 
             // 확장 블럭 추가
-            var extension = new ExtensionManager("Extensions");
-            foreach (var target in extension.Extensions)
+            if (Directory.Exists("Extensions"))
             {
-                foreach (BaseBlock block in extension.ConvertToBlocks(target))
+                var extension = new ExtensionManager("Extensions");
+                foreach (var target in extension.Extensions)
                 {
-                    block.IsPreview = true;
-                    listBlock.Items.Add(block);
+                    foreach (BaseBlock block in extension.ConvertToBlocks(target))
+                    {
+                        block.IsPreview = true;
+                        listBlock.Items.Add(block);
+                    }
                 }
             }
 
