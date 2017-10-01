@@ -6,6 +6,7 @@
         {
             Wine,
             Native,
+            Virtual,
             Unknown
         }
 
@@ -14,6 +15,10 @@
             if (new WineEnvironment().IsEnvironment)
             {
                 return Environment.Wine;
+            }
+            else if (new VirtualEnvironment().IsEnvironment)
+            {
+                return Environment.Virtual;
             }
             else if (new NTEnvironment().IsEnvironment)
             {
