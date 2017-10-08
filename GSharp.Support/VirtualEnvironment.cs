@@ -19,7 +19,7 @@ namespace GSharp.Support
                     foreach (var item in items)
                     {
                         var manufacturer = item["Manufacturer"].ToString();
-                        if ((manufacturer.StringEquals("Microsoft Corporation") && item["Model"].StringContains("Virtual")) || manufacturer.StringContains("VMware") || item["Model"].StringEquals("VirtualBox"))
+                        if ((manufacturer.StringEquals("Microsoft Corporation") && item["Model"].StringContains("Virtual")) || manufacturer.StringContains("VMware") || manufacturer.StringContains("Parallels") || item["Model"].StringEquals("VirtualBox"))
                         {
                             return true;
                         }
