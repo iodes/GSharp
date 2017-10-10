@@ -118,17 +118,32 @@ namespace GSharpSample
         #region 내부 함수
         private void Compile(bool isCompressed)
         {
-            compiler.Source = blockEditor.GetSource();
-
-            var saveDialog = new SaveFileDialog
+            try
             {
-                Filter = "응용 프로그램 (*.exe)|*.exe"
-            };
+                compiler.Source = blockEditor.GetSource();
 
-            if (saveDialog.ShowDialog().Value)
+                var saveDialog = new SaveFileDialog
+                {
+                    Filter = "응용 프로그램 (*.exe)|*.exe"
+                };
+
+                if (saveDialog.ShowDialog().Value)
+                {
+                    var result = compiler.Build(saveDialog.FileName, isCompressed, isCompressed);
+
+                    if (result.IsSuccess)
+                    {
+                        MessageBox.Show("컴파일을 성공하였습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(result.Results.Errors[0].ErrorText, "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                var result = compiler.Build(saveDialog.FileName, isCompressed, isCompressed);
-                MessageBox.Show(result.IsSuccess ? "컴파일 성공" : "컴파일 실패", "결과", MessageBoxButton.OK, result.IsSuccess ? MessageBoxImage.Information : MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "오류", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
