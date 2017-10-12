@@ -314,6 +314,7 @@ namespace GSharp.Compile
             result.AppendLine("                if (Closing != null) Closing();");
             result.AppendLine("            };");
             result.AppendLine("            window.Show();");
+            result.AppendLine("            System.Diagnostics.Process.GetCurrentProcess().Kill();");
             result.AppendLine("        }");
             result.AppendLine();
             result.Append(ConvertAssistant.Indentation(source, 2));
