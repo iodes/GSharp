@@ -1,7 +1,6 @@
 ﻿using GSharp.Support.Base;
 using GSharp.Support.Utilities;
 using System;
-using System.Linq;
 using System.Management;
 
 namespace GSharp.Support
@@ -24,8 +23,7 @@ namespace GSharp.Support
             VMWare,
             HyperV,
             Parallels,
-            VirtualBox,
-            Hypervisor
+            VirtualBox
         }
         #endregion
 
@@ -39,7 +37,6 @@ namespace GSharp.Support
                     {
                         var model = item["Model"].ToString();
                         var manufacturer = item["Manufacturer"].ToString();
-                        var isHypervisor = item.Properties.OfType<PropertyData>().FirstOrDefault(x => x.Name.StringEquals("HypervisorPresent"));
 
                         if (manufacturer.StringContains(VirtualType.VMWare.ToString()))
                         {
@@ -59,11 +56,6 @@ namespace GSharp.Support
                         else if (model.StringEquals(VirtualType.VirtualBox.ToString()))
                         {
                             lastType = VirtualType.VirtualBox;
-                            return true;
-                        }
-                        else if ((bool?)isHypervisor?.Value == true)
-                        {
-                            lastType = VirtualType.Hypervisor;
                             return true;
                         }
                     }
