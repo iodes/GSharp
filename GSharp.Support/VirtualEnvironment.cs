@@ -9,18 +9,24 @@ namespace GSharp.Support
     public class VirtualEnvironment : IEnvironment
     {
         #region 상수
-        public const string TYPE_VMWARE = "VMware";
-        public const string TYPE_HYPER_V = "Hyper-V";
-        public const string TYPE_PARALLELS = "Parallels";
-        public const string TYPE_VIRTUALBOX = "VirtualBox";
-        public const string TYPE_HYPERVISOR = "Hypervisor";
-        private const string KEY_MSCORP = "Microsoft Corporation";
         private const string KEY_MSVM = "Virtual";
+        private const string KEY_MSCORP = "Microsoft Corporation";
         #endregion
 
         #region 변수
-        string lastModel = null;
+        VirtualType lastType;
         ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem");
+        #endregion
+
+        #region 열거형
+        public enum VirtualType
+        {
+            VMWare,
+            HyperV,
+            Parallels,
+            VirtualBox,
+            Hypervisor
+        }
         #endregion
 
         public bool IsEnvironment
@@ -35,29 +41,29 @@ namespace GSharp.Support
                         var manufacturer = item["Manufacturer"].ToString();
                         var isHypervisor = item.Properties.OfType<PropertyData>().FirstOrDefault(x => x.Name.StringEquals("HypervisorPresent"));
 
-                        if (manufacturer.StringContains(TYPE_VMWARE))
+                        if (manufacturer.StringContains(VirtualType.VMWare.ToString()))
                         {
-                            lastModel = TYPE_VMWARE;
+                            lastType = VirtualType.VMWare;
                             return true;
                         }
                         else if (manufacturer.StringEquals(KEY_MSCORP) && model.StringContains(KEY_MSVM))
                         {
-                            lastModel = TYPE_HYPER_V;
+                            lastType = VirtualType.HyperV;
                             return true;
                         }
-                        else if (manufacturer.StringContains(TYPE_PARALLELS) && model.StringContains(TYPE_PARALLELS))
+                        else if (manufacturer.StringContains(VirtualType.Parallels.ToString()) && model.StringContains(VirtualType.Parallels.ToString()))
                         {
-                            lastModel = TYPE_PARALLELS;
+                            lastType = VirtualType.Parallels;
                             return true;
                         }
-                        else if (model.StringEquals(TYPE_VIRTUALBOX))
+                        else if (model.StringEquals(VirtualType.VirtualBox.ToString()))
                         {
-                            lastModel = TYPE_VIRTUALBOX;
+                            lastType = VirtualType.VirtualBox;
                             return true;
                         }
                         else if ((bool?)isHypervisor?.Value == true)
                         {
-                            lastModel = TYPE_HYPERVISOR;
+                            lastType = VirtualType.Hypervisor;
                             return true;
                         }
                     }
@@ -73,7 +79,20 @@ namespace GSharp.Support
             {
                 if (IsEnvironment)
                 {
-                    return lastModel;
+                    return lastType.ToString();
+                }
+
+                throw new InvalidOperationException();
+            }
+        }
+
+        public VirtualType Type
+        {
+            get
+            {
+                if (IsEnvironment)
+                {
+                    return lastType;
                 }
 
                 throw new InvalidOperationException();
