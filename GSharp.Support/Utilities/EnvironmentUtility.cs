@@ -1,8 +1,12 @@
-﻿namespace GSharp.Support.Utilities
+﻿using GSharp.Support.Base;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace GSharp.Support.Utilities
 {
     public static class EnvironmentUtility
     {
-        public enum Environment
+        public enum EnvironmentType
         {
             Wine,
             Native,
@@ -10,24 +14,40 @@
             Unknown
         }
 
-        public static Environment GetEnvironment()
+        public static EnvironmentType Type
         {
-            if (new WineEnvironment().IsEnvironment)
+            get
             {
-                return Environment.Wine;
+                var currentEnv = GetEnvironment();
+
+                if (currentEnv is WineEnvironment)
+                {
+                    return EnvironmentType.Wine;
+                }
+                else if (currentEnv is VirtualEnvironment)
+                {
+                    return EnvironmentType.Virtual;
+                }
+                else if (currentEnv is NTEnvironment)
+                {
+                    return EnvironmentType.Native;
+                }
+                else
+                {
+                    return EnvironmentType.Unknown;
+                }
             }
-            else if (new VirtualEnvironment().IsEnvironment)
-            {
-                return Environment.Virtual;
-            }
-            else if (new NTEnvironment().IsEnvironment)
-            {
-                return Environment.Native;
-            }
-            else
-            {
-                return Environment.Unknown;
-            }
+        }
+
+        public static IEnvironment GetEnvironment()
+        {
+            var listEnv = new List<IEnvironment>();
+
+            listEnv.Add(new WineEnvironment());
+            listEnv.Add(new VirtualEnvironment());
+            listEnv.Add(new NTEnvironment());
+
+            return listEnv.Where(x => x.IsEnvironment).FirstOrDefault();
         }
     }
 }
