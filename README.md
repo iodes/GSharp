@@ -7,7 +7,7 @@
 
 ## 소개
 ### [GSharp.Base](GSharp.Base)
-객체화된 형태로 로직을 작성할 수 있는 코어 라이브러리 입니다.  
+객체화된 형태로 로직을 작성할 수 있는 Core 라이브러리 입니다.  
 객체화되어 작성된 로직을 코드로 변환하고 관리하는 기능을 수행합니다.
 
 ### [GSharp.Bootstrap](GSharp.Bootstrap)
