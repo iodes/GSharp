@@ -149,7 +149,7 @@ namespace GSharp.Compile
             return result;
         }
 
-        private string ConvertToFullSource(string source, bool isEmbedded = false, bool isCompressed = false)
+        private string ConvertToFullSource(string source, bool isEmbedded = false, bool isCompressed = false, bool isService = false)
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("using System;");
@@ -176,13 +176,17 @@ namespace GSharp.Compile
             result.AppendLine("{");
             result.AppendLine("    public partial class App : Application");
             result.AppendLine("    {");
-            result.AppendLine("        public static Window window;");
+            if (XAML.Length > 0)
+            {
+                result.AppendLine("        public static Window window;");
+                result.AppendLine();
+            }
             if (isEmbedded && isCompressed)
             {
                 result.AppendLine("        public static Assembly compressor;");
                 result.AppendLine("        public static MethodInfo compressorMethod;");
+                result.AppendLine();
             }
-            result.AppendLine();
             result.AppendLine("        [STAThread]");
             result.AppendLine("        public static void Main()");
             result.AppendLine("        {");
@@ -284,37 +288,38 @@ namespace GSharp.Compile
             result.AppendLine();
             result.AppendLine("        public void InitializeComponent()");
             result.AppendLine("        {");
-            result.AppendLine("                Dispatcher.UnhandledException += (dS, dE) =>");
-            result.AppendLine("                {");
-            result.AppendLine("                    dE.Handled = true;");
-            result.AppendLine(@"                    if(MessageBox.Show(dE.Exception.Message + ""\n프로그램을 계속 진행 하시겠습니까?"", ""런타임 오류"", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.No)");
-            result.AppendLine(@"                    {");
-            result.AppendLine(@"                        Application.Current.Shutdown();");
-            result.AppendLine(@"                    }");
-            result.AppendLine("                };");
-            result.AppendLine("                Dispatcher.UnhandledExceptionFilter += (dS, dE) =>");
-            result.AppendLine("                {");
-            result.AppendLine("                    dE.RequestCatch = true;");
-            result.AppendLine("                };");
+            result.AppendLine("            Dispatcher.UnhandledException += (dS, dE) =>");
+            result.AppendLine("            {");
+            result.AppendLine("                dE.Handled = true;");
+            result.AppendLine(@"                if(MessageBox.Show(dE.Exception.Message + ""\n프로그램을 계속 진행 하시겠습니까?"", ""런타임 오류"", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.No)");
+            result.AppendLine(@"                {");
+            result.AppendLine(@"                    Application.Current.Shutdown();");
+            result.AppendLine(@"                }");
+            result.AppendLine("            };");
+            result.AppendLine();
+            result.AppendLine("            Dispatcher.UnhandledExceptionFilter += (dS, dE) =>");
+            result.AppendLine("            {");
+            result.AppendLine("                dE.RequestCatch = true;");
+            result.AppendLine("            };");
+            result.AppendLine();
             if (XAML.Length > 0)
             {
                 result.AppendLine($@"            window = (XamlReader.Parse(Decode(""{_XAML}"")) as Window);");
+                result.AppendLine("            window.Loaded += (s, e) => Initialize();");
+                result.AppendLine("            window.Closing += (s, e) =>");
+                result.AppendLine("            {");
+                result.AppendLine("                if (Closing != null) Closing();");
+                result.AppendLine("            };");
+                result.AppendLine("            window.Show();");
             }
             else
             {
-                result.AppendLine("            window = new Window();");
-                result.AppendLine("            window.Opacity = 0;");
-                result.AppendLine("            window.WindowStyle = WindowStyle.None;");
-                result.AppendLine("            window.AllowsTransparency = true;");
-                result.AppendLine("            window.ShowInTaskbar = false;");
+                result.AppendLine("            Initialize();");
+                if (!isService)
+                {
+                    result.AppendLine("            Application.Current.Shutdown();");
+                }
             }
-            result.AppendLine("            window.Loaded += (s, e) => Initialize();");
-            result.AppendLine("            window.Closing += (s, e) =>");
-            result.AppendLine("            {");
-            result.AppendLine("                if (Closing != null) Closing();");
-            result.AppendLine("            };");
-            result.AppendLine("            window.Show();");
-            result.AppendLine("            System.Diagnostics.Process.GetCurrentProcess().Kill();");
             result.AppendLine("        }");
             result.AppendLine();
             result.Append(ConvertAssistant.Indentation(source, 2));
@@ -458,12 +463,12 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public GCompilerResults Build(string path, bool isEmbedded = false, bool isCompressed = false)
+        public GCompilerResults Build(string path, bool isEmbedded = false, bool isCompressed = false, bool isService = false)
         {
             parameters.OutputAssembly = path;
             parameters.CompilerOptions = "/platform:x86 /target:winexe";
             parameters.EmbeddedResources.Clear();
-            string fullSource = ConvertToFullSource(Source, isEmbedded, isCompressed);
+            string fullSource = ConvertToFullSource(Source, isEmbedded, isCompressed, isService);
 
             foreach (string dll in References)
             {
@@ -521,9 +526,9 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public async Task<GCompilerResults> BuildAsync(string path, bool isEmbedded = false, bool isCompressed = false)
+        public async Task<GCompilerResults> BuildAsync(string path, bool isEmbedded = false, bool isCompressed = false, bool isService = false)
         {
-            return await Task.Run(() => Build(path, isEmbedded, isCompressed));
+            return await Task.Run(() => Build(path, isEmbedded, isCompressed, isService));
         }
         #endregion
     }

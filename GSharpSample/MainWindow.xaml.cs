@@ -10,6 +10,7 @@ using GSharp.Graphic.Objects.Strings;
 using GSharp.Graphic.Scopes;
 using GSharp.Graphic.Statements;
 using GSharp.Manager;
+using GSharp.Support.Utilities;
 using Microsoft.Win32;
 using System;
 using System.IO;
@@ -50,6 +51,9 @@ namespace GSharpSample
         #region 이벤트
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            // 환경 검사
+            MessageBox.Show($"EnvironmentType : {EnvironmentUtility.Type}\n{EnvironmentUtility.GetEnvironment().Version}", "실행된 환경");
+
             // 기본 블럭 추가
             listBlock.Items.Add(new EventBlock(new GCommand("this", "Loaded", "프로그램이 시작될 때", typeof(void), GCommand.CommandType.Event)));
             listBlock.Items.Add(new EventBlock(new GCommand("this", "Closing", "프로그램이 종료될 때", typeof(void), GCommand.CommandType.Event)));
@@ -129,7 +133,7 @@ namespace GSharpSample
 
                 if (saveDialog.ShowDialog().Value)
                 {
-                    var result = compiler.Build(saveDialog.FileName, isCompressed, isCompressed);
+                    var result = compiler.Build(saveDialog.FileName, isCompressed, isCompressed, false);
 
                     if (result.IsSuccess)
                     {
