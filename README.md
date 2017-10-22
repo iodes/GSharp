@@ -35,7 +35,7 @@
 확장 모듈을 검색하고 사용할 수 있도록 합니다.
 
 ## 문서
-### [모듈 개발 방법](Manuals/ModuleDevelopment.md)
+* [모듈 개발 방법](Manuals/ModuleDevelopment.md)
 
 ## 라이센스
 본 프로그램은 자유 소프트웨어로,  
