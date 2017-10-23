@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GCompiler.cs" />
+    <Compile Include="GCompilerConfig.cs" />
     <Compile Include="GCompilerResults.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
