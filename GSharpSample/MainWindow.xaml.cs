@@ -151,7 +151,7 @@ namespace GSharpSample
             }
         }
 
-        private async Task<BaseBlock> CopyBlock(object value)
+        private BaseBlock CopyBlock(object value)
         {
             object[] args = null;
 
@@ -180,8 +180,11 @@ namespace GSharpSample
                 var moduleBlock = value as IModuleBlock;
                 if (moduleBlock.GCommand.Parent != null)
                 {
-                    await compiler.LoadReferenceAsync(moduleBlock.GCommand.Parent.Path);
-                    await compiler.LoadDependenciesAsync(moduleBlock.GCommand.Parent.Dependencies);
+                    Task.Run(async () =>
+                    {
+                        await compiler.LoadReferenceAsync(moduleBlock.GCommand.Parent.Path);
+                        await compiler.LoadDependenciesAsync(moduleBlock.GCommand.Parent.Dependencies);
+                    });
                 }
             }
             
@@ -252,14 +255,14 @@ namespace GSharpSample
             lastDragBlock = null;
         }
         
-        private async void blockEditor_DragEnter(object sender, DragEventArgs e)
+        private void blockEditor_DragEnter(object sender, DragEventArgs e)
         {
             if (!dropComplete)
             {
                 var originalBlock = e.Data.GetData("DragSource") as BaseBlock;
                 if (originalBlock != null)
                 {
-                    lastDragBlock = await CopyBlock(originalBlock);
+                    lastDragBlock = CopyBlock(originalBlock);
                     lastDragBlock.Position = e.GetPosition(blockEditor.Master);
 
                     blockEditor.AddBlock(lastDragBlock);
