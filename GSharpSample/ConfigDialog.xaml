@@ -1,0 +1,60 @@
+﻿<Window x:Class="GSharpSample.ConfigDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GSharpSample"
+        mc:Ignorable="d"
+        Title="구성" Height="510" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
+    
+    <StackPanel>
+        <GroupBox Header="정보" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,0" Padding="10">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="제목 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textTitle" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="설명 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textDescription" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="회사 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textCompany" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="제품 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textProduct" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="저작권 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textCopyright" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="상표 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textTrademark" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBlock Text="버전 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textVersion" Width="250" Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="파일 버전 :" Width="70" VerticalAlignment="Center"/>
+                    <TextBox x:Name="textFileVersion" Width="250" Height="25"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        
+        <GroupBox Header="설정" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Padding="10">
+            <StackPanel>
+                <CheckBox x:Name="checkEmbedded" Content="참조를 실행 파일에 병합" Margin="0,0,0,10"/>
+                <CheckBox x:Name="checkCompressed" Content="참조된 모든 리소스 압축"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,10,0">
+            <Button x:Name="btnCancel" Content="취소" Width="70" Height="30" Margin="0,0,10,0" Click="btnCancel_Click"/>
+            <Button x:Name="btnOk" Content="확인" Width="70" Height="30" Click="btnOk_Click"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
