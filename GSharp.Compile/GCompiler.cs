@@ -149,7 +149,7 @@ namespace GSharp.Compile
             return result;
         }
 
-        private string ConvertToFullSource(string source, bool isEmbedded = false, bool isCompressed = false, bool isService = false)
+        private string ConvertToFullSource(string source, GCompilerConfig config = null)
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("using System;");
@@ -164,13 +164,14 @@ namespace GSharp.Compile
             result.AppendLine("using GSharp.Compressor;");
             result.AppendLine("using GSharp.Bootstrap.DataTypes;");
             result.AppendLine();
-            result.AppendLine("[assembly: AssemblyTitle(\"Title\")]");
-            result.AppendLine("[assembly: AssemblyProduct(\"Product\")]");
-            result.AppendLine("[assembly: AssemblyCompany(\"Company\")]");
-            result.AppendLine("[assembly: AssemblyCopyright(\"Copyright\")]");
-            result.AppendLine("[assembly: AssemblyTrademark(\"Trademark\")]");
-            result.AppendLine("[assembly: AssemblyVersion(\"1.0.0.0\")]");
-            result.AppendLine("[assembly: AssemblyFileVersion(\"1.0.0.0\")]");
+            result.AppendLine($"[assembly: AssemblyTitle(\"{config.Title}\")]");
+            result.AppendLine($"[assembly: AssemblyDescription(\"{config.Description}\")]");
+            result.AppendLine($"[assembly: AssemblyCompany(\"{config.Company}\")]");
+            result.AppendLine($"[assembly: AssemblyProduct(\"{config.Product}\")]");
+            result.AppendLine($"[assembly: AssemblyCopyright(\"{config.Copyright}\")]");
+            result.AppendLine($"[assembly: AssemblyTrademark(\"{config.Trademark}\")]");
+            result.AppendLine($"[assembly: AssemblyVersion(\"{config.Version}\")]");
+            result.AppendLine($"[assembly: AssemblyFileVersion(\"{config.FileVersion}\")]");
             result.AppendLine();
             result.AppendLine("namespace GSharp.Default");
             result.AppendLine("{");
@@ -181,7 +182,7 @@ namespace GSharp.Compile
                 result.AppendLine("        public static Window window;");
                 result.AppendLine();
             }
-            if (isEmbedded && isCompressed)
+            if (config.IsEmbedded && config.IsCompressed)
             {
                 result.AppendLine("        public static Assembly compressor;");
                 result.AppendLine("        public static MethodInfo compressorMethod;");
@@ -190,10 +191,10 @@ namespace GSharp.Compile
             result.AppendLine("        [STAThread]");
             result.AppendLine("        public static void Main()");
             result.AppendLine("        {");
-            if (isEmbedded || isCompressed)
+            if (config.IsEmbedded || config.IsCompressed)
             {
                 result.AppendLine("            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(Resolve);");
-                if (isEmbedded && isCompressed)
+                if (config.IsEmbedded && config.IsCompressed)
                 {
                     result.AppendLine();
                     result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
@@ -212,13 +213,13 @@ namespace GSharp.Compile
             result.AppendLine("            app.InitializeComponent();");
             result.AppendLine("            app.Run();");
             result.AppendLine("        }");
-            if (isEmbedded || isCompressed)
+            if (config.IsEmbedded || config.IsCompressed)
             {
                 result.AppendLine();
                 result.AppendLine("        public static Assembly Resolve(object sender, ResolveEventArgs args)");
                 result.AppendLine("        {");
                 result.AppendLine("            var current = Assembly.GetExecutingAssembly();");
-                if (isCompressed)
+                if (config.IsCompressed)
                 {
                     result.AppendLine(@"            var name = args.Name.Substring(0, args.Name.IndexOf(',')) + "".pak"";");
                 }
@@ -227,7 +228,7 @@ namespace GSharp.Compile
                     result.AppendLine(@"            var name = args.Name.Substring(0, args.Name.IndexOf(',')) + "".dll"";");
                 }
 
-                if (isEmbedded)
+                if (config.IsEmbedded)
                 {
                     result.AppendLine("            var files = current.GetManifestResourceNames().Where(s => s.EndsWith(name));");
                     result.AppendLine();
@@ -237,7 +238,7 @@ namespace GSharp.Compile
                     result.AppendLine("                {");
                     result.AppendLine("                    if (stream != null)");
                     result.AppendLine("                    {");
-                    if (isCompressed)
+                    if (config.IsCompressed)
                     {
                         result.AppendLine("                        var data = compressorMethod.Invoke(null, new object[] { stream }) as byte[];");
                         result.AppendLine("                        return Assembly.Load(data);");
@@ -258,7 +259,7 @@ namespace GSharp.Compile
                     result.AppendLine("            var data = GCompressor.Decompress(AppDomain.CurrentDomain.BaseDirectory + name);");
                     result.AppendLine("            return Assembly.Load(data);");
                 }
-                if (isEmbedded)
+                if (config.IsEmbedded)
                 {
                     result.AppendLine();
                     result.AppendLine("            return null;");
@@ -315,7 +316,7 @@ namespace GSharp.Compile
             else
             {
                 result.AppendLine("            Initialize();");
-                if (!isService)
+                if (!config.IsService)
                 {
                     result.AppendLine("            Application.Current.Shutdown();");
                 }
@@ -463,19 +464,19 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public GCompilerResults Build(string path, bool isEmbedded = false, bool isCompressed = false, bool isService = false)
+        public GCompilerResults Build(string path, GCompilerConfig config)
         {
             parameters.OutputAssembly = path;
             parameters.CompilerOptions = "/platform:x86 /target:winexe";
             parameters.EmbeddedResources.Clear();
-            string fullSource = ConvertToFullSource(Source, isEmbedded, isCompressed, isService);
+            string fullSource = ConvertToFullSource(Source, config);
 
             foreach (string dll in References)
             {
                 if (File.Exists(dll))
                 {
                     string target = dll;
-                    if (isCompressed && Path.GetFileNameWithoutExtension(target) != "GSharp.Compressor")
+                    if (config.IsCompressed && Path.GetFileNameWithoutExtension(target) != "GSharp.Compressor")
                     {
                         var tempFileName = Path.GetTempFileName();
                         var targetCompressed = Path.GetTempPath() + $"{Path.GetFileNameWithoutExtension(target)}.pak";
@@ -489,7 +490,7 @@ namespace GSharp.Compile
                         target = targetCompressed;
                     }
 
-                    if (isEmbedded)
+                    if (config.IsEmbedded)
                     {
                         parameters.EmbeddedResources.Add(target);
                     }
@@ -526,9 +527,9 @@ namespace GSharp.Compile
         /// </summary>
         /// <param name="path">컴파일된 파일을 생성할 경로입니다.</param>
         /// <param name="isExecutable">실행 파일 형태로 컴파일 할지 여부를 설정합니다.</param>
-        public async Task<GCompilerResults> BuildAsync(string path, bool isEmbedded = false, bool isCompressed = false, bool isService = false)
+        public async Task<GCompilerResults> BuildAsync(string path, GCompilerConfig config)
         {
-            return await Task.Run(() => Build(path, isEmbedded, isCompressed, isService));
+            return await Task.Run(() => Build(path, config));
         }
         #endregion
     }

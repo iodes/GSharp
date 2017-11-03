@@ -38,6 +38,7 @@ namespace GSharpSample
         private BaseBlock lastDragBlock;
         private Point startPoint;
         private GCompiler compiler = new GCompiler();
+        private GCompilerConfig config = new GCompilerConfig();
         #endregion
 
         #region 생성자
@@ -108,19 +109,25 @@ namespace GSharpSample
             MessageBox.Show(blockEditor.GetSource());
         }
 
-        private void btnStdCompile_Click(object sender, RoutedEventArgs e)
+        private void btnCompile_Click(object sender, RoutedEventArgs e)
         {
-            Compile(false);
+            Compile();
         }
 
-        private void btnCompCompile_Click(object sender, RoutedEventArgs e)
+        private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
-            Compile(true);
+            var configDialog = new ConfigDialog
+            {
+                Owner = this,
+                Config = config
+            };
+
+            configDialog.ShowDialog();
         }
         #endregion
 
         #region 내부 함수
-        private void Compile(bool isCompressed)
+        private void Compile()
         {
             try
             {
@@ -133,7 +140,7 @@ namespace GSharpSample
 
                 if (saveDialog.ShowDialog().Value)
                 {
-                    var result = compiler.Build(saveDialog.FileName, isCompressed, isCompressed, false);
+                    var result = compiler.Build(saveDialog.FileName, config);
 
                     if (result.IsSuccess)
                     {
