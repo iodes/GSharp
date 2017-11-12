@@ -14,9 +14,9 @@
 
         public string Trademark { get; set; }
 
-        public string Version { get; set; }
+        public string Version { get; set; } = "1.0.0.0";
 
-        public string FileVersion { get; set; }
+        public string FileVersion { get; set; } = "1.0.0.0";
 
         public bool IsEmbedded { get; set; } = false;
 
