@@ -64,6 +64,7 @@ namespace GSharp.Graphic.Objects.Customs
 
         public override List<GBase> ToGObjectList()
         {
+            _GObjectList = new List<GBase> { GObject };
             return _GObjectList;
         }
 
