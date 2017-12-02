@@ -12,11 +12,6 @@ namespace GSharp.Bootstrap.DataTypes
                 return ((string)obj).ToNumber();
             }
 
-            if (obj is double)
-            {
-                return ((double)obj).ToNumber();
-            }
-
             if (obj is bool)
             {
                 return ((bool)obj).ToNumber();
@@ -25,6 +20,11 @@ namespace GSharp.Bootstrap.DataTypes
             if (obj is List<object>)
             {
                 return ((List<object>)obj).ToNumber();
+            }
+
+            if (NumberExtension.NumberTypes.Contains(obj.GetType()))
+            {
+                return Convert.ToDouble(obj);
             }
 
             return 0;
@@ -62,11 +62,6 @@ namespace GSharp.Bootstrap.DataTypes
                 return ((string)obj).ToBool();
             }
 
-            if (obj is double)
-            {
-                return ((double)obj).ToBool();
-            }
-
             if (obj is bool)
             {
                 return ((bool)obj).ToBool();
@@ -75,6 +70,11 @@ namespace GSharp.Bootstrap.DataTypes
             if (obj is List<object>)
             {
                 return ((List<object>)obj).ToBool();
+            }
+
+            if (NumberExtension.NumberTypes.Contains(obj.GetType()))
+            {
+                return Convert.ToBoolean(obj);
             }
 
             return true;
