@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utilities\PositionUtility.cs" />
     <Page Include="ConfigDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,8 +86,34 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\LayoutMac.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LayoutWindows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PageWorkspace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Natives\WinAPI.cs" />
+    <Compile Include="Pages\LayoutMac.xaml.cs">
+      <DependentUpon>LayoutMac.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LayoutWindows.xaml.cs">
+      <DependentUpon>LayoutWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PageWorkspace.xaml.cs">
+      <DependentUpon>PageWorkspace.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,6 +162,14 @@
       <Project>{962e1900-9ea0-4e71-b75d-3890973ba34a}</Project>
       <Name>GSharp.Manager</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BtnClose.png" />
+    <Resource Include="Images\BtnMaximize.png" />
+    <Resource Include="Images\BtnMinimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BtnDebug.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

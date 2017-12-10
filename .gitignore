@@ -1,11 +1,15 @@
 *.suo
 *.dll
 *.sdf
+*.ide
 *.opensdf
 *.ipch
 *.user
 *.opendb
 */bin
 */obj
+/.vs
 /Debug
 /packages
+/Presto/Mvvm/Converter/ValueConverterBase.cs
+/Presto/CoreAudio/IconExtractor.cs
