@@ -171,6 +171,18 @@
   <ItemGroup>
     <Resource Include="Images\BtnDebug.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BtnMacClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BtnMacMinimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BtnMacMaximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BtnMacDebug.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
