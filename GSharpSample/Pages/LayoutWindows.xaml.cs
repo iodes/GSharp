@@ -24,14 +24,20 @@ namespace GSharpSample.Pages
             Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
         }
 
-        private void BtnClose_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void BtnClose_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Application.Current.MainWindow.Close();
         }
 
-        private void BtnDebug_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+
+        private void BtnDebug_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             pageWorkspace.Compile();
+        }
+
+        private void BtnConfig_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            pageWorkspace.ShowConfig();
         }
     }
 }

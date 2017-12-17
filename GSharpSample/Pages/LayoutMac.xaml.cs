@@ -33,5 +33,10 @@ namespace GSharpSample.Pages
         {
             pageWorkspace.Compile();
         }
+
+        private void btnConfig_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            pageWorkspace.ShowConfig();
+        }
     }
 }

@@ -80,11 +80,20 @@
                     <Border
                         x:Name="btnDebug"
                         Width="37"
-                        Margin="0,0,15,0"
+                        Margin="0,0,8,0"
                         Cursor="Hand"
                         MouseLeftButtonUp="BtnDebug_MouseLeftButtonUp"
                         WindowChrome.IsHitTestVisibleInChrome="True">
                         <Image Source="/GSharpSample;component/Images/BtnMacDebug.png" Stretch="Uniform" />
+                    </Border>
+                    <Border
+                        x:Name="btnConfig"
+                        Width="37"
+                        Margin="0,0,15,0"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="btnConfig_MouseLeftButtonUp"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
+                        <Image Source="/GSharpSample;component/Images/BtnMacConfig.png" Stretch="Uniform" />
                     </Border>
                 </StackPanel>
             </Grid>
