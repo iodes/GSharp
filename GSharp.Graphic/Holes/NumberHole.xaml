@@ -1,20 +1,37 @@
-﻿<local:BaseObjectHole x:Class="GSharp.Graphic.Holes.NumberHole"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GSharp.Graphic.Holes"
-             xmlns:numbers="clr-namespace:GSharp.Graphic.Objects.Numbers"
-             mc:Ignorable="d" Foreground="DarkGreen">
+﻿<local:BaseObjectHole
+    x:Class="GSharp.Graphic.Holes.NumberHole"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GSharp.Graphic.Holes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Foreground="DarkGreen"
+    mc:Ignorable="d">
 
     <local:BaseObjectHole.Resources>
-        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml"/>
+        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml" />
     </local:BaseObjectHole.Resources>
-    
-    <Border Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}" CornerRadius="2" SnapsToDevicePixels="True" MinWidth="20" MinHeight="20">
+
+    <Border
+        MinWidth="20"
+        MinHeight="20"
+        Background="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:BaseObjectHole}}}"
+        CornerRadius="2"
+        SnapsToDevicePixels="True">
         <Grid>
-            <Border x:Name="BlockHole"/>
-            <TextBox x:Name="NumberText" BorderThickness="0" Background="Transparent" HorizontalContentAlignment="Center" TextAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="0" Foreground="White" Style="{StaticResource TextBoxStyle}"/>
+            <Border x:Name="BlockHole" />
+            <TextBox
+                x:Name="NumberText"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                Foreground="White"
+                Style="{StaticResource TextBoxStyle}"
+                Text="0"
+                TextAlignment="Center" />
         </Grid>
     </Border>
 </local:BaseObjectHole>

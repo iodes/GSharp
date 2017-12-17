@@ -1,33 +1,77 @@
-﻿<core:ScopeBlock x:Class="GSharp.Graphic.Scopes.EventBlock"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GSharp.Graphic.Scopes"
-             xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
-             xmlns:strings="clr-namespace:GSharp.Graphic.Objects.Strings"
-             xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d" d:DesignHeight="51" d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" SnapsToDevicePixels="True">
+﻿<core:ScopeBlock
+    x:Class="GSharp.Graphic.Scopes.EventBlock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
+    d:DesignHeight="51"
+    d:DesignWidth="200"
+    SnapsToDevicePixels="True"
+    mc:Ignorable="d">
 
     <core:ScopeBlock.Resources>
-        <SolidColorBrush x:Key="BodyColor" Color="#FF2CA5E2"/>
-        <SolidColorBrush x:Key="BorderColor" Color="#FF268ABD"/>
+        <SolidColorBrush x:Key="BodyColor" Color="#FF2CA5E2" />
+        <SolidColorBrush x:Key="BorderColor" Color="#FF268ABD" />
     </core:ScopeBlock.Resources>
 
     <StackPanel Orientation="Horizontal">
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-            <Border BorderThickness="1,1,1,0" HorizontalAlignment="Stretch" BorderBrush="{StaticResource BorderColor}" Height="5" Background="{StaticResource BodyColor}" CornerRadius="2,2,0,0" />
-            <Border Background="{StaticResource BodyColor}" BorderThickness="1,0,1,0" BorderBrush="{StaticResource BorderColor}">
-                <StackPanel x:Name="StackContent" Orientation="Horizontal" Margin="3">
-                    <TextBlock x:Name="StackContentText" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" Margin="5,2"/>
-                    <WrapPanel x:Name="ParameterBox" Orientation="Horizontal" VerticalAlignment="Center">
-                    </WrapPanel>
+        <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
+            <Border
+                Height="5"
+                HorizontalAlignment="Stretch"
+                Background="{StaticResource BodyColor}"
+                BorderBrush="{StaticResource BorderColor}"
+                BorderThickness="1,1,1,0"
+                CornerRadius="2,2,0,0" />
+            <Border
+                Background="{StaticResource BodyColor}"
+                BorderBrush="{StaticResource BorderColor}"
+                BorderThickness="1,0,1,0">
+                <StackPanel
+                    x:Name="StackContent"
+                    Margin="3"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        x:Name="StackContentText"
+                        Margin="5,2"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Foreground="White" />
+                    <WrapPanel
+                        x:Name="ParameterBox"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal" />
                 </StackPanel>
             </Border>
             <Grid>
-                <Border BorderThickness="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="5" BorderBrush="{StaticResource BorderColor}" Height="10" Background="{StaticResource BodyColor}" CornerRadius="0,0,0,2" />
-                <hole:NextConnectHole x:Name="RealNextConnectHole" Margin="5,0" VerticalAlignment="Bottom" BodyColor="{StaticResource BodyColor}" BorderColor="{StaticResource BorderColor}"/>
-                <Border BorderThickness="0,0,1,1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="5" BorderBrush="{StaticResource BorderColor}" Height="10" Background="{StaticResource BodyColor}" CornerRadius="0,0,2,0" />
+                <Border
+                    Width="5"
+                    Height="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{StaticResource BodyColor}"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="1,0,0,1"
+                    CornerRadius="0,0,0,2" />
+                <hole:NextConnectHole
+                    x:Name="RealNextConnectHole"
+                    Margin="5,0"
+                    VerticalAlignment="Bottom"
+                    BodyColor="{StaticResource BodyColor}"
+                    BorderColor="{StaticResource BorderColor}" />
+                <Border
+                    Width="5"
+                    Height="10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="{StaticResource BodyColor}"
+                    BorderBrush="{StaticResource BorderColor}"
+                    BorderThickness="0,0,1,1"
+                    CornerRadius="0,0,2,0" />
             </Grid>
         </StackPanel>
     </StackPanel>

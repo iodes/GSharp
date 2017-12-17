@@ -1,23 +1,50 @@
-﻿<objects:SettableObjectBlock x:Class="GSharp.Graphic.Objects.Lists.ItemBlock"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
-             xmlns:local="clr-namespace:GSharp.Graphic.Objects.Lists"
-             xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
-             xmlns:core="clr-namespace:GSharp.Graphic.Blocks"
-             mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+﻿<objects:SettableObjectBlock
+    x:Class="GSharp.Graphic.Objects.Lists.ItemBlock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
+    d:DesignHeight="100"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
 
-    <Border CornerRadius="2" Padding="3" Background="#FFBB42C3" HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="#FF8B3191" BorderThickness="1">
+    <Border
+        Padding="3"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Background="#FFBB42C3"
+        BorderBrush="#FF8B3191"
+        BorderThickness="1"
+        CornerRadius="2">
         <StackPanel Orientation="Horizontal">
-            <TextBlock Text="배열" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
-            <hole:SettableObjectHole x:Name="ListHole" Margin="3,0" Foreground="#FF79297E" />
-            <TextBlock Text="의" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
-            <hole:NumberHole x:Name="NumberHole" Margin="3,0" Foreground="#FF79297E" />
-            <TextBlock Text="번째 요소" Foreground="White" VerticalAlignment="Center" FontWeight="Bold" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Foreground="White"
+                Text="배열" />
+            <hole:SettableObjectHole
+                x:Name="ListHole"
+                Margin="3,0"
+                Foreground="#FF79297E" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Foreground="White"
+                Text="의" />
+            <hole:NumberHole
+                x:Name="NumberHole"
+                Margin="3,0"
+                Foreground="#FF79297E" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Foreground="White"
+                Text="번째 요소" />
         </StackPanel>
     </Border>
-    
+
 </objects:SettableObjectBlock>

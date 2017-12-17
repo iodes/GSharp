@@ -1,31 +1,54 @@
-﻿<objects:LogicBlock x:Class="GSharp.Graphic.Objects.Logics.CompareBlock"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
-             xmlns:local="clr-namespace:GSharp.Graphic.Objects.Logics"
-             xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
-             mc:Ignorable="d"
-             d:DesignHeight="30"
-             d:DesignWidth="120" HorizontalAlignment="Left" VerticalAlignment="Top"
-             SnapsToDevicePixels="True">
+﻿<objects:LogicBlock
+    x:Class="GSharp.Graphic.Objects.Logics.CompareBlock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hole="clr-namespace:GSharp.Graphic.Holes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:objects="clr-namespace:GSharp.Graphic.Objects"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
+    d:DesignHeight="30"
+    d:DesignWidth="120"
+    SnapsToDevicePixels="True"
+    mc:Ignorable="d">
 
     <objects:LogicBlock.Resources>
-        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml"/>
+        <ResourceDictionary Source="/GSharp.Graphic;component/ResourceDictionary.xaml" />
     </objects:LogicBlock.Resources>
-    
-    <Border HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF5CB712" BorderBrush="#FF4C970F" BorderThickness="1" CornerRadius="2" Padding="3">
+
+    <Border
+        Padding="3"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Background="#FF5CB712"
+        BorderBrush="#FF4C970F"
+        BorderThickness="1"
+        CornerRadius="2">
         <StackPanel Orientation="Horizontal">
-            <hole:ObjectHole x:Name="ObjectHole1" VerticalAlignment="Center" Foreground="#FF3B760B"/>
-            <ComboBox x:Name="Operator" Margin="3,0" SelectedIndex="0" VerticalAlignment="Center" Background="#FF3B760B" Foreground="White" Height="20" Style="{StaticResource ComboBoxStyle}">
+            <hole:ObjectHole
+                x:Name="ObjectHole1"
+                VerticalAlignment="Center"
+                Foreground="#FF3B760B" />
+            <ComboBox
+                x:Name="Operator"
+                Height="20"
+                Margin="3,0"
+                VerticalAlignment="Center"
+                Background="#FF3B760B"
+                Foreground="White"
+                SelectedIndex="0"
+                Style="{StaticResource ComboBoxStyle}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Value}"/>
+                        <TextBlock Text="{Binding Value}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <hole:ObjectHole x:Name="ObjectHole2" VerticalAlignment="Center" Foreground="#FF3B760B"/>
+            <hole:ObjectHole
+                x:Name="ObjectHole2"
+                VerticalAlignment="Center"
+                Foreground="#FF3B760B" />
         </StackPanel>
     </Border>
 </objects:LogicBlock>
