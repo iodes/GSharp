@@ -14,6 +14,7 @@ using GSharpSample.Natives;
 using GSharpSample.Utilities;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -164,35 +165,51 @@ namespace GSharpSample.Pages
         #endregion
 
         #region 사용자 함수
-        public void Compile()
+        public void Build()
         {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "응용 프로그램 (*.exe)|*.exe"
+            };
+
+            if (saveDialog.ShowDialog().Value && Compile(saveDialog.FileName))
+            {
+                MessageBox.Show("컴파일을 성공하였습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        public void Debug()
+        {
+            string tempFile = System.IO.Path.GetTempFileName() + ".exe";
+            
+            if (Compile(tempFile))
+            {
+                Process.Start(tempFile);
+            }
+        }
+
+        public bool Compile(string path)
+        {
+            bool isSuccess = false;
+
             try
             {
                 compiler.Source = blockEditor.GetSource();
 
-                var saveDialog = new SaveFileDialog
-                {
-                    Filter = "응용 프로그램 (*.exe)|*.exe"
-                };
+                var result = compiler.Build(path, config);
+                isSuccess = result.IsSuccess;
 
-                if (saveDialog.ShowDialog().Value)
+                if (!result.IsSuccess)
                 {
-                    var result = compiler.Build(saveDialog.FileName, config);
-
-                    if (result.IsSuccess)
-                    {
-                        MessageBox.Show("컴파일을 성공하였습니다.", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show(result.Results.Errors[0].ErrorText, "오류", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    MessageBox.Show(result.Results.Errors[0].ErrorText, "오류", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "오류", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            return isSuccess;
         }
 
         public void ShowConfig()
