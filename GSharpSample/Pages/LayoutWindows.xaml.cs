@@ -32,7 +32,7 @@ namespace GSharpSample.Pages
 
         private void BtnDebug_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            pageWorkspace.Compile();
+            pageWorkspace.Build();
         }
 
         private void BtnConfig_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
