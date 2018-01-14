@@ -43,6 +43,10 @@ namespace GSharpSample.Pages
         private GCompilerConfig config = new GCompilerConfig();
         #endregion
 
+        #region 속성
+        public bool IsDebugging { get; set; } = false;
+        #endregion
+
         #region 생성자
         public PageWorkspace()
         {
@@ -184,7 +188,15 @@ namespace GSharpSample.Pages
             
             if (Compile(tempFile))
             {
-                Process.Start(tempFile);
+                IsDebugging = true;
+
+                var process = Process.Start(tempFile);
+                process.EnableRaisingEvents = true;
+
+                process.Exited += delegate
+                {
+                    IsDebugging = false;
+                };
             }
         }
 
