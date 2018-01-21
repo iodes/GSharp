@@ -14,9 +14,11 @@ using GSharpSample.Natives;
 using GSharpSample.Utilities;
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,11 +33,12 @@ namespace GSharpSample.Pages
     /// <summary>
     /// PageWorkspace.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PageWorkspace : UserControl
+    public partial class PageWorkspace : UserControl, INotifyPropertyChanged
     {
         #region 변수
         private bool dragReady = false;
         private bool dropComplete = false;
+        private bool isDebugging = false;
         private Window dragEffectWindow;
         private BaseBlock lastDragBlock;
         private Point startPoint;
@@ -44,7 +47,15 @@ namespace GSharpSample.Pages
         #endregion
 
         #region 속성
-        public bool IsDebugging { get; set; } = false;
+        public bool IsDebugging
+        {
+            get => isDebugging;
+            set
+            {
+                isDebugging = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
         #region 생성자
@@ -56,6 +67,8 @@ namespace GSharpSample.Pages
         #endregion
 
         #region 이벤트
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void PageWorkspace_Loaded(object sender, RoutedEventArgs e)
         {
             // 기본 블럭 추가
@@ -165,6 +178,14 @@ namespace GSharpSample.Pages
             var diff = startPoint - e.GetPosition(this);
             return Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
                    Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance;
+        }
+
+        internal void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (!string.IsNullOrEmpty(propertyName))
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
         #endregion
 
