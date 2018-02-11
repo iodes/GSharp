@@ -11,5 +11,3 @@
 /.vs
 /Debug
 /packages
-/Presto/Mvvm/Converter/ValueConverterBase.cs
-/Presto/CoreAudio/IconExtractor.cs
