@@ -45,6 +45,12 @@
     <Compile Include="DataTypes\NumberExtension.cs" />
     <Compile Include="DataTypes\ObjectExtension.cs" />
     <Compile Include="DataTypes\StringExtension.cs" />
+    <Compile Include="Operators\EqualExtension.cs" />
+    <Compile Include="Operators\GreaterEqualExtension.cs" />
+    <Compile Include="Operators\GreaterExtension.cs" />
+    <Compile Include="Operators\LessEqualExtension.cs" />
+    <Compile Include="Operators\LessExtension.cs" />
+    <Compile Include="Operators\NotEqualExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
