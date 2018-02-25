@@ -5,20 +5,6 @@ namespace GSharp.Bootstrap.DataTypes
 {
     public static class NumberExtension
     {
-        public static readonly List<Type> NumberTypes = new List<Type>()
-        {
-            typeof(sbyte),
-            typeof(byte),
-            typeof(short),
-            typeof(ushort),
-            typeof(int),
-            typeof(uint),
-            typeof(long),
-            typeof(ulong),
-            typeof(float),
-            typeof(double)
-        };
-
         public static double ToNumber(this double number)
         {
             return number;

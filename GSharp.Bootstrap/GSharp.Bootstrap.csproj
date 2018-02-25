@@ -45,6 +45,7 @@
     <Compile Include="DataTypes\NumberExtension.cs" />
     <Compile Include="DataTypes\ObjectExtension.cs" />
     <Compile Include="DataTypes\StringExtension.cs" />
+    <Compile Include="Extensions\NumericExtension.cs" />
     <Compile Include="Operators\EqualExtension.cs" />
     <Compile Include="Operators\GreaterEqualExtension.cs" />
     <Compile Include="Operators\GreaterExtension.cs" />

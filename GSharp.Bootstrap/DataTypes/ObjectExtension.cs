@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GSharp.Bootstrap.Extensions;
+using System;
 using System.Collections.Generic;
 
 namespace GSharp.Bootstrap.DataTypes
@@ -22,7 +23,7 @@ namespace GSharp.Bootstrap.DataTypes
                 return ((List<object>)obj).ToNumber();
             }
 
-            if (NumberExtension.NumberTypes.Contains(obj.GetType()))
+            if (obj.IsNumeric())
             {
                 return Convert.ToDouble(obj);
             }
@@ -72,7 +73,7 @@ namespace GSharp.Bootstrap.DataTypes
                 return ((List<object>)obj).ToBool();
             }
 
-            if (NumberExtension.NumberTypes.Contains(obj.GetType()))
+            if (obj.IsNumeric())
             {
                 return Convert.ToBoolean(obj);
             }
