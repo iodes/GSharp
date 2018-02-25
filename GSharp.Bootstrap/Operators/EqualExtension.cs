@@ -1,32 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using GSharp.Bootstrap.DataTypes;
+using GSharp.Bootstrap.Extensions;
+using System.Collections.Generic;
 
 namespace GSharp.Bootstrap.Operators
 {
     public static class EqualExtension
     {
-        public static bool IsEqualThan(this bool objA, dynamic objB)
+        public static bool IsEqualThan(this object objA, object objB)
         {
-            return objA == objB.ToBool();
-        }
+            if (objA.IsNumeric() || objB.IsNumeric())
+                return objA.ToNumber() == objB.ToNumber();
 
-        public static bool IsEqualThan(this double objA, dynamic objB)
-        {
-            return objA == objB.ToNumber();
-        }
+            if (objA is bool)
+                return objA.ToBool() == objB.ToBool();
 
-        public static bool IsEqualThan(this object objA, dynamic objB)
-        {
-            return objA == objB.ToCustom();
-        }
+            if (objA is string)
+                return objA.ToText() == objB.ToText();
 
-        public static bool IsEqualThan(this string objA, dynamic objB)
-        {
-            return objA == objB.ToText();
-        }
+            if (objA is List<object>)
+                return objA.ToList() == objB.ToList();
 
-        public static bool IsEqualThan(this List<object> objA, dynamic objB)
-        {
-            return objA == objB.ToList();
+            return false;
         }
     }
 }

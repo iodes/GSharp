@@ -1,32 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using GSharp.Bootstrap.DataTypes;
+using GSharp.Bootstrap.Extensions;
+using System.Collections.Generic;
 
 namespace GSharp.Bootstrap.Operators
 {
     public static class LessExtension
     {
-        public static bool IsLessThan(this bool objA, dynamic objB)
+        public static bool IsLessThan(this object objA, object objB)
         {
-            return objA == objB.ToBool();
-        }
+            if (objA.IsNumeric() || objB.IsNumeric())
+                return objA.ToNumber() < objB.ToNumber();
 
-        public static bool IsLessThan(this double objA, dynamic objB)
-        {
-            return objA < objB.ToNumber();
-        }
+            if (objA is bool)
+                return objA.ToBool() == objB.ToBool();
 
-        public static bool IsLessThan(this object objA, dynamic objB)
-        {
-            return objA < objB.ToCustom();
-        }
+            if (objA is string)
+                return objA.ToText().Length < objB.ToText().Length;
 
-        public static bool IsLessThan(this string objA, dynamic objB)
-        {
-            return objA.Length < objB.ToText().Length;
-        }
+            if (objA is List<object>)
+                return objA.ToList().Count < objB.ToList().Count;
 
-        public static bool IsLessThan(this List<object> objA, dynamic objB)
-        {
-            return objA.Count < objB.ToList().Count;
+            return false;
         }
     }
 }

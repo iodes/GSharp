@@ -10,18 +10,23 @@ namespace GSharp.Bootstrap.Extensions
             {
                 case TypeCode.Byte:
                 case TypeCode.SByte:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
                 case TypeCode.Int16:
                 case TypeCode.Int32:
                 case TypeCode.Int64:
-                case TypeCode.Decimal:
-                case TypeCode.Double:
+                case TypeCode.UInt16:
+                case TypeCode.UInt32:
+                case TypeCode.UInt64:
                 case TypeCode.Single:
+                case TypeCode.Double:
+                case TypeCode.Decimal:
                     return true;
 
                 default:
+                    if (double.TryParse(target.ToString(), out double result))
+                    {
+                        return true;
+                    }
+
                     return false;
             }
         }
