@@ -7,6 +7,7 @@
 
 ## 도움말
 * [GSharp Wiki](https://github.com/iodes/GSharp/wiki)
+	* [프레임워크 구성 요소](https://github.com/iodes/GSharp/wiki/Components)
 
 ## 라이센스
 본 프로그램은 자유 소프트웨어로,  
