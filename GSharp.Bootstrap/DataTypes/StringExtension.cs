@@ -6,8 +6,7 @@ namespace GSharp.Bootstrap.DataTypes
     {
         public static double ToNumber(this string str)
         {
-            double result;
-            if (double.TryParse(str, out result))
+            if (double.TryParse(str, out double result))
             {
                 return result;
             }
