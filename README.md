@@ -5,8 +5,8 @@
 .NET Framework 코드를 시각적으로 작성할 수 있는 통합 프레임워크 입니다.  
 본 프레임워크를 활용하여 비주얼 프로그래밍 솔루션등의 개발이 가능합니다.
 
-## 문서
-* [모듈 개발 방법](Manuals/ModuleDevelopment.md)
+## 도움말
+* [GSharp Wiki](https://github.com/iodes/GSharp/wiki)
 
 ## 라이센스
 본 프로그램은 자유 소프트웨어로,  
