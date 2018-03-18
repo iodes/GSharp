@@ -8,6 +8,7 @@
 ## 도움말
 * [GSharp Wiki](https://github.com/iodes/GSharp/wiki)
 	* [프레임워크 구성 요소](https://github.com/iodes/GSharp/wiki/Components)
+	* [확장 모듈 개발 방법](https://github.com/iodes/GSharp/wiki/Development)
 
 ## 라이센스
 본 프로그램은 자유 소프트웨어로,  
