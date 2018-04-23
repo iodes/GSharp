@@ -1,0 +1,7 @@
+C:\Users\SEOP\Downloads\SrcSamples\bin\ICSharpCode.SharpZipLib.xml
+C:\Users\SEOP\Downloads\SrcSamples\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\SEOP\Downloads\SrcSamples\bin\ICSharpCode.SharpZipLib.pdb
+C:\Users\SEOP\Downloads\SrcSamples\src\obj\Debug\ICSharpCode.SharpZLib.csprojResolveAssemblyReference.cache
+C:\Users\SEOP\Downloads\SrcSamples\src\obj\Debug\ICSharpCode.SharpZLib.csproj.CoreCompileInputs.cache
+C:\Users\SEOP\Downloads\SrcSamples\src\obj\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\SEOP\Downloads\SrcSamples\src\obj\Debug\ICSharpCode.SharpZipLib.pdb
