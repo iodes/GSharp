@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\IPackage.cs" />
+    <Compile Include="Commons\IPackageResolver.cs" />
+    <Compile Include="PackageCreator.cs" />
+    <Compile Include="PackageLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpZipLib\SharpZipBaseException.cs" />
     <Compile Include="SharpZipLib\BZip2\BZip2.cs" />
