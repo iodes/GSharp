@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Commons\IPackage.cs" />
     <Compile Include="Commons\IPackageResolver.cs" />
+    <Compile Include="Commons\PackageDataCollection.cs" />
     <Compile Include="PackageCreator.cs" />
     <Compile Include="PackageLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
