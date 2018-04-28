@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GSharp.Packager
+namespace GSharp.Packager.Commons
 {
     public sealed class PackageDataCollection : List<string>
     {

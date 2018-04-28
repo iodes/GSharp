@@ -1,13 +1,23 @@
-﻿using ICSharpCode.SharpZipLib.Core;
+﻿using GSharp.Packager.Commons;
+using GSharp.Packager.Extensions;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
 
 namespace GSharp.Packager
 {
-    public class PackageCreator
+    public class PackageCreator : IPackageHeader
     {
         #region 속성
-        public IPackageResolver Resolver { get; set; }
+        public string Title { get; set; }
+
+        public string Author { get; set; }
+
+        public string Version { get; set; }
+
+        public string Description { get; set; }
+
+        public string Signature { get; set; }
 
         public PackageDataCollection Datas { get; } = new PackageDataCollection();
         #endregion
@@ -40,16 +50,18 @@ namespace GSharp.Packager
             using (var zipStream = new ZipOutputStream(fileStream))
             {
                 // 헤더 데이터 작성
-                binaryWriter.Write("Title");
-                binaryWriter.Write("Author");
-                binaryWriter.Write("Version");
-                binaryWriter.Write("Description");
-                binaryWriter.Write(Resolver?.Signature ?? "DEFAULT");
+                binaryWriter.Write(SectionType.Header.GetValue<EnumStringAttribute, string>());
+                binaryWriter.Write(Title ?? string.Empty);
+                binaryWriter.Write(Author ?? string.Empty);
+                binaryWriter.Write(Version ?? string.Empty);
+                binaryWriter.Write(Description ?? string.Empty);
+                binaryWriter.Write(Signature ?? string.Empty);
 
                 // 압축 스트림 설정
                 zipStream.SetLevel(3);
 
                 // 압축 데이터 작성
+                binaryWriter.Write(SectionType.Content.GetValue<EnumStringAttribute, string>());
                 foreach (var file in Datas)
                 {
                     var fileInfo = new FileInfo(file);
