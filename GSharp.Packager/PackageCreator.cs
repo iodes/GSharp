@@ -15,32 +15,61 @@ namespace GSharp.Packager
 
         public string Version { get; set; }
 
-        public string Description { get; set; }
-
         public string Signature { get; set; }
 
         public PackageDataCollection Datas { get; } = new PackageDataCollection();
         #endregion
 
+        #region 내부 함수
+        private void CompressData(ZipOutputStream zipStream, IPackageData data)
+        {
+            if (data is PackageDirectory directory)
+            {
+                if (directory.Children.Count > 0)
+                {
+                    // 폴더 내부 탐색
+                    foreach (var subData in directory.Children)
+                    {
+                        CompressData(zipStream, subData);
+                    }
+                }
+                else
+                {
+                    // 공백 폴더 생성
+                    var dirEntryName = $@"{ZipEntry.CleanName(directory.Path)}\";
+                    zipStream.PutNextEntry(new ZipEntry(dirEntryName));
+                    zipStream.CloseEntry();
+                }
+            }
+
+            // 파일 데이터 압축
+            if (data is PackageFile file)
+            {
+                var fileEntryName = ZipEntry.CleanName(file.Path);
+                zipStream.PutNextEntry(new ZipEntry(fileEntryName)
+                {
+                    DateTime = file.LastWriteTime,
+                    Size = file.Size
+                });
+
+                var buffer = new byte[4096];
+                StreamUtils.Copy(file.Content, zipStream, buffer);
+
+                zipStream.CloseEntry();
+            }
+        }
+        #endregion
+
         #region 사용자 함수
-        public void AddFile(string path)
+        public void Add(IPackageData data)
         {
-            Datas.Add(path);
+            Datas.Add(data);
         }
 
-        public void RemoveFile(string path)
+        public void Remove(IPackageData data)
         {
-            Datas.Remove(path);
-        }
-
-        public void AddDirectory(string path)
-        {
-            Datas.AddRange(Directory.GetFiles(path, "*.*", SearchOption.AllDirectories));
-        }
-
-        public void RemoveDirectory(string path)
-        {
-            Datas.RemoveAll(x => x.StartsWith(path));
+            Datas.Remove(data);
+            data.Dispose();
         }
 
         public IPackage Create(string path)
@@ -54,7 +83,6 @@ namespace GSharp.Packager
                 binaryWriter.Write(Title ?? string.Empty);
                 binaryWriter.Write(Author ?? string.Empty);
                 binaryWriter.Write(Version ?? string.Empty);
-                binaryWriter.Write(Description ?? string.Empty);
                 binaryWriter.Write(Signature ?? string.Empty);
 
                 // 압축 스트림 설정
@@ -62,23 +90,9 @@ namespace GSharp.Packager
 
                 // 압축 데이터 작성
                 binaryWriter.Write(SectionType.Content.GetValue<EnumStringAttribute, string>());
-                foreach (var file in Datas)
+                foreach (var data in Datas)
                 {
-                    var fileInfo = new FileInfo(file);
-                    var entryName = ZipEntry.CleanName(file.Substring(fileInfo.DirectoryName.Length));
-                    zipStream.PutNextEntry(new ZipEntry(entryName)
-                    {
-                        DateTime = fileInfo.LastWriteTime,
-                        Size = fileInfo.Length
-                    });
-
-                    var buffer = new byte[4096];
-                    using (var streamReader = File.OpenRead(file))
-                    {
-                        StreamUtils.Copy(streamReader, zipStream, buffer);
-                    }
-
-                    zipStream.CloseEntry();
+                    CompressData(zipStream, data);
                 }
 
                 zipStream.IsStreamOwner = false;

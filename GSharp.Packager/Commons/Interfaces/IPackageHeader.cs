@@ -2,14 +2,12 @@
 {
     public interface IPackageHeader
     {
-        string Title { get; set; }
+        string Title { get; }
 
-        string Author { get; set; }
+        string Author { get; }
 
-        string Version { get; set; }
+        string Version { get; }
 
-        string Description { get; set; }
-
-        string Signature { get; set; }
+        string Signature { get; }
     }
 }

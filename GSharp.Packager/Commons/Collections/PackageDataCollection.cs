@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace GSharp.Packager.Commons
 {
-    public sealed class PackageDataCollection : List<string>
+    public sealed class PackageDataCollection : ObservableCollection<IPackageData>
     {
         internal PackageDataCollection()
         {
