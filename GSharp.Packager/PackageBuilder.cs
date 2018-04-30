@@ -23,7 +23,15 @@ namespace GSharp.Packager
         #region 사용자 함수
         public void Add(string path)
         {
-            Datas.AddRange(DirectoryUtility.GetContents(path));
+            var attributes = File.GetAttributes(path);
+            if (attributes.HasFlag(FileAttributes.Directory))
+            {
+                Datas.AddRange(DirectoryUtility.GetContents(path));
+            }
+            else
+            {
+                Datas.Add(new PackageFile(path));
+            }
         }
 
         public void Add(IPackageData data)
