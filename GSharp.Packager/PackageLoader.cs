@@ -80,7 +80,7 @@ namespace GSharp.Packager
         #region 사용자 함수
         public IPackage Load(string path)
         {
-            Package result = new Package();
+            var result = new Package();
 
             using (var fileStream = File.Open(path, FileMode.Open))
             using (var binaryReader = new BinaryReader(fileStream))

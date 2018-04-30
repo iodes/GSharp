@@ -74,16 +74,25 @@ namespace GSharp.Packager
 
         public IPackage Create(string path)
         {
+            var result = new Package
+            {
+                _title = Title,
+                _author = Author,
+                _version = Version,
+                _signature = Signature,
+                _datas = Datas
+            };
+
             using (var fileStream = File.Open(path, FileMode.Create))
             using (var binaryWriter = new BinaryWriter(fileStream))
             using (var zipStream = new ZipOutputStream(fileStream))
             {
                 // 헤더 데이터 작성
                 binaryWriter.Write(SectionType.Header.GetValue<ValueAttribute, string>());
-                binaryWriter.Write(Title ?? string.Empty);
-                binaryWriter.Write(Author ?? string.Empty);
-                binaryWriter.Write(Version ?? string.Empty);
-                binaryWriter.Write(Signature ?? string.Empty);
+                binaryWriter.Write(result.Title ?? string.Empty);
+                binaryWriter.Write(result.Author ?? string.Empty);
+                binaryWriter.Write(result.Version ?? string.Empty);
+                binaryWriter.Write(result.Signature ?? string.Empty);
 
                 // 압축 스트림 설정
                 zipStream.SetLevel(3);
@@ -99,7 +108,7 @@ namespace GSharp.Packager
                 zipStream.Close();
             }
 
-            return null;
+            return result;
         }
         #endregion
     }

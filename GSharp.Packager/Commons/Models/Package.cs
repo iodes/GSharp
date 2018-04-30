@@ -9,6 +9,7 @@ namespace GSharp.Packager.Commons
         internal string _author;
         internal string _version;
         internal string _signature;
+        internal PackageDataCollection _datas = new PackageDataCollection();
         #endregion
 
         #region 속성
@@ -20,7 +21,7 @@ namespace GSharp.Packager.Commons
 
         public string Signature => _signature;
 
-        public PackageDataCollection Datas { get; } = new PackageDataCollection();
+        public PackageDataCollection Datas => _datas;
         #endregion
 
         #region 생성자
