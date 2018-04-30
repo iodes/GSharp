@@ -40,7 +40,7 @@ namespace GSharp.Packager
                 // 최하위 파일
                 if (IsDirectory(path))
                 {
-                    parentDir.Children.Add(new PackageDirectory(path, null));
+                    parentDir.Children.Add(new PackageDirectory(CleanName(path), null));
                 }
                 else
                 {
@@ -52,13 +52,18 @@ namespace GSharp.Packager
                 // 단일 파일
                 if (IsDirectory(path))
                 {
-                    dict.Add(pathDictKey, new PackageDirectory(path, null));
+                    dict.Add(pathDictKey, new PackageDirectory(CleanName(path), null));
                 }
                 else
                 {
                     dict.Add(pathDictKey, new PackageFile(path, stream));
                 }
             }
+        }
+
+        private string CleanName(string path)
+        {
+            return path.Replace("\\", "");
         }
 
         private string GetRootName(string path)
