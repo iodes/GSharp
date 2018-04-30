@@ -8,12 +8,8 @@ namespace GSharp.Packager.Commons
 {
     public class PackageDirectory : PackageData
     {
-        #region 변수
-        private PackageDataCollection _children = new PackageDataCollection();
-        #endregion
-
         #region 속성
-        public PackageDataCollection Children => _children;
+        public PackageDataCollection Children { get; } = new PackageDataCollection();
         #endregion
 
         #region 생성자
@@ -38,7 +34,7 @@ namespace GSharp.Packager.Commons
 
             if (datas != null)
             {
-                _children.AddRange(datas);
+                Children.AddRange(datas);
             }
         }
         #endregion

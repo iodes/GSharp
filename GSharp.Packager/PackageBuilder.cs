@@ -21,6 +21,11 @@ namespace GSharp.Packager
         #endregion
 
         #region 사용자 함수
+        public void Add(string path)
+        {
+            Datas.AddRange(DirectoryUtility.GetContents(path));
+        }
+
         public void Add(IPackageData data)
         {
             Datas.Add(data);
