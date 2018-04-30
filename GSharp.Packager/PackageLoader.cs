@@ -80,38 +80,40 @@ namespace GSharp.Packager
         #region 사용자 함수
         public IPackage Load(string path)
         {
-            var result = new Package();
-
-            using (var fileStream = File.Open(path, FileMode.Open))
-            using (var binaryReader = new BinaryReader(fileStream))
+            var result = new Package
             {
-                // 헤더 데이터 읽기
-                if (binaryReader.ReadString() == SectionType.Header.GetValue<ValueAttribute, string>())
+                _streamFile = File.Open(path, FileMode.Open)
+            };
+
+            // 헤더 데이터 읽기
+            result._streamReader = new BinaryReader(result._streamFile);
+            if (result._streamReader.ReadString() == SectionType.Header.GetValue<ValueAttribute, string>())
+            {
+                result._title = result._streamReader.ReadString();
+                result._author = result._streamReader.ReadString();
+                result._version = result._streamReader.ReadString();
+                result._signature = result._streamReader.ReadString();
+            }
+
+            // 압축 데이터 읽기
+            if (result._streamReader.ReadString() == SectionType.Content.GetValue<ValueAttribute, string>())
+            {
+                var dictDir = new Dictionary<string, IPackageData>();
+
+                result._streamZip = new ZipFile(result._streamFile)
                 {
-                    result._title = binaryReader.ReadString();
-                    result._author = binaryReader.ReadString();
-                    result._version = binaryReader.ReadString();
-                    result._signature = binaryReader.ReadString();
+                    IsStreamOwner = false
+                };
+
+                foreach (ZipEntry zipEntry in result._streamZip)
+                {
+                    var zipStream = result._streamZip.GetInputStream(zipEntry);
+                    ResolveDirectory(ref dictDir, zipStream, zipEntry.Name);
                 }
 
-                // 압축 데이터 읽기
-                if (binaryReader.ReadString() == SectionType.Content.GetValue<ValueAttribute, string>())
+                foreach (var data in dictDir.Values.Where(x => x.Parent == null))
                 {
-                    var dictDir = new Dictionary<string, IPackageData>();
-
-                    using (var zipFile = new ZipFile(fileStream))
-                    {
-                        foreach (ZipEntry zipEntry in zipFile)
-                        {
-                            var zipStream = zipFile.GetInputStream(zipEntry);
-                            ResolveDirectory(ref dictDir, zipStream, zipEntry.Name);
-                        }
-
-                        foreach (var data in dictDir.Values.Where(x => x.Parent == null))
-                        {
-                            result.Datas.Add(data);
-                        }
-                    }
+                    result.Datas.Add(data);
                 }
             }
 
