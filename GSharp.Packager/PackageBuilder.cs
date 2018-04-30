@@ -6,7 +6,7 @@ using System.IO;
 
 namespace GSharp.Packager
 {
-    public class PackageCreator : IPackageHeader
+    public class PackageBuilder : IPackageHeader
     {
         #region 속성
         public string Title { get; set; }
