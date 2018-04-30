@@ -1,6 +1,6 @@
 ﻿using GSharp.Packager.Commons;
 using GSharp.Packager.Extensions;
-using ICSharpCode.SharpZipLib.Core;
+using GSharp.Packager.Utilities;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
 
@@ -18,46 +18,6 @@ namespace GSharp.Packager
         public string Signature { get; set; }
 
         public PackageDataCollection Datas { get; } = new PackageDataCollection();
-        #endregion
-
-        #region 내부 함수
-        private void CompressData(ZipOutputStream zipStream, IPackageData data)
-        {
-            if (data is PackageDirectory directory)
-            {
-                if (directory.Children.Count > 0)
-                {
-                    // 폴더 내부 탐색
-                    foreach (var subData in directory.Children)
-                    {
-                        CompressData(zipStream, subData);
-                    }
-                }
-                else
-                {
-                    // 단일 폴더 생성
-                    var dirEntryName = $@"{ZipEntry.CleanName(directory.Path)}\";
-                    zipStream.PutNextEntry(new ZipEntry(dirEntryName));
-                    zipStream.CloseEntry();
-                }
-            }
-
-            // 파일 데이터 압축
-            if (data is PackageFile file)
-            {
-                var fileEntryName = ZipEntry.CleanName(file.Path);
-                zipStream.PutNextEntry(new ZipEntry(fileEntryName)
-                {
-                    DateTime = file.LastWriteTime,
-                    Size = file.Size
-                });
-
-                var buffer = new byte[4096];
-                StreamUtils.Copy(file.Content, zipStream, buffer);
-
-                zipStream.CloseEntry();
-            }
-        }
         #endregion
 
         #region 사용자 함수
@@ -101,7 +61,7 @@ namespace GSharp.Packager
                 binaryWriter.Write(SectionType.Content.GetValue<ValueAttribute, string>());
                 foreach (var data in Datas)
                 {
-                    CompressData(zipStream, data);
+                    CompressUtility.Compress(zipStream, data);
                 }
 
                 zipStream.IsStreamOwner = false;

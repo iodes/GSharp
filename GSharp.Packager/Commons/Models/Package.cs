@@ -1,4 +1,4 @@
-﻿using ICSharpCode.SharpZipLib.Core;
+﻿using GSharp.Packager.Utilities;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.IO;
@@ -39,55 +39,12 @@ namespace GSharp.Packager.Commons
         }
         #endregion
 
-        #region 내부 함수
-        private void CreateDirectory(string path)
-        {
-            if (path.Length > 0 && !Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-        }
-
-        private void UncompressData(string path, IPackageData data)
-        {
-            if (data is PackageDirectory directory)
-            {
-                if (directory.Children.Count > 0)
-                {
-                    // 폴더 내부 탐색
-                    foreach (var subData in directory.Children)
-                    {
-                        UncompressData(path, subData);
-                    }
-                }
-                else
-                {
-                    // 단일 폴더 생성
-                    CreateDirectory(Path.Combine(path, directory.Path));
-                }
-            }
-
-            // 파일 압축 해제
-            if (data is PackageFile file)
-            {
-                var targetPath = Path.Combine(path, file.Path);
-                CreateDirectory(Path.GetDirectoryName(targetPath));
-
-                using (var streamWriter = File.Create(targetPath))
-                {
-                    var buffer = new byte[4096];
-                    StreamUtils.Copy(file.Content, streamWriter, buffer);
-                }
-            }
-        }
-        #endregion
-
         #region 사용자 함수
         public void Install(string path)
         {
             foreach (var data in Datas)
             {
-                UncompressData(path, data);
+                CompressUtility.Decompress(path, data);
             }
         }
         #endregion
