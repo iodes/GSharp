@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 
 namespace GSharp.Packager.Commons
 {
@@ -41,9 +42,13 @@ namespace GSharp.Packager.Commons
         public PackageDirectory(string name, PackageDataCollection datas) : this()
         {
             _name = name;
-            foreach (var data in datas)
+
+            if (datas != null)
             {
-                _children.Add(data);
+                foreach (var data in datas)
+                {
+                    _children.Add(data);
+                }
             }
         }
         #endregion
