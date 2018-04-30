@@ -35,7 +35,7 @@ namespace GSharp.Packager
                 }
                 else
                 {
-                    // 공백 폴더 생성
+                    // 단일 폴더 생성
                     var dirEntryName = $@"{ZipEntry.CleanName(directory.Path)}\";
                     zipStream.PutNextEntry(new ZipEntry(dirEntryName));
                     zipStream.CloseEntry();

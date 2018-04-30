@@ -40,6 +40,14 @@ namespace GSharp.Packager.Commons
         #endregion
 
         #region 내부 함수
+        private void CreateDirectory(string path)
+        {
+            if (path.Length > 0 && !Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+
         private void UncompressData(string path, IPackageData data)
         {
             if (data is PackageDirectory directory)
@@ -52,12 +60,10 @@ namespace GSharp.Packager.Commons
                         UncompressData(path, subData);
                     }
                 }
-
-                // 대상 폴더 생성
-                var targetPath = Path.Combine(path, directory.Path);
-                if (!Directory.Exists(targetPath))
+                else
                 {
-                    Directory.CreateDirectory(targetPath);
+                    // 단일 폴더 생성
+                    CreateDirectory(Path.Combine(path, directory.Path));
                 }
             }
 
@@ -65,6 +71,7 @@ namespace GSharp.Packager.Commons
             if (data is PackageFile file)
             {
                 var targetPath = Path.Combine(path, file.Path);
+                CreateDirectory(Path.GetDirectoryName(targetPath));
 
                 using (var streamWriter = File.Create(targetPath))
                 {
@@ -100,8 +107,8 @@ namespace GSharp.Packager.Commons
                     }
 
                     _streamZip.Close();
-                    _streamFile.Dispose();
                     _streamReader.Dispose();
+                    _streamFile.Dispose();
                 }
 
                 disposedValue = true;
