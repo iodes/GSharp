@@ -79,7 +79,7 @@ namespace GSharp.Packager
             using (var zipStream = new ZipOutputStream(fileStream))
             {
                 // 헤더 데이터 작성
-                binaryWriter.Write(SectionType.Header.GetValue<EnumStringAttribute, string>());
+                binaryWriter.Write(SectionType.Header.GetValue<ValueAttribute, string>());
                 binaryWriter.Write(Title ?? string.Empty);
                 binaryWriter.Write(Author ?? string.Empty);
                 binaryWriter.Write(Version ?? string.Empty);
@@ -89,7 +89,7 @@ namespace GSharp.Packager
                 zipStream.SetLevel(3);
 
                 // 압축 데이터 작성
-                binaryWriter.Write(SectionType.Content.GetValue<EnumStringAttribute, string>());
+                binaryWriter.Write(SectionType.Content.GetValue<ValueAttribute, string>());
                 foreach (var data in Datas)
                 {
                     CompressData(zipStream, data);

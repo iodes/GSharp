@@ -3,11 +3,11 @@
 namespace GSharp.Packager.Commons
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public class EnumStringAttribute : Attribute, IValueAttribute<string>
+    public class ValueAttribute : Attribute, IValueAttribute<string>
     {
         public string Value { get; set; }
 
-        public EnumStringAttribute(string value)
+        public ValueAttribute(string value)
         {
             Value = value;
         }

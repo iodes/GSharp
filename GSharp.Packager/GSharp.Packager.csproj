@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commons\Attributes\EnumStringAttribute.cs" />
+    <Compile Include="Commons\Attributes\ValueAttribute.cs" />
     <Compile Include="Commons\Interfaces\IPackage.cs" />
     <Compile Include="Commons\Interfaces\IPackageData.cs" />
     <Compile Include="Commons\Interfaces\IPackageHeader.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="Commons\Models\PackageData.cs" />
     <Compile Include="Commons\Models\PackageDirectory.cs" />
     <Compile Include="Commons\Models\PackageFile.cs" />
+    <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\ValueExtension.cs" />
     <Compile Include="PackageCreator.cs" />
     <Compile Include="PackageLoader.cs" />

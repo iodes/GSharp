@@ -2,9 +2,9 @@
 {
     enum SectionType
     {
-        [EnumString("#HEADER")]
+        [Value("#HEADER")]
         Header,
-        [EnumString("#CONTENT")]
+        [Value("#CONTENT")]
         Content
     }
 }

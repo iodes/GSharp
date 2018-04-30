@@ -20,7 +20,7 @@ namespace GSharp.Packager
             if (downPath.Length > 0)
             {
                 // 하위 경로 검색
-                var findDict = FindDictionary(dict, pathDictKey);
+                var findDict = dict.Find(pathDictKey) as PackageDirectory;
                 var currentDir = findDict ?? new PackageDirectory(rootName, null);
 
                 if (findDict == null)
@@ -61,16 +61,6 @@ namespace GSharp.Packager
             }
         }
 
-        public PackageDirectory FindDictionary(Dictionary<string, IPackageData> dict, string key)
-        {
-            if (dict.ContainsKey(key))
-            {
-                return (PackageDirectory)dict[key];
-            }
-
-            return null;
-        }
-
         private string GetRootName(string path)
         {
             return path.Split('/').First();
@@ -91,7 +81,7 @@ namespace GSharp.Packager
             using (var binaryReader = new BinaryReader(fileStream))
             {
                 // 헤더 데이터 읽기
-                if (binaryReader.ReadString() == SectionType.Header.GetValue<EnumStringAttribute, string>())
+                if (binaryReader.ReadString() == SectionType.Header.GetValue<ValueAttribute, string>())
                 {
                     result._title = binaryReader.ReadString();
                     result._author = binaryReader.ReadString();
@@ -100,7 +90,7 @@ namespace GSharp.Packager
                 }
 
                 // 압축 데이터 읽기
-                if (binaryReader.ReadString() == SectionType.Content.GetValue<EnumStringAttribute, string>())
+                if (binaryReader.ReadString() == SectionType.Content.GetValue<ValueAttribute, string>())
                 {
                     var dictDir = new Dictionary<string, IPackageData>();
 
