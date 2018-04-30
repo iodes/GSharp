@@ -15,11 +15,11 @@ namespace GSharp.Packager.Commons
         #region 생성자
         public PackageFile(string path)
         {
-            var fileInfo = new FileInfo(path);
+            var info = new FileInfo(path);
 
-            _name = fileInfo.Name;
-            _size = fileInfo.Length;
-            _lastWriteTime = fileInfo.LastWriteTime;
+            _name = info.Name;
+            _size = info.Length;
+            _lastWriteTime = info.LastWriteTime;
             _content = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         }
 

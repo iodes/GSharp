@@ -2,7 +2,7 @@
 
 namespace GSharp.Packager.Extensions
 {
-    public static class DictionaryExtension
+    static class DictionaryExtension
     {
         public static TValue Find<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         {

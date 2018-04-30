@@ -111,10 +111,7 @@ namespace GSharp.Packager
                     ResolveDirectory(ref dictDir, zipStream, zipEntry.Name);
                 }
 
-                foreach (var data in dictDir.Values.Where(x => x.Parent == null))
-                {
-                    result.Datas.Add(data);
-                }
+                result.Datas.AddRange(dictDir.Values.Where(x => x.Parent == null));
             }
 
             return result;

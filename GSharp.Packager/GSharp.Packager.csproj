@@ -52,6 +52,7 @@
     <Compile Include="Commons\Models\PackageDirectory.cs" />
     <Compile Include="Commons\Models\PackageFile.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
+    <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Extensions\ValueExtension.cs" />
     <Compile Include="PackageBuilder.cs" />
     <Compile Include="PackageLoader.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Externals\SharpZipLib\Zip\ZipNameTransform.cs" />
     <Compile Include="Externals\SharpZipLib\Zip\ZipOutputStream.cs" />
     <Compile Include="Utilities\CompressUtility.cs" />
+    <Compile Include="Utilities\DirectoryUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Externals\SharpZipLib\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />

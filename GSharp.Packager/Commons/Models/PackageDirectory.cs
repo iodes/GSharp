@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GSharp.Packager.Extensions;
+using GSharp.Packager.Utilities;
+using System;
 using System.Collections.Specialized;
 using System.IO;
 
@@ -22,20 +24,12 @@ namespace GSharp.Packager.Commons
 
         public PackageDirectory(string path) : this()
         {
-            var directoryInfo = new DirectoryInfo(path);
+            var info = new DirectoryInfo(path);
 
-            _name = directoryInfo.Name;
-            _lastWriteTime = directoryInfo.LastWriteTime;
+            _name = info.Name;
+            _lastWriteTime = info.LastWriteTime;
 
-            foreach (string directory in Directory.GetDirectories(path))
-            {
-                Children.Add(new PackageDirectory(directory));
-            }
-
-            foreach (string file in Directory.GetFiles(path))
-            {
-                Children.Add(new PackageFile(file));
-            }
+            Children.AddRange(DirectoryUtility.GetContents(path));
         }
 
         public PackageDirectory(string name, PackageDataCollection datas) : this()
@@ -44,10 +38,7 @@ namespace GSharp.Packager.Commons
 
             if (datas != null)
             {
-                foreach (var data in datas)
-                {
-                    _children.Add(data);
-                }
+                _children.AddRange(datas);
             }
         }
         #endregion

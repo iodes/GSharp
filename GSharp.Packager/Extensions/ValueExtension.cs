@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace GSharp.Packager.Extensions
 {
-    public static class ValueExtension
+    static class ValueExtension
     {
         public static TResult GetValue<TFrom, TResult>(this object value) where TFrom : IValueAttribute<TResult>
         {
