@@ -45,7 +45,7 @@ namespace GSharp.Packager
             data.Dispose();
         }
 
-        public IPackage Create(string path)
+        public Package Create(string path)
         {
             var result = new Package
             {

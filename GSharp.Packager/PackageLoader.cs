@@ -78,7 +78,7 @@ namespace GSharp.Packager
         #endregion
 
         #region 사용자 함수
-        public IPackage Load(string path)
+        public Package Load(string path)
         {
             var result = new Package
             {
