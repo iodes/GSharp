@@ -13,5 +13,7 @@ namespace GSharp.Packager.Commons
         DateTime LastWriteTime { get; }
 
         IPackageData Parent { get; }
+
+        void Extract(string path);
     }
 }

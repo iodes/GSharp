@@ -49,6 +49,13 @@ namespace GSharp.Packager.Commons
         }
         #endregion
 
+        #region 사용자 함수
+        public override void Extract(string path)
+        {
+            CompressUtility.Decompress(path, this);
+        }
+        #endregion
+
         #region IDisposable
         private bool disposedValue = false;
 

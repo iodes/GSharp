@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using GSharp.Packager.Utilities;
+using System.IO;
 
 namespace GSharp.Packager.Commons
 {
@@ -27,6 +28,13 @@ namespace GSharp.Packager.Commons
         {
             _name = name;
             _content = stream;
+        }
+        #endregion
+
+        #region 사용자 함수
+        public override void Extract(string path)
+        {
+            CompressUtility.Decompress(path, this);
         }
         #endregion
 

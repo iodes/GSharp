@@ -47,6 +47,10 @@ namespace GSharp.Packager.Commons
         }
         #endregion
 
+        #region 사용자 함수
+        public abstract void Extract(string path);
+        #endregion
+
         #region IDisposable
         public abstract void Dispose();
         #endregion
