@@ -17,7 +17,7 @@ namespace GSharp.Packager.Commons
         internal FileStream _streamFile;
         internal BinaryReader _streamReader;
 
-        internal PackageDataCollection _datas = new PackageDataCollection();
+        internal ReadOnlyPackageDataCollection _readOnlyDatas;
         #endregion
 
         #region 속성
@@ -29,7 +29,7 @@ namespace GSharp.Packager.Commons
 
         public string Signature => _signature;
 
-        public PackageDataCollection Datas => _datas;
+        public ReadOnlyPackageDataCollection Datas => _readOnlyDatas;
         #endregion
 
         #region 생성자
@@ -42,7 +42,7 @@ namespace GSharp.Packager.Commons
         #region 사용자 함수
         public void Install(string path)
         {
-            foreach (var data in Datas)
+            foreach (var data in _readOnlyDatas)
             {
                 CompressUtility.Decompress(path, data);
             }
@@ -58,7 +58,7 @@ namespace GSharp.Packager.Commons
             {
                 if (disposing)
                 {
-                    foreach (IDisposable data in Datas)
+                    foreach (IDisposable data in _readOnlyDatas)
                     {
                         data.Dispose();
                     }

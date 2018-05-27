@@ -8,14 +8,19 @@ namespace GSharp.Packager.Commons
 {
     public class PackageDirectory : PackageData
     {
+        #region 변수
+        internal PackageDataCollection _children = new PackageDataCollection();
+        #endregion
+
         #region 속성
-        public PackageDataCollection Children { get; } = new PackageDataCollection();
+        public ReadOnlyPackageDataCollection Children { get; }
         #endregion
 
         #region 생성자
         private PackageDirectory()
         {
-            Children.CollectionChanged += Children_CollectionChanged;
+            Children = new ReadOnlyPackageDataCollection(_children);
+            _children.CollectionChanged += Children_CollectionChanged;
         }
 
         public PackageDirectory(string path) : this()
@@ -25,7 +30,7 @@ namespace GSharp.Packager.Commons
             _name = info.Name;
             _lastWriteTime = info.LastWriteTime;
 
-            Children.AddRange(DirectoryUtility.GetContents(path));
+            _children.AddRange(DirectoryUtility.GetContents(path));
         }
 
         public PackageDirectory(string name, PackageDataCollection datas) : this()
@@ -34,7 +39,7 @@ namespace GSharp.Packager.Commons
 
             if (datas != null)
             {
-                Children.AddRange(datas);
+                _children.AddRange(datas);
             }
         }
         #endregion
@@ -65,7 +70,7 @@ namespace GSharp.Packager.Commons
             {
                 if (disposing)
                 {
-                    foreach (IDisposable data in Children)
+                    foreach (IDisposable data in _children)
                     {
                         data.Dispose();
                     }

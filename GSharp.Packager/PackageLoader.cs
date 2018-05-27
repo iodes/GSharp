@@ -27,7 +27,7 @@ namespace GSharp.Packager
                 {
                     if (parentDir != null)
                     {
-                        parentDir.Children.Add(currentDir);
+                        parentDir._children.Add(currentDir);
                     }
 
                     dict.Add(pathDictKey, currentDir);
@@ -40,11 +40,11 @@ namespace GSharp.Packager
                 // 최하위 파일
                 if (IsDirectory(path))
                 {
-                    parentDir.Children.Add(new PackageDirectory(CleanName(path), null));
+                    parentDir._children.Add(new PackageDirectory(CleanName(path), null));
                 }
                 else
                 {
-                    parentDir.Children.Add(new PackageFile(path, stream));
+                    parentDir._children.Add(new PackageFile(path, stream));
                 }
             }
             else
@@ -111,7 +111,9 @@ namespace GSharp.Packager
                     ResolveDirectory(ref dictDir, zipStream, zipEntry.Name);
                 }
 
-                result.Datas.AddRange(dictDir.Values.Where(x => x.Parent == null));
+                var _datas = new PackageDataCollection();
+                _datas.AddRange(dictDir.Values.Where(x => x.Parent == null));
+                result._readOnlyDatas = new ReadOnlyPackageDataCollection(_datas);
             }
 
             return result;

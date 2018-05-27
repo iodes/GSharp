@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commons\Attributes\ValueAttribute.cs" />
+    <Compile Include="Commons\Collections\ReadOnlyPackageDataCollection.cs" />
     <Compile Include="Commons\Interfaces\IPackage.cs" />
     <Compile Include="Commons\Interfaces\IPackageData.cs" />
     <Compile Include="Commons\Interfaces\IPackageHeader.cs" />

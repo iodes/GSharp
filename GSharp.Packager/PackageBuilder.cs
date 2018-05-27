@@ -8,6 +8,10 @@ namespace GSharp.Packager
 {
     public class PackageBuilder : IPackageHeader
     {
+        #region 변수
+        private PackageDataCollection _datas = new PackageDataCollection();
+        #endregion
+
         #region 속성
         public string Title { get; set; }
 
@@ -17,7 +21,14 @@ namespace GSharp.Packager
 
         public string Signature { get; set; }
 
-        public PackageDataCollection Datas { get; } = new PackageDataCollection();
+        public ReadOnlyPackageDataCollection Datas { get; }
+        #endregion
+
+        #region 생성자
+        public PackageBuilder()
+        {
+            Datas = new ReadOnlyPackageDataCollection(_datas);
+        }
         #endregion
 
         #region 사용자 함수
@@ -26,22 +37,22 @@ namespace GSharp.Packager
             var attributes = File.GetAttributes(path);
             if (attributes.HasFlag(FileAttributes.Directory))
             {
-                Datas.AddRange(DirectoryUtility.GetContents(path));
+                _datas.AddRange(DirectoryUtility.GetContents(path));
             }
             else
             {
-                Datas.Add(new PackageFile(path));
+                _datas.Add(new PackageFile(path));
             }
         }
 
         public void Add(IPackageData data)
         {
-            Datas.Add(data);
+            _datas.Add(data);
         }
 
         public void Remove(IPackageData data)
         {
-            Datas.Remove(data);
+            _datas.Remove(data);
             data.Dispose();
         }
 
@@ -53,7 +64,7 @@ namespace GSharp.Packager
                 _author = Author,
                 _version = Version,
                 _signature = Signature,
-                _datas = Datas
+                _readOnlyDatas = new ReadOnlyPackageDataCollection(_datas)
             };
 
             using (var fileStream = File.Open(path, FileMode.Create))
@@ -72,7 +83,7 @@ namespace GSharp.Packager
 
                 // 압축 데이터 작성
                 binaryWriter.Write(SectionType.Content.GetValue<ValueAttribute, string>());
-                foreach (var data in Datas)
+                foreach (var data in _datas)
                 {
                     CompressUtility.Compress(zipStream, data);
                 }
