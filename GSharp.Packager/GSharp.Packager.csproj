@@ -47,11 +47,13 @@
     <Compile Include="Commons\Interfaces\IPackageHeader.cs" />
     <Compile Include="Commons\Collections\PackageDataCollection.cs" />
     <Compile Include="Commons\Enums\SectionType.cs" />
+    <Compile Include="Commons\Interfaces\IPackageResolver.cs" />
     <Compile Include="Commons\Interfaces\IValueAttribute.cs" />
     <Compile Include="Commons\Models\Package.cs" />
     <Compile Include="Commons\Models\PackageData.cs" />
     <Compile Include="Commons\Models\PackageDirectory.cs" />
     <Compile Include="Commons\Models\PackageFile.cs" />
+    <Compile Include="Exceptions\InvalidSignatureException.cs" />
     <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="Extensions\ValueExtension.cs" />

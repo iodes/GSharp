@@ -1,4 +1,5 @@
 ﻿using GSharp.Packager.Commons;
+using GSharp.Packager.Exceptions;
 using GSharp.Packager.Extensions;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
@@ -10,6 +11,10 @@ namespace GSharp.Packager
 {
     public class PackageLoader
     {
+        #region 속성
+        public IPackageResolver Resolver { get; set; }
+        #endregion
+
         #region 내부 함수
         private void ResolveDirectory(ref Dictionary<string, IPackageData> dict, Stream stream, string path, PackageDirectory parentDir = null)
         {
@@ -93,6 +98,14 @@ namespace GSharp.Packager
                 result._author = result._streamReader.ReadString();
                 result._version = result._streamReader.ReadString();
                 result._signature = result._streamReader.ReadString();
+
+                if (!string.IsNullOrEmpty(result.Signature))
+                {
+                    if (Resolver == null || !Resolver.Resolve(result.Signature))
+                    {
+                        throw new InvalidSignatureException();
+                    }
+                }
             }
 
             // 압축 데이터 읽기
