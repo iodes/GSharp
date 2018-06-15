@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Association\ApplicationAssociationRegistrationUI.cs" />
+    <Compile Include="Association\IApplicationAssociationRegistrationUI.cs" />
     <Compile Include="Commons\Attributes\ValueAttribute.cs" />
     <Compile Include="Commons\Collections\ReadOnlyPackageDataCollection.cs" />
     <Compile Include="Commons\Interfaces\IPackage.cs" />
