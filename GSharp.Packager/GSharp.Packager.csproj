@@ -41,10 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Association\ApplicationAssociationRegistrationUI.cs" />
+    <Compile Include="Association\Constants\RegistryKeys.cs" />
     <Compile Include="Association\IApplicationAssociationRegistrationUI.cs" />
     <Compile Include="Association\Models\AssociationType.cs" />
     <Compile Include="Association\Models\AssociationTarget.cs" />
+    <Compile Include="Association\Models\ShellCommand.cs" />
     <Compile Include="Association\Utilities\AssociationUtility.cs" />
+    <Compile Include="Association\Utilities\ProgIDUtility.cs" />
     <Compile Include="Commons\Attributes\ValueAttribute.cs" />
     <Compile Include="Commons\Collections\ReadOnlyPackageDataCollection.cs" />
     <Compile Include="Commons\Interfaces\IPackage.cs" />
