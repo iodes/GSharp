@@ -42,8 +42,8 @@
   <ItemGroup>
     <Compile Include="Association\ApplicationAssociationRegistrationUI.cs" />
     <Compile Include="Association\IApplicationAssociationRegistrationUI.cs" />
-    <Compile Include="Association\Models\FileTypeAssociations.cs" />
-    <Compile Include="Association\Models\ProgramID.cs" />
+    <Compile Include="Association\Models\AssociationType.cs" />
+    <Compile Include="Association\Models\AssociationTarget.cs" />
     <Compile Include="Association\Utilities\AssociationUtility.cs" />
     <Compile Include="Commons\Attributes\ValueAttribute.cs" />
     <Compile Include="Commons\Collections\ReadOnlyPackageDataCollection.cs" />
