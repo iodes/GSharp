@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using WPFExtension;
 
 namespace GSharp.Graphic.Commons
