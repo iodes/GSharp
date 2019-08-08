@@ -6,11 +6,11 @@ namespace GSharp.Base.Objects.Numbers
     [Serializable]
     public class GLength : GNumber
     {
-        #region 속성
-        public GObject Target { get; set; }
+        #region Properties
+        public GObject Target { get; }
         #endregion
 
-        #region 생성자
+        #region Initializer
         public GLength(GObject target)
         {
             Target = target;
@@ -19,13 +19,9 @@ namespace GSharp.Base.Objects.Numbers
 
         public override string ToSource()
         {
-            string targetStr = Target?.ToSource();
-            if (!(Target is GString))
-            {
-                targetStr += ".ToText()";
-            }
+            var target = Target?.ToSource() + (!(Target is GString) ? ".ToText()" : string.Empty);
             
-            return string.Format("{0}.Length", targetStr);
+            return $"{target}.Length";
         }
     }
 }

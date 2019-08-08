@@ -1,50 +1,29 @@
-﻿using GSharp.Base.Cores;
-using GSharp.Base.Utilities;
-using GSharp.Extension;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using GSharp.Common.Extensions;
+using GSharp.Common.Objects;
 
 namespace GSharp.Base.Objects.Customs
 {
-    public class GProperty : GSettableObject, ICustom
+    public class GProperty : GSettableObject, ICustomObject
     {
-        public override Type SettableType
+        #region Properties
+        public IGCommand Command { get; }
+        
+        public override Type SettableType => Command.ObjectType;
+        
+        public Type CustomType => Command.ObjectType;
+        #endregion
+        
+        #region Initializer
+        public GProperty(IGCommand command)
         {
-            get
-            {
-                return GCommand.ObjectType;
-            }
-        }
-
-        public GCommand GCommand
-        {
-            get
-            {
-                return _GCommand;
-            }
-        }
-
-        public Type CustomType
-        {
-            get
-            {
-                return GCommand.ObjectType;
-            }
-        }
-
-        private GCommand _GCommand;
-
-        public GProperty(GCommand command)
-        {
-            _GCommand = command;
+            Command = command;
         }
 
         public override string ToSource()
         {
-            return GCommand.FullName;
+            return Command.FullName;
         }
+        #endregion
     }
 }

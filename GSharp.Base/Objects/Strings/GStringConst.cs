@@ -9,24 +9,20 @@ namespace GSharp.Base.Objects.Strings
     [Serializable]
     public class GStringConst : GString
     {
-        #region 속성
-        public string String { get; set; }
+        #region Properties
+        public string Value { get; }
         #endregion
 
-        #region 생성자
-        public GStringConst(string valueString)
+        #region Initializer
+        public GStringConst(string value)
         {
-            String = valueString;
+            Value = value;
         }
         #endregion
 
         public override string ToSource()
         {
-            return string.Format
-                (
-                    "\"{0}\"",
-                    String
-                );
+            return $"\"{Value}\"";
         }
     }
 }

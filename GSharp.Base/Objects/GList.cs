@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects
 {
+    [Serializable]
     public abstract class GList : GObject
     {
 

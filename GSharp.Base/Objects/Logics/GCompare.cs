@@ -1,69 +1,52 @@
 ﻿using System;
 using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
+using GSharp.Common.Objects;
 
 namespace GSharp.Base.Objects.Logics
 {
     [Serializable]
     public class GCompare : GLogic
     {
-        #region 속성
-        public GObject FirstPart { get; set; }
+        #region Properties
+        public GObject FirstPart { get; }
 
-        public GObject SecondPart { get; set; }
+        public GObject SecondPart { get; }
 
-        public ConditionType Condition { get; set; }
+        public ConditionType Condition { get; }
 
         public string ConditionText
         {
             get
             {
-                string conditionText = string.Empty;
                 switch (Condition)
                 {
-                    case ConditionType.EQUAL:
-                        conditionText = "Equal";
-                        break;
-
-                    case ConditionType.NOT_EQUAL:
-                        conditionText = "NotEqual";
-                        break;
-
-                    case ConditionType.LESS_THEN:
-                        conditionText = "Less";
-                        break;
-
-                    case ConditionType.LESS_THEN_OR_EQUAL:
-                        conditionText = "LessEqual";
-                        break;
-
-                    case ConditionType.GREATER_THEN:
-                        conditionText = "Greater";
-                        break;
-
-                    case ConditionType.GREATER_THEN_OR_EQUAL:
-                        conditionText = "GreaterEqual";
-                        break;
+                    case ConditionType.Equal:
+                        return "Equal";
+                    
+                    case ConditionType.NotEqual:
+                        return "NotEqual";
+                    
+                    case ConditionType.LessThen:
+                        return "Less";
+                    
+                    case ConditionType.LessThenOrEqual:
+                        return "LessEqual";
+                    
+                    case ConditionType.GreaterThen:
+                        return "Greater";
+                    
+                    case ConditionType.GreaterThenOrEqual:
+                        return "GreaterEqual";
+                    
+                    default:
+                        return string.Empty;
                 }
-
-                return conditionText;
             }
         }
         #endregion
-
-        #region 열거형
-        public enum ConditionType
-        {
-            EQUAL,
-            NOT_EQUAL,
-            LESS_THEN,
-            LESS_THEN_OR_EQUAL,
-            GREATER_THEN,
-            GREATER_THEN_OR_EQUAL
-        }
-        #endregion
-
-        #region 생성자
+        
+        #region Initializer
         public GCompare(GObject firstPart, ConditionType conditionType, GObject secondPart)
         {
             FirstPart = firstPart;
@@ -74,13 +57,7 @@ namespace GSharp.Base.Objects.Logics
 
         public override string ToSource()
         {
-            return string.Format
-            (
-                "({0}.Is{1}Than({2}))",
-                FirstPart.ToSource(),
-                ConditionText,
-                SecondPart.ToSource()
-            );
+            return $"({FirstPart.ToSource()}.Is{ConditionText}Than({SecondPart.ToSource()}))";
         }
     }
 }

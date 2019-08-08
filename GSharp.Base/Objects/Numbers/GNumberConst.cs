@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using GSharp.Base.Cores;
 
 namespace GSharp.Base.Objects.Numbers
@@ -6,11 +7,11 @@ namespace GSharp.Base.Objects.Numbers
     [Serializable]
     public class GNumberConst : GNumber
     {
-        #region 속성
-        public double Number { get; set; }
+        #region Properties
+        public double Number { get; }
         #endregion
 
-        #region 생성자
+        #region Initializer
         public GNumberConst(double number)
         {
             Number = number;
@@ -19,7 +20,7 @@ namespace GSharp.Base.Objects.Numbers
 
         public override string ToSource()
         {
-            return Number.ToString();
+            return Number.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

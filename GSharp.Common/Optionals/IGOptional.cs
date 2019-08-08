@@ -1,7 +1,9 @@
-﻿namespace GSharp.Common.Optionals
+﻿using System;
+
+namespace GSharp.Common.Optionals
 {
     public interface IGOptional : IGMetaData
     {
-
+        Type ObjectType { get; }
     }
 }

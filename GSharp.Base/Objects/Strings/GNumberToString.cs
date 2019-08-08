@@ -7,18 +7,22 @@ using System.Threading.Tasks;
 
 namespace GSharp.Base.Objects.Strings
 {
-    public class GConvertNumberToString : GString
+    public class GNumberToString : GString
     {
-        public GObject TargetNumber { get; set; }
+        #region Properties
+        public GObject TargetNumber { get; }
+        #endregion
 
-        public GConvertNumberToString(GObject number)
+        #region Initializer
+        public GNumberToString(GObject number)
         {
             TargetNumber = number;
         }
+        #endregion
 
         public override string ToSource()
         {
-            return string.Format("{0}.ToText()", TargetNumber?.ToSource());
+            return $"{TargetNumber?.ToSource()}.ToText()";
         }
     }
 }

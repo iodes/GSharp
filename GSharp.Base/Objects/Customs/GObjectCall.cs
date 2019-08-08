@@ -1,38 +1,32 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
-using GSharp.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GSharp.Common.Extensions;
+using GSharp.Common.Objects;
 
 namespace GSharp.Base.Objects.Customs
 {
-    public class GObjectCall : GObject, ICustom
+    public class GObjectCall : GObject, ICustomObject
     {
-        #region 객체
-        private GCommand GCommand;
-        private GObject[] Arguments = null;
-
-        public Type CustomType
-        {
-            get
-            {
-                return GCommand.ObjectType;
-            }
-        }
+        #region Properties
+        private IGCommand Command { get; }
+        
+        private IEnumerable<GObject> Arguments { get; }
+        
+        public Type CustomType => Command.ObjectType;
         #endregion
 
-        #region 생성자
-        public GObjectCall(GCommand command)
+        #region Initializer
+        public GObjectCall(IGCommand command)
         {
-            GCommand = command;
+            Command = command;
         }
 
-        public GObjectCall(GCommand command, GObject[] arguments)
+        public GObjectCall(IGCommand command, IEnumerable<GObject> arguments)
         {
-            GCommand = command;
+            Command = command;
             Arguments = arguments;
         }
         #endregion
@@ -40,19 +34,14 @@ namespace GSharp.Base.Objects.Customs
         public override string ToSource()
         {
             var argumentList = new List<string>();
-            for(int i=0; i<GCommand.Optionals?.Length; i++)
+            for (var i = 0; i < Command.Optionals?.Count(); i++)
             {
-                if (i < Arguments?.Length)
-                {
-                    argumentList.Add(GSharpUtils.CastParameterString(Arguments[i], GCommand.Optionals[i].ObjectType));
-                }
-                else
-                {
-                    argumentList.Add("null");
-                }
+                argumentList.Add(i < Arguments?.Count()
+                    ? GSharpUtils.CastParameterString(Arguments.ElementAt(i), Command.Optionals.ElementAt(i).ObjectType)
+                    : "null");
             }
 
-            return string.Format("({0}({1}))", GCommand.FullName, string.Join(", ", argumentList));
+            return $"({Command.FullName}({string.Join(", ", argumentList)}))";
         }
     }
 }

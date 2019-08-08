@@ -1,63 +1,48 @@
 ﻿using System;
 using GSharp.Base.Cores;
+using GSharp.Common.Objects;
 
 namespace GSharp.Base.Objects.Numbers
 {
     [Serializable]
     public class GCompute : GNumber
     {
-        #region 속성
-        public GObject FirstPart { get; set; }
+        #region Properties
+        public GObject FirstPart { get; }
 
-        public GObject SecondPart { get; set; }
+        public GObject SecondPart { get; }
 
-        public OperatorType Operator { get; set; }
+        public OperatorType Operator { get; }
 
         public string OperatorText
         {
             get
             {
-                string operatorText = string.Empty;
                 switch (Operator)
                 {
-                    case OperatorType.PLUS:
-                        operatorText = "+";
-                        break;
+                    case OperatorType.Plus:
+                        return "+";
 
-                    case OperatorType.MINUS:
-                        operatorText = "-";
-                        break;
+                    case OperatorType.Minus:
+                        return "-";
 
-                    case OperatorType.MULTIPLY:
-                        operatorText = "*";
-                        break;
+                    case OperatorType.Multiply:
+                        return "*";
 
-                    case OperatorType.DIVISION:
-                        operatorText = "/";
-                        break;
+                    case OperatorType.Division:
+                        return "/";
 
-                    case OperatorType.MODULO:
-                        operatorText = "%";
-                        break;
+                    case OperatorType.Modulo:
+                        return "%";
+                    
+                    default:
+                        return string.Empty;
                 }
-
-                return operatorText;
             }
         }
         #endregion
-
-        #region 열거형
-        public enum OperatorType
-        {
-            PLUS,
-            MINUS,
-            MULTIPLY,
-            DIVISION,
-            MODULO
-        }
-        #endregion
-
-        #region 생성자
+        
+        #region Initializer
         public GCompute(GObject firstPart, OperatorType operatorType, GObject secondPart)
         {
             FirstPart = firstPart;
@@ -68,19 +53,10 @@ namespace GSharp.Base.Objects.Numbers
 
         public override string ToSource()
         {
-            string firstPartStr = FirstPart?.ToSource();
-            string secondPartStr = SecondPart?.ToSource();
-            if (!(FirstPart is GNumber))
-            {
-                firstPartStr += ".ToNumber()";
-            }
-
-            if (!(SecondPart is GNumber))
-            {
-                secondPartStr += ".ToNumber()";
-            }
-
-            return string.Format("({0} {1} {2})", firstPartStr, OperatorText, secondPartStr);
+            var firstPart = FirstPart?.ToSource() + (!(FirstPart is GNumber) ? ".ToNumber()" : string.Empty);
+            var secondPart = SecondPart?.ToSource() + (!(SecondPart is GNumber) ? ".ToNumber()" : string.Empty);
+            
+            return $"({firstPart} {OperatorText} {secondPart})";
         }
     }
 }

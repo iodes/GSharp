@@ -9,39 +9,28 @@ namespace GSharp.Base.Objects.Lists
 {
     public class GItem : GSettableObject
     {
-        private GObject Target;
-        private GObject Index;
+        #region Properties
+        private GObject Index { get; }
+        
+        private GObject Target { get; }
 
-        public override Type SettableType
-        {
-            get
-            {
-                return typeof(object);
-            }
-        }
+        public override Type SettableType => typeof(object);
+        #endregion
 
-        public GItem(GObject target, GObject idx)
+        #region Initializer
+        public GItem(GObject target, GObject index)
         {
+            Index = index;
             Target = target;
-            Index = idx;
         }
+        #endregion
 
         public override string ToSource()
         {
-            string targetStr = Target.ToSource();
-            string indexStr = Index.ToSource();
-
-            if (!(Target is GList))
-            {
-                targetStr += ".ToList()";
-            }
-
-            if (!(Index is GNumber))
-            {
-                indexStr += ".ToNumber()";
-            }
-
-            return string.Format("{0}[{1}]", targetStr, indexStr);
+            var target = Target?.ToSource() + (!(Target is GList) ? ".ToList()" : string.Empty);
+            var index = Index?.ToSource() + (!(Index is GNumber) ? ".ToNumber()" : string.Empty);
+            
+            return $"{target}[{index}]";
         }
     }
 }

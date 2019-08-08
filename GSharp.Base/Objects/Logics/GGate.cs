@@ -1,48 +1,39 @@
 ﻿using System;
 using GSharp.Base.Cores;
+using GSharp.Common.Objects;
 
 namespace GSharp.Base.Objects.Logics
 {
     [Serializable]
     public class GGate : GLogic
     {
-        #region 속성
-        public GObject FirstPart { get; set; }
+        #region Properties
+        public GObject FirstPart { get; }
 
-        public GObject SecondPart { get; set; }
+        public GObject SecondPart { get; }
 
-        public GateType Gate { get; set; }
+        public GateType Gate { get; }
 
         public string GateText
         {
             get
             {
-                string gateText = string.Empty;
                 switch (Gate)
                 {
-                    case GateType.OR:
-                        gateText = "||";
-                        break;
+                    case GateType.Or:
+                        return "||";
 
-                    case GateType.AND:
-                        gateText = "&&";
-                        break;
+                    case GateType.And:
+                        return "&&";
+                    
+                    default:
+                        return string.Empty;
                 }
-
-                return gateText;
             }
         }
         #endregion
 
-        #region 열거형
-        public enum GateType
-        {
-            OR,
-            AND
-        }
-        #endregion
-
-        #region 생성자
+        #region Initializer
         public GGate(GObject firstPart, GateType gateType, GObject secondPart)
         {
             FirstPart = firstPart;
@@ -53,26 +44,10 @@ namespace GSharp.Base.Objects.Logics
 
         public override string ToSource()
         {
-            string firstPartStr = FirstPart?.ToSource();
-            string secondPartStr = SecondPart?.ToSource();
-            if (!(FirstPart is GLogic))
-            {
-                firstPartStr += ".ToBool()";
-            }
-
-            if (!(SecondPart is GLogic))
-            {
-                secondPartStr += ".ToBool()";
-            }
-
-
-            return string.Format
-                (
-                    "({0} {1} {2})",
-                    firstPartStr,
-                    GateText,
-                    secondPartStr
-                );
+            var firstPart = FirstPart?.ToSource() + (!(FirstPart is GLogic) ? ".ToBool()" : string.Empty);
+            var secondPart = SecondPart?.ToSource() + (!(SecondPart is GLogic) ? ".ToBool()" : string.Empty);
+            
+            return $"({firstPart} {GateText} {secondPart})";
         }
     }
 }
