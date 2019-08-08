@@ -16,31 +16,29 @@ namespace GSharp.Base.Utilities
 {
     public static class GSharpUtils
     {
-        public static Type[] numberTypes = {
-            typeof(sbyte), // SByte
-            typeof(byte), // Byte
-            typeof(short), // Int16
-            typeof(ushort), // UInt16
-            typeof(int), // Int32
-            typeof(uint), // UInt32
-            typeof(long), // Int64
-            typeof(ulong), // UInt64
-            typeof(float), // Single
-            typeof(double), // Double
+        private static readonly Type[] numberTypes = {
+            typeof(sbyte),
+            typeof(byte),
+            typeof(short),
+            typeof(ushort),
+            typeof(int),
+            typeof(uint),
+            typeof(long),
+            typeof(ulong),
+            typeof(float),
+            typeof(double)
         };
 
         public static GVariable CreateGVariable(string variableName)
         {
-            if (variableName?.Length <= 0) return null;
-
-            return new GVariable(variableName);
+            return variableName?.Length <= 0 ? null : new GVariable(variableName);
         }
 
         public static string CastParameterString(GObject obj, Type type)
         {
             var compiler = new CSharpCodeProvider();
             var castType = new CodeTypeReference(type);
-            string castString = compiler.GetTypeOutput(castType);
+            var castString = compiler.GetTypeOutput(castType);
             
             // 변환이 필요없음
             if (type == typeof(object))
@@ -65,25 +63,20 @@ namespace GSharp.Base.Utilities
             {
                 if (obj is GNumber)
                 {
-                    return string.Format("({0}){1}", castString, obj?.ToSource());
+                    return $"({castString}){obj?.ToSource()}";
                 }
 
-                if (type == typeof(double))
-                {
-                    return string.Format("{0}.ToNumber()", obj?.ToSource());
-                }
-
-                return string.Format("({0}){1}.ToNumber()", castString, obj?.ToSource());
+                return type == typeof(double) ? $"{obj?.ToSource()}.ToNumber()" : $"({castString}){obj?.ToSource()}.ToNumber()";
             }
 
             if (type == typeof(string))
             {
-                return string.Format("{0}.ToText()", obj?.ToSource());
+                return $"{obj?.ToSource()}.ToText()";
             }
 
             if (type == typeof(bool))
             {
-                return string.Format("{0}.ToBool()", obj?.ToSource());
+                return $"{obj?.ToSource()}.ToBool()";
             }
 
             // is List
@@ -93,18 +86,18 @@ namespace GSharp.Base.Utilities
 
                 if (obj is GList || obj is ICustom && IsListType((obj as ICustom).CustomType))
                 {
-                    return string.Format("{0}.Select(e => e.ToCustom<{1}>()).ToList()", obj?.ToSource(), listType.ToString());
+                    return $"{obj?.ToSource()}.Select(e => e.ToCustom<{listType.ToString()}>()).ToList()";
                 }
                 
                 if (listType == typeof(object))
                 {
-                    return string.Format("{0}.ToList()", obj?.ToSource());
+                    return $"{obj?.ToSource()}.ToList()";
                 }
 
                 var listCastType = new CodeTypeReference(listType);
                 string listCastString = compiler.GetTypeOutput(castType);
 
-                return string.Format("{0}.ToList().Select(e => e.ToCustom<{1}>()).ToList()", obj?.ToSource(), listCastString);
+                return $"{obj?.ToSource()}.ToList().Select(e => e.ToCustom<{listCastString}>()).ToList()";
             }
 
             if (type == typeof(object))
@@ -112,7 +105,7 @@ namespace GSharp.Base.Utilities
                 return obj?.ToSource();
             }
 
-            return string.Format("{0}.ToCustom<{1}>()", obj?.ToSource(), castString);
+            return $"{obj?.ToSource()}.ToCustom<{castString}>()";
         }
 
         public static bool IsListType(Type type)
@@ -122,12 +115,7 @@ namespace GSharp.Base.Utilities
 
         public static bool IsNumberType(Type type)
         {
-            if (numberTypes.Contains(type))
-            {
-                return true;
-            }
-
-            return false;
+            return numberTypes.Contains(type);
         }
     }
 }

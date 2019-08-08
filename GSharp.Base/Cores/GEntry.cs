@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
 using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Base.Utilities;
@@ -10,56 +11,47 @@ namespace GSharp.Base.Cores
     [Serializable]
     public class GEntry : GBase
     {
-        private List<GScope> scopeList = new List<GScope>();
-        private List<GDefine> defineList = new List<GDefine>();
-        private List<GFunction> functionList = new List<GFunction>();
+        private readonly List<GScope> scopes = new List<GScope>();
+        private readonly List<GDefine> defines = new List<GDefine>();
+        private readonly List<GFunction> functions = new List<GFunction>();
 
-        public void Append(GScope evt)
+        public void Append(GScope scope)
         {
-            scopeList.Add(evt);
+            scopes.Add(scope);
         }
 
-        public void Append(GDefine def)
+        public void Append(GDefine define)
         {
-            defineList.Add(def);
+            defines.Add(define);
         }
 
-        public void Append(GFunction func)
+        public void Append(GFunction function)
         {
-            functionList.Add(func);
+            functions.Add(function);
         }
         
         public override string ToSource()
         {
-            StringBuilder source = new StringBuilder();
-
-            foreach (GDefine def in defineList)
-            {
-                source.AppendLine(def.ToSource());
-            }
-
-            source.AppendLine("\npublic delegate void LoadedHandler();");
-            source.AppendLine("public event LoadedHandler Loaded;\n");
-
+            var source = new StringBuilder();
+            defines.ForEach(x => source.AppendLine(x.ToSource()));
+            
+            source.AppendLine();
+            source.AppendLine("public delegate void LoadedHandler();");
+            source.AppendLine("public event LoadedHandler Loaded;");
+            
+            source.AppendLine();
             source.AppendLine("public delegate void ClosingHandler();");
-            source.AppendLine("public event ClosingHandler Closing;\n");
-
+            source.AppendLine("public event ClosingHandler Closing;");
+            
+            source.AppendLine();
             source.AppendLine("public void Initialize()");
             source.AppendLine("{");
 
-            foreach (GScope scope in scopeList)
-            {
-                source.AppendLine(ConvertAssistant.Indentation(scope.ToSource()));
-            }
-
+            scopes.ForEach(x => source.AppendLine(ConvertAssistant.Indentation(x.ToSource())));
             source.AppendLine(ConvertAssistant.Indentation("if (Loaded != null) Loaded();").TrimEnd());
             source.AppendLine("}");
 
-            foreach (GFunction func in functionList)
-            {
-                source.AppendLine(func.ToSource());
-            }
-
+            functions.ForEach(x => source.AppendLine(x.ToSource()));
             return source.ToString();
         }
     }

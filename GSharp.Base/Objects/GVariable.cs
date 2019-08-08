@@ -1,34 +1,16 @@
-﻿using GSharp.Base.Cores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace GSharp.Base.Objects
 {
     public class GVariable : GSettableObject
     {
-        public override Type SettableType
-        {
-            get
-            {
-                return typeof(object);
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                return _Name;
-            }
-        }
-        private string _Name;
-
+        public string Name { get; }
+        
+        public override Type SettableType => typeof(object);
+        
         public GVariable(string name)
         {
-            _Name = name;
+            Name = name;
         }
 
         public override string ToSource()

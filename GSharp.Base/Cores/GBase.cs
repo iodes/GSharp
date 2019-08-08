@@ -6,9 +6,8 @@ namespace GSharp.Base.Cores
     public abstract class GBase
     {
         /// <summary>
-        /// 객체를 네이티브 소스로 변환합니다.
+        /// Convert object to native source.
         /// </summary>
-        /// <returns></returns>
         public abstract string ToSource();
     }
 }

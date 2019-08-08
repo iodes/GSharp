@@ -6,5 +6,6 @@ namespace GSharp.Base.Objects
     [Serializable]
     public abstract class GString : GObject
     {
+        
     }
 }
