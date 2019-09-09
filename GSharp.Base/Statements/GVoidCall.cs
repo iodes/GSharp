@@ -1,28 +1,28 @@
 ﻿using System;
-using System.Linq;
 using GSharp.Base.Cores;
-using GSharp.Extension;
-using GSharp.Base.Scopes;
 using System.Collections.Generic;
 using GSharp.Base.Utilities;
+using GSharp.Common.Extensions;
+using System.Linq;
 
 namespace GSharp.Base.Statements
 {
     [Serializable]
     public class GVoidCall : GStatement
     {
-        #region 객체
-        private GCommand GCommand;
-        public GObject[] Arguments;
+        #region Properties
+        private IGCommand Command { get; set; }
+
+        public GObject[] Arguments { get; set; }
         #endregion
 
-        #region 생성자
-        public GVoidCall(GCommand command)
+        #region Initializer
+        public GVoidCall(IGCommand command)
         {
-            GCommand = command;
+            Command = command;
         }
 
-        public GVoidCall(GCommand command, GObject[] arguments) : this(command)
+        public GVoidCall(IGCommand command, GObject[] arguments) : this(command)
         {
             Arguments = arguments;
         }
@@ -31,11 +31,13 @@ namespace GSharp.Base.Statements
         public override string ToSource()
         {
             var argumentList = new List<string>();
-            for (int i = 0; i < GCommand.Optionals?.Length; i++)
+            var optionalList = Command.Optionals.ToList();
+
+            for (int i = 0; i < optionalList.Count; i++)
             {
                 if (i < Arguments?.Length)
                 {
-                    argumentList.Add(GSharpUtils.CastParameterString(Arguments[i], GCommand.Optionals[i].ObjectType));
+                    argumentList.Add(GSharpUtils.CastParameterString(Arguments[i], optionalList[i].ObjectType));
                 }
                 else
                 {
@@ -43,7 +45,7 @@ namespace GSharp.Base.Statements
                 }
             }
 
-            return string.Format("{0}({1});", GCommand.FullName, string.Join(", ", argumentList));
+            return string.Format("{0}({1});", Command.FullName, string.Join(", ", argumentList));
         }
     }
 }

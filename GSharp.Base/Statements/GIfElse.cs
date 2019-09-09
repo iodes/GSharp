@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using GSharp.Base.Objects;
 using GSharp.Base.Utilities;
 using GSharp.Base.Cores;
 
@@ -10,62 +9,44 @@ namespace GSharp.Base.Statements
     [Serializable]
     public class GIfElse : GStatement
     {
-        #region 속성
+        #region Properties
         public GObject Logic { get; set; }
+
+        public List<GStatement> IfChild { get; } = new List<GStatement>();
+
+        public List<GStatement> ElseChild { get; } = new List<GStatement>();
         #endregion
 
-        #region 객체
-        public List<GStatement> IfChild
-        {
-            get
-            {
-                return ifChild;
-            }
-        }
-        private List<GStatement> ifChild = new List<GStatement>();
-
-        public List<GStatement> ElseChild
-        {
-            get
-            {
-                return elseChild;
-            }
-        }
-        private List<GStatement> elseChild = new List<GStatement>();
-        #endregion
-
-        #region 생성자
+        #region Initializer
         public GIfElse(GObject logicValue)
         {
             Logic = logicValue;
         }
         #endregion
 
-        #region 사용자 함수
         public void AppendToIf(GStatement statement)
         {
-            ifChild.Add(statement);
+            IfChild.Add(statement);
         }
 
         public void AppendToElse(GStatement statement)
         {
-            elseChild.Add(statement);
+            ElseChild.Add(statement);
         }
-        #endregion
 
         public override string ToSource()
         {
-            StringBuilder builderCode = new StringBuilder();
+            var builderCode = new StringBuilder();
             builderCode.AppendFormat("if ({0}.ToBool())\n{{\n", Logic.ToSource());
 
-            foreach (GStatement statement in ifChild)
+            foreach (GStatement statement in IfChild)
             {
                 builderCode.AppendFormat("{0}", ConvertAssistant.Indentation(statement.ToSource()));
             };
 
             builderCode.Append("}\nelse\n{\n");
 
-            foreach (GStatement statement in elseChild)
+            foreach (GStatement statement in ElseChild)
             {
                 builderCode.AppendFormat("{0}", ConvertAssistant.Indentation(statement.ToSource()));
             };

@@ -3,22 +3,21 @@ using System.Text;
 using System.Collections.Generic;
 using GSharp.Base.Cores;
 using GSharp.Base.Utilities;
-using GSharp.Base.Objects;
 
 namespace GSharp.Base.Statements
 {
     [Serializable]
     public class GLoop : GStatement
     {
-        #region 속성
+        #region Constants
+        private readonly List<GStatement> listStatement = new List<GStatement>();
+        #endregion
+
+        #region Properties
         public GObject GNumber { get; set; }
         #endregion
 
-        #region 객체
-        private List<GStatement> listStatement = new List<GStatement>();
-        #endregion
-
-        #region 생성자
+        #region Initializer
         public GLoop()
         {
 
@@ -30,20 +29,18 @@ namespace GSharp.Base.Statements
         }
         #endregion
 
-        #region 사용자 함수
         public void Append(GStatement obj)
         {
             listStatement.Add(obj);
         }
-        #endregion
 
         public override string ToSource()
         {
-            StringBuilder builderCode = new StringBuilder();
+            var builderCode = new StringBuilder();
 
             if (GNumber != null)
             {
-                string varName = "_" + GetHashCode();
+                var varName = "_" + GetHashCode();
                 builderCode.AppendFormat("for (int {0} = 0; {0} < {1}.ToNumber(); {0}++)\n{{\n", varName, GNumber.ToSource());
             }
             else
@@ -51,7 +48,7 @@ namespace GSharp.Base.Statements
                 builderCode.AppendLine("while (true)\n{\n");
             }
 
-            foreach (GStatement statement in listStatement)
+            foreach (var statement in listStatement)
             {
                 builderCode.Append(ConvertAssistant.Indentation(statement.ToSource()));
             };

@@ -1,17 +1,15 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Base.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GSharp.Base.Statements
 {
     public class GListAdd : GStatement
     {
+        #region Properties
         public GSettableObject List { get; set; }
+
         public GObject Item { get; set; }
+        #endregion
 
         public GListAdd(GSettableObject list, GObject item)
         {
