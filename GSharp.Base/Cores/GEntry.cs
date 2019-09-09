@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
-using System.Linq;
 using GSharp.Base.Scopes;
 using GSharp.Base.Singles;
 using GSharp.Base.Utilities;
