@@ -1,6 +1,5 @@
 ﻿using System;
 using GSharp.Base.Cores;
-using GSharp.Base.Utilities;
 
 namespace GSharp.Base.Objects.Logics
 {

@@ -1,47 +1,49 @@
 ﻿using GSharp.Base.Cores;
 using GSharp.Base.Objects;
 using GSharp.Base.Utilities;
-using GSharp.Extension;
-using GSharp.Extension.Exports;
+using GSharp.Common.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GSharp.Base.Scopes
 {
     [Serializable]
     public class GControlEvent : GScope
     {
+        #region Constants
         private const string PREFIX_REAL_ARG = "r_";
         private const string PREFIX_ARG = "param";
+        #endregion
 
+        #region Properties
         public string ControlName { get; }
-        public GExport GExport { get; }
+
+        public IGExportedData ExportedData { get; }
+
         public List<GVariable> Arguments { get; } = new List<GVariable>();
+
         public List<Type> ArgumentsType { get; } = new List<Type>();
 
         public List<GStatement> Content = new List<GStatement>();
+        #endregion
 
-        public GControlEvent(string controlName, GExport export)
+        public GControlEvent(string controlName, IGExportedData exportedData)
         {
             ControlName = controlName;
-            GExport = export;
+            ExportedData = exportedData;
 
-            for (int i = 0; i < GExport.Optionals?.Length; i++)
+            foreach (var optional in ExportedData.Optionals)
             {
-                string variableName = GExport.Optionals[i].Name;
-                variableName = PREFIX_ARG + variableName[0].ToString().ToUpper() + variableName.Substring(1);
-
-                GVariable variable = GSharpUtils.CreateGVariable(variableName);
+                var variableName = PREFIX_ARG + optional.Name[0].ToString().ToUpper() + optional.Name.Substring(1);
+                var variable = GSharpUtils.CreateGVariable(variableName);
 
                 Arguments.Add(variable);
-                ArgumentsType.Add(GExport.Optionals[i].ObjectType);
+                ArgumentsType.Add(optional.ObjectType);
             }
         }
 
-        public GControlEvent(string controlName, GExport export, List<GStatement> content) : this(controlName, export)
+        public GControlEvent(string controlName, IGExportedData exportedData, List<GStatement> content) : this(controlName, exportedData)
         {
             Content = content;
         }
@@ -59,26 +61,24 @@ namespace GSharp.Base.Scopes
         public override string ToSource()
         {
             var source = new StringBuilder();
-
             var argumentList = new List<string>();
+
             foreach (var arg in Arguments)
             {
                 argumentList.Add(PREFIX_REAL_ARG + arg.Name);
             }
 
-            string argumentsStr = string.Join(",", argumentList.ToArray());
-
-            source.AppendFormat($@"FindControl<{GExport.NamespaceName}>(window, ""{ControlName}"").{GExport.MethodName} += () =>");
+            source.AppendFormat($@"FindControl<{ExportedData.NamespaceName}>(window, ""{ControlName}"").{ExportedData.MethodName} += () =>");
             source.AppendLine("\n{");
             source.AppendLine("    Dispatcher.Invoke(() =>");
             source.AppendLine("    {");
 
-            for (int i = 0; i < Arguments.Count; i++)
+            for (var i = 0; i < Arguments.Count; i++)
             {
                 source.AppendFormat("object {0} = {1}{0};\n", Arguments[i].Name, PREFIX_REAL_ARG);
             }
 
-            foreach (GStatement statement in Content)
+            foreach (var statement in Content)
             {
                 source.AppendLine(ConvertAssistant.Indentation(statement.ToSource(), 2));
             }

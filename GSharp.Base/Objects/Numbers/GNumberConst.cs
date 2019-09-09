@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using GSharp.Base.Cores;
 
 namespace GSharp.Base.Objects.Numbers
 {
