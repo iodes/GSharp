@@ -9,9 +9,13 @@ namespace GSharp.Base.Scopes
     [Serializable]
     public class GFunction : GScope
     {
+        #region Properties
         public string FunctionName { get; set; }
-        public List<GStatement> Content = new List<GStatement>();
 
+        public List<GStatement> Content = new List<GStatement>();
+        #endregion
+
+        #region Initializer
         public GFunction(string name)
         {
             FunctionName = name;
@@ -21,6 +25,7 @@ namespace GSharp.Base.Scopes
         {
             Content = content;
         }
+        #endregion
 
         public void Append(GStatement statement)
         {
@@ -29,8 +34,7 @@ namespace GSharp.Base.Scopes
 
         public override string ToSource()
         {
-            StringBuilder builder = new StringBuilder();
-
+            var builder = new StringBuilder();
             builder.AppendFormat("void {0}()\n{{\n", FunctionName);
 
             foreach (GStatement statement in Content)
@@ -39,7 +43,6 @@ namespace GSharp.Base.Scopes
             }
 
             builder.AppendLine("};");
-
             return builder.ToString();
         }
     }

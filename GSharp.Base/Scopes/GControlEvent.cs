@@ -28,6 +28,7 @@ namespace GSharp.Base.Scopes
         public List<GStatement> Content = new List<GStatement>();
         #endregion
 
+        #region Initializer
         public GControlEvent(string controlName, IGExportedData exportedData)
         {
             ControlName = controlName;
@@ -47,6 +48,7 @@ namespace GSharp.Base.Scopes
         {
             Content = content;
         }
+        #endregion
 
         public void Append(GStatement statement)
         {
