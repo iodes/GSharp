@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GSharp.Studio.Models;
+using ElectronNET.API;
+using System.Linq;
 
 namespace GSharp.Studio.Controllers
 {
@@ -20,6 +18,12 @@ namespace GSharp.Studio.Controllers
 
         public IActionResult Index()
         {
+            Electron.IpcMain.On("async-msg", data =>
+            {
+                var mainWindow = Electron.WindowManager.BrowserWindows.First();
+                Electron.IpcMain.Send(mainWindow, "asynchronous-reply", "Success!");
+            });
+
             return View();
         }
 

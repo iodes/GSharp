@@ -50,7 +50,7 @@ namespace GSharp.Studio
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            Task.Run(async () => await Electron.WindowManager.CreateWindowAsync());
+            Electron.WindowManager.CreateWindowAsync();
         }
     }
 }
