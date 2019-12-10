@@ -2,7 +2,23 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script src="~/lib/blockly/blockly_compressed.js"></script>
+<script src="~/lib/blockly/blocks_compressed.js"></script>
+<script src="~/lib/blockly/msg/js/en.js"></script>
+
+<xml id="toolbox" style="display: none">
+    <block type="controls_if"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="logic_compare"></block>
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+    <block type="text"></block>
+    <block type="text_print"></block>
+</xml>
+
 <div class="text-center">
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+
     <h1 id="async-reply" class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <button id="async-msg">Ping Test!</button>
@@ -19,4 +35,7 @@
         const message = `Asynchronous message reply: ${arg}`;
         document.getElementById('async-reply').innerHTML = message;
     });
+    
+      var workspace = Blockly.inject('blocklyDiv',
+          {toolbox: document.getElementById('toolbox')});
 </script>
